@@ -1,20 +1,18 @@
 const fs = require('fs');
+const content = fs.readFileSync('index.html', 'utf8');
+const lines = content.split('\n');
 
-const idx = fs.readFileSync('index.html', 'utf8');
-const lines = idx.split('\n');
-console.log('--- L405-420 ---');
-console.log(lines.slice(404, 420).join('\n'));
-console.log('--- L520-530 ---');
-console.log(lines.slice(519, 530).join('\n'));
-console.log('--- L630-640 ---');
-console.log(lines.slice(629, 640).join('\n'));
-console.log('--- L1840-1850 ---');
-console.log(lines.slice(1839, 1850).join('\n'));
-console.log('--- L1925-1935 ---');
-console.log(lines.slice(1924, 1935).join('\n'));
+// Find navbar actions
+const naIdx = lines.findIndex(l => l.includes('class="nav-actions"'));
+console.log('--- NAV ACTIONS (lines ' + (naIdx+1) + ') ---');
+console.log(lines.slice(naIdx - 10, naIdx + 15).join('\n'));
 
-const s = fs.readFileSync('studio-centered.html', 'utf8');
-const slines = s.split('\n');
-console.log('--- studio-centered L1055-1065 ---');
-console.log(slines.slice(1054, 1065).join('\n'));
+// Find hero actions
+const haIdx = lines.findIndex(l => l.includes('class="hero-actions"'));
+console.log('--- HERO ACTIONS (lines ' + (haIdx+1) + ') ---');
+console.log(lines.slice(haIdx - 5, haIdx + 25).join('\n'));
 
+// Find etalase end & features start
+const featIdx = lines.findIndex(l => l.includes('id="features"'));
+console.log('--- BEFORE FEATURES (lines ' + (featIdx+1) + ') ---');
+console.log(lines.slice(featIdx - 15, featIdx + 10).join('\n'));

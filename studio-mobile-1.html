@@ -686,6 +686,52 @@
       <span id="theme-badge" class="brand-badge" style="background:#FFE3ED; color:#9d174d; border:1px solid #FFB8D2; font-weight:700;">Solo Flagship</span>
     </div>
 
+    <!-- Center Background Toggles -->
+    <div class="topbar-center">
+      <button id="btn-bg-light" class="btn-pill active" title="Background Studio Pastel Mint (Default)">
+        <span>🌸 Pastel Light</span>
+      </button>
+      <button id="btn-bg-warm" class="btn-pill" title="Background Studio Abu Terang (Seperti Referensi Satuan)">
+        <span>⚪ Warm Grey BG</span>
+      </button>
+      <button id="btn-bg-dark" class="btn-pill" title="Background Studio Gelap">
+        <span>🌙 Dark Studio BG</span>
+      </button>
+    </div>
+
+    <!-- Right Action Buttons -->
+    <div class="topbar-right">
+      <button id="btn-open-export" class="btn-primary">
+        <span>⬇ Export PNG</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <main class="main-content">
+    <div id="viewport-container" class="canvas-viewport">
+      <canvas id="mockup-canvas"></canvas>
+
+      <!-- Bottom Quick Controls -->
+      <div class="hud-status">
+        <span class="hud-badge">1 HP 3D + Dynamic Island</span>
+        <button id="btn-zoom-out" class="hud-btn" title="Perkecil">➖</button>
+        <button id="btn-toggle-zoom" class="hud-btn" title="Reset Zoom">
+          🔍 Zoom: 100%
+        </button>
+        <button id="btn-zoom-in" class="hud-btn" title="Perbesar">➕</button>
+        <button id="btn-toggle-chassis" class="hud-btn" title="Ganti Warna Bodi Titanium">
+          🎨 Bodi: Dark Slate
+        </button>
+        <button id="btn-toggle-island" class="hud-btn" title="Tampilkan/Sembunyikan Dynamic Island">
+          💊 Dynamic Island: ON
+        </button>
+        <button id="btn-toggle-glare" class="hud-btn" title="Pantulan Kaca Layar">
+          ✨ Glare: ON
+        </button>
+      </div>
+    </div>
+
     <button id="sidebar-toggle" class="sidebar-toggle-btn" title="Buka/Tutup Panel">
       ⇄
     </button>
@@ -764,7 +810,6 @@
             <button id="btn-poster-wireframe" class="btn-preset" style="background:#FFE3ED; border:1px solid #FFB8D2; font-weight:700;">
               <span>🌸 Wireframe Bersih</span>
             </button>
-            
             <button id="btn-poster-pink" class="btn-preset">
               <span>🌸 Pink Petal Poster</span>
             </button>
