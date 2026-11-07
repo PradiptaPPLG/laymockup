@@ -989,3 +989,994 @@
       background: #ffffff;
       color: #111111;
       font-weight: 600;
+    }
+
+    .cta-btns .btn-white:hover {
+      background: #f3f4f6;
+      transform: translateY(-1px);
+    }
+
+    .cta-btns .btn-dark-border {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      font-weight: 500;
+    }
+
+    .cta-btns .btn-dark-border:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: translateY(-1px);
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border-color);
+      background: #ffffff;
+      padding: 36px 0;
+      font-size: 14px;
+      color: var(--fg-muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .footer-links a:hover {
+      color: var(--fg);
+    }
+
+    /* ============================================================
+       RESPONSIVE BREAKPOINTS (Tablet, Mobile, Ultra-small)
+       Clean, perfectly centered layout with zero horizontal overflow.
+       ============================================================ */
+    @media (max-width: 1024px) {
+      .etalase-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+        width: 100%;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        width: 100%;
+      }
+
+      .steps-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .top-ribbon {
+        font-size: 11px;
+        padding: 6px 12px;
+        gap: 6px;
+        text-align: center;
+        justify-content: center;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .top-ribbon span {
+        text-align: center;
+        word-break: break-word;
+      }
+
+      .container {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        box-sizing: border-box !important;
+      }
+
+      .nav-inner {
+        height: 60px;
+        padding-left: 0;
+        padding-right: 0;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-actions {
+        display: none;
+      }
+
+      .mobile-controls {
+        display: flex;
+      }
+
+      .mobile-scroll-hint {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-size: 12px;
+        color: var(--accent);
+        font-weight: 600;
+        margin-bottom: 12px;
+        text-align: center;
+        width: 100%;
+      }
+
+      .hero-section {
+        padding: 36px 0 44px 0;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .hero-pill {
+        font-size: 11px;
+        padding: 5px 12px;
+        max-width: calc(100% - 10px);
+        margin: 0 auto 16px auto;
+        white-space: normal;
+        text-align: center;
+        display: inline-flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        box-sizing: border-box;
+      }
+
+      .hero-title {
+        font-size: clamp(22px, 6.2vw, 32px);
+        line-height: 1.18;
+        margin-bottom: 14px;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        text-align: center;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .hero-desc {
+        font-size: 14px;
+        line-height: 1.55;
+        margin-bottom: 22px;
+        text-align: center;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto 28px auto;
+        gap: 10px;
+        align-items: center;
+        box-sizing: border-box;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+        max-width: 340px;
+        padding: 12px 18px;
+        margin: 0 auto;
+        box-sizing: border-box;
+      }
+
+      .etalase-section,
+      .features-section,
+      .compare-section,
+      .steps-section,
+      .cta-section {
+        padding: 38px 0;
+        width: 100%;
+        overflow: hidden;
+        box-sizing: border-box;
+      }
+
+      .section-header {
+        margin-bottom: 26px;
+        gap: 6px;
+        width: 100%;
+        text-align: center;
+        align-items: center;
+        box-sizing: border-box;
+      }
+
+      .section-title {
+        font-size: clamp(21px, 5.5vw, 28px);
+        text-align: center;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .section-desc {
+        font-size: 14px;
+        text-align: center;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .etalase-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        box-sizing: border-box;
+      }
+
+      .etalase-card {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin: 0 auto;
+        border-radius: 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        cursor: pointer;
+      }
+
+      .etalase-badge-top {
+        font-size: 8.5px;
+        padding: 3px 6px;
+        top: 6px;
+        right: 6px;
+        gap: 3px;
+        border-radius: 5px;
+        max-width: calc(100% - 12px);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .etalase-badge-top svg {
+        width: 9px;
+        height: 9px;
+        flex-shrink: 0;
+      }
+
+      .etalase-content {
+        padding: 12px 10px;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+
+      .etalase-tag {
+        font-size: 8px;
+        letter-spacing: 0.03em;
+        margin-bottom: 3px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+      }
+
+      .etalase-title {
+        font-size: 13.5px;
+        font-weight: 700;
+        line-height: 1.25;
+        margin-bottom: 6px;
+        min-height: 34px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .etalase-description {
+        font-size: 10.5px;
+        line-height: 1.35;
+        color: var(--fg-muted);
+        margin-bottom: 8px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .specs-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 4px 6px;
+        padding: 6px 8px;
+        background: #f9fafb;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        margin-bottom: 10px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .spec-item {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        min-width: 0;
+      }
+
+      .spec-key {
+        font-size: 7.5px;
+        color: var(--fg-subtle);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .spec-val {
+        font-size: 9px;
+        font-weight: 600;
+        color: var(--fg);
+        line-height: 1.25;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .etalase-btn-wrap {
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .etalase-btn-wrap .btn {
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 8px 6px;
+        justify-content: center;
+        gap: 4px;
+        border-radius: 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .etalase-btn-wrap .btn svg {
+        width: 11px;
+        height: 11px;
+        flex-shrink: 0;
+      }
+
+      .etalase-btn-wrap .btn-secondary {
+        display: none !important;
+      }
+
+      .features-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        box-sizing: border-box;
+      }
+
+      .feature-card {
+        width: 100%;
+        max-width: 100%;
+        padding: 20px 18px;
+        gap: 14px;
+        box-sizing: border-box;
+        margin: 0 auto;
+      }
+
+      .compare-section {
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+      }
+
+      .compare-table-wrap {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        display: block;
+        box-sizing: border-box;
+      }
+
+      .compare-table {
+        width: 100%;
+        min-width: 440px;
+      }
+
+      .compare-table th,
+      .compare-table td {
+        padding: 12px 14px;
+        font-size: 13px;
+      }
+
+      .steps-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        box-sizing: border-box;
+      }
+
+      .step-card {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin: 0 auto;
+      }
+
+      .cta-card {
+        padding: 32px 18px;
+        border-radius: 18px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .cta-title {
+        font-size: 22px;
+      }
+
+      .cta-desc {
+        font-size: 14px;
+      }
+
+      .cta-btns {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .cta-btns .btn {
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .footer {
+        padding: 28px 0;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 14px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+        font-size: 13px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .brand span.brand-collab {
+        display: none;
+      }
+
+      .brand-badge {
+        display: none;
+      }
+
+      .etalase-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 8px !important;
+      }
+
+      .etalase-card {
+        border-radius: 12px !important;
+      }
+
+      .etalase-badge-top {
+        font-size: 7.5px !important;
+        padding: 2px 5px !important;
+        top: 5px !important;
+        right: 5px !important;
+      }
+
+      .etalase-badge-top svg {
+        display: none !important;
+      }
+
+      .etalase-content {
+        padding: 10px 7px !important;
+      }
+
+      .etalase-tag {
+        font-size: 7.5px !important;
+      }
+
+      .etalase-title {
+        font-size: 12px !important;
+        min-height: 30px !important;
+        line-height: 1.25 !important;
+        margin-bottom: 4px !important;
+      }
+
+      .etalase-description {
+        font-size: 9.5px !important;
+        line-height: 1.3 !important;
+        margin-bottom: 6px !important;
+        -webkit-line-clamp: 2 !important;
+      }
+
+      .specs-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        padding: 5px 6px !important;
+        gap: 3px 4px !important;
+        margin-bottom: 8px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .spec-key {
+        font-size: 7px !important;
+      }
+
+      .spec-val {
+        font-size: 8.5px !important;
+      }
+
+      .etalase-btn-wrap .btn {
+        font-size: 10px !important;
+        padding: 7px 4px !important;
+        gap: 3px !important;
+      }
+
+      .hero-actions .btn {
+        max-width: 100%;
+      }
+    }
+
+    /* ============================================================
+       CLEAN MINIMAL INTRO LOADER
+       Blackout screen -> Introducing -> Laymockup Cursive Handwriting ->
+       Voxel Studios Logo + By Pradipta (Bersamaan) -> Minimal Loading Bar
+       ============================================================ */
+    .intro-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      background: #000000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 24px 16px;
+      box-sizing: border-box;
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .intro-overlay.fade-out {
+      opacity: 0;
+      transform: scale(1.02);
+      pointer-events: none;
+    }
+
+    .intro-skip-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #888888;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      padding: 5px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .intro-skip-btn:hover {
+      background: rgba(255, 255, 255, 0.14);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .intro-skip-btn .esc-badge {
+      font-size: 9px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1px 4px;
+      border-radius: 3px;
+      color: #cccccc;
+    }
+
+    /* Center Stage */
+    .intro-stage {
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto 0;
+      box-sizing: border-box;
+    }
+
+    .intro-scene {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: scale(0.96);
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .intro-scene.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    .intro-scene.fade-leave {
+      opacity: 0;
+      transform: scale(1.03);
+    }
+
+    /* Scene 1: Introducing */
+    .intro-introducing-text {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: clamp(22px, 5.5vw, 32px);
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      color: #ffffff;
+      text-transform: none;
+      padding-left: 0.18em;
+    }
+
+
+    /* Scene 2: Laymockup Cursive Handwriting */
+    .intro-laymockup-svg {
+      width: 100%;
+      max-width: min(340px, 86vw);
+      height: auto;
+      overflow: visible;
+      display: block;
+      margin: 0 auto;
+      filter: drop-shadow(0 0 16px rgba(210, 255, 0, 0.45));
+    }
+
+
+      .laymockup-stroke {
+        fill: none;
+        stroke: #d2ff00;
+        stroke-width: 4.5px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-miterlimit: 10;
+      }
+
+
+      /* Scene 3: Voxel Studios */
+      .intro-voxel-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .intro-voxel-badge {
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        position: relative;
+        background: #000000;
+        box-shadow: 0 0 30px rgba(16, 185, 129, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.12);
+        margin-bottom: 14px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .intro-voxel-badge img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .intro-voxel-title {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-size: clamp(18px, 4.4vw, 24px);
+        font-weight: 700;
+        letter-spacing: 0.24em;
+        color: #ffffff;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+        padding-left: 0.24em;
+      }
+
+      .intro-voxel-author {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+        letter-spacing: 0.16em;
+        color: #999999;
+        text-transform: none;
+        padding-left: 0.16em;
+      }
+
+      /* Bottom Loading Dock */
+      .intro-loading-dock {
+        position: absolute;
+        bottom: 38px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(260px, 78vw);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        box-sizing: border-box;
+        pointer-events: none;
+      }
+
+
+      .intro-track {
+        width: 100%;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 999px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .intro-bar {
+        height: 100%;
+        width: 0%;
+        background: #d2ff00;
+        border-radius: 999px;
+        box-shadow: 0 0 8px rgba(210, 255, 0, 0.6);
+        transition: width 0.12s linear;
+      }
+
+      .intro-dock-pct {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 11px;
+        font-weight: 600;
+        color: #777777;
+        letter-spacing: 0.06em;
+      }
+  </style>
+</head>
+
+<body>
+
+  <!-- INTRO PEAK OVERLAY (CLEAN MINIMALIST) -->
+  <div id="intro-overlay" class="intro-overlay" role="dialog" aria-modal="true" aria-label="Loading Intro">
+    <button id="intro-skip-btn" class="intro-skip-btn" title="Lewati Animasi Intro">
+      <span>Skip</span>
+      <span class="esc-badge">Esc</span>
+    </button>
+
+    <!-- Stage for Scenes -->
+    <div class="intro-stage">
+      <!-- Scene 1: Introducing -->
+      <div id="intro-scene-1" class="intro-scene">
+        <div class="intro-introducing-text">Introducing</div>
+      </div>
+
+      <!-- Scene 2: Laymockup Cursive Handwriting Write -->
+      <div id="intro-scene-2" class="intro-scene">
+        <svg class="intro-laymockup-svg" viewBox="0 0 650 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path class="laymockup-stroke s1"
+            d="M43.00,29.00C42.83,30.50 42.50,34.83 42.00,38.00C41.50,41.17 40.67,44.67 40.00,48.00C39.33,51.33 38.50,54.67 38.00,58.00C37.50,61.33 37.50,64.67 37.00,68.00C36.50,71.33 35.67,75.17 35.00,78.00C34.33,80.83 32.83,83.17 33.00,85.00C33.17,86.83 34.33,88.17 36.00,89.00C37.67,89.83 40.17,90.33 43.00,90.00C45.83,89.67 49.67,87.83 53.00,87.00C56.33,86.17 59.17,85.67 63.00,85.00C66.83,84.33 73.83,83.33 76.00,83.00" />
+          <path class="laymockup-stroke s2"
+            d="M80.00,83.00C82.00,80.83 87.67,74.83 92.00,70.00C96.33,65.17 105.00,56.67 106.00,54.00C107.00,51.33 100.17,52.67 98.00,54.00C95.83,55.33 93.83,58.67 93.00,62.00C92.17,65.33 92.50,70.33 93.00,74.00C93.50,77.67 94.17,82.17 96.00,84.00C97.83,85.83 102.00,86.33 104.00,85.00C106.00,83.67 107.33,81.17 108.00,76.00C108.67,70.83 108.00,54.33 108.00,54.00C108.00,53.67 107.83,69.00 108.00,74.00C108.17,79.00 107.83,82.50 109.00,84.00C110.17,85.50 112.50,84.33 115.00,83.00C117.50,81.67 121.17,78.83 124.00,76.00C126.83,73.17 129.67,66.00 132.00,66.00C134.33,66.00 135.67,73.17 138.00,76.00C140.33,78.83 143.33,83.33 146.00,83.00C148.67,82.67 150.67,79.17 154.00,74.00C157.33,68.83 164.33,52.00 166.00,52.00C167.67,52.00 165.00,66.83 164.00,74.00C163.00,81.17 161.17,89.33 160.00,95.00C158.83,100.67 158.67,105.83 157.00,108.00C155.33,110.17 151.83,109.67 150.00,108.00C148.17,106.33 145.33,101.33 146.00,98.00C146.67,94.67 150.67,91.67 154.00,88.00C157.33,84.33 161.33,80.00 166.00,76.00C170.67,72.00 176.67,68.17 182.00,64.00C187.33,59.83 195.33,53.17 198.00,51.00" />
+          <path class="laymockup-stroke s3"
+            d="M204.00,52.00C206.00,52.00 212.33,52.00 216.00,52.00C219.67,52.00 224.67,49.67 226.00,52.00C227.33,54.33 224.17,61.33 224.00,66.00C223.83,70.67 223.67,80.33 225.00,80.00C226.33,79.67 229.50,68.17 232.00,64.00C234.50,59.83 237.67,56.67 240.00,55.00C242.33,53.33 244.83,51.83 246.00,54.00C247.17,56.17 246.67,63.67 247.00,68.00C247.33,72.33 246.83,80.67 248.00,80.00C249.17,79.33 251.67,68.17 254.00,64.00C256.33,59.83 259.67,56.67 262.00,55.00C264.33,53.33 266.67,51.83 268.00,54.00C269.33,56.17 269.33,63.67 270.00,68.00C270.67,72.33 270.33,78.67 272.00,80.00C273.67,81.33 277.00,78.33 280.00,76.00C283.00,73.67 286.33,69.50 290.00,66.00C293.67,62.50 298.33,57.00 302.00,55.00C305.67,53.00 312.00,53.83 312.00,54.00C312.00,54.17 304.83,54.00 302.00,56.00C299.17,58.00 296.00,62.33 295.00,66.00C294.00,69.67 294.50,74.83 296.00,78.00C297.50,81.17 300.67,83.83 304.00,85.00C307.33,86.17 312.67,86.67 316.00,85.00C319.33,83.33 323.00,79.50 324.00,75.00C325.00,70.50 324.00,61.50 322.00,58.00C320.00,54.50 312.00,55.00 312.00,54.00C312.00,53.00 318.33,51.33 322.00,52.00C325.67,52.67 330.33,55.33 334.00,58.00C337.67,60.67 340.67,68.33 344.00,68.00C347.33,67.67 350.33,58.83 354.00,56.00C357.67,53.17 363.00,51.33 366.00,51.00C369.00,50.67 372.67,51.83 372.00,54.00C371.33,56.17 364.67,60.67 362.00,64.00C359.33,67.33 356.33,70.83 356.00,74.00C355.67,77.17 357.33,81.17 360.00,83.00C362.67,84.83 367.67,86.17 372.00,85.00C376.33,83.83 381.67,79.83 386.00,76.00C390.33,72.17 394.00,67.33 398.00,62.00C402.00,56.67 406.00,49.00 410.00,44.00C414.00,39.00 419.00,34.83 422.00,32.00C425.00,29.17 426.33,27.67 428.00,27.00C429.67,26.33 432.33,25.50 432.00,28.00C431.67,30.50 428.33,36.67 426.00,42.00C423.67,47.33 419.67,54.50 418.00,60.00C416.33,65.50 416.00,70.67 416.00,75.00C416.00,79.33 416.33,86.50 418.00,86.00C419.67,85.50 423.00,76.00 426.00,72.00C429.00,68.00 433.00,63.17 436.00,62.00C439.00,60.83 444.00,63.00 444.00,65.00C444.00,67.00 436.00,71.17 436.00,74.00C436.00,76.83 441.00,80.33 444.00,82.00C447.00,83.67 450.33,85.67 454.00,84.00C457.67,82.33 462.67,73.00 466.00,72.00C469.33,71.00 471.33,76.00 474.00,78.00C476.67,80.00 479.33,84.33 482.00,84.00C484.67,83.67 487.67,81.00 490.00,76.00C492.33,71.00 494.67,54.67 496.00,54.00C497.33,53.33 496.67,67.33 498.00,72.00C499.33,76.67 501.67,80.00 504.00,82.00C506.33,84.00 509.00,84.67 512.00,84.00C515.00,83.33 519.33,83.33 522.00,78.00C524.67,72.67 526.00,54.33 528.00,52.00C530.00,49.67 531.33,61.00 534.00,64.00C536.67,67.00 541.00,70.67 544.00,70.00C547.00,69.33 550.17,59.17 552.00,60.00C553.83,60.83 554.00,69.17 555.00,75.00C556.00,80.83 557.00,89.67 558.00,95.00C559.00,100.33 560.67,109.17 561.00,107.00C561.33,104.83 559.83,88.83 560.00,82.00C560.17,75.17 560.00,70.50 562.00,66.00C564.00,61.50 568.00,55.67 572.00,55.00C576.00,54.33 583.33,58.83 586.00,62.00C588.67,65.17 589.00,70.50 588.00,74.00C587.00,77.50 583.33,81.67 580.00,83.00C576.67,84.33 567.17,82.33 568.00,82.00C568.83,81.67 579.33,81.83 585.00,81.00C590.67,80.17 596.17,79.17 602.00,77.00C607.83,74.83 617.00,69.50 620.00,68.00" />
+        </svg>
+      </div>
+
+      <!-- Scene 3: Voxel Studios Logo + VOXEL STUDIOS + By Pradipta (Fading in Bersamaan!) -->
+      <div id="intro-scene-3" class="intro-scene">
+        <div class="intro-voxel-wrap">
+          <div class="intro-voxel-badge">
+            <img src="voxel%20studios.png" alt="Voxel Studios" />
+          </div>
+          <div class="intro-voxel-title">VOXEL STUDIOS</div>
+          <div class="intro-voxel-author">By Pradipta</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Minimalist Bottom Loading Dock -->
+    <div class="intro-loading-dock">
+      <div class="intro-track">
+        <div class="intro-bar" id="intro-progress-bar"></div>
+      </div>
+      <div class="intro-dock-pct" id="intro-pct-label">0%</div>
+    </div>
+  </div>
+
+  <!-- Top Announcement Bar -->
+  <aside class="top-ribbon">
+    <span class="badge-sparkle">✦ COLLABORATION</span>
+    <span><strong>LayMockup × PixelCam</strong> — Precision 3D Isometric Mockup Engine.</span>
+  </aside>
+
+  <!-- Sticky Navbar -->
+  <header class="navbar" role="banner">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand" aria-label="LayMockup x PixelCam Beranda">
+        <div class="brand-logo-group">
+          <!-- Cube icon -->
+          <div class="brand-icon-box" title="3D Isometric Engine">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+              </path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+          </div>
+          <!-- PixelCam Aperture Icon -->
+          <svg width="24" height="24" viewBox="0 0 26 26" fill="none" aria-hidden="true" style="margin-left:2px;">
+            <rect width="26" height="26" rx="7" fill="#111111" />
+            <circle cx="13" cy="13" r="7.5" stroke="#ffffff" stroke-width="1" fill="none" opacity="0.3" />
+            <g opacity="0.9" fill="white">
+              <rect x="11.5" y="5.5" width="3" height="7" rx="1.5" transform="rotate(0 13 13)" />
+              <rect x="11.5" y="5.5" width="3" height="7" rx="1.5" transform="rotate(60 13 13)" />
+              <rect x="11.5" y="5.5" width="3" height="7" rx="1.5" transform="rotate(120 13 13)" />
+              <rect x="11.5" y="5.5" width="3" height="7" rx="1.5" transform="rotate(180 13 13)" />
+              <rect x="11.5" y="5.5" width="3" height="7" rx="1.5" transform="rotate(240 13 13)" />
+              <rect x="11.5" y="5.5" width="3" height="7" rx="1.5" transform="rotate(300 13 13)" />
+            </g>
+            <circle cx="13" cy="13" r="2" fill="white" />
+          </svg>
+        </div>
+        <span>LayMockup <span class="brand-collab" style="font-weight:400; color:var(--fg-muted);">×
+            PixelCam</span></span>
+        <span class="brand-badge">v1.0 Pro</span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="nav-links" aria-label="Menu Utama">
+        <a href="#etalase">Etalase Template</a>
+        <a href="#features">Fitur Unggulan</a>
+        <a href="#komparasi">Perbandingan</a>
+        <a href="#cara-kerja">Cara Kerja</a>
+      </nav>
+
+      <!-- Desktop Nav Actions -->
+      <div class="nav-actions">
+        <a href="studio-centered.html" class="btn btn-secondary" title="Buka Studio Centered Diamond (12 Slot)">
+          12 Centered
+        </a>
+        <a href="studio-stretch.html" class="btn btn-secondary" title="Buka Studio Full-Bleed Stretch (12 Slot)">
+          12 Stretch
+        </a>
+        <a href="studio-9-zoomout.html" class="btn btn-secondary" title="Buka Template 1-2-3-2-1 Zoom-Out (9 Slot)">
+          9 Zoom-Out
+        </a>
+        <a href="studio-9-stretch.html" class="btn btn-primary" title="Buka Template 1-2-3-2-1 Stretch (9 Slot)">
+          9 Stretch
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Mobile Controls (Buttons + Hamburger) -->
+      <div class="mobile-controls">
+        <a href="#etalase" class="mobile-quick-btn" title="Pilih 4 Template Studio">
+          <span>Pilih Studio</span>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+            <path d="M7 2v10M2 7l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </a>
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Buka Menu Navigasi" aria-expanded="false">
+          <svg id="hamburger-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div id="mobile-nav" class="mobile-nav-drawer" aria-hidden="true">
+    <nav class="mobile-nav-links">
+      <a href="#etalase" class="mobile-nav-link" data-close>
+        <span class="icon">💎</span>
+        <div>
+          <div class="title">Etalase Template</div>
+          <div class="sub">Centered Diamond & Full-Bleed Stretch</div>
+        </div>
+      </a>
+      <a href="#features" class="mobile-nav-link" data-close>
+        <span class="icon">⚡</span>
+        <div>
+          <div class="title">Fitur Unggulan</div>
+          <div class="sub">3D Engine, Dual Themes, 4K Export</div>
+        </div>
+      </a>
+      <a href="#komparasi" class="mobile-nav-link" data-close>
+        <span class="icon">📊</span>
+        <div>
+          <div class="title">Spesifikasi & Perbandingan</div>
+          <div class="sub">Tabel komparasi teknis kedua template</div>
+        </div>
+      </a>
+      <a href="#cara-kerja" class="mobile-nav-link" data-close>
+        <span class="icon">🚀</span>
+        <div>
+          <div class="title">Cara Kerja</div>
+          <div class="sub">3 Langkah praktis dari browser</div>
+        </div>
+      </a>
+    </nav>
+
+    <div class="mobile-nav-cta" style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+      <a href="studio-centered.html" class="btn btn-secondary" style="font-size:12px; padding:10px 8px; justify-content:center;">
+        <span>🏛️ 12 Centered</span>
+      </a>
+      <a href="studio-stretch.html" class="btn btn-secondary" style="font-size:12px; padding:10px 8px; justify-content:center;">
+        <span>🎬 12 Stretch</span>
+      </a>
+      <a href="studio-9-zoomout.html" class="btn btn-secondary" style="font-size:12px; padding:10px 8px; justify-content:center;">
+        <span>💎 9 Zoom-Out</span>
+      </a>
+      <a href="studio-9-stretch.html" class="btn btn-primary" style="font-size:12px; padding:10px 8px; justify-content:center;">
+        <span>🚀 9 Stretch</span>
+      </a>
