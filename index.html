@@ -672,7 +672,7 @@
       font-size: 21px;
       font-weight: 700;
       color: var(--fg);
-      margin-bottom: 8px;
+      margin-bottom: 14px;
       letter-spacing: -0.02em;
     }
 
@@ -1805,11 +1805,6 @@
 
     <!-- Stage for Scenes -->
     <div class="intro-stage">
-      <!-- Scene 1: Introducing -->
-      <div id="intro-scene-1" class="intro-scene">
-        <div class="intro-introducing-text">Introducing</div>
-      </div>
-
       <!-- Scene 2: Laymockup Cursive Handwriting Write -->
       <div id="intro-scene-2" class="intro-scene">
         <svg class="intro-laymockup-svg" viewBox="0 0 650 140" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1888,28 +1883,13 @@
       <!-- Desktop Nav Links -->
       <nav class="nav-links" aria-label="Menu Utama">
         <a href="#etalase">Etalase Template</a>
-        <a href="#features">Fitur Unggulan</a>
-        <a href="#komparasi">Perbandingan</a>
-        <a href="#cara-kerja">Cara Kerja</a>
+        <a href="#features">Fitur</a>
       </nav>
 
       <!-- Desktop Nav Actions -->
       <div class="nav-actions">
-        <a href="studio-centered.html" class="btn btn-secondary" title="Buka Studio Centered Diamond (12 Slot)">
-          12 Centered
-        </a>
-        <a href="studio-stretch.html" class="btn btn-secondary" title="Buka Studio Full-Bleed Stretch (12 Slot)">
-          12 Stretch
-        </a>
-        <a href="studio-9-zoomout.html" class="btn btn-secondary" title="Buka Template 1-2-3-2-1 Zoom-Out (9 Slot)">
-          9 Zoom-Out
-        </a>
-        <a href="studio-9-stretch.html" class="btn btn-primary" title="Buka Template 1-2-3-2-1 Stretch (9 Slot)">
-          9 Stretch
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg>
+        <a href="#etalase" class="btn btn-primary" style="font-weight:600; padding:8px 18px; border-radius:12px;">
+          Studio &rarr;
         </a>
       </div>
 
@@ -1941,7 +1921,7 @@
         <span class="icon">💎</span>
         <div>
           <div class="title">Etalase Template</div>
-          <div class="sub">Centered Diamond & Full-Bleed Stretch</div>
+          <div class="sub">4 Formasi Mockup Isometrik</div>
         </div>
       </a>
       <a href="#features" class="mobile-nav-link" data-close>
@@ -1951,34 +1931,11 @@
           <div class="sub">3D Engine, Dual Themes, 4K Export</div>
         </div>
       </a>
-      <a href="#komparasi" class="mobile-nav-link" data-close>
-        <span class="icon">📊</span>
-        <div>
-          <div class="title">Spesifikasi & Perbandingan</div>
-          <div class="sub">Tabel komparasi teknis kedua template</div>
-        </div>
-      </a>
-      <a href="#cara-kerja" class="mobile-nav-link" data-close>
-        <span class="icon">🚀</span>
-        <div>
-          <div class="title">Cara Kerja</div>
-          <div class="sub">3 Langkah praktis dari browser</div>
-        </div>
-      </a>
     </nav>
 
-    <div class="mobile-nav-cta" style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-      <a href="studio-centered.html" class="btn btn-secondary" style="font-size:12px; padding:10px 8px; justify-content:center;">
-        <span>🏛️ 12 Centered</span>
-      </a>
-      <a href="studio-stretch.html" class="btn btn-secondary" style="font-size:12px; padding:10px 8px; justify-content:center;">
-        <span>🎬 12 Stretch</span>
-      </a>
-      <a href="studio-9-zoomout.html" class="btn btn-secondary" style="font-size:12px; padding:10px 8px; justify-content:center;">
-        <span>💎 9 Zoom-Out</span>
-      </a>
-      <a href="studio-9-stretch.html" class="btn btn-primary" style="font-size:12px; padding:10px 8px; justify-content:center;">
-        <span>🚀 9 Stretch</span>
+    <div class="mobile-nav-cta">
+      <a href="#etalase" class="btn btn-primary" data-close style="width:100%; justify-content:center; padding:12px; font-weight:600; border-radius:12px;">
+        <span>Pilih Template Studio &rarr;</span>
       </a>
     </div>
   </div>
@@ -2002,25 +1959,13 @@
           aplikasi web, mobile, dan dashboard kelas dunia dalam hitungan detik.
         </p>
 
-        <div class="hero-actions" style="flex-wrap: wrap; justify-content: center; gap: 10px;">
+        <div class="hero-actions" style="justify-content: center;">
           <a href="#etalase" class="btn btn-primary btn-lg">
-            Jelajahi 4 Template Isometrik
+            Jelajahi Template Isometrik
             <svg width="15" height="15" viewBox="0 0 14 14" fill="none">
               <path d="M7 2v10M2 7l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
                 stroke-linejoin="round" />
             </svg>
-          </a>
-          <a href="studio-centered.html" class="btn btn-secondary btn-lg" title="Template 12 Foto Centered">
-            Centered (12 Kartu)
-          </a>
-          <a href="studio-stretch.html" class="btn btn-secondary btn-lg" title="Template 12 Foto Stretch">
-            Stretch (12 Kartu)
-          </a>
-          <a href="studio-9-zoomout.html" class="btn btn-secondary btn-lg" title="Template 9 Foto Baru Zoom-Out">
-            ✨ 9-Kartu Zoom-Out
-          </a>
-          <a href="studio-9-stretch.html" class="btn btn-emerald btn-lg" title="Template 9 Foto Baru Stretch">
-            ✨ 9-Kartu Stretch Full
           </a>
         </div>
       </div>
@@ -2057,12 +2002,6 @@
                 <span class="etalase-tag">TEMPLATE 01 · BALANCED FOCUS</span>
               </div>
               <h3 class="etalase-title">1-3-4-3-1 Centered Diamond</h3>
-              <p class="etalase-description">
-                Formasi intan terpusat sempurna di tengah bidang pandang kanvas 16:9. Kartu tersusun simetris dan rapi
-                dengan celah lorong 40px konsisten, sangat ideal untuk presentasi dashboard admin, aplikasi SaaS, dan
-                laporan analitik.
-              </p>
-
               <div class="specs-grid">
                 <div class="spec-item">
                   <span class="spec-key">Formasi Grid</span>
@@ -2114,11 +2053,6 @@
                 <span class="etalase-tag emerald">TEMPLATE 02 · CINEMATIC EDGE-TO-EDGE</span>
               </div>
               <h3 class="etalase-title">1-3-4-3-1 Full-Bleed Stretch</h3>
-              <p class="etalase-description">
-                Formasi dinamis dengan skala 118% yang membentang sinematik mengisi seluruh layar hingga ke batas tepi
-                kanvas. Dilengkapi tombol kontrol interaktif zoom in (+) dan zoom out (-) real-time langsung di studio.
-              </p>
-
               <div class="specs-grid">
                 <div class="spec-item">
                   <span class="spec-key">Formasi Grid</span>
@@ -2147,9 +2081,6 @@
                       stroke-linejoin="round" />
                   </svg>
                 </a>
-                <a href="studio-stretch.html" class="btn btn-secondary" title="Jelajahi Fitur Stretch">
-                  Detail Mode
-                </a>
               </div>
             </div>
           </article>
@@ -2173,10 +2104,6 @@
                 <span class="etalase-tag">TEMPLATE 03 · LIGHTWEIGHT & BALANCED (9 FOTO)</span>
               </div>
               <h3 class="etalase-title">1-2-3-2-1 Centered Zoom-Out</h3>
-              <p class="etalase-description">
-                Template baru dengan formasi intan ramping yang hanya memerlukan 9 foto. Karakter zoom-out (82%) proporsional seperti versi awal, menyisakan ruang bernafas yang lega di sekeliling kanvas tanpa menutupi latar belakang.
-              </p>
-
               <div class="specs-grid">
                 <div class="spec-item">
                   <span class="spec-key">Formasi Grid</span>
@@ -2204,9 +2131,6 @@
                       stroke-linejoin="round" />
                   </svg>
                 </a>
-                <a href="1-2-3-2-1-zoomout.html" class="btn btn-secondary" title="Alias Link">
-                  Link Alternatif
-                </a>
               </div>
             </div>
           </article>
@@ -2231,10 +2155,6 @@
                 <span class="etalase-tag emerald">TEMPLATE 04 · FULL-BLEED IMMERSION (9 FOTO)</span>
               </div>
               <h3 class="etalase-title">1-2-3-2-1 Full-Bleed Stretch</h3>
-              <p class="etalase-description">
-                Varian 9 kartu dengan skala pembesaran 132% yang membentang luas hingga ke sudut-sudut kanvas. Kartu tampil ekstra besar dan tajam dengan 0% distorsi, sangat cocok untuk tampilan hero landing page yang memukau.
-              </p>
-
               <div class="specs-grid">
                 <div class="spec-item">
                   <span class="spec-key">Formasi Grid</span>
@@ -2261,9 +2181,6 @@
                     <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                       stroke-linejoin="round" />
                   </svg>
-                </a>
-                <a href="1-2-3-2-1-stretch.html" class="btn btn-secondary" title="Alias Link">
-                  Link Alternatif
                 </a>
               </div>
             </div>
@@ -2375,163 +2292,7 @@
       </div>
     </section>
 
-    <!-- Comparison Table -->
-    <section id="komparasi" class="compare-section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-overline">SPESIFIKASI TEKNIS</span>
-          <h2 class="section-title">Perbandingan Kedua Template</h2>
-          <p class="section-desc">
-            Bandingkan parameter matematika kedua template untuk memilih formasi yang paling cocok dengan kebutuhan
-            visual Anda.
-          </p>
-        </div>
-
-        <div class="mobile-scroll-hint">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-          <span>Geser tabel ke samping untuk melihat detail</span>
-        </div>
-
-        <div class="compare-table-wrap">
-          <table class="compare-table">
-            <thead>
-              <tr>
-                <th>Fitur & Spesifikasi</th>
-                <th>T1: 12 Centered</th>
-                <th>T2: 12 Stretch</th>
-                <th>T3: 9 Zoom-Out</th>
-                <th>T4: 9 Stretch</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="feature-name">Jumlah Slot Kartu</td>
-                <td><strong>12 Foto</strong></td>
-                <td><strong>12 Foto</strong></td>
-                <td class="tag-active"><strong>9 Foto (Hemat)</strong></td>
-                <td class="tag-active"><strong>9 Foto (Hemat)</strong></td>
-              </tr>
-              <tr>
-                <td class="feature-name">Formasi Geometri</td>
-                <td>1 - 3 - 4 - 3 - 1 Simetris</td>
-                <td>1 - 3 - 4 - 3 - 1 Melebar</td>
-                <td>1 - 2 - 3 - 2 - 1 Ramping</td>
-                <td>1 - 2 - 3 - 2 - 1 Melebar</td>
-              </tr>
-              <tr>
-                <td class="feature-name">Tingkat Zoom Default</td>
-                <td>0.88x (1:1) / 0.55x (Fit)</td>
-                <td>1.18x (Edge Fill)</td>
-                <td class="tag-active">0.82x (Normal Proporsional)</td>
-                <td class="tag-active">1.32x (Full-Bleed Ekstra)</td>
-              </tr>
-              <tr>
-                <td class="feature-name">Jarak Antar Kartu (Gap)</td>
-                <td>40px × 40px</td>
-                <td>36px × 36px</td>
-                <td>40px × 40px</td>
-                <td>36px × 36px</td>
-              </tr>
-              <tr>
-                <td class="feature-name">Karakteristik Tampilan</td>
-                <td>Fokus kuat di tengah, kartu terlihat utuh seimbang</td>
-                <td>Tepi kanvas terisi penuh, kesan dinamis</td>
-                <td>Ringan, menyisakan ruang bernafas lega</td>
-                <td>Visual kartu besar, dramatis dan immersive</td>
-              </tr>
-              <tr>
-                <td class="feature-name">Rekomendasi Penggunaan</td>
-                <td>Dashboard Admin, SaaS Showcase</td>
-                <td>Hero Landing Page, Website Header</td>
-                <td>Presentasi Produk Ramping & Portofolio</td>
-                <td>Showcase Banner & Pitch Deck Berani</td>
-              </tr>
-              <tr>
-                <td class="feature-name">Akses Studio Langsung</td>
-                <td>
-                  <a href="studio-centered.html" style="font-weight:600; text-decoration:underline;">Buka Centered</a>
-                </td>
-                <td>
-                  <a href="studio-stretch.html" style="font-weight:600; text-decoration:underline;">Buka Stretch</a>
-                </td>
-                <td>
-                  <a href="studio-9-zoomout.html" style="font-weight:600; text-decoration:underline; color:var(--accent);">Buka 9 Zoom-Out</a>
-                </td>
-                <td>
-                  <a href="studio-9-stretch.html" style="font-weight:600; text-decoration:underline; color:#10b981;">Buka 9 Stretch</a>
-                </td>
-              </tr>
-            </tbody>
-          </table></div>
-      </div>
-    </section>
-
-    <!-- How It Works Section -->
-    <section id="cara-kerja" class="steps-section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-overline">WORKFLOW RINGKAS</span>
-          <h2 class="section-title">3 Langkah Menuju Mockup Profesional</h2>
-          <p class="section-desc">
-            Hanya butuh 30 detik untuk mengubah tangkapan layar biasa menjadi aset visual siap publikasi di smartphone
-            atau desktop.
-          </p>
-        </div>
-
-        <div class="steps-grid">
-          <div class="step-card">
-            <div class="step-num">1</div>
-            <h3 class="step-title">Pilih Template di Etalase</h3>
-            <p class="step-desc">
-              Pilih Template Centered Diamond untuk fokus seimbang, atau Full-Bleed Stretch untuk tampilan sinematik
-              layar penuh.
-            </p>
-          </div>
-
-          <div class="step-card">
-            <div class="step-num">2</div>
-            <h3 class="step-title">Masukkan 12 Screenshot</h3>
-            <p class="step-desc">
-              Tarik sekaligus 12 foto ke dropzone massal atau gunakan demo otomatis preset SOPAN dan EcoVision AI.
-            </p>
-          </div>
-
-          <div class="step-card">
-            <div class="step-num">3</div>
-            <h3 class="step-title">Ekspor PNG Resolusi Tinggi</h3>
-            <p class="step-desc">
-              Unduh hasil dalam resolusi asli 2752×1536 atau salin ke clipboard untuk presentasi pitch deck Anda.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Bottom CTA Banner -->
-    <section class="cta-section">
-      <div class="container">
-        <div class="cta-card">
-          <div class="cta-card-inner">
-            <h2 class="cta-title">Siap Membuat Mockup Isometrik Anda?</h2>
-            <p class="cta-desc">
-              Buka studio sekarang langsung di peramban HP atau laptop Anda. Gratis, tanpa instalasi, dan mendukung
-              ekspor gambar kualitas prima.
-            </p>
-            <div class="cta-btns">
-              <a href="studio-centered.html" class="btn btn-white btn-lg">
-                Buka Centered Studio
-              </a>
-              <a href="studio-stretch.html" class="btn btn-dark-border btn-lg">
-                Buka Stretch Studio (118%)
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
+</main>
 
   <!-- Footer -->
   <footer class="footer">
@@ -2549,7 +2310,6 @@
       <div class="footer-links">
         <a href="#etalase">Etalase</a>
         <a href="#features">Fitur</a>
-        <a href="#komparasi">Spesifikasi</a>
         <a href="studio-centered.html">Centered Studio</a>
         <a href="studio-stretch.html">Stretch Studio</a>
         <a href="javascript:void(0)" onclick="window.replayIntro()"
@@ -2789,7 +2549,6 @@
       } catch (e) {}
 
       const skipBtn = document.getElementById('intro-skip-btn');
-      const s1 = document.getElementById('intro-scene-1');
       const s2 = document.getElementById('intro-scene-2');
       const s3 = document.getElementById('intro-scene-3');
       const progressBar = document.getElementById('intro-progress-bar');
@@ -2872,7 +2631,7 @@
         targetPct = 0;
         if (progressBar) progressBar.style.width = '0%';
         if (pctLabel) pctLabel.textContent = '0%';
-        [s1, s2, s3].forEach(s => {
+        [s2, s3].forEach(s => {
           if (s) { s.classList.remove('fade-leave', 'active'); s.style.display = ''; }
         });
         resetStrokes();
@@ -2895,29 +2654,11 @@
       resetStrokes();
 
       function runTimeline() {
-        // 0.2s: Scene 1 ('Introducing')
+        // 0.1s: Scene 2 (Laymockup Cursive Handwriting Write)
         setTimeout(() => {
           if (isFinished) return;
-          if (s1) s1.classList.add('active');
-          setProgress(22);
-        }, 200);
-
-        // 1.5s: Fade out Scene 1
-        setTimeout(() => {
-          if (isFinished) return;
-          if (s1) {
-            s1.classList.remove('active');
-            s1.classList.add('fade-leave');
-          }
-          setProgress(42);
-        }, 1500);
-
-        // 1.9s: Scene 2 (Laymockup Cursive Handwriting Write)
-        setTimeout(() => {
-          if (isFinished) return;
-          if (s1) s1.style.display = 'none';
           if (s2) s2.classList.add('active');
-          setProgress(65);
+          setProgress(35);
 
           // Trigger handwriting strokes in sequence like a real pen
           if (stroke1) {
@@ -2934,36 +2675,36 @@
             stroke3.style.transition = 'stroke-dashoffset 0.95s cubic-bezier(0.4, 0, 0.2, 1)';
             stroke3.style.strokeDashoffset = '0';
           }, 850);
-        }, 1900);
+        }, 100);
 
-        // 3.9s: Fade out Scene 2
+        // 2.0s: Fade out Scene 2
         setTimeout(() => {
           if (isFinished) return;
           if (s2) {
             s2.classList.remove('active');
             s2.classList.add('fade-leave');
           }
-          setProgress(82);
-        }, 3900);
+          setProgress(75);
+        }, 2000);
 
-        // 4.3s: Scene 3 (Voxel Studios Logo + VOXEL STUDIOS + By Pradipta all fade in together!)
+        // 2.4s: Scene 3 (Voxel Studios Logo + VOXEL STUDIOS + By Pradipta all fade in together!)
         setTimeout(() => {
           if (isFinished) return;
           if (s2) s2.style.display = 'none';
           if (s3) s3.classList.add('active');
-          setProgress(95);
-        }, 4300);
+          setProgress(92);
+        }, 2400);
 
-        // 5.4s: 100% Ready
+        // 3.4s: 100% Ready
         setTimeout(() => {
           if (isFinished) return;
           setProgress(100);
-        }, 5400);
+        }, 3400);
 
-        // 6.0s: Finish and reveal
+        // 3.8s: Finish and reveal
         setTimeout(() => {
           finishIntro();
-        }, 6000);
+        }, 3800);
       }
 
       runTimeline();
