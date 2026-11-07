@@ -1,6 +1,0 @@
-const fs = require('fs');
-
-const mob = fs.readFileSync('studio-mobile-7.html', 'utf8');
-const btnLightDemo = mob.indexOf('btn-load-light-demo');
-console.log(mob.substring(btnLightDemo - 50, btnLightDemo + 600));
-

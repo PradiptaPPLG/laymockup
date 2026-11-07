@@ -6,7 +6,8 @@
   <title>1 Layar Single Phone 3D Studio - LayMockup × PixelCam</title>
 
   <!-- CDN Icons & Confetti -->
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="libs/lucide.min.js"></script>
+  <script>if (!window.lucide) { document.write('<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"><\/script>'); }</script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <style>
@@ -1594,7 +1595,7 @@
     /**
      * 3. KONTROLER APLIKASI UTAMA
      */
-    document.addEventListener('DOMContentLoaded', () => {
+    function initStudio() {
       const canvas = document.getElementById('mockup-canvas');
       const renderer = new SinglePhoneStudioRenderer(canvas);
 
@@ -1879,6 +1880,18 @@
 
       // Render Pertama Kali
       refreshCanvas();
+      window._refreshStudio = refreshCanvas;
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initStudio);
+    } else {
+      initStudio();
+    }
+    window.addEventListener('load', () => {
+      if (typeof window._refreshStudio === 'function') {
+        window._refreshStudio();
+      }
     });
   </script>
 </body>

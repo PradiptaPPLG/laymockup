@@ -1801,7 +1801,7 @@
     /**
      * 3. KONTROLER APLIKASI UTAMA (9 SLOTS)
      */
-    document.addEventListener('DOMContentLoaded', () => {
+    function initStudio() {
       const canvas = document.getElementById('mockup-canvas');
       const renderer = new IsometricRenderer(canvas);
 
@@ -2082,6 +2082,18 @@
 
       // Render Pertama Kali
       refreshCanvas();
+      window._refreshStudio = refreshCanvas;
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initStudio);
+    } else {
+      initStudio();
+    }
+    window.addEventListener('load', () => {
+      if (typeof window._refreshStudio === 'function') {
+        window._refreshStudio();
+      }
     });
   </script>
 </body>

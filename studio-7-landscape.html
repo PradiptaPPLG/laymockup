@@ -6,7 +6,8 @@
   <title>3D Isometric Mockup Studio - 7 Card Landscape (2-3-2)</title>
 
   <!-- CDN Icons & Confetti -->
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="libs/lucide.min.js"></script>
+  <script>if (!window.lucide) { document.write('<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"><\/script>'); }</script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <style>
@@ -1834,7 +1835,7 @@
     /**
      * 3. KONTROLER APLIKASI UTAMA (7 SLOTS: 2-3-2)
      */
-    document.addEventListener('DOMContentLoaded', () => {
+    function initStudio() {
       const canvas = document.getElementById('mockup-canvas');
       const renderer = new IsometricRenderer(canvas);
 
@@ -2131,6 +2132,18 @@
 
       // Render Pertama Kali
       refreshCanvas();
+      window._refreshStudio = refreshCanvas;
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initStudio);
+    } else {
+      initStudio();
+    }
+    window.addEventListener('load', () => {
+      if (typeof window._refreshStudio === 'function') {
+        window._refreshStudio();
+      }
     });
   </script>
 </body>
