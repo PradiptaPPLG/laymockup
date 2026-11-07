@@ -5,6 +5,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>LayMockup × PixelCam — 3D Isometric Mockup Studio</title>
+  <!-- LayMockup Session Intro Guard -->
+  <!-- Intro hanya diputar 1x saat awal buka website dalam sesi browser ini -->
+  <!-- Setiap kali refresh (F5) atau klik kembali ke Beranda TIDAK AKAN mengulang intro -->
+  <script>
+    (function () {
+      try {
+        if (sessionStorage.getItem('laymockup_intro_seen') === '1') {
+          document.documentElement.classList.add('skip-intro');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    html.skip-intro #intro-overlay {
+      display: none !important;
+    }
+  </style>
+
   <meta name="description"
     content="Studio 3D Isometric Mockup berbasis browser hasil kolaborasi LayMockup × PixelCam. Ubah screenshot produk menjadi mockup isometrik 3D elegan dalam hitungan detik di HP maupun Desktop.">
   <link rel="icon"
@@ -1672,107 +1690,107 @@
     }
 
 
-    .laymockup-stroke {
-      fill: none;
-      stroke: #d2ff00;
-      stroke-width: 4.5px;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-miterlimit: 10;
-    }
+      .laymockup-stroke {
+        fill: none;
+        stroke: #d2ff00;
+        stroke-width: 4.5px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-miterlimit: 10;
+      }
 
 
-    /* Scene 3: Voxel Studios */
-    .intro-voxel-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+      /* Scene 3: Voxel Studios */
+      .intro-voxel-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
 
-    .intro-voxel-badge {
-      width: 76px;
-      height: 76px;
-      border-radius: 50%;
-      position: relative;
-      background: #000000;
-      box-shadow: 0 0 30px rgba(16, 185, 129, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.12);
-      margin-bottom: 14px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+      .intro-voxel-badge {
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        position: relative;
+        background: #000000;
+        box-shadow: 0 0 30px rgba(16, 185, 129, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.12);
+        margin-bottom: 14px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-    .intro-voxel-badge img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+      .intro-voxel-badge img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
 
-    .intro-voxel-title {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      font-size: clamp(18px, 4.4vw, 24px);
-      font-weight: 700;
-      letter-spacing: 0.24em;
-      color: #ffffff;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-      padding-left: 0.24em;
-    }
+      .intro-voxel-title {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-size: clamp(18px, 4.4vw, 24px);
+        font-weight: 700;
+        letter-spacing: 0.24em;
+        color: #ffffff;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+        padding-left: 0.24em;
+      }
 
-    .intro-voxel-author {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      font-size: 13px;
-      font-weight: 400;
-      letter-spacing: 0.16em;
-      color: #999999;
-      text-transform: none;
-      padding-left: 0.16em;
-    }
+      .intro-voxel-author {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+        letter-spacing: 0.16em;
+        color: #999999;
+        text-transform: none;
+        padding-left: 0.16em;
+      }
 
-    /* Bottom Loading Dock */
-    .intro-loading-dock {
-      position: absolute;
-      bottom: 38px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: min(260px, 78vw);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      box-sizing: border-box;
-      pointer-events: none;
-    }
+      /* Bottom Loading Dock */
+      .intro-loading-dock {
+        position: absolute;
+        bottom: 38px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(260px, 78vw);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        box-sizing: border-box;
+        pointer-events: none;
+      }
 
 
-    .intro-track {
-      width: 100%;
-      height: 3px;
-      background: rgba(255, 255, 255, 0.12);
-      border-radius: 999px;
-      overflow: hidden;
-      position: relative;
-    }
+      .intro-track {
+        width: 100%;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 999px;
+        overflow: hidden;
+        position: relative;
+      }
 
-    .intro-bar {
-      height: 100%;
-      width: 0%;
-      background: #d2ff00;
-      border-radius: 999px;
-      box-shadow: 0 0 8px rgba(210, 255, 0, 0.6);
-      transition: width 0.12s linear;
-    }
+      .intro-bar {
+        height: 100%;
+        width: 0%;
+        background: #d2ff00;
+        border-radius: 999px;
+        box-shadow: 0 0 8px rgba(210, 255, 0, 0.6);
+        transition: width 0.12s linear;
+      }
 
-    .intro-dock-pct {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 11px;
-      font-weight: 600;
-      color: #777777;
-      letter-spacing: 0.06em;
-    }
+      .intro-dock-pct {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 11px;
+        font-weight: 600;
+        color: #777777;
+        letter-spacing: 0.06em;
+      }
   </style>
 </head>
 
@@ -1834,82 +1852,85 @@
   <!-- Sticky Navbar -->
   <header class="navbar" role="banner">
     <div class="container nav-inner">
-      <a href="beranda.html" class="brand" aria-label="LayMockup x PixelCam Beranda">
-        <a href="index.html" class="brand" aria-label="LayMockup x PixelCam Beranda">
-          <div class="brand-logo-group">
-            <!-- Cube icon -->
-            <div class="brand-icon-box" title="3D Isometric Engine">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path
-                  d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
-                </path>
-                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                <line x1="12" y1="22.08" x2="12" y2="12"></line>
-              </svg>
-            </div>
-            <!-- PixelCam Aperture Icon -->
-            <svg width="24" height="24" viewBox="0 0 26 26" fill="none" aria-hidden="true" style="margin-left:2px;">
-              <rect width="26" height="26" rx="7" fill="#111111" />
-              <circle cx="13" cy="13" r="7.5" stroke="#ffffff" stroke-width="1" fill="none" opacity="0.3" />
-              <g opacity="0.9" fill="white">
-                <rect x="11.5" y="5.5" width="3" height="7" rx="1.5" transform="rotate(0 13 13)" />
-                <rect x="11.5" y="5.5" width="3" height="7" rx="1.5" transform="rotate(60 13 13)" />
-                <rect x="11.5" y="5.5" width="3" height="7" rx="1.5" transform="rotate(120 13 13)" />
-                <rect x="11.5" y="5.5" width="3" height="7" rx="1.5" transform="rotate(180 13 13)" />
-                <rect x="11.5" y="5.5" width="3" height="7" rx="1.5" transform="rotate(240 13 13)" />
-                <rect x="11.5" y="5.5" width="3" height="7" rx="1.5" transform="rotate(300 13 13)" />
-              </g>
-              <circle cx="13" cy="13" r="2" fill="white" />
+      <a href="index.html" class="brand" aria-label="LayMockup x PixelCam Beranda">
+        <div class="brand-logo-group">
+          <!-- Cube icon -->
+          <div class="brand-icon-box" title="3D Isometric Engine">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+              </path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
             </svg>
           </div>
-          <span>LayMockup <span class="brand-collab" style="font-weight:400; color:var(--fg-muted);">×
-              PixelCam</span></span>
-          <span class="brand-badge">v1.0 Pro</span>
+          <!-- PixelCam Aperture Icon -->
+          <svg width="24" height="24" viewBox="0 0 26 26" fill="none" aria-hidden="true" style="margin-left:2px;">
+            <rect width="26" height="26" rx="7" fill="#111111" />
+            <circle cx="13" cy="13" r="7.5" stroke="#ffffff" stroke-width="1" fill="none" opacity="0.3" />
+            <g opacity="0.9" fill="white">
+              <rect x="11.5" y="5.5" width="3" height="7" rx="1.5" transform="rotate(0 13 13)" />
+              <rect x="11.5" y="5.5" width="3" height="7" rx="1.5" transform="rotate(60 13 13)" />
+              <rect x="11.5" y="5.5" width="3" height="7" rx="1.5" transform="rotate(120 13 13)" />
+              <rect x="11.5" y="5.5" width="3" height="7" rx="1.5" transform="rotate(180 13 13)" />
+              <rect x="11.5" y="5.5" width="3" height="7" rx="1.5" transform="rotate(240 13 13)" />
+              <rect x="11.5" y="5.5" width="3" height="7" rx="1.5" transform="rotate(300 13 13)" />
+            </g>
+            <circle cx="13" cy="13" r="2" fill="white" />
+          </svg>
+        </div>
+        <span>LayMockup <span class="brand-collab" style="font-weight:400; color:var(--fg-muted);">×
+            PixelCam</span></span>
+        <span class="brand-badge">v1.0 Pro</span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="nav-links" aria-label="Menu Utama">
+        <a href="#etalase">Etalase Template</a>
+        <a href="#features">Fitur Unggulan</a>
+        <a href="#komparasi">Perbandingan</a>
+        <a href="#cara-kerja">Cara Kerja</a>
+      </nav>
+
+      <!-- Desktop Nav Actions -->
+      <div class="nav-actions">
+        <a href="studio-centered.html" class="btn btn-secondary" title="Buka Studio Centered Diamond (12 Slot)">
+          12 Centered
         </a>
+        <a href="studio-stretch.html" class="btn btn-secondary" title="Buka Studio Full-Bleed Stretch (12 Slot)">
+          12 Stretch
+        </a>
+        <a href="studio-9-zoomout.html" class="btn btn-secondary" title="Buka Template 1-2-3-2-1 Zoom-Out (9 Slot)">
+          9 Zoom-Out
+        </a>
+        <a href="studio-9-stretch.html" class="btn btn-primary" title="Buka Template 1-2-3-2-1 Stretch (9 Slot)">
+          9 Stretch
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
 
-        <!-- Desktop Nav Links -->
-        <nav class="nav-links" aria-label="Menu Utama">
-          <a href="#etalase">Etalase Template</a>
-          <a href="#features">Fitur Unggulan</a>
-          <a href="#komparasi">Perbandingan</a>
-          <a href="#cara-kerja">Cara Kerja</a>
-        </nav>
-
-        <!-- Desktop Nav Actions -->
-        <div class="nav-actions">
-          <a href="index.html" class="btn btn-secondary" title="Buka Studio Centered Diamond">
-            <a href="studio-centered.html" class="btn btn-secondary" title="Buka Studio Centered Diamond">
-              Centered Studio
-            </a>
-            <a href="studio-stretch.html" class="btn btn-primary" title="Buka Studio Full-Bleed Stretch">
-              Stretch Studio (118%)
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
-            </a>
-        </div>
-
-        <!-- Mobile Controls (Buttons + Hamburger) -->
-        <div class="mobile-controls">
-          <a href="index.html" class="mobile-quick-btn" title="Buka Studio Langsung">
-            <a href="studio-centered.html" class="mobile-quick-btn" title="Buka Studio Langsung">
-              <span>Studio</span>
-              <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
-                <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
-            </a>
-            <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Buka Menu Navigasi" aria-expanded="false">
-              <svg id="hamburger-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-              </svg>
-            </button>
-        </div>
+      <!-- Mobile Controls (Buttons + Hamburger) -->
+      <div class="mobile-controls">
+        <a href="#etalase" class="mobile-quick-btn" title="Pilih 4 Template Studio">
+          <span>Pilih Studio</span>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+            <path d="M7 2v10M2 7l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </a>
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Buka Menu Navigasi" aria-expanded="false">
+          <svg id="hamburger-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -1946,14 +1967,19 @@
       </a>
     </nav>
 
-    <div class="mobile-nav-cta">
-      <a href="index.html" class="btn btn-secondary">
-        <a href="studio-centered.html" class="btn btn-secondary">
-          <span>🏛️ Buka Centered Studio</span>
-        </a>
-        <a href="studio-stretch.html" class="btn btn-primary">
-          <span>🎬 Buka Stretch Studio (118%)</span>
-        </a>
+    <div class="mobile-nav-cta" style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+      <a href="studio-centered.html" class="btn btn-secondary" style="font-size:12px; padding:10px 8px; justify-content:center;">
+        <span>🏛️ 12 Centered</span>
+      </a>
+      <a href="studio-stretch.html" class="btn btn-secondary" style="font-size:12px; padding:10px 8px; justify-content:center;">
+        <span>🎬 12 Stretch</span>
+      </a>
+      <a href="studio-9-zoomout.html" class="btn btn-secondary" style="font-size:12px; padding:10px 8px; justify-content:center;">
+        <span>💎 9 Zoom-Out</span>
+      </a>
+      <a href="studio-9-stretch.html" class="btn btn-primary" style="font-size:12px; padding:10px 8px; justify-content:center;">
+        <span>🚀 9 Stretch</span>
+      </a>
     </div>
   </div>
   <div id="mobile-backdrop" class="mobile-menu-backdrop"></div>
@@ -1976,21 +2002,26 @@
           aplikasi web, mobile, dan dashboard kelas dunia dalam hitungan detik.
         </p>
 
-        <div class="hero-actions">
+        <div class="hero-actions" style="flex-wrap: wrap; justify-content: center; gap: 10px;">
           <a href="#etalase" class="btn btn-primary btn-lg">
-            Jelajahi 2 Template Isometrik
+            Jelajahi 4 Template Isometrik
             <svg width="15" height="15" viewBox="0 0 14 14" fill="none">
               <path d="M7 2v10M2 7l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
                 stroke-linejoin="round" />
             </svg>
           </a>
-          <a href="index.html" class="btn btn-secondary btn-lg">
-            <a href="studio-centered.html" class="btn btn-secondary btn-lg">
-              Buka Centered Studio
-            </a>
-            <a href="studio-stretch.html" class="btn btn-emerald btn-lg">
-              Buka Stretch Studio (118%)
-            </a>
+          <a href="studio-centered.html" class="btn btn-secondary btn-lg" title="Template 12 Foto Centered">
+            Centered (12 Kartu)
+          </a>
+          <a href="studio-stretch.html" class="btn btn-secondary btn-lg" title="Template 12 Foto Stretch">
+            Stretch (12 Kartu)
+          </a>
+          <a href="studio-9-zoomout.html" class="btn btn-secondary btn-lg" title="Template 9 Foto Baru Zoom-Out">
+            ✨ 9-Kartu Zoom-Out
+          </a>
+          <a href="studio-9-stretch.html" class="btn btn-emerald btn-lg" title="Template 9 Foto Baru Stretch">
+            ✨ 9-Kartu Stretch Full
+          </a>
         </div>
       </div>
     </section>
@@ -2000,15 +2031,15 @@
       <div class="container">
         <div class="section-header">
           <span class="section-overline">ETALASE TEMPLATE ISOMETRIK</span>
-          <h2 class="section-title">2 Formasi Isometrik Eksklusif</h2>
+          <h2 class="section-title">4 Formasi Isometrik Eksklusif</h2>
           <p class="section-desc">
-            Pilih karakter tata letak yang paling pas untuk presentasi produk, landing page, atau pitch deck Anda.
+            Pilih karakter tata letak yang paling pas: Formasi Intan 12 Kartu untuk presentasi komprehensif, atau Formasi Ringkas 1-2-3-2-1 (9 Kartu) yang lebih hemat penggunaan foto.
           </p>
         </div>
 
         <div class="etalase-grid">
           <!-- TEMPLATE 1: CENTERED DIAMOND -->
-          <article class="etalase-card featured" id="template-centered-card">
+          <article class="etalase-card featured" id="template-centered-card" onclick="window.location.href='studio-centered.html'">
             <div class="etalase-preview-box">
               <canvas id="canvas-centered-preview" width="560" height="315"></canvas>
               <div class="etalase-badge-top">
@@ -2052,23 +2083,19 @@
               </div>
 
               <div class="etalase-btn-wrap">
-                <a href="index.html" class="btn btn-primary" title="Buka Template Centered Diamond di index.html">
-                  <a href="studio-centered.html" class="btn btn-primary" title="Buka Template Centered Diamond">
-                    Buka Template Centered
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                    </svg>
-                  </a>
-                  <a href="studio-centered.html" class="btn btn-secondary" title="Buka Studio Centered Khusus">
-                    Alt Link
-                  </a>
+                <a href="studio-centered.html" class="btn btn-primary" title="Buka Template Centered Diamond">
+                  Buka Template Centered
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </a>
               </div>
             </div>
           </article>
 
           <!-- TEMPLATE 2: FULL-BLEED STRETCH -->
-          <article class="etalase-card" id="template-stretch-card">
+          <article class="etalase-card" id="template-stretch-card" onclick="window.location.href='studio-stretch.html'">
             <div class="etalase-preview-box">
               <canvas id="canvas-stretch-preview" width="560" height="315"></canvas>
               <div class="etalase-badge-top emerald">
@@ -2126,6 +2153,122 @@
               </div>
             </div>
           </article>
+
+          <!-- TEMPLATE 3: 1-2-3-2-1 CENTERED ZOOM-OUT (9 KARTU) -->
+          <article class="etalase-card" id="template-9-zoomout-card" onclick="window.location.href='studio-9-zoomout.html'">
+            <div class="etalase-preview-box">
+              <canvas id="canvas-9-zoomout-preview" width="560" height="315"></canvas>
+              <div class="etalase-badge-top">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                  <polyline points="2 17 12 22 22 17"></polyline>
+                  <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+                9 Kartu Zoom-Out (82%)
+              </div>
+            </div>
+
+            <div class="etalase-content">
+              <div class="etalase-meta">
+                <span class="etalase-tag">TEMPLATE 03 · LIGHTWEIGHT & BALANCED (9 FOTO)</span>
+              </div>
+              <h3 class="etalase-title">1-2-3-2-1 Centered Zoom-Out</h3>
+              <p class="etalase-description">
+                Template baru dengan formasi intan ramping yang hanya memerlukan 9 foto. Karakter zoom-out (82%) proporsional seperti versi awal, menyisakan ruang bernafas yang lega di sekeliling kanvas tanpa menutupi latar belakang.
+              </p>
+
+              <div class="specs-grid">
+                <div class="spec-item">
+                  <span class="spec-key">Formasi Grid</span>
+                  <span class="spec-val">1 - 2 - 3 - 2 - 1 Ramping</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Kapasitas Slot</span>
+                  <span class="spec-val">9 Tangkapan Layar</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Default Zoom</span>
+                  <span class="spec-val">0.82x (Normal Awal Proporsional)</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Jarak Celah (Gap)</span>
+                  <span class="spec-val">40px × 40px Simetris</span>
+                </div>
+              </div>
+
+              <div class="etalase-btn-wrap">
+                <a href="studio-9-zoomout.html" class="btn btn-primary" title="Buka Template 1-2-3-2-1 Zoom-Out">
+                  Buka 9-Card Zoom-Out
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </a>
+                <a href="1-2-3-2-1-zoomout.html" class="btn btn-secondary" title="Alias Link">
+                  Link Alternatif
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- TEMPLATE 4: 1-2-3-2-1 FULL-BLEED STRETCH (9 KARTU) -->
+          <article class="etalase-card featured" id="template-9-stretch-card" onclick="window.location.href='studio-9-stretch.html'">
+            <div class="etalase-preview-box">
+              <canvas id="canvas-9-stretch-preview" width="560" height="315"></canvas>
+              <div class="etalase-badge-top emerald">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <polyline points="9 21 3 21 3 15"></polyline>
+                  <line x1="21" y1="3" x2="14" y2="10"></line>
+                  <line x1="3" y1="21" x2="10" y2="14"></line>
+                </svg>
+                9 Kartu Stretch Full (132%)
+              </div>
+            </div>
+
+            <div class="etalase-content">
+              <div class="etalase-meta">
+                <span class="etalase-tag emerald">TEMPLATE 04 · FULL-BLEED IMMERSION (9 FOTO)</span>
+              </div>
+              <h3 class="etalase-title">1-2-3-2-1 Full-Bleed Stretch</h3>
+              <p class="etalase-description">
+                Varian 9 kartu dengan skala pembesaran 132% yang membentang luas hingga ke sudut-sudut kanvas. Kartu tampil ekstra besar dan tajam dengan 0% distorsi, sangat cocok untuk tampilan hero landing page yang memukau.
+              </p>
+
+              <div class="specs-grid">
+                <div class="spec-item">
+                  <span class="spec-key">Formasi Grid</span>
+                  <span class="spec-val">1 - 2 - 3 - 2 - 1 Melebar</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Kapasitas Slot</span>
+                  <span class="spec-val">9 Tangkapan Layar</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Default Zoom</span>
+                  <span class="spec-val">1.32x (Stretch Full-Bleed)</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Jarak Celah (Gap)</span>
+                  <span class="spec-val">36px × 36px Rapat Presisi</span>
+                </div>
+              </div>
+
+              <div class="etalase-btn-wrap">
+                <a href="studio-9-stretch.html" class="btn btn-primary" title="Buka Template 1-2-3-2-1 Stretch">
+                  Buka 9-Card Stretch
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </a>
+                <a href="1-2-3-2-1-stretch.html" class="btn btn-secondary" title="Alias Link">
+                  Link Alternatif
+                </a>
+              </div>
+            </div>
+          </article>
+
         </div>
       </div>
     </section>
@@ -2256,61 +2399,72 @@
             <thead>
               <tr>
                 <th>Fitur & Spesifikasi</th>
-                <th>Template 1: Centered Diamond</th>
-                <th>Template 2: Full-Bleed Stretch</th>
+                <th>T1: 12 Centered</th>
+                <th>T2: 12 Stretch</th>
+                <th>T3: 9 Zoom-Out</th>
+                <th>T4: 9 Stretch</th>
               </tr>
             </thead>
             <tbody>
               <tr>
+                <td class="feature-name">Jumlah Slot Kartu</td>
+                <td><strong>12 Foto</strong></td>
+                <td><strong>12 Foto</strong></td>
+                <td class="tag-active"><strong>9 Foto (Hemat)</strong></td>
+                <td class="tag-active"><strong>9 Foto (Hemat)</strong></td>
+              </tr>
+              <tr>
                 <td class="feature-name">Formasi Geometri</td>
                 <td>1 - 3 - 4 - 3 - 1 Simetris</td>
-                <td>1 - 3 - 4 - 3 - 1 Dinamis</td>
+                <td>1 - 3 - 4 - 3 - 1 Melebar</td>
+                <td>1 - 2 - 3 - 2 - 1 Ramping</td>
+                <td>1 - 2 - 3 - 2 - 1 Melebar</td>
               </tr>
               <tr>
                 <td class="feature-name">Tingkat Zoom Default</td>
-                <td>0.88x (Reference) & 0.55x (Fit)</td>
-                <td class="tag-active">1.18x (Stretch Sinematik)</td>
+                <td>0.88x (1:1) / 0.55x (Fit)</td>
+                <td>1.18x (Edge Fill)</td>
+                <td class="tag-active">0.82x (Normal Proporsional)</td>
+                <td class="tag-active">1.32x (Full-Bleed Ekstra)</td>
               </tr>
               <tr>
-                <td class="feature-name">Jarak Antar Kartu (Gap X / Y)</td>
-                <td>40px × 40px (Lorong Luas)</td>
-                <td>36px × 36px (Rapat Immersive)</td>
-              </tr>
-              <tr>
-                <td class="feature-name">Kontrol Zoom Studio</td>
-                <td>Tombol Switch Mode (1:1 / Fit)</td>
-                <td class="tag-active">Tombol Zoom In (+) / Out (-) Real-Time</td>
-              </tr>
-              <tr>
-                <td class="feature-name">Sudut Rotasi Isometrik</td>
-                <td>-32.0° Yaw, 0.86 Foreshorten</td>
-                <td>-32.0° Yaw, 0.86 Foreshorten</td>
+                <td class="feature-name">Jarak Antar Kartu (Gap)</td>
+                <td>40px × 40px</td>
+                <td>36px × 36px</td>
+                <td>40px × 40px</td>
+                <td>36px × 36px</td>
               </tr>
               <tr>
                 <td class="feature-name">Karakteristik Tampilan</td>
                 <td>Fokus kuat di tengah, kartu terlihat utuh seimbang</td>
-                <td>Tepi kanvas terisi penuh, kesan luas dan dramatis</td>
+                <td>Tepi kanvas terisi penuh, kesan dinamis</td>
+                <td>Ringan, menyisakan ruang bernafas lega</td>
+                <td>Visual kartu besar, dramatis dan immersive</td>
               </tr>
               <tr>
                 <td class="feature-name">Rekomendasi Penggunaan</td>
-                <td>Dashboard Admin, Mockup SaaS, Laporan</td>
-                <td>Hero Landing Page, Website Header, Portfolio</td>
+                <td>Dashboard Admin, SaaS Showcase</td>
+                <td>Hero Landing Page, Website Header</td>
+                <td>Presentasi Produk Ramping & Portofolio</td>
+                <td>Showcase Banner & Pitch Deck Berani</td>
               </tr>
               <tr>
-                <td class="feature-name">File Studio Terkait</td>
+                <td class="feature-name">Akses Studio Langsung</td>
                 <td>
-                  <a href="index.html" style="font-weight:600; text-decoration:underline;">index.html</a>
-                  <a href="studio-centered.html"
-                    style="font-weight:600; text-decoration:underline;">studio-centered.html</a>
+                  <a href="studio-centered.html" style="font-weight:600; text-decoration:underline;">Buka Centered</a>
                 </td>
                 <td>
-                  <a href="studio-stretch.html"
-                    style="font-weight:600; text-decoration:underline;">studio-stretch.html</a>
+                  <a href="studio-stretch.html" style="font-weight:600; text-decoration:underline;">Buka Stretch</a>
+                </td>
+                <td>
+                  <a href="studio-9-zoomout.html" style="font-weight:600; text-decoration:underline; color:var(--accent);">Buka 9 Zoom-Out</a>
+                </td>
+                <td>
+                  <a href="studio-9-stretch.html" style="font-weight:600; text-decoration:underline; color:#10b981;">Buka 9 Stretch</a>
                 </td>
               </tr>
             </tbody>
-          </table>
-        </div>
+          </table></div>
       </div>
     </section>
 
@@ -2366,13 +2520,12 @@
               ekspor gambar kualitas prima.
             </p>
             <div class="cta-btns">
-              <a href="index.html" class="btn btn-white btn-lg">
-                <a href="studio-centered.html" class="btn btn-white btn-lg">
-                  Buka Centered Studio
-                </a>
-                <a href="studio-stretch.html" class="btn btn-dark-border btn-lg">
-                  Buka Stretch Studio (118%)
-                </a>
+              <a href="studio-centered.html" class="btn btn-white btn-lg">
+                Buka Centered Studio
+              </a>
+              <a href="studio-stretch.html" class="btn btn-dark-border btn-lg">
+                Buka Stretch Studio (118%)
+              </a>
             </div>
           </div>
         </div>
@@ -2397,7 +2550,6 @@
         <a href="#etalase">Etalase</a>
         <a href="#features">Fitur</a>
         <a href="#komparasi">Spesifikasi</a>
-        <a href="index.html">Centered Studio</a>
         <a href="studio-centered.html">Centered Studio</a>
         <a href="studio-stretch.html">Stretch Studio</a>
         <a href="javascript:void(0)" onclick="window.replayIntro()"
@@ -2447,7 +2599,7 @@
     });
 
     // 2. Generator mini render untuk preview kanvas etalase
-    function drawMiniIsometricPreview(canvasId, isStretch) {
+    function drawMiniIsometricPreview(canvasId, type) {
       const canvas = document.getElementById(canvasId);
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
@@ -2478,10 +2630,56 @@
       const sin = Math.sin(rad);
       const sy = 0.86;
 
-      // Centered: zoomFactor 0.88; Stretch: zoomFactor 1.18
-      const zoomFactor = isStretch ? 1.18 : 0.88;
-      const S = (w / 2752) * zoomFactor;
+      let zoomFactor = 0.88;
+      let gapX = 40, gapY = 40;
+      let layout = [];
+      let isEmerald = false;
 
+      if (type === 'centered' || type === false) {
+        zoomFactor = 0.88;
+        gapX = 40; gapY = 40;
+        layout = [
+          { col: -0.5, row: -2 },
+          { col: -1.5, row: -1 }, { col: -0.5, row: -1 }, { col: 0.5, row: -1 },
+          { col: -1.5, row: 0 }, { col: -0.5, row: 0, focal: true }, { col: 0.5, row: 0, focal: true }, { col: 1.5, row: 0 },
+          { col: -0.5, row: 1 }, { col: 0.5, row: 1 }, { col: 1.5, row: 1 },
+          { col: 0.5, row: 2 }
+        ];
+      } else if (type === 'stretch' || type === true) {
+        zoomFactor = 1.18;
+        gapX = 36; gapY = 36;
+        isEmerald = true;
+        layout = [
+          { col: -0.5, row: -2 },
+          { col: -1.5, row: -1 }, { col: -0.5, row: -1 }, { col: 0.5, row: -1 },
+          { col: -1.5, row: 0 }, { col: -0.5, row: 0, focal: true }, { col: 0.5, row: 0, focal: true }, { col: 1.5, row: 0 },
+          { col: -0.5, row: 1 }, { col: 0.5, row: 1 }, { col: 1.5, row: 1 },
+          { col: 0.5, row: 2 }
+        ];
+      } else if (type === '9-zoomout') {
+        zoomFactor = 0.82;
+        gapX = 40; gapY = 40;
+        layout = [
+          { col: 0, row: -2 },
+          { col: -1, row: -1 }, { col: 0, row: -1 },
+          { col: -1, row: 0 }, { col: 0, row: 0, focal: true }, { col: 1, row: 0, focal: true },
+          { col: 0, row: 1 }, { col: 1, row: 1 },
+          { col: 0, row: 2 }
+        ];
+      } else if (type === '9-stretch') {
+        zoomFactor = 1.32;
+        gapX = 36; gapY = 36;
+        isEmerald = true;
+        layout = [
+          { col: 0, row: -2 },
+          { col: -1, row: -1 }, { col: 0, row: -1 },
+          { col: -1, row: 0 }, { col: 0, row: 0, focal: true }, { col: 1, row: 0, focal: true },
+          { col: 0, row: 1 }, { col: 1, row: 1 },
+          { col: 0, row: 2 }
+        ];
+      }
+
+      const S = (w / 2752) * zoomFactor;
       const ux = cos * S;
       const uy = sin * sy * S;
       const vx = -sin * S;
@@ -2492,20 +2690,8 @@
 
       const cardW = 920;
       const cardH = 580;
-      const gapX = isStretch ? 36 : 40;
-      const gapY = isStretch ? 36 : 40;
-
       const stepX = cardW + gapX;
       const stepY = cardH + gapY;
-
-      // Formasi 1 - 3 - 4 - 3 - 1
-      const layout = [
-        { col: -0.5, row: -2 },
-        { col: -1.5, row: -1 }, { col: -0.5, row: -1 }, { col: 0.5, row: -1 },
-        { col: -1.5, row: 0 }, { col: -0.5, row: 0, focal: true }, { col: 0.5, row: 0, focal: true }, { col: 1.5, row: 0 },
-        { col: -0.5, row: 1 }, { col: 0.5, row: 1 }, { col: 1.5, row: 1 },
-        { col: 0.5, row: 2 }
-      ];
 
       const cards = layout.map(item => {
         const px = item.col * stepX;
@@ -2517,7 +2703,6 @@
 
       cards.sort((a, b) => a.sy_ - b.sy_);
 
-      // Render kartu-kartu
       ctx.save();
       ctx.setTransform(ux, uy, vx, vy, originX, originY);
 
@@ -2537,15 +2722,14 @@
         ctx.roundRect(x, y + 6, cardW, cardH, 22);
         ctx.fill();
 
-        // Kartu Surface
+        // Surface
         ctx.fillStyle = '#ffffff';
         ctx.beginPath();
         ctx.roundRect(x, y, cardW, cardH, 22);
         ctx.fill();
 
-        // Dekorasi UI di dalam kartu
         if (c.focal) {
-          ctx.fillStyle = isStretch ? '#10b981' : '#2563eb';
+          ctx.fillStyle = isEmerald ? '#10b981' : '#2563eb';
           ctx.beginPath();
           ctx.roundRect(x + 30, y + 30, cardW - 60, 90, 10);
           ctx.fill();
@@ -2570,7 +2754,6 @@
           ctx.fill();
         }
 
-        // Border halus
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
         ctx.lineWidth = 3;
         ctx.beginPath();
@@ -2582,8 +2765,10 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      drawMiniIsometricPreview('canvas-centered-preview', false);
-      drawMiniIsometricPreview('canvas-stretch-preview', true);
+      drawMiniIsometricPreview('canvas-centered-preview', 'centered');
+      drawMiniIsometricPreview('canvas-stretch-preview', 'stretch');
+      drawMiniIsometricPreview('canvas-9-zoomout-preview', '9-zoomout');
+      drawMiniIsometricPreview('canvas-9-stretch-preview', '9-stretch');
     });
 
     /* ============================================================
@@ -2595,6 +2780,14 @@
     (function initCleanIntro() {
       const overlay = document.getElementById('intro-overlay');
       if (!overlay) return;
+
+      // Intro Session Guard
+      // Cek apakah animasi intro sudah pernah tayang di sesi browser / tab ini
+      let introSeen = false;
+      try {
+        introSeen = sessionStorage.getItem('laymockup_intro_seen') === '1';
+      } catch (e) {}
+
       const skipBtn = document.getElementById('intro-skip-btn');
       const s1 = document.getElementById('intro-scene-1');
       const s2 = document.getElementById('intro-scene-2');
@@ -2604,9 +2797,6 @@
       const stroke1 = overlay.querySelector('.laymockup-stroke.s1');
       const stroke2 = overlay.querySelector('.laymockup-stroke.s2');
       const stroke3 = overlay.querySelector('.laymockup-stroke.s3');
-
-      // Prevent scrolling while intro is active
-      document.body.style.overflow = 'hidden';
 
       let isFinished = false;
       let targetPct = 0;
@@ -2630,7 +2820,6 @@
           st.style.transition = 'none';
         });
       }
-      resetStrokes();
 
       function updateProgress() {
         if (currentPct < targetPct) {
@@ -2653,6 +2842,9 @@
       function finishIntro() {
         if (isFinished) return;
         isFinished = true;
+        try {
+          sessionStorage.setItem('laymockup_intro_seen', '1');
+        } catch (e) {}
         cancelAnimationFrame(progressAnimId);
         if (progressBar) progressBar.style.width = '100%';
         if (pctLabel) pctLabel.textContent = '100%';
@@ -2671,6 +2863,7 @@
       });
 
       window.replayIntro = function () {
+        document.documentElement.classList.remove('skip-intro');
         overlay.style.display = 'flex';
         overlay.classList.remove('fade-out');
         document.body.style.overflow = 'hidden';
@@ -2686,8 +2879,23 @@
         runTimeline();
       };
 
+      if (introSeen) {
+        overlay.style.display = 'none';
+        document.body.style.overflow = '';
+        return;
+      }
+
+      // Tandai sudah ditonton untuk kunjungan/refresh berikutnya di sesi ini
+      try {
+        sessionStorage.setItem('laymockup_intro_seen', '1');
+      } catch (e) {}
+
+      // Prevent scrolling while intro is active
+      document.body.style.overflow = 'hidden';
+      resetStrokes();
+
       function runTimeline() {
-        // 0.2s: Scene 1 ("Introducing")
+        // 0.2s: Scene 1 ('Introducing')
         setTimeout(() => {
           if (isFinished) return;
           if (s1) s1.classList.add('active');
