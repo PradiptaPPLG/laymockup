@@ -645,396 +645,394 @@
       z-index: 39;
     }
 
-    @media (max-width: 900px) {
-
-      .brand-badge,
-      .sidebar-toggle-btn {
-        display: none;
-      }
-
-      .topbar-center .btn-pill span {
-        display: none;
-      }
-
-      .sidebar {
-        position: fixed;
-        right: 0;
-        top: 0;
-        height: 100%;
-        margin: 0;
-        width: 340px;
-        max-width: 88vw;
-        border-radius: 16px 0 0 16px;
-        z-index: 45;
-        transform: translateX(100%);
-      }
-
-      .sidebar.open {
-        transform: translateX(0);
-      }
-
-      .mobile-fab {
-        display: flex;
-      }
-
-      .hud-status {
-        bottom: 76px;
-        left: 12px;
-        font-size: 11px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .topbar {
-        padding: 0 10px;
-        height: 52px;
-      }
-
-      .brand-title {
-        display: none;
-      }
-
-      .nav-back-btn {
-        padding: 4px 8px !important;
-        font-size: 11px !important;
-        margin-right: 4px !important;
-      }
-
-      .brand-icon {
-        width: 28px;
-        height: 28px;
-        font-size: 12px;
-      }
-
-      .topbar-center {
-        gap: 4px;
-      }
-
-      .topbar-center .btn-pill {
-        padding: 6px 10px;
-        font-size: 15px;
-      }
-
-      .topbar-right .btn-primary {
-        padding: 6px 10px;
-        font-size: 12px;
-      }
-
-      .topbar-right .btn-primary span {
-        font-size: 12px;
-      }
-
-      .hud-status {
-        bottom: 76px;
-        left: 8px;
-        right: 8px;
-        gap: 6px;
-        flex-wrap: wrap;
-      }
-
-      .hud-badge {
-        font-size: 10px;
-        padding: 3px 6px;
-      }
-
-      .hud-btn {
-        font-size: 11px;
-        padding: 4px 8px;
-      }
-
-      .modal-card {
-        padding: 18px 14px;
-      }
-
-      .export-res-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .toast {
-        bottom: 80px;
-        right: 12px;
-        left: 12px;
-        font-size: 12px;
-        padding: 10px 14px;
-        justify-content: center;
-      }
-    }
-
     /* ============================================================
-       CLEAN MINIMAL INTRO LOADER
-       Blackout screen -> Introducing -> Laymockup Cursive Handwriting ->
-       Voxel Studios Logo + By Pradipta (Bersamaan) -> Minimal Loading Bar
+       RESPONSIVE MOBILE ENGINE (Unified & Flawless UX)
+       Zero collision, native sheet experience, sleek header
        ============================================================ */
-    .intro-overlay {
-      display: none !important;
-      position: fixed;
-      inset: 0;
-      z-index: 999999;
-      background: #000000;
-      display: flex;
-      flex-direction: column;
+    .sidebar-close-btn {
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      padding: 24px 16px;
-      box-sizing: border-box;
-      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .intro-overlay.fade-out {
-      opacity: 0;
-      transform: scale(1.02);
-      pointer-events: none;
-    }
-
-    .intro-skip-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      z-index: 20;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      color: #888888;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      padding: 5px 12px;
-      border-radius: 999px;
+      gap: 5px;
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
       transition: all 0.2s ease;
     }
-
-    .intro-skip-btn:hover {
-      background: rgba(255, 255, 255, 0.14);
-      color: #ffffff;
-      border-color: rgba(255, 255, 255, 0.25);
+    .sidebar-close-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
     }
 
-    .intro-skip-btn .esc-badge {
-      font-size: 9px;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 1px 4px;
-      border-radius: 3px;
-      color: #cccccc;
+    @media (max-width: 900px) {
+      .brand-badge,
+      .sidebar-toggle-btn {
+        display: none !important;
+      }
+      .sidebar {
+        position: fixed !important;
+        right: 0 !important;
+        top: 0 !important;
+        height: 100% !important;
+        margin: 0 !important;
+        width: 380px !important;
+        max-width: 88vw !important;
+        border-radius: 16px 0 0 16px !important;
+        z-index: 1000 !important;
+        transform: translateX(100%) !important;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      }
+      .sidebar.open {
+        transform: translateX(0) !important;
+      }
+      .mobile-backdrop {
+        z-index: 999 !important;
+      }
+      .mobile-fab {
+        display: flex !important;
+      }
     }
 
-    /* Center Stage */
-    .intro-stage {
-      position: relative;
-      width: 100%;
-      max-width: 520px;
-      height: 220px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: auto 0;
-      box-sizing: border-box;
+    @media (max-width: 768px) {
+      /* 1. Topbar Responsive Header */
+      .topbar {
+        padding: 0 12px !important;
+        height: 54px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 6px !important;
+        z-index: 50 !important;
+      }
+      .brand {
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        flex-shrink: 0 !important;
+      }
+      .brand-title,
+      .brand-badge {
+        display: none !important;
+      }
+      .nav-back-btn {
+        padding: 5px 9px !important;
+        font-size: 11.5px !important;
+        font-weight: 600 !important;
+        margin-right: 2px !important;
+        border-radius: 8px !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+      }
+      .brand-icon {
+        width: 28px !important;
+        height: 28px !important;
+        font-size: 11px !important;
+        border-radius: 7px !important;
+        flex-shrink: 0 !important;
+      }
+
+      /* Segmented Theme Switch */
+      .topbar-center {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 2px !important;
+        background: rgba(226, 232, 240, 0.8) !important;
+        padding: 3px !important;
+        border-radius: 999px !important;
+        flex-shrink: 0 !important;
+      }
+      .topbar-center .btn-pill {
+        padding: 4px 8px !important;
+        font-size: 13px !important;
+        border-radius: 999px !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        color: #475569 !important;
+        line-height: 1 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+      }
+      .topbar-center .btn-pill.active {
+        background: #ffffff !important;
+        color: #0f172a !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+      }
+      .topbar-center .btn-pill span {
+        display: none !important;
+      }
+
+      /* Topbar Right Export */
+      .topbar-right {
+        flex-shrink: 0 !important;
+      }
+      .topbar-right .btn-primary {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        border-radius: 9px !important;
+        white-space: nowrap !important;
+      }
+
+      /* 2. Non-Colliding Floating Controls */
+      .hud-status {
+        position: fixed !important;
+        bottom: 74px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 5px !important;
+        background: rgba(255, 255, 255, 0.94) !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+        padding: 5px 12px !important;
+        border-radius: 999px !important;
+        border: 1px solid var(--border-glass) !important;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08) !important;
+        white-space: nowrap !important;
+        max-width: calc(100% - 24px) !important;
+        box-sizing: border-box !important;
+        z-index: 30 !important;
+        right: auto !important;
+      }
+      .hud-badge {
+        font-size: 10px !important;
+        padding: 2px 7px !important;
+        border-radius: 6px !important;
+        white-space: nowrap !important;
+      }
+      .hud-btn {
+        font-size: 11px !important;
+        padding: 4px 8px !important;
+        border-radius: 6px !important;
+        white-space: nowrap !important;
+      }
+
+      /* Primary Action Button: Full-width Bottom Dock */
+      .mobile-fab {
+        position: fixed !important;
+        bottom: 14px !important;
+        left: 14px !important;
+        right: 14px !important;
+        height: 48px !important;
+        width: auto !important;
+        padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        border-radius: 14px !important;
+        background: var(--accent-primary) !important;
+        color: #ffffff !important;
+        font-size: 13.5px !important;
+        font-weight: 700 !important;
+        border: none !important;
+        box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35) !important;
+        cursor: pointer !important;
+        z-index: 35 !important;
+      }
+
+      /* 3. Photo Management Drawer (Native Full Sheet Experience) */
+      .sidebar {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100% !important;
+        height: 100dvh !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        border: none !important;
+        background: #ffffff !important;
+        z-index: 1000 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        transform: translateY(100%) !important;
+        transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.25) !important;
+      }
+      .sidebar.open {
+        transform: translateY(0) !important;
+      }
+      .sidebar-header {
+        padding: 12px 16px !important;
+        height: 56px !important;
+        border-bottom: 1px solid var(--border-glass) !important;
+        background: #ffffff !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        flex-shrink: 0 !important;
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 10 !important;
+      }
+      .sidebar-close-btn,
+      .sidebar-header .modal-close {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+        background: #f1f5f9 !important;
+        color: #1e293b !important;
+        border: 1px solid #cbd5e1 !important;
+        padding: 6px 14px !important;
+        border-radius: 8px !important;
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
+      }
+      .tab-content {
+        flex: 1 !important;
+        overflow-y: auto !important;
+        padding: 14px 14px 44px 14px !important;
+        -webkit-overflow-scrolling: touch !important;
+        box-sizing: border-box !important;
+      }
+
+      /* Clean Upload Grid */
+      .upload-actions-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+        margin-bottom: 6px !important;
+      }
+      .btn-upload-choice {
+        padding: 10px 6px !important;
+        border-radius: 10px !important;
+        gap: 3px !important;
+      }
+      .upload-icon {
+        font-size: 20px !important;
+      }
+      .upload-choice-title {
+        font-size: 11.5px !important;
+      }
+      .upload-choice-sub {
+        font-size: 9px !important;
+      }
+      .dropzone {
+        padding: 12px 10px !important;
+        border-radius: 10px !important;
+      }
+      .dropzone-title {
+        font-size: 11.5px !important;
+      }
+      .dropzone-sub {
+        font-size: 9.5px !important;
+      }
+
+      /* Clean Slot Navigator */
+      .slot-navigator {
+        gap: 6px !important;
+        width: 100% !important;
+      }
+      .slot-row {
+        gap: 5px !important;
+        width: 100% !important;
+        justify-content: center !important;
+      }
+      .slot-card {
+        flex: 1 !important;
+        max-width: 68px !important;
+        min-height: 46px !important;
+        border-radius: 9px !important;
+        padding: 4px !important;
+      }
+      .slot-row:first-child .slot-card,
+      .slot-row:last-child .slot-card {
+        max-width: 90px !important;
+      }
+      .slot-number {
+        font-size: 9.5px !important;
+      }
+      .slot-tag {
+        font-size: 7.5px !important;
+      }
+
+      /* Clean Preset Buttons (2x2 Grid) */
+      .preset-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+      }
+      .btn-preset {
+        padding: 9px 6px !important;
+        font-size: 11.5px !important;
+        font-weight: 600 !important;
+        border-radius: 9px !important;
+        white-space: nowrap !important;
+        justify-content: center !important;
+      }
+      .btn-preset span {
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+
+      /* Modals (Export & Slot Modals) */
+      .modal-overlay {
+        z-index: 2000 !important;
+      }
+      .modal-card {
+        width: calc(100% - 24px) !important;
+        max-width: 400px !important;
+        padding: 18px 14px !important;
+        border-radius: 16px !important;
+        box-sizing: border-box !important;
+      }
+      .export-res-grid {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+      }
+      .res-card {
+        padding: 10px 12px !important;
+      }
+      .res-title {
+        font-size: 13px !important;
+      }
+      .res-sub {
+        font-size: 10.5px !important;
+      }
+      .toast {
+        bottom: 84px !important;
+        right: 14px !important;
+        left: 14px !important;
+        font-size: 12px !important;
+        padding: 10px 14px !important;
+        justify-content: center !important;
+        z-index: 2500 !important;
+      }
     }
 
-    .intro-scene {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-      transform: scale(0.96);
-      width: 100%;
-      box-sizing: border-box;
+    @media (max-width: 480px) {
+      .topbar {
+        padding: 0 8px !important;
+      }
+      .nav-back-btn {
+        padding: 4px 7px !important;
+        font-size: 11px !important;
+      }
+      .topbar-right .btn-primary {
+        padding: 5px 9px !important;
+        font-size: 11px !important;
+      }
+      .hud-badge {
+        display: none !important;
+      }
     }
-
-    .intro-scene.active {
-      opacity: 1;
-      pointer-events: auto;
-      transform: scale(1);
-    }
-
-    .intro-scene.fade-leave {
-      opacity: 0;
-      transform: scale(1.03);
-    }
-
-    /* Scene 1: Introducing */
-    .intro-introducing-text {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      font-size: clamp(22px, 5.5vw, 32px);
-      font-weight: 400;
-      letter-spacing: 0.18em;
-      color: #ffffff;
-      text-transform: none;
-      padding-left: 0.18em;
-    }
-
-
-    /* Scene 2: Laymockup Cursive Handwriting */
-    .intro-laymockup-svg {
-      width: 100%;
-      max-width: min(340px, 86vw);
-      height: auto;
-      overflow: visible;
-      display: block;
-      margin: 0 auto;
-      filter: drop-shadow(0 0 16px rgba(210, 255, 0, 0.45));
-    }
-
-      .laymockup-stroke {
-        fill: none;
-        stroke: #d2ff00;
-        stroke-width: 4.5px;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-        stroke-miterlimit: 10;
-      }
-
-
-      /* Scene 3: Voxel Studios */
-      .intro-voxel-wrap {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .intro-voxel-badge {
-        width: 76px;
-        height: 76px;
-        border-radius: 50%;
-        position: relative;
-        background: #000000;
-        box-shadow: 0 0 30px rgba(16, 185, 129, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.12);
-        margin-bottom: 14px;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .intro-voxel-badge img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-
-      .intro-voxel-title {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        font-size: clamp(18px, 4.4vw, 24px);
-        font-weight: 700;
-        letter-spacing: 0.24em;
-        color: #ffffff;
-        text-transform: uppercase;
-        margin-bottom: 4px;
-        padding-left: 0.24em;
-      }
-
-      .intro-voxel-author {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        font-size: 13px;
-        font-weight: 400;
-        letter-spacing: 0.16em;
-        color: #999999;
-        text-transform: none;
-        padding-left: 0.16em;
-      }
-
-      /* Bottom Loading Dock */
-      .intro-loading-dock {
-        position: absolute;
-        bottom: 38px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: min(260px, 78vw);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        box-sizing: border-box;
-        pointer-events: none;
-      }
-
-      .intro-track {
-        width: 100%;
-        height: 3px;
-        background: rgba(255, 255, 255, 0.12);
-        border-radius: 999px;
-        overflow: hidden;
-        position: relative;
-      }
-
-      .intro-bar {
-        height: 100%;
-        width: 0%;
-        background: #d2ff00;
-        border-radius: 999px;
-        box-shadow: 0 0 8px rgba(210, 255, 0, 0.6);
-        transition: width 0.12s linear;
-      }
-
-      .intro-dock-pct {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-        font-size: 11px;
-        font-weight: 600;
-        color: #777777;
-        letter-spacing: 0.06em;
-      }
   </style>
 </head>
 
 <body>
-
-  <!-- INTRO PEAK OVERLAY (CLEAN MINIMALIST) -->
-  <div id="intro-overlay" class="intro-overlay" role="dialog" aria-modal="true" aria-label="Loading Intro">
-    <button id="intro-skip-btn" class="intro-skip-btn" title="Lewati Animasi Intro">
-      <span>Skip</span>
-      <span class="esc-badge">Esc</span>
-    </button>
-
-    <!-- Stage for Scenes -->
-    <div class="intro-stage">
-      <!-- Scene 1: Introducing -->
-      <div id="intro-scene-1" class="intro-scene">
-        <div class="intro-introducing-text">Introducing</div>
-      </div>
-
-      <!-- Scene 2: Laymockup Cursive Handwriting Write -->
-      <div id="intro-scene-2" class="intro-scene">
-        <svg class="intro-laymockup-svg" viewBox="0 0 650 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path class="laymockup-stroke s1"
-            d="M43.00,29.00C42.83,30.50 42.50,34.83 42.00,38.00C41.50,41.17 40.67,44.67 40.00,48.00C39.33,51.33 38.50,54.67 38.00,58.00C37.50,61.33 37.50,64.67 37.00,68.00C36.50,71.33 35.67,75.17 35.00,78.00C34.33,80.83 32.83,83.17 33.00,85.00C33.17,86.83 34.33,88.17 36.00,89.00C37.67,89.83 40.17,90.33 43.00,90.00C45.83,89.67 49.67,87.83 53.00,87.00C56.33,86.17 59.17,85.67 63.00,85.00C66.83,84.33 73.83,83.33 76.00,83.00" />
-          <path class="laymockup-stroke s2"
-            d="M80.00,83.00C82.00,80.83 87.67,74.83 92.00,70.00C96.33,65.17 105.00,56.67 106.00,54.00C107.00,51.33 100.17,52.67 98.00,54.00C95.83,55.33 93.83,58.67 93.00,62.00C92.17,65.33 92.50,70.33 93.00,74.00C93.50,77.67 94.17,82.17 96.00,84.00C97.83,85.83 102.00,86.33 104.00,85.00C106.00,83.67 107.33,81.17 108.00,76.00C108.67,70.83 108.00,54.33 108.00,54.00C108.00,53.67 107.83,69.00 108.00,74.00C108.17,79.00 107.83,82.50 109.00,84.00C110.17,85.50 112.50,84.33 115.00,83.00C117.50,81.67 121.17,78.83 124.00,76.00C126.83,73.17 129.67,66.00 132.00,66.00C134.33,66.00 135.67,73.17 138.00,76.00C140.33,78.83 143.33,83.33 146.00,83.00C148.67,82.67 150.67,79.17 154.00,74.00C157.33,68.83 164.33,52.00 166.00,52.00C167.67,52.00 165.00,66.83 164.00,74.00C163.00,81.17 161.17,89.33 160.00,95.00C158.83,100.67 158.67,105.83 157.00,108.00C155.33,110.17 151.83,109.67 150.00,108.00C148.17,106.33 145.33,101.33 146.00,98.00C146.67,94.67 150.67,91.67 154.00,88.00C157.33,84.33 161.33,80.00 166.00,76.00C170.67,72.00 176.67,68.17 182.00,64.00C187.33,59.83 195.33,53.17 198.00,51.00" />
-          <path class="laymockup-stroke s3"
-            d="M204.00,52.00C206.00,52.00 212.33,52.00 216.00,52.00C219.67,52.00 224.67,49.67 226.00,52.00C227.33,54.33 224.17,61.33 224.00,66.00C223.83,70.67 223.67,80.33 225.00,80.00C226.33,79.67 229.50,68.17 232.00,64.00C234.50,59.83 237.67,56.67 240.00,55.00C242.33,53.33 244.83,51.83 246.00,54.00C247.17,56.17 246.67,63.67 247.00,68.00C247.33,72.33 246.83,80.67 248.00,80.00C249.17,79.33 251.67,68.17 254.00,64.00C256.33,59.83 259.67,56.67 262.00,55.00C264.33,53.33 266.67,51.83 268.00,54.00C269.33,56.17 269.33,63.67 270.00,68.00C270.67,72.33 270.33,78.67 272.00,80.00C273.67,81.33 277.00,78.33 280.00,76.00C283.00,73.67 286.33,69.50 290.00,66.00C293.67,62.50 298.33,57.00 302.00,55.00C305.67,53.00 312.00,53.83 312.00,54.00C312.00,54.17 304.83,54.00 302.00,56.00C299.17,58.00 296.00,62.33 295.00,66.00C294.00,69.67 294.50,74.83 296.00,78.00C297.50,81.17 300.67,83.83 304.00,85.00C307.33,86.17 312.67,86.67 316.00,85.00C319.33,83.33 323.00,79.50 324.00,75.00C325.00,70.50 324.00,61.50 322.00,58.00C320.00,54.50 312.00,55.00 312.00,54.00C312.00,53.00 318.33,51.33 322.00,52.00C325.67,52.67 330.33,55.33 334.00,58.00C337.67,60.67 340.67,68.33 344.00,68.00C347.33,67.67 350.33,58.83 354.00,56.00C357.67,53.17 363.00,51.33 366.00,51.00C369.00,50.67 372.67,51.83 372.00,54.00C371.33,56.17 364.67,60.67 362.00,64.00C359.33,67.33 356.33,70.83 356.00,74.00C355.67,77.17 357.33,81.17 360.00,83.00C362.67,84.83 367.67,86.17 372.00,85.00C376.33,83.83 381.67,79.83 386.00,76.00C390.33,72.17 394.00,67.33 398.00,62.00C402.00,56.67 406.00,49.00 410.00,44.00C414.00,39.00 419.00,34.83 422.00,32.00C425.00,29.17 426.33,27.67 428.00,27.00C429.67,26.33 432.33,25.50 432.00,28.00C431.67,30.50 428.33,36.67 426.00,42.00C423.67,47.33 419.67,54.50 418.00,60.00C416.33,65.50 416.00,70.67 416.00,75.00C416.00,79.33 416.33,86.50 418.00,86.00C419.67,85.50 423.00,76.00 426.00,72.00C429.00,68.00 433.00,63.17 436.00,62.00C439.00,60.83 444.00,63.00 444.00,65.00C444.00,67.00 436.00,71.17 436.00,74.00C436.00,76.83 441.00,80.33 444.00,82.00C447.00,83.67 450.33,85.67 454.00,84.00C457.67,82.33 462.67,73.00 466.00,72.00C469.33,71.00 471.33,76.00 474.00,78.00C476.67,80.00 479.33,84.33 482.00,84.00C484.67,83.67 487.67,81.00 490.00,76.00C492.33,71.00 494.67,54.67 496.00,54.00C497.33,53.33 496.67,67.33 498.00,72.00C499.33,76.67 501.67,80.00 504.00,82.00C506.33,84.00 509.00,84.67 512.00,84.00C515.00,83.33 519.33,83.33 522.00,78.00C524.67,72.67 526.00,54.33 528.00,52.00C530.00,49.67 531.33,61.00 534.00,64.00C536.67,67.00 541.00,70.67 544.00,70.00C547.00,69.33 550.17,59.17 552.00,60.00C553.83,60.83 554.00,69.17 555.00,75.00C556.00,80.83 557.00,89.67 558.00,95.00C559.00,100.33 560.67,109.17 561.00,107.00C561.33,104.83 559.83,88.83 560.00,82.00C560.17,75.17 560.00,70.50 562.00,66.00C564.00,61.50 568.00,55.67 572.00,55.00C576.00,54.33 583.33,58.83 586.00,62.00C588.67,65.17 589.00,70.50 588.00,74.00C587.00,77.50 583.33,81.67 580.00,83.00C576.67,84.33 567.17,82.33 568.00,82.00C568.83,81.67 579.33,81.83 585.00,81.00C590.67,80.17 596.17,79.17 602.00,77.00C607.83,74.83 617.00,69.50 620.00,68.00" />
-        </svg>
-      </div>
-
-      <!-- Scene 3: Voxel Studios Logo + VOXEL STUDIOS + By Pradipta (Fading in Bersamaan!) -->
-      <div id="intro-scene-3" class="intro-scene">
-        <div class="intro-voxel-wrap">
-          <div class="intro-voxel-badge">
-            <img src="voxel%20studios.png" alt="Voxel Studios" />
-          </div>
-          <div class="intro-voxel-title">VOXEL STUDIOS</div>
-          <div class="intro-voxel-author">By Pradipta</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Minimalist Bottom Loading Dock -->
-    <div class="intro-loading-dock">
-      <div class="intro-track">
-        <div class="intro-bar" id="intro-progress-bar"></div>
-      </div>
-      <div class="intro-dock-pct" id="intro-pct-label">0%</div>
-    </div>
-  </div>
 
   <!-- Topbar -->
   <header class="topbar">
@@ -1100,7 +1098,7 @@
           <div style="font-size: 14px; font-weight: 700;">12 Photos Management</div>
           <span class="hud-badge">1-3-4-3-1</span>
         </div>
-        <button id="sidebar-close-mobile" class="modal-close" title="Tutup">&times;</button>
+        <button id="sidebar-close-mobile" class="sidebar-close-btn" title="Tutup Panel"><span>✕</span> Tutup</button>
       </div>
 
       <div class="tab-content">
@@ -2303,183 +2301,7 @@
       refreshCanvas();
     });
 
-    /* ============================================================
-       CLEAN INTRO CONTROLLER
-       Pure minimal aesthetic:
-       Blackout -> Introducing -> Laymockup Cursive Handwriting ->
-       Voxel Studios Logo + By Pradipta (Bersamaan) -> Loading 100% -> Reveal
-       ============================================================ */
-      (function initCleanIntro() {
-        // Direct studio workspace mode (intro runs on Beranda index.html)
-        const overlay = document.getElementById('intro-overlay');
-        if (overlay) overlay.style.display = 'none';
-        return;
-        const skipBtn = document.getElementById('intro-skip-btn');
-        const s1 = document.getElementById('intro-scene-1');
-        const s2 = document.getElementById('intro-scene-2');
-        const s3 = document.getElementById('intro-scene-3');
-        const progressBar = document.getElementById('intro-progress-bar');
-        const pctLabel = document.getElementById('intro-pct-label');
-        const stroke1 = overlay.querySelector('.laymockup-stroke.s1');
-        const stroke2 = overlay.querySelector('.laymockup-stroke.s2');
-        const stroke3 = overlay.querySelector('.laymockup-stroke.s3');
-
-        // Prevent scrolling while intro is active
-        document.body.style.overflow = 'hidden';
-
-        let isFinished = false;
-        let targetPct = 0;
-        let currentPct = 0;
-        let progressAnimId = null;
-
-        function resetStrokes() {
-          [stroke1, stroke2, stroke3].forEach(st => {
-            if (!st) return;
-            let len = 600;
-            try {
-              if (typeof st.getTotalLength === 'function') {
-                const l = st.getTotalLength();
-                if (l && !isNaN(l) && l > 0) len = l;
-              }
-            } catch (e) {
-              len = 600;
-            }
-            st.style.strokeDasharray = len;
-            st.style.strokeDashoffset = len;
-            st.style.transition = 'none';
-          });
-        }
-        resetStrokes();
-
-        function updateProgress() {
-          if (currentPct < targetPct) {
-            currentPct += (targetPct - currentPct) * 0.15 + 0.4;
-            if (currentPct >= targetPct || Math.abs(targetPct - currentPct) < 0.5) currentPct = targetPct;
-            if (progressBar) progressBar.style.width = currentPct.toFixed(1) + '%';
-            if (pctLabel) pctLabel.textContent = Math.round(currentPct) + '%';
-          }
-          if (currentPct < 100 && !isFinished) {
-            progressAnimId = requestAnimationFrame(updateProgress);
-          }
-        }
-
-        function setProgress(pct) {
-          targetPct = Math.min(100, Math.max(0, pct));
-          cancelAnimationFrame(progressAnimId);
-          progressAnimId = requestAnimationFrame(updateProgress);
-        }
-
-      function finishIntro() {
-        if (isFinished) return;
-        isFinished = true;
-        cancelAnimationFrame(progressAnimId);
-        if (progressBar) progressBar.style.width = '100%';
-        if (pctLabel) pctLabel.textContent = '100%';
-        document.body.style.overflow = '';
-        setTimeout(() => {
-          overlay.classList.add('fade-out');
-          setTimeout(() => {
-            overlay.style.display = 'none';
-          }, 700);
-        }, 250);
-      }
-
-      if (skipBtn) skipBtn.addEventListener('click', finishIntro);
-      window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !isFinished) finishIntro();
-      });
-
-      window.replayIntro = function () {
-        overlay.style.display = 'flex';
-        overlay.classList.remove('fade-out');
-        document.body.style.overflow = 'hidden';
-        isFinished = false;
-        currentPct = 0;
-        targetPct = 0;
-        if (progressBar) progressBar.style.width = '0%';
-        if (pctLabel) pctLabel.textContent = '0%';
-        [s1, s2, s3].forEach(s => {
-          if (s) { s.classList.remove('fade-leave', 'active'); s.style.display = ''; }
-        });
-        resetStrokes();
-        runTimeline();
-      };
-
-      function runTimeline() {
-        // 0.2s: Scene 1 ("Introducing")
-        setTimeout(() => {
-          if (isFinished) return;
-          if (s1) s1.classList.add('active');
-          setProgress(22);
-        }, 200);
-
-        // 1.5s: Fade out Scene 1
-        setTimeout(() => {
-          if (isFinished) return;
-          if (s1) {
-            s1.classList.remove('active');
-            s1.classList.add('fade-leave');
-          }
-          setProgress(42);
-        }, 1500);
-
-        // 1.9s: Scene 2 (Laymockup Cursive Handwriting Write)
-        setTimeout(() => {
-          if (isFinished) return;
-          if (s1) s1.style.display = 'none';
-          if (s2) s2.classList.add('active');
-          setProgress(65);
-
-          // Trigger handwriting strokes in sequence like a real pen
-          if (stroke1) {
-            stroke1.style.transition = 'stroke-dashoffset 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-            stroke1.style.strokeDashoffset = '0';
-          }
-          setTimeout(() => {
-            if (isFinished || !stroke2) return;
-            stroke2.style.transition = 'stroke-dashoffset 0.55s cubic-bezier(0.4, 0, 0.2, 1)';
-            stroke2.style.strokeDashoffset = '0';
-          }, 350);
-          setTimeout(() => {
-            if (isFinished || !stroke3) return;
-            stroke3.style.transition = 'stroke-dashoffset 0.95s cubic-bezier(0.4, 0, 0.2, 1)';
-            stroke3.style.strokeDashoffset = '0';
-          }, 850);
-        }, 1900);
-
-        // 3.9s: Fade out Scene 2
-        setTimeout(() => {
-          if (isFinished) return;
-        if (s2) {
-          s2.classList.remove('active');
-          s2.classList.add('fade-leave');
-        }
-        setProgress(82);
-      }, 3900);
-
-      // 4.3s: Scene 3 (Voxel Studios Logo + VOXEL STUDIOS + By Pradipta all fade in together!)
-      setTimeout(() => {
-        if (isFinished) return;
-      if (s2) s2.style.display = 'none';
-      if (s3) s3.classList.add('active');
-      setProgress(95);
-    }, 4300);
-
-    // 5.4s: 100% Ready
-    setTimeout(() => {
-      if (isFinished) return;
-      setProgress(100);
-    }, 5400);
-
-    // 6.0s: Finish and reveal
-    setTimeout(() => {
-      finishIntro();
-    }, 6000);
-      }
-
-    runTimeline();
-    }) ();
-  </script>
+    </script>
 </body>
 
 </html>
