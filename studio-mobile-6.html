@@ -681,8 +681,34 @@
         width: 15px !important;
         height: 15px !important;
       }
-      .brand-badge, .topbar-center .btn-pill span, .sidebar-toggle-btn {
-        display: none;
+      .brand-title,
+      .brand-badge,
+      .topbar-center .btn-pill span,
+      .sidebar-toggle-btn {
+        display: none !important;
+      }
+      .topbar {
+        padding: 0 12px !important;
+        height: 54px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 6px !important;
+        z-index: 50 !important;
+      }
+      .brand {
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        flex-shrink: 0 !important;
+      }
+      .nav-back-btn {
+        padding: 5px 9px !important;
+        font-size: 11.5px !important;
+        font-weight: 600 !important;
+        margin-right: 2px !important;
+        border-radius: 8px !important;
+        white-space: nowrap !important;
       }
       .sidebar {
         position: fixed !important;
@@ -712,13 +738,89 @@
       .mobile-backdrop {
         z-index: 999 !important;
       }
-      .mobile-fab {
-        display: flex;
-      }
+            /* 2. Non-Colliding Floating Controls (Standardized Bottom Zoom Bar) */
       .hud-status {
-        bottom: 76px;
-        left: 12px;
-        font-size: 11px;
+        position: fixed !important;
+        bottom: 74px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        background: rgba(255, 255, 255, 0.94) !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+        padding: 5px 8px !important;
+        border-radius: 12px !important;
+        border: 1px solid rgba(226, 232, 240, 0.9) !important;
+        box-shadow: 0 4px 18px rgba(15, 23, 42, 0.1) !important;
+        white-space: nowrap !important;
+        max-width: calc(100% - 24px) !important;
+        box-sizing: border-box !important;
+        overflow-x: auto !important;
+        scrollbar-width: none !important;
+        -webkit-overflow-scrolling: touch !important;
+        z-index: 30 !important;
+        right: auto !important;
+      }
+      .hud-status::-webkit-scrollbar {
+        display: none !important;
+      }
+      .hud-status .hud-badge {
+        display: none !important;
+      }
+      .hud-btn {
+        height: 32px !important;
+        padding: 0 10px !important;
+        border-radius: 8px !important;
+        font-size: 11.5px !important;
+        font-weight: 600 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+        border: 1px solid rgba(203, 213, 225, 0.8) !important;
+        background: #f8fafc !important;
+        color: #1e293b !important;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+      }
+      .hud-btn:hover,
+      .hud-btn:active {
+        background: #e2e8f0 !important;
+        border-color: #94a3b8 !important;
+      }
+      #btn-zoom-out,
+      #btn-zoom-in {
+        width: 32px !important;
+        min-width: 32px !important;
+        padding: 0 !important;
+        font-size: 12px !important;
+      }
+
+      /* Primary Action Button: Full-width Bottom Dock */
+      .mobile-fab {
+        position: fixed !important;
+        bottom: 14px !important;
+        left: 14px !important;
+        right: 14px !important;
+        height: 48px !important;
+        width: auto !important;
+        padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        border-radius: 14px !important;
+        background: var(--accent-primary) !important;
+        color: #ffffff !important;
+        font-size: 13.5px !important;
+        font-weight: 700 !important;
+        border: none !important;
+        box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35) !important;
+        cursor: pointer !important;
+        z-index: 35 !important;
       }
     }
   
