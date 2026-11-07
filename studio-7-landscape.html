@@ -1,0 +1,2400 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>3D Isometric Mockup Studio - 7 Card Landscape (2-3-2)</title>
+
+  <!-- CDN Icons & Confetti -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg-primary: #f1f5f9;
+      --bg-secondary: #ffffff;
+      --bg-canvas: #e2e8f0;
+      --bg-glass: rgba(255, 255, 255, 0.94);
+      --border-glass: #e2e8f0;
+      --accent-primary: #10b981;
+      --accent-hover: #059669;
+      --accent-emerald: #10b981;
+    --accent-volt: #d2ff00;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #94a3b8;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --shadow-panel: 0 10px 35px -10px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Topbar */
+    .topbar {
+      height: 60px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-glass);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text-main);
+    }
+
+    .brand-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: rgba(37, 99, 235, 0.08);
+      color: var(--accent-primary);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+    }
+
+    .topbar-center {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      background: #ffffff;
+      color: var(--text-muted);
+      border: 1px solid var(--border-glass);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-pill:hover {
+      background: #f8fafc;
+      color: var(--text-main);
+      border-color: #cbd5e1;
+    }
+
+    .btn-pill.active {
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--accent-primary);
+      border-color: rgba(37, 99, 235, 0.4);
+      font-weight: 700;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 18px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 3px 12px rgba(37, 99, 235, 0.28);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 16px rgba(37, 99, 235, 0.4);
+    }
+
+    /* Main Workspace */
+    .main-content {
+      flex: 1;
+      position: relative;
+      display: flex;
+      overflow: hidden;
+      background: var(--bg-canvas);
+      transition: background 0.25s ease;
+    }
+
+    .canvas-viewport {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    #mockup-canvas {
+      max-width: 96%;
+      max-height: 92%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 14px;
+      box-shadow: 0 25px 65px rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(15, 23, 42, 0.08);
+      display: block;
+    }
+
+    /* Bottom Floating HUD */
+    .hud-status {
+      position: absolute;
+      bottom: 22px;
+      left: 22px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      padding: 6px 12px;
+      border-radius: 30px;
+      border: 1px solid var(--border-glass);
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      z-index: 20;
+      flex-wrap: wrap;
+    }
+
+    .hud-badge {
+      background: rgba(37, 99, 235, 0.08);
+      color: var(--accent-primary);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .hud-btn {
+      background: #f8fafc;
+      color: var(--text-main);
+      border: 1px solid #cbd5e1;
+      padding: 4px 10px;
+      border-radius: 14px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .hud-btn:hover {
+      background: #eff6ff;
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+    }
+
+    /* Sidebar Toggle */
+    .sidebar-toggle-btn {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 45;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 400px;
+      height: calc(100% - 24px);
+      margin: 12px 16px 12px 0;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-panel);
+      z-index: 40;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), margin 0.3s ease;
+    }
+
+    .sidebar.collapsed {
+      transform: translateX(calc(100% + 24px));
+      margin-right: -400px;
+    }
+
+    .sidebar-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border-glass);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tab-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px;
+    }
+
+    .tab-content::-webkit-scrollbar {
+      width: 5px;
+    }
+    .tab-content::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    .section {
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .upload-actions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .btn-upload-choice {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 13px 10px;
+      background: #f8fafc;
+      border: 1.5px dashed rgba(37, 99, 235, 0.32);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-upload-choice:hover {
+      background: rgba(37, 99, 235, 0.05);
+      border-color: var(--accent-primary);
+      transform: translateY(-1px);
+    }
+
+    .upload-icon {
+      font-size: 21px;
+    }
+
+    .upload-choice-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .upload-choice-sub {
+      font-size: 10px;
+      color: var(--text-dim);
+    }
+
+    .dropzone {
+      border: 1.5px dashed rgba(37, 99, 235, 0.32);
+      background: #f8fafc;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .dropzone:hover, .dropzone.dragover {
+      border-color: var(--accent-primary);
+      background: rgba(37, 99, 235, 0.05);
+    }
+
+    .dropzone-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 4px;
+    }
+
+    .dropzone-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* 2-3-2 Visual Navigator */
+    .slot-navigator {
+      background: #f8fafc;
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-md);
+      padding: 14px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      align-items: center;
+    }
+
+    .slot-row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .slot-card {
+      flex: 1;
+      max-width: 98px;
+      height: 54px;
+      background: #ffffff;
+      border: 1.5px solid var(--border-glass);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .slot-card:hover {
+      border-color: var(--accent-primary);
+      background: rgba(37, 99, 235, 0.06);
+      transform: translateY(-2px);
+    }
+
+    .slot-card.center-focus {
+      border-color: var(--accent-primary);
+      background: #eff6ff;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+    }
+
+    .slot-card.has-image {
+      border-color: var(--accent-emerald);
+    }
+
+    .slot-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0.85;
+      display: none;
+      pointer-events: none;
+    }
+
+    .slot-card.has-image .slot-thumb {
+      display: block;
+    }
+
+    .slot-number {
+      font-size: 11px;
+      font-weight: 700;
+      color: #0f172a;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 1px 6px;
+      border-radius: 4px;
+      pointer-events: none;
+    }
+
+    .slot-tag {
+      font-size: 9px;
+      color: var(--text-muted);
+      z-index: 2;
+      margin-top: 2px;
+      pointer-events: none;
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .btn-preset {
+      padding: 9px 11px;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s;
+    }
+
+    .btn-preset:hover {
+      background: #f8fafc;
+      color: var(--text-main);
+      border-color: #cbd5e1;
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 450px;
+      max-width: 92%;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: 0 25px 60px rgba(15, 23, 42, 0.2);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .modal-title {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .export-res-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .res-card {
+      border: 1.5px solid var(--border-glass);
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 12px;
+      cursor: pointer;
+    }
+
+    .res-card.active {
+      border-color: var(--accent-primary);
+      background: rgba(37, 99, 235, 0.06);
+    }
+
+    .res-title {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .res-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #ffffff;
+      border: 1px solid #93c5fd;
+      padding: 12px 18px;
+      border-radius: 10px;
+      color: var(--text-main);
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 200;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .mobile-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.35);
+      z-index: 38;
+    }
+
+    .mobile-backdrop.open {
+      display: block;
+    }
+
+    .mobile-fab {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      border-radius: 30px;
+      background: var(--accent-primary);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      z-index: 39;
+    }
+
+    /* ============================================================
+       RESPONSIVE MOBILE ENGINE (Unified & Flawless UX)
+       Zero collision, native sheet experience, sleek header
+       ============================================================ */
+    .sidebar-close-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .sidebar-close-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    @media (max-width: 900px) {
+      .brand-badge,
+      .sidebar-toggle-btn {
+        display: none !important;
+      }
+      .sidebar {
+        position: fixed !important;
+        right: 0 !important;
+        top: 0 !important;
+        height: 100% !important;
+        margin: 0 !important;
+        width: 380px !important;
+        max-width: 88vw !important;
+        border-radius: 16px 0 0 16px !important;
+        z-index: 1000 !important;
+        transform: translateX(100%) !important;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      }
+      .sidebar.open {
+        transform: translateX(0) !important;
+      }
+      .mobile-backdrop {
+        z-index: 999 !important;
+      }
+      .mobile-fab {
+        display: flex !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      /* 1. Topbar Responsive Header */
+      .topbar {
+        padding: 0 12px !important;
+        height: 54px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 6px !important;
+        z-index: 50 !important;
+      }
+      .brand {
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        flex-shrink: 0 !important;
+      }
+      .brand-title,
+      .brand-badge {
+        display: none !important;
+      }
+      .nav-back-btn {
+        padding: 5px 9px !important;
+        font-size: 11.5px !important;
+        font-weight: 600 !important;
+        margin-right: 2px !important;
+        border-radius: 8px !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+      }
+      .brand-icon {
+        width: 28px !important;
+        height: 28px !important;
+        font-size: 11px !important;
+        border-radius: 7px !important;
+        flex-shrink: 0 !important;
+      }
+
+      /* Segmented Theme Switch */
+      .topbar-center {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 2px !important;
+        background: rgba(226, 232, 240, 0.8) !important;
+        padding: 3px !important;
+        border-radius: 999px !important;
+        flex-shrink: 0 !important;
+      }
+      .topbar-center .btn-pill {
+        padding: 4px 8px !important;
+        font-size: 13px !important;
+        border-radius: 999px !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        color: #475569 !important;
+        line-height: 1 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+      }
+      .topbar-center .btn-pill.active {
+        background: #ffffff !important;
+        color: #0f172a !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+      }
+      .topbar-center .btn-pill span {
+        display: none !important;
+      }
+
+      /* Topbar Right Export */
+      .topbar-right {
+        flex-shrink: 0 !important;
+      }
+      .topbar-right .btn-primary {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        border-radius: 9px !important;
+        white-space: nowrap !important;
+      }
+
+      /* 2. Non-Colliding Floating Controls */
+      .hud-status {
+        position: fixed !important;
+        bottom: 74px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 5px !important;
+        background: rgba(255, 255, 255, 0.94) !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+        padding: 5px 12px !important;
+        border-radius: 999px !important;
+        border: 1px solid var(--border-glass) !important;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08) !important;
+        white-space: nowrap !important;
+        max-width: calc(100% - 24px) !important;
+        box-sizing: border-box !important;
+        z-index: 30 !important;
+        right: auto !important;
+      }
+      .hud-badge {
+        font-size: 10px !important;
+        padding: 2px 7px !important;
+        border-radius: 6px !important;
+        white-space: nowrap !important;
+      }
+      .hud-btn {
+        font-size: 11px !important;
+        padding: 4px 8px !important;
+        border-radius: 6px !important;
+        white-space: nowrap !important;
+      }
+
+      /* Primary Action Button: Full-width Bottom Dock */
+      .mobile-fab {
+        position: fixed !important;
+        bottom: 14px !important;
+        left: 14px !important;
+        right: 14px !important;
+        height: 48px !important;
+        width: auto !important;
+        padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        border-radius: 14px !important;
+        background: var(--accent-primary) !important;
+        color: #ffffff !important;
+        font-size: 13.5px !important;
+        font-weight: 700 !important;
+        border: none !important;
+        box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35) !important;
+        cursor: pointer !important;
+        z-index: 35 !important;
+      }
+
+      /* 3. Photo Management Drawer (Native Full Sheet Experience) */
+      .sidebar {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100% !important;
+        height: 100dvh !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        border: none !important;
+        background: #ffffff !important;
+        z-index: 1000 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        transform: translateY(100%) !important;
+        transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.25) !important;
+      }
+      .sidebar.open {
+        transform: translateY(0) !important;
+      }
+      .sidebar-header {
+        padding: 12px 16px !important;
+        height: 56px !important;
+        border-bottom: 1px solid var(--border-glass) !important;
+        background: #ffffff !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        flex-shrink: 0 !important;
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 10 !important;
+      }
+      .sidebar-close-btn,
+      .sidebar-header .modal-close {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+        background: #f1f5f9 !important;
+        color: #1e293b !important;
+        border: 1px solid #cbd5e1 !important;
+        padding: 6px 14px !important;
+        border-radius: 8px !important;
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
+      }
+      .tab-content {
+        flex: 1 !important;
+        overflow-y: auto !important;
+        padding: 14px 14px 44px 14px !important;
+        -webkit-overflow-scrolling: touch !important;
+        box-sizing: border-box !important;
+      }
+
+      /* Clean Upload Grid */
+      .upload-actions-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+        margin-bottom: 6px !important;
+      }
+      .btn-upload-choice {
+        padding: 10px 6px !important;
+        border-radius: 10px !important;
+        gap: 3px !important;
+      }
+      .upload-icon {
+        font-size: 20px !important;
+      }
+      .upload-choice-title {
+        font-size: 11.5px !important;
+      }
+      .upload-choice-sub {
+        font-size: 9px !important;
+      }
+      .dropzone {
+        padding: 12px 10px !important;
+        border-radius: 10px !important;
+      }
+      .dropzone-title {
+        font-size: 11.5px !important;
+      }
+      .dropzone-sub {
+        font-size: 9.5px !important;
+      }
+
+      /* Clean Slot Navigator */
+      .slot-navigator {
+        gap: 6px !important;
+        width: 100% !important;
+      }
+      .slot-row {
+        gap: 5px !important;
+        width: 100% !important;
+        justify-content: center !important;
+      }
+      .slot-card {
+        flex: 1 !important;
+        max-width: 68px !important;
+        min-height: 46px !important;
+        border-radius: 9px !important;
+        padding: 4px !important;
+      }
+      .slot-row:first-child .slot-card,
+      .slot-row:last-child .slot-card {
+        max-width: 90px !important;
+      }
+      .slot-number {
+        font-size: 9.5px !important;
+      }
+      .slot-tag {
+        font-size: 7.5px !important;
+      }
+
+      /* Clean Preset Buttons (2x2 Grid) */
+      .preset-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+      }
+      .btn-preset {
+        padding: 9px 6px !important;
+        font-size: 11.5px !important;
+        font-weight: 600 !important;
+        border-radius: 9px !important;
+        white-space: nowrap !important;
+        justify-content: center !important;
+      }
+      .btn-preset span {
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+
+      /* Modals (Export & Slot Modals) */
+      .modal-overlay {
+        z-index: 2000 !important;
+      }
+      .modal-card {
+        width: calc(100% - 24px) !important;
+        max-width: 400px !important;
+        padding: 18px 14px !important;
+        border-radius: 16px !important;
+        box-sizing: border-box !important;
+      }
+      .export-res-grid {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+      }
+      .res-card {
+        padding: 10px 12px !important;
+      }
+      .res-title {
+        font-size: 13px !important;
+      }
+      .res-sub {
+        font-size: 10.5px !important;
+      }
+      .toast {
+        bottom: 84px !important;
+        right: 14px !important;
+        left: 14px !important;
+        font-size: 12px !important;
+        padding: 10px 14px !important;
+        justify-content: center !important;
+        z-index: 2500 !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topbar {
+        padding: 0 8px !important;
+      }
+      .nav-back-btn {
+        padding: 4px 7px !important;
+        font-size: 11px !important;
+      }
+      .topbar-right .btn-primary {
+        padding: 5px 9px !important;
+        font-size: 11px !important;
+      }
+      .hud-badge {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="brand">
+      <a href="index.html" class="nav-back-btn" title="Kembali ke Beranda"
+        style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; color:#475569; font-size:12px; font-weight:600; padding:5px 11px; background:#f1f5f9; border-radius:8px; border:1px solid #cbd5e1; margin-right:8px; transition:all 0.2s;">
+        <span>←</span> Beranda
+      </a>
+      <div class="brand-icon">3D</div>
+      <div class="brand-title">3D Mockup Studio</div>
+      <span id="theme-badge" class="brand-badge">2-3-2 Landscape PC</span>
+    </div>
+
+    <!-- Center Theme Toggles -->
+    <div class="topbar-center">
+      <button id="btn-theme-light" class="btn-pill active" title="Tema Studio Light">
+        <span>☀️ Studio Light (SOPAN)</span>
+      </button>
+      <button id="btn-theme-dark" class="btn-pill" title="Tema Studio Dark">
+        <span>🌙 Studio Dark (EcoVision)</span>
+      </button>
+    </div>
+
+    <!-- Right Action Buttons -->
+    <div class="topbar-right">
+      <button id="btn-open-export" class="btn-primary">
+        <span>⬇ Export PNG</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <main class="main-content">
+    <div id="viewport-container" class="canvas-viewport">
+      <canvas id="mockup-canvas"></canvas>
+
+      <!-- Bottom Quick Controls -->
+      <div class="hud-status">
+        <span class="hud-badge">7 Kartu Landscape (2-3-2)</span>
+        <button id="btn-zoom-out" class="hud-btn" title="Perkecil">➖</button>
+        <button id="btn-toggle-zoom" class="hud-btn" title="Ganti Preset Zoom">
+          🔍 Zoom: 108% (Referensi)
+        </button>
+        <button id="btn-zoom-in" class="hud-btn" title="Perbesar">➕</button>
+        <button id="btn-toggle-pattern" class="hud-btn" title="Ganti Pola Stagger 2-3-2">
+          📐 Pola: Referensi 2-3-2
+        </button>
+        <button id="btn-toggle-float" class="hud-btn" title="Efek Kartu Tengah Melayang">
+          ✨ Hero Melayang: ON
+        </button>
+      </div>
+    </div>
+
+    <button id="sidebar-toggle" class="sidebar-toggle-btn" title="Buka/Tutup Panel">
+      ⇄
+    </button>
+
+    <div id="mobile-backdrop" class="mobile-backdrop"></div>
+
+    <button id="mobile-fab" class="mobile-fab">
+      <span>🖼️ Kelola 7 Foto</span>
+    </button>
+
+    <!-- Sidebar Panel -->
+    <aside id="sidebar-panel" class="sidebar">
+      <div class="sidebar-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="font-size: 14px; font-weight: 700;">7 Photos Management</div>
+          <span class="hud-badge">2-3-2 PC Ratio</span>
+        </div>
+        <button id="sidebar-close-mobile" class="sidebar-close-btn" title="Tutup Panel"><span>✕</span> Tutup</button>
+      </div>
+
+      <div class="tab-content">
+        <!-- Upload Section -->
+        <div class="section">
+          <div class="section-title">
+            <span>Upload Screenshot (Landscape PC)</span>
+            <span class="hud-badge">16:10 / 16:9</span>
+          </div>
+
+          <div class="upload-actions-grid">
+            <button id="btn-trigger-gallery" class="btn-upload-choice">
+              <span class="upload-icon">📁</span>
+              <span class="upload-choice-title">Pilih File / Galeri</span>
+              <span class="upload-choice-sub">Batch hingga 7 foto</span>
+            </button>
+
+            <button id="btn-trigger-camera" class="btn-upload-choice">
+              <span class="upload-icon">📷</span>
+              <span class="upload-choice-title">Buka Kamera HP</span>
+              <span class="upload-choice-sub">Ambil foto langsung</span>
+            </button>
+          </div>
+
+          <div id="batch-dropzone" class="dropzone">
+            <input type="file" id="batch-file-input" multiple accept="image/*" style="display: none;">
+            <input type="file" id="camera-batch-input" accept="image/*" capture="environment" style="display: none;">
+            <div style="font-size: 22px;">📥</div>
+            <div class="dropzone-title">Tarik & lepas screenshot PC ke sini</div>
+            <div class="dropzone-sub">Mendukung JPG, PNG, WEBP (Otomatis Landscape)</div>
+          </div>
+        </div>
+
+        <!-- 2-3-2 Visual Navigator -->
+        <div class="section">
+          <div class="section-title">
+            <span>Tata Letak Formasi 2 - 3 - 2</span>
+            <span id="slot-count-badge" class="hud-badge">7 Slot Demo</span>
+          </div>
+
+          <div class="slot-navigator">
+            <!-- Baris 1 (2 Kartu Atas) -->
+            <div class="slot-row">
+              <div class="slot-card" data-slot="0" title="Slot #1: Atas Kiri (Baris 1)">
+                <img id="thumb-0" class="slot-thumb" alt="">
+                <span class="slot-number">#1 Atas Kiri</span>
+              </div>
+              <div class="slot-card" data-slot="1" title="Slot #2: Atas Kanan (Baris 1)">
+                <img id="thumb-1" class="slot-thumb" alt="">
+                <span class="slot-number">#2 Atas Kanan</span>
+              </div>
+            </div>
+
+            <!-- Baris 2 (3 Kartu Tengah Utama) -->
+            <div class="slot-row">
+              <div class="slot-card" data-slot="2" title="Slot #3: Tengah Kiri (Baris 2)">
+                <img id="thumb-2" class="slot-thumb" alt="">
+                <span class="slot-number">#3 Kiri</span>
+              </div>
+              <div class="slot-card center-focus" data-slot="3" title="Slot #4 ★: Hero Utama Tengah (Baris 2)">
+                <img id="thumb-3" class="slot-thumb" alt="">
+                <span class="slot-number">#4 ★ HERO</span>
+                <span class="slot-tag">Pusat Utama</span>
+              </div>
+              <div class="slot-card" data-slot="4" title="Slot #5: Tengah Kanan (Baris 2)">
+                <img id="thumb-4" class="slot-thumb" alt="">
+                <span class="slot-number">#5 Kanan</span>
+              </div>
+            </div>
+
+            <!-- Baris 3 (2 Kartu Bawah) -->
+            <div class="slot-row">
+              <div class="slot-card" data-slot="5" title="Slot #6: Bawah Kiri (Baris 3)">
+                <img id="thumb-5" class="slot-thumb" alt="">
+                <span class="slot-number">#6 Bawah Kiri</span>
+              </div>
+              <div class="slot-card" data-slot="6" title="Slot #7: Bawah Kanan (Baris 3)">
+                <img id="thumb-6" class="slot-thumb" alt="">
+                <span class="slot-number">#7 Bawah Kanan</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="font-size: 11px; color: var(--text-dim); text-align: center; margin-top: 7px;">
+            Slot <b>#4 ★ HERO</b> berada tepat di pusat kanvas dengan efek melayang 3D.
+          </div>
+        </div>
+
+        <!-- Presets -->
+        <div class="section">
+          <div class="section-title">Aksi & Demo Referensi</div>
+          <div class="preset-grid">
+            <button id="btn-load-light-demo" class="btn-preset">
+              <span>☀️ Demo Light SOPAN</span>
+            </button>
+            <button id="btn-load-dark-demo" class="btn-preset">
+              <span>🌙 Demo Dark EcoVision</span>
+            </button>
+            <button id="btn-duplicate-remaining" class="btn-preset">
+              <span>📋 Isi Slot Kosong</span>
+            </button>
+            <button id="btn-clear-all" class="btn-preset" style="color: #ef4444;">
+              <span>🗑️ Reset ke Default</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Slot Modal -->
+  <div id="slot-modal" class="modal-overlay">
+    <div class="modal-card" style="width: 370px;">
+      <div class="modal-header">
+        <div id="slot-modal-title" class="modal-title">Atur Slot #1</div>
+        <button id="btn-close-slot-modal" class="modal-close">&times;</button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button id="btn-slot-file" class="btn-pill" style="padding: 12px 16px; justify-content: flex-start; gap: 12px;">
+          <span style="font-size: 20px;">📁</span>
+          <div style="text-align: left;">
+            <div style="font-weight: 700; color: var(--text-main);">Pilih dari Galeri / File</div>
+            <div style="font-size: 11px; color: var(--text-dim);">Upload screenshot untuk slot ini</div>
+          </div>
+        </button>
+        <button id="btn-slot-camera" class="btn-pill" style="padding: 12px 16px; justify-content: flex-start; gap: 12px;">
+          <span style="font-size: 20px;">📷</span>
+          <div style="text-align: left;">
+            <div style="font-weight: 700; color: var(--text-main);">Ambil Foto via Kamera</div>
+            <div style="font-size: 11px; color: var(--text-dim);">Gunakan kamera langsung</div>
+          </div>
+        </button>
+        <button id="btn-slot-remove" class="btn-pill" style="padding: 12px 16px; justify-content: flex-start; gap: 12px; color: #ef4444;">
+          <span style="font-size: 20px;">🗑️</span>
+          <div style="text-align: left;">
+            <div style="font-weight: 700;">Kembalikan ke Default</div>
+            <div style="font-size: 11px; color: var(--text-dim);">Reset slot ini ke kartu demo</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export Modal -->
+  <div id="export-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">Export 3D Mockup PNG (Landscape)</div>
+        <button id="btn-close-modal" class="modal-close">&times;</button>
+      </div>
+      <div class="export-res-grid">
+        <div class="res-card active" data-res="2752x1536">
+          <div class="res-title">Resolusi Studio ★</div>
+          <div class="res-sub">2752 × 1536 • Widescreen</div>
+        </div>
+        <div class="res-card" data-res="3840x2160">
+          <div class="res-title">4K Ultra HD</div>
+          <div class="res-sub">3840 × 2160 • Ekstra Tajam</div>
+        </div>
+        <div class="res-card" data-res="1920x1080">
+          <div class="res-title">1080p Full HD</div>
+          <div class="res-sub">1920 × 1080 • Standar PC</div>
+        </div>
+        <div class="res-card" data-res="1600x1200">
+          <div class="res-title">Dribbble Shot</div>
+          <div class="res-sub">1600 × 1200 (4:3)</div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button id="btn-export-download" class="btn-primary" style="flex: 1; justify-content: center; padding: 12px 20px;">
+          <span>⬇ Download High-Res PNG</span>
+        </button>
+        <button id="btn-copy-clipboard" class="btn-pill" style="padding: 12px 18px;">
+          <span>📋 Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <input type="file" id="single-file-input" accept="image/*" style="display: none;">
+  <input type="file" id="single-camera-input" accept="image/*" capture="environment" style="display: none;">
+
+  <div id="toast" class="toast">
+    <span>✅</span>
+    <span id="toast-msg">Siap digunakan</span>
+  </div>
+
+  <!-- ========================================================
+       ALL-IN-ONE JAVASCRIPT (7-CARD 2-3-2 LANDSCAPE PC ENGINE)
+       ======================================================== -->
+  <script>
+    const TOTAL_SLOTS = 7;
+
+    if (!CanvasRenderingContext2D.prototype.roundRect) {
+      CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+        const radius = Math.min(r, w / 2, h / 2);
+        this.moveTo(x + radius, y);
+        this.lineTo(x + w - radius, y);
+        this.quadraticCurveTo(x + w, y, x + w, y + radius);
+        this.lineTo(x + w, y + h - radius);
+        this.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
+        this.lineTo(x + radius, y + h);
+        this.quadraticCurveTo(x, y + h, x, y + h - radius);
+        this.lineTo(x, y + radius);
+        this.quadraticCurveTo(x, y, x + radius, y);
+        this.closePath();
+      };
+    }
+
+    /**
+     * 1. GENERATOR KARTU DEMO LANDSCAPE PC (960 x 600 - Rasio 16:10)
+     */
+    class DemoGenerator {
+      static generateSet(theme = 'light') {
+        const cards = [];
+        for (let i = 0; i < TOTAL_SLOTS; i++) {
+          cards.push(theme === 'light' ? this.createLightCard(i) : this.createDarkCard(i));
+        }
+        return cards;
+      }
+
+      static createLightCard(index) {
+        const c = document.createElement('canvas');
+        c.width = 960;
+        c.height = 600;
+        const ctx = c.getContext('2d');
+
+        // Slot #4 ★ (index 3: HERO CENTER) -> Tampilan Hero Спеsial / Portal Utama
+        if (index === 3) {
+          const heroGrad = ctx.createLinearGradient(0, 0, 960, 600);
+          heroGrad.addColorStop(0, '#1e3a8a');
+          heroGrad.addColorStop(0.55, '#2563eb');
+          heroGrad.addColorStop(1, '#1d4ed8');
+          ctx.fillStyle = heroGrad;
+          ctx.fillRect(0, 0, 960, 600);
+
+          // Dekorasi Lingkaran Halus seperti Referensi
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+          ctx.lineWidth = 42;
+          ctx.beginPath();
+          ctx.arc(820, 180, 240, 0, Math.PI * 2);
+          ctx.stroke();
+
+          // Badge Atas
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.roundRect(68, 86, 220, 38, 19);
+          ctx.stroke();
+          ctx.fillStyle = '#e0f2fe';
+          ctx.font = 'bold 14px sans-serif';
+          ctx.fillText('● PORTAL UTAMA SOPAN', 92, 110);
+
+          // Judul Besar Landscape
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 54px sans-serif';
+          ctx.fillText('Sistem Operasi', 68, 200);
+          ctx.fillText('Presensi & KBM', 68, 264);
+          ctx.fillStyle = '#93c5fd';
+          ctx.fillText('SMKN 1 Ciamis', 68, 328);
+
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+          ctx.font = '18px sans-serif';
+          ctx.fillText('Monitoring kehadiran guru, jadwal mengajar, & rekapitulasi siswa real-time.', 68, 382);
+
+          // Mini Stat Cards di Bawah Hero
+          const heroStats = [
+            { val: '97', label: 'Total Guru Aktif' },
+            { val: '1.994', label: 'Total Siswa' },
+            { val: '54', label: 'Rombel Kelas' },
+            { val: '100%', label: 'Presensi Digital' }
+          ];
+          heroStats.forEach((st, idx) => {
+            const bx = 68 + idx * 208;
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
+            ctx.beginPath();
+            ctx.roundRect(bx, 436, 192, 104, 14);
+            ctx.fill();
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 30px sans-serif';
+            ctx.fillText(st.val, bx + 22, 484);
+
+            ctx.fillStyle = '#bfdbfe';
+            ctx.font = '13px sans-serif';
+            ctx.fillText(st.label, bx + 22, 514);
+          });
+
+          return c;
+        }
+
+        // Background kartu sekitar
+        ctx.fillStyle = '#f8fafc';
+        ctx.fillRect(0, 0, 960, 600);
+
+        if (index === 1 || index === 4) {
+          // Dashboard Statistik & Donut Chart
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, 960, 56);
+          ctx.fillStyle = '#0f172a';
+          ctx.font = 'bold 19px sans-serif';
+          ctx.fillText(index === 1 ? 'Dashboard Admin SOPAN' : 'Monitoring Kehadiran Siswa', 32, 35);
+
+          const stats = [
+            { label: 'Total Guru', val: '97', bg: '#eff6ff', dot: '#3b82f6' },
+            { label: 'Total Siswa', val: '1994', bg: '#ecfdf5', dot: '#10b981' },
+            { label: 'Total Kelas', val: '54', bg: '#f5f3ff', dot: '#8b5cf6' },
+            { label: 'Hadir Hari Ini', val: '98.6%', bg: '#fffbeb', dot: '#f59e0b' }
+          ];
+          stats.forEach((st, i) => {
+            const sx = 32 + i * 228;
+            const sy = 78;
+            ctx.fillStyle = '#ffffff';
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.roundRect(sx, sy, 212, 114, 12);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillStyle = st.bg;
+            ctx.beginPath();
+            ctx.roundRect(sx + 16, sy + 16, 32, 32, 8);
+            ctx.fill();
+
+            ctx.fillStyle = st.dot;
+            ctx.beginPath();
+            ctx.arc(sx + 32, sy + 32, 7, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 26px sans-serif';
+            ctx.fillText(st.val, sx + 16, sy + 80);
+
+            ctx.fillStyle = '#64748b';
+            ctx.font = '12px sans-serif';
+            ctx.fillText(st.label, sx + 16, sy + 100);
+          });
+
+          // Left Box
+          ctx.fillStyle = '#ffffff';
+          ctx.strokeStyle = '#e2e8f0';
+          ctx.beginPath();
+          ctx.roundRect(32, 214, 438, 354, 14);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.fillStyle = '#2563eb';
+          ctx.font = 'bold 11px sans-serif';
+          ctx.fillText('● REKAPITULASI KBM HARIAN', 56, 254);
+
+          ctx.fillStyle = '#0f172a';
+          ctx.font = 'bold 24px sans-serif';
+          ctx.fillText('Evaluasi Presensi &', 56, 292);
+          ctx.fillText('Ketercapaian Materi', 56, 322);
+
+          ctx.fillStyle = '#64748b';
+          ctx.font = '13px sans-serif';
+          ctx.fillText('Data sinkron otomatis dengan jurnal kelas digital', 56, 356);
+          ctx.fillText('dan laporan bulanan kurikulum.', 56, 376);
+
+          ctx.fillStyle = '#0f172a';
+          ctx.beginPath();
+          ctx.roundRect(56, 486, 220, 48, 10);
+          ctx.fill();
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 14px sans-serif';
+          ctx.fillText('Unduh Laporan PDF', 96, 515);
+
+          // Right Box (Donut Chart)
+          ctx.fillStyle = '#ffffff';
+          ctx.strokeStyle = '#e2e8f0';
+          ctx.beginPath();
+          ctx.roundRect(490, 214, 438, 354, 14);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.fillStyle = '#0f172a';
+          ctx.font = 'bold 17px sans-serif';
+          ctx.fillText('Distribusi Kehadiran (7 Hari)', 516, 254);
+
+          const cx = 709, cy = 396, rad = 86;
+          ctx.lineWidth = 28;
+          ctx.strokeStyle = '#10b981';
+          ctx.beginPath();
+          ctx.arc(cx, cy, rad, 0, Math.PI * 1.48);
+          ctx.stroke();
+
+          ctx.strokeStyle = '#3b82f6';
+          ctx.beginPath();
+          ctx.arc(cx, cy, rad, Math.PI * 1.48, Math.PI * 1.84);
+          ctx.stroke();
+
+          ctx.strokeStyle = '#f59e0b';
+          ctx.beginPath();
+          ctx.arc(cx, cy, rad, Math.PI * 1.84, Math.PI * 2);
+          ctx.stroke();
+        } else if (index === 0 || index === 6) {
+          // Kenaikan Kelas & Tutup Tahun Ajaran
+          this.drawLightSidebar(ctx);
+          const grad = ctx.createLinearGradient(210, 60, 920, 210);
+          grad.addColorStop(0, '#3b82f6');
+          grad.addColorStop(1, '#2563eb');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.roundRect(212, 60, 716, 144, 14);
+          ctx.fill();
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 26px sans-serif';
+          ctx.fillText('Kenaikan Kelas & Tutup Tahun Ajaran', 242, 120);
+          ctx.fillStyle = 'rgba(255,255,255,0.88)';
+          ctx.font = '14px sans-serif';
+          ctx.fillText('Promosi tingkat kelas otomatis & pengarsipan data akademik tahunan.', 242, 150);
+
+          const boxes = ['2025/2026', '642 Siswa X', '724 Siswa XI', '628 Siswa XII'];
+          boxes.forEach((b, idx) => {
+            const bx = 212 + idx * 182;
+            ctx.fillStyle = '#ffffff';
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.roundRect(bx, 224, 168, 96, 10);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 20px sans-serif';
+            ctx.fillText(b, bx + 18, 280);
+          });
+
+          ctx.fillStyle = '#ffffff';
+          ctx.strokeStyle = '#e2e8f0';
+          ctx.beginPath();
+          ctx.roundRect(212, 340, 716, 228, 12);
+          ctx.fill();
+          ctx.stroke();
+
+          for (let r = 0; r < 3; r++) {
+            ctx.fillStyle = '#eff6ff';
+            ctx.beginPath();
+            ctx.roundRect(232, 364 + r * 58, 676, 44, 8);
+            ctx.fill();
+            ctx.fillStyle = '#1e293b';
+            ctx.font = 'bold 13px sans-serif';
+            ctx.fillText(`${r + 1}. Validasi Rapor & Konfigurasi Periode Tahun Akademik`, 252, 391 + r * 58);
+          }
+        } else {
+          // Tabel Manajemen Guru / Siswa
+          this.drawLightSidebar(ctx);
+          ctx.fillStyle = '#0f172a';
+          ctx.font = 'bold 20px sans-serif';
+          ctx.fillText(index === 2 ? 'Manajemen Guru' : 'Manajemen Siswa', 212, 44);
+
+          ctx.fillStyle = '#10b981';
+          ctx.beginPath();
+          ctx.roundRect(796, 18, 132, 34, 8);
+          ctx.fill();
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 12px sans-serif';
+          ctx.fillText('+ Import Excel', 816, 39);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.strokeStyle = '#e2e8f0';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.roundRect(212, 68, 716, 500, 12);
+          ctx.fill();
+          ctx.stroke();
+
+          const names = index === 2
+            ? [
+                'ACEP MUHAMMAD SOLEH, S.Pd.',
+                'AGUNG SOFIYANI, S.E.',
+                'AI SITI MUNAWAROH, S.Pd.',
+                'ALISAH, S.Pd. H.J.',
+                'AMIRUDIN, S.Pd.',
+                'DRS. HENDRA KUSUMAH'
+              ]
+            : [
+                'ABDUL ROHIMAT',
+                'ADELLE MUAZARAH',
+                'ADITYA HERMAWAN',
+                'ALI ABDUL WAHID',
+                'ALIZA BUNGA BUDI PUTRI',
+                'PRADIPTA ENDRA MAULANA'
+              ];
+          names.forEach((name, rowIdx) => {
+            const ry = 130 + rowIdx * 68;
+            ctx.strokeStyle = '#f1f5f9';
+            ctx.beginPath();
+            ctx.moveTo(230, ry);
+            ctx.lineTo(908, ry);
+            ctx.stroke();
+
+            ctx.fillStyle = rowIdx % 2 === 0 ? '#3b82f6' : '#0ea5e9';
+            ctx.beginPath();
+            ctx.arc(258, ry + 32, 15, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 13px sans-serif';
+            ctx.fillText(name, 286, ry + 37);
+
+            ctx.fillStyle = '#dcfce7';
+            ctx.beginPath();
+            ctx.roundRect(664, ry + 18, 74, 26, 13);
+            ctx.fill();
+            ctx.fillStyle = '#15803d';
+            ctx.font = 'bold 11px sans-serif';
+            ctx.fillText('✓ Aktif', 680, ry + 35);
+
+            ctx.fillStyle = '#2563eb';
+            ctx.beginPath();
+            ctx.roundRect(764, ry + 18, 108, 26, 6);
+            ctx.fill();
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText('Detail Profil', 784, ry + 35);
+          });
+        }
+        return c;
+      }
+
+      static drawLightSidebar(ctx) {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, 190, 600);
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.beginPath();
+        ctx.moveTo(190, 0);
+        ctx.lineTo(190, 600);
+        ctx.stroke();
+
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 13px sans-serif';
+        ctx.fillText('SMK Negeri 1 Ciamis', 24, 38);
+
+        const menus = ['Dashboard', 'Guru', 'Siswa', 'Kelas', 'Jadwal KBM', 'Presensi', 'Kenaikan Kelas', 'Pengaturan'];
+        menus.forEach((m, i) => {
+          const my = 80 + i * 46;
+          if (i === 0 || i === 2) {
+            ctx.fillStyle = '#eff6ff';
+            ctx.beginPath();
+            ctx.roundRect(14, my - 18, 162, 34, 8);
+            ctx.fill();
+            ctx.fillStyle = '#2563eb';
+          } else {
+            ctx.fillStyle = '#64748b';
+          }
+          ctx.font = '600 12px sans-serif';
+          ctx.fillText(m, 32, my + 3);
+        });
+      }
+
+      static createDarkCard(index) {
+        const c = document.createElement('canvas');
+        c.width = 960;
+        c.height = 600;
+        const ctx = c.getContext('2d');
+
+        ctx.fillStyle = '#0b0f14';
+        ctx.fillRect(0, 0, 960, 600);
+
+        // Navbar
+        ctx.fillStyle = '#0f161d';
+        ctx.fillRect(0, 0, 960, 58);
+        ctx.fillStyle = '#06b6d4';
+        ctx.beginPath();
+        ctx.arc(38, 29, 10, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#f8fafc';
+        ctx.font = 'bold 15px sans-serif';
+        ctx.fillText('EcoVision AI', 58, 34);
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '12px sans-serif';
+        ctx.fillText('Home     Features     About     Model Testing', 300, 34);
+
+        ctx.strokeStyle = '#06b6d4';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.roundRect(804, 15, 124, 28, 14);
+        ctx.stroke();
+        ctx.fillStyle = '#e2e8f0';
+        ctx.font = 'bold 11px sans-serif';
+        ctx.fillText('Start Scanning', 824, 33);
+
+        if (index === 3) {
+          // Slot #4 ★ (HERO CENTER): Scan. Sort. Save the Planet.
+          const heroGrad = ctx.createLinearGradient(0, 58, 960, 600);
+          heroGrad.addColorStop(0, '#09131c');
+          heroGrad.addColorStop(1, '#0d1f2d');
+          ctx.fillStyle = heroGrad;
+          ctx.fillRect(0, 58, 960, 542);
+
+          ctx.fillStyle = 'rgba(16, 185, 129, 0.16)';
+          ctx.beginPath();
+          ctx.roundRect(52, 108, 250, 28, 14);
+          ctx.fill();
+          ctx.fillStyle = '#10b981';
+          ctx.font = 'bold 11px sans-serif';
+          ctx.fillText('● AI WASTE CLASSIFICATION', 68, 126);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 50px sans-serif';
+          ctx.fillText('Scan. Sort.', 52, 198);
+          ctx.fillStyle = '#06b6d4';
+          ctx.fillText('Save the Planet.', 52, 256);
+
+          ctx.fillStyle = '#94a3b8';
+          ctx.font = '15px sans-serif';
+          ctx.fillText('AI-powered waste classification and environmental education', 52, 302);
+          ctx.fillText('platform that helps everyone recycle accurately.', 52, 324);
+
+          const btnGrad = ctx.createLinearGradient(52, 360, 212, 406);
+          btnGrad.addColorStop(0, '#10b981');
+          btnGrad.addColorStop(1, '#06b6d4');
+          ctx.fillStyle = btnGrad;
+          ctx.beginPath();
+          ctx.roundRect(52, 360, 160, 46, 23);
+          ctx.fill();
+          ctx.fillStyle = '#041318';
+          ctx.font = 'bold 14px sans-serif';
+          ctx.fillText('Get Started →', 82, 388);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 26px sans-serif';
+          ctx.fillText('98.4%', 52, 488);
+          ctx.fillText('< 1s', 190, 488);
+          ctx.fillText('100%', 308, 488);
+          ctx.fillStyle = '#64748b';
+          ctx.font = '12px sans-serif';
+          ctx.fillText('AI Accuracy', 52, 510);
+          ctx.fillText('Scan Speed', 190, 510);
+          ctx.fillText('Open Source', 308, 510);
+
+          ctx.fillStyle = '#111921';
+          ctx.strokeStyle = 'rgba(6, 182, 212, 0.38)';
+          ctx.beginPath();
+          ctx.roundRect(540, 98, 370, 452, 18);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.strokeStyle = 'rgba(16, 185, 129, 0.45)';
+          ctx.beginPath();
+          ctx.arc(725, 274, 96, 0, Math.PI * 2);
+          ctx.stroke();
+        } else if (index === 1 || index === 4) {
+          // Everything Features
+          ctx.textAlign = 'center';
+          ctx.fillStyle = '#10b981';
+          ctx.font = 'bold 12px sans-serif';
+          ctx.fillText('INTELLIGENT FEATURES', 480, 122);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 40px sans-serif';
+          ctx.fillText('Everything Features', 480, 168);
+
+          ctx.fillStyle = '#94a3b8';
+          ctx.font = '14px sans-serif';
+          ctx.fillText('Empowering citizens, students, and communities with AI sorting.', 480, 202);
+          ctx.textAlign = 'left';
+
+          const feats = ['AI Waste Detection', 'Smart Recycling', 'Environmental Impact', 'Responsible AI'];
+          feats.forEach((f, idx) => {
+            const fx = 48 + idx * 222;
+            ctx.fillStyle = '#111820';
+            ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+            ctx.beginPath();
+            ctx.roundRect(fx, 248, 204, 282, 16);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillStyle = 'rgba(16, 185, 129, 0.16)';
+            ctx.beginPath();
+            ctx.roundRect(fx + 20, 270, 44, 44, 10);
+            ctx.fill();
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 16px sans-serif';
+            ctx.fillText(f, fx + 20, 352);
+            ctx.fillStyle = '#64748b';
+            ctx.font = '12px sans-serif';
+            ctx.fillText('Real-time computer vision', fx + 20, 382);
+            ctx.fillText('classification & guidance.', fx + 20, 402);
+          });
+        } else if (index === 2 || index === 5) {
+          // Waste Scanner
+          ctx.textAlign = 'center';
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 36px sans-serif';
+          ctx.fillText('Waste Scanner', 480, 138);
+          ctx.fillStyle = '#94a3b8';
+          ctx.font = '14px sans-serif';
+          ctx.fillText('Upload an image of waste and let AI analyze it.', 480, 168);
+
+          ctx.fillStyle = '#111820';
+          ctx.strokeStyle = 'rgba(6, 182, 212, 0.35)';
+          ctx.setLineDash([8, 6]);
+          ctx.beginPath();
+          ctx.roundRect(120, 210, 720, 314, 18);
+          ctx.fill();
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          ctx.fillStyle = '#06b6d4';
+          ctx.beginPath();
+          ctx.arc(480, 332, 30, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 17px sans-serif';
+          ctx.fillText('Click or drag image to upload', 480, 398);
+          ctx.textAlign = 'left';
+        } else {
+          // Sign In Card
+          ctx.textAlign = 'center';
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 34px sans-serif';
+          ctx.fillText('Sign in to EcoVision AI', 480, 152);
+
+          ctx.fillStyle = '#111820';
+          ctx.strokeStyle = 'rgba(255,255,255,0.09)';
+          ctx.beginPath();
+          ctx.roundRect(250, 192, 460, 320, 16);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.fillStyle = '#0b0f14';
+          ctx.beginPath();
+          ctx.roundRect(288, 242, 384, 48, 10);
+          ctx.roundRect(288, 314, 384, 48, 10);
+          ctx.fill();
+
+          const grad = ctx.createLinearGradient(288, 392, 672, 440);
+          grad.addColorStop(0, '#10b981');
+          grad.addColorStop(1, '#06b6d4');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.roundRect(288, 392, 384, 50, 25);
+          ctx.fill();
+
+          ctx.fillStyle = '#041318';
+          ctx.font = 'bold 15px sans-serif';
+          ctx.fillText('Sign In', 480, 422);
+          ctx.textAlign = 'left';
+        }
+        return c;
+      }
+    }
+
+    /**
+     * 2. ENGINE PROYEKSI BIDANG ISOMETRIK (Formasi 2 - 3 - 2 Landscape PC)
+     */
+    class IsometricRenderer {
+      constructor(canvas) {
+        this.canvas = canvas;
+        this.baseWidth = 2752;
+        this.baseHeight = 1536;
+        this.canvas.width = this.baseWidth;
+        this.canvas.height = this.baseHeight;
+
+        this.theme = 'light';
+
+        // Default Zoom 1.08: Kartu #4 ★ Hero tampil dominan di pusat & 6 kartu sekitar membingkai layar seperti referensi
+        this.zoomFactor = 1.08;
+
+        // Pola 2-3-2:
+        // 'ref-col' -> Jalur tengah vertikal lurus 3 kartu, kiri 2 kartu staggered, kanan 2 kartu staggered (Persis foto referensi)
+        // 'row-stagger' -> Baris atas 2 kartu tengah, baris tengah 3 kartu, baris bawah 2 kartu tengah
+        this.patternMode = 'ref-col';
+
+        // Efek Kartu Tengah (#4 ★) Melayang 3D seperti foto referensi
+        this.heroFloat = true;
+
+        // Rasio Kartu Landscape PC (16:10 -> 960 x 600) + Celah Studio Lega (68px)
+        this.cardW = 960;
+        this.cardH = 600;
+        this.cardRadius = 26;
+        this.gapX = 68;
+        this.gapY = 68;
+
+        // Sudut miring bidang sesuai foto referensi 2-3-2
+        this.rotationDeg = -33.5;
+        this.foreshortenY = 0.82;
+      }
+
+      /**
+       * Mengembalikan 7 titik koordinat (col, row) dalam formasi 2 - 3 - 2
+       * Slot #4 ★ (index 3) selalu berada tepat di pusat (col: 0, row: 0).
+       */
+      getFormation232() {
+        if (this.patternMode === 'ref-col') {
+          // Persis struktur foto referensi:
+          // Jalur Tengah (col: 0) memiliki 3 kartu lurus, diapit 2 kartu di kiri (col: -1) & 2 kartu di kanan (col: +1)
+          return [
+            // 2 Kartu Kiri-Atas
+            { slot: 0, col: -1, row: -0.5 },
+            { slot: 1, col:  0, row: -1   },
+
+            // 3 Kartu Diagonal Utama (dengan Slot #4 ★ di Pusat 0,0)
+            { slot: 2, col: -1, row:  0.5 },
+            { slot: 3, col:  0, row:  0,  hero: true }, // Slot #4 ★ HERO TENGAH
+            { slot: 4, col:  1, row: -0.5 },
+
+            // 2 Kartu Kanan-Bawah
+            { slot: 5, col:  0, row:  1   },
+            { slot: 6, col:  1, row:  0.5 }
+          ];
+        } else {
+          // Pola Baris 2 - 3 - 2 Simetris:
+          // Baris Atas (-1) = 2 kartu, Baris Tengah (0) = 3 kartu, Baris Bawah (+1) = 2 kartu
+          return [
+            // Baris 1 (2 Kartu Atas)
+            { slot: 0, col: -0.5, row: -1 },
+            { slot: 1, col:  0.5, row: -1 },
+
+            // Baris 2 (3 Kartu Tengah)
+            { slot: 2, col: -1,   row:  0 },
+            { slot: 3, col:  0,   row:  0, hero: true }, // Slot #4 ★ HERO TENGAH
+            { slot: 4, col:  1,   row:  0 },
+
+            // Baris 3 (2 Kartu Bawah)
+            { slot: 5, col: -0.5, row:  1 },
+            { slot: 6, col:  0.5, row:  1 }
+          ];
+        }
+      }
+
+      render(slotsData, targetCanvas = this.canvas, customW = null, customH = null) {
+        const width = customW || targetCanvas.width;
+        const height = customH || targetCanvas.height;
+        if (targetCanvas.width !== width) targetCanvas.width = width;
+        if (targetCanvas.height !== height) targetCanvas.height = height;
+
+        const ctx = targetCanvas.getContext('2d');
+        ctx.save();
+
+        // 1. Gambar Background Studio Bersih
+        this.drawBackground(ctx, width, height);
+
+        // 2. Matriks Proyeksi Isometrik Terpusat (Dead-Center Alignment)
+        const rad = (this.rotationDeg * Math.PI) / 180;
+        const cos = Math.cos(rad);
+        const sin = Math.sin(rad);
+        const sy = this.foreshortenY;
+
+        const resScale = Math.min(width / this.baseWidth, height / this.baseHeight);
+        const S = resScale * this.zoomFactor;
+
+        const ux = cos * S;
+        const uy = sin * sy * S;
+        const vx = -sin * S;
+        const vy = cos * sy * S;
+
+        const originX = width * 0.5;
+        const originY = height * 0.5;
+
+        const stepX = this.cardW + this.gapX;
+        const stepY = this.cardH + this.gapY;
+
+        const layout = this.getFormation232().map((item) => {
+          const planeX = item.col * stepX;
+          const planeY = item.row * stepY;
+          const screenX = originX + planeX * ux + planeY * vx;
+          const screenY = originY + planeX * uy + planeY * vy;
+          return { ...item, planeX, planeY, screenX, screenY };
+        });
+
+        // Gambar 6 kartu sekitar terlebih dahulu, lalu gambar kartu Hero (#4 ★) paling atas jika melayang
+        layout.sort((a, b) => {
+          if (this.heroFloat && a.hero !== b.hero) return a.hero ? 1 : -1;
+          return a.screenY - b.screenY;
+        });
+
+        const det = ux * vy - uy * vx;
+        const screenOffsetToPlane = (dxScreen, dyScreen) => ({
+          dx: (vy * dxScreen - vx * dyScreen) / det,
+          dy: (-uy * dxScreen + ux * dyScreen) / det
+        });
+
+        ctx.setTransform(ux, uy, vx, vy, originX, originY);
+
+        for (const card of layout) {
+          let x = card.planeX - this.cardW / 2;
+          let y = card.planeY - this.cardH / 2;
+          const isElevatedHero = this.heroFloat && card.hero;
+
+          // Jika Hero Melayang aktif, angkat posisi kartu tengah sedikit ke kiri-atas
+          if (isElevatedHero) {
+            const lift = screenOffsetToPlane(-8 * S, -18 * S);
+            x += lift.dx;
+            y += lift.dy;
+          }
+
+          const source = slotsData[card.slot];
+          this.drawCard(ctx, x, y, this.cardW, this.cardH, source, screenOffsetToPlane, S, isElevatedHero);
+        }
+
+        ctx.restore();
+      }
+
+      drawBackground(ctx, width, height) {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        if (this.theme === 'light') {
+          const grad = ctx.createLinearGradient(0, 0, width, height);
+          grad.addColorStop(0, '#f4f6fa');
+          grad.addColorStop(0.5, '#eaeff6');
+          grad.addColorStop(1, '#dde5f0');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, width, height);
+        } else {
+          const grad = ctx.createRadialGradient(
+            width * 0.5, height * 0.45, width * 0.05,
+            width * 0.5, height * 0.5, width * 0.75
+          );
+          grad.addColorStop(0, '#0d151c');
+          grad.addColorStop(1, '#05080b');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, width, height);
+        }
+      }
+
+      drawCard(ctx, x, y, w, h, source, screenOffsetToPlane, scale, isElevatedHero) {
+        const r = this.cardRadius;
+        const isLight = this.theme === 'light';
+
+        // 1. Directional Drop Shadow ke arah Kanan-Bawah (Persis pencahayaan studio referensi)
+        const shadowDistX = (isElevatedHero ? 26 : 10) * scale;
+        const shadowDistY = (isElevatedHero ? 38 : 16) * scale;
+        const shadowOffset = screenOffsetToPlane(shadowDistX, shadowDistY);
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(x + shadowOffset.dx, y + shadowOffset.dy, w, h, r);
+        if (isLight) {
+          ctx.fillStyle = isElevatedHero ? 'rgba(15, 23, 42, 0.20)' : 'rgba(15, 23, 42, 0.10)';
+          ctx.shadowColor = isElevatedHero ? 'rgba(15, 23, 42, 0.26)' : 'rgba(15, 23, 42, 0.14)';
+        } else {
+          ctx.fillStyle = isElevatedHero ? 'rgba(0, 0, 0, 0.82)' : 'rgba(0, 0, 0, 0.65)';
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.92)';
+        }
+        ctx.shadowBlur = (isElevatedHero ? 56 : 28) * scale;
+        ctx.shadowOffsetX = (isElevatedHero ? 12 : 4) * scale;
+        ctx.shadowOffsetY = (isElevatedHero ? 18 : 8) * scale;
+        ctx.fill();
+        ctx.restore();
+
+        // 2. 3D Slab Thickness (Ketebalan Tepi Kartu)
+        const steps = 5;
+        const thicknessPx = (isElevatedHero ? 9 : 7) * scale;
+        for (let i = steps; i >= 1; i--) {
+          const tOff = screenOffsetToPlane(0, (i / steps) * thicknessPx);
+          ctx.beginPath();
+          ctx.roundRect(x + tOff.dx, y + tOff.dy, w, h, r);
+          ctx.fillStyle = isLight
+            ? (i === steps ? '#b6c2d2' : '#d8e1ed')
+            : (i === steps ? '#091016' : '#18232e');
+          ctx.fill();
+        }
+
+        // 3. Permukaan Kartu & Gambar Landscape
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, r);
+        ctx.fillStyle = isLight ? '#ffffff' : '#0b0f14';
+        ctx.fill();
+        ctx.clip();
+
+        if (source) {
+          const imgW = source.width || w;
+          const imgH = source.height || h;
+          const cardRatio = w / h;
+          const imgRatio = imgW / imgH;
+
+          let drawW = w, drawH = h, drawX = x, drawY = y;
+          // Jika gambar hampir 16:10 / 16:9, penuh; jika jauh berbeda, sesuaikan proporsional
+          if (Math.abs(imgRatio - cardRatio) > 0.22) {
+            if (imgRatio > cardRatio) {
+              drawW = w;
+              drawH = w / imgRatio;
+              drawY = y + (h - drawH) / 2;
+            } else {
+              drawH = h;
+              drawW = h * imgRatio;
+              drawX = x + (w - drawW) / 2;
+            }
+          }
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          ctx.drawImage(source, drawX, drawY, drawW, drawH);
+        }
+        ctx.restore();
+
+        // 4. Garis Tepi Halus (Crisp Border)
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, r);
+        ctx.lineWidth = isElevatedHero ? 2.6 : 2.0;
+        ctx.strokeStyle = isLight
+          ? 'rgba(255, 255, 255, 0.95)'
+          : (isElevatedHero ? 'rgba(56, 189, 248, 0.35)' : 'rgba(255, 255, 255, 0.12)');
+        ctx.stroke();
+      }
+    }
+
+    /**
+     * 3. KONTROLER APLIKASI UTAMA (7 SLOTS: 2-3-2)
+     */
+    document.addEventListener('DOMContentLoaded', () => {
+      const canvas = document.getElementById('mockup-canvas');
+      const renderer = new IsometricRenderer(canvas);
+
+      let userImages = new Array(TOTAL_SLOTS).fill(null);
+      let demoCanvases = DemoGenerator.generateSet('light');
+      let activeSlotIndex = 0;
+      let selectedExportRes = '2752x1536';
+
+      function getActiveSlots() {
+        return userImages.map((img, i) => img || demoCanvases[i]);
+      }
+
+      function refreshCanvas() {
+        renderer.render(getActiveSlots());
+        updateNavigatorUI();
+      }
+
+      function updateNavigatorUI() {
+        let count = 0;
+        for (let i = 0; i < TOTAL_SLOTS; i++) {
+          const cardEl = document.querySelector(`.slot-card[data-slot="${i}"]`);
+          const thumbEl = document.getElementById(`thumb-${i}`);
+          if (!cardEl || !thumbEl) continue;
+
+          if (userImages[i]) {
+            count++;
+            cardEl.classList.add('has-image');
+            thumbEl.src = userImages[i].src;
+          } else {
+            cardEl.classList.remove('has-image');
+            thumbEl.removeAttribute('src');
+          }
+        }
+        const badge = document.getElementById('slot-count-badge');
+        if (badge) badge.textContent = count > 0 ? `${count}/${TOTAL_SLOTS} Foto Custom` : `${TOTAL_SLOTS} Slot Demo`;
+      }
+
+      function showToast(msg) {
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toast-msg');
+        toastMsg.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(window._toastTimer);
+        window._toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
+      }
+
+      function loadImageFile(file) {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      // Tema Light / Dark
+      const btnLight = document.getElementById('btn-theme-light');
+      const btnDark = document.getElementById('btn-theme-dark');
+
+      function setTheme(theme) {
+        renderer.theme = theme;
+        demoCanvases = DemoGenerator.generateSet(theme);
+        btnLight.classList.toggle('active', theme === 'light');
+        btnDark.classList.toggle('active', theme === 'dark');
+        document.documentElement.style.setProperty('--bg-canvas', theme === 'light' ? '#e2e8f0' : '#06090d');
+        refreshCanvas();
+      }
+
+      btnLight.addEventListener('click', () => {
+        setTheme('light');
+        showToast('Tema Studio Light (SOPAN) aktif');
+      });
+
+      btnDark.addEventListener('click', () => {
+        setTheme('dark');
+        showToast('Tema Studio Dark (EcoVision) aktif');
+      });
+
+      // Kontrol Zoom, Pola 2-3-2, & Hero Melayang
+      const btnZoom = document.getElementById('btn-toggle-zoom');
+      const btnZoomIn = document.getElementById('btn-zoom-in');
+      const btnZoomOut = document.getElementById('btn-zoom-out');
+      const btnPattern = document.getElementById('btn-toggle-pattern');
+      const btnFloat = document.getElementById('btn-toggle-float');
+
+      function updateZoomLabel() {
+        const pct = Math.round(renderer.zoomFactor * 100);
+        btnZoom.textContent = `🔍 Zoom: ${pct}%`;
+      }
+
+      btnZoom.addEventListener('click', () => {
+        renderer.zoomFactor = Math.abs(renderer.zoomFactor - 1.08) < 0.05 ? 0.76 : 1.08;
+        updateZoomLabel();
+        refreshCanvas();
+      });
+
+      btnZoomIn.addEventListener('click', () => {
+        renderer.zoomFactor = Math.min(1.55, +(renderer.zoomFactor + 0.06).toFixed(2));
+        updateZoomLabel();
+        refreshCanvas();
+      });
+
+      btnZoomOut.addEventListener('click', () => {
+        renderer.zoomFactor = Math.max(0.55, +(renderer.zoomFactor - 0.06).toFixed(2));
+        updateZoomLabel();
+        refreshCanvas();
+      });
+
+      btnPattern.addEventListener('click', () => {
+        renderer.patternMode = renderer.patternMode === 'ref-col' ? 'row-stagger' : 'ref-col';
+        btnPattern.textContent = renderer.patternMode === 'ref-col'
+          ? '📐 Pola: Referensi 2-3-2'
+          : '📐 Pola: Baris 2-3-2';
+        refreshCanvas();
+      });
+
+      btnFloat.addEventListener('click', () => {
+        renderer.heroFloat = !renderer.heroFloat;
+        btnFloat.textContent = `✨ Hero Melayang: ${renderer.heroFloat ? 'ON' : 'OFF'}`;
+        refreshCanvas();
+      });
+
+      // Upload Batch & Drag-Drop
+      const batchInput = document.getElementById('batch-file-input');
+      const cameraBatchInput = document.getElementById('camera-batch-input');
+      const dropzone = document.getElementById('batch-dropzone');
+
+      document.getElementById('btn-trigger-gallery').addEventListener('click', () => batchInput.click());
+      document.getElementById('btn-trigger-camera').addEventListener('click', () => cameraBatchInput.click());
+      dropzone.addEventListener('click', () => batchInput.click());
+
+      async function handleBatchFiles(fileList) {
+        const files = Array.from(fileList).filter((f) => f.type.startsWith('image/'));
+        if (!files.length) return;
+        let startIdx = userImages.findIndex((img) => img === null);
+        if (startIdx === -1) startIdx = 0;
+
+        for (let i = 0; i < files.length && i < TOTAL_SLOTS; i++) {
+          userImages[(startIdx + i) % TOTAL_SLOTS] = await loadImageFile(files[i]);
+        }
+        refreshCanvas();
+        showToast(`${Math.min(files.length, TOTAL_SLOTS)} screenshot berhasil dimasukkan!`);
+      }
+
+      batchInput.addEventListener('change', (e) => {
+        handleBatchFiles(e.target.files);
+        e.target.value = '';
+      });
+      cameraBatchInput.addEventListener('change', (e) => {
+        handleBatchFiles(e.target.files);
+        e.target.value = '';
+      });
+
+      dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      });
+      dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+        if (e.dataTransfer.files?.length) handleBatchFiles(e.dataTransfer.files);
+      });
+
+      // Modal Per Slot
+      const slotModal = document.getElementById('slot-modal');
+      const slotModalTitle = document.getElementById('slot-modal-title');
+      const singleFileInput = document.getElementById('single-file-input');
+      const singleCameraInput = document.getElementById('single-camera-input');
+
+      document.querySelectorAll('.slot-card').forEach((card) => {
+        card.addEventListener('click', () => {
+          activeSlotIndex = parseInt(card.dataset.slot, 10);
+          slotModalTitle.textContent = activeSlotIndex === 3
+            ? 'Atur Slot #4 ★ (HERO PUSAT)'
+            : `Atur Slot #${activeSlotIndex + 1}`;
+          slotModal.classList.add('open');
+        });
+      });
+
+      document.getElementById('btn-close-slot-modal').addEventListener('click', () => slotModal.classList.remove('open'));
+      document.getElementById('btn-slot-file').addEventListener('click', () => singleFileInput.click());
+      document.getElementById('btn-slot-camera').addEventListener('click', () => singleCameraInput.click());
+
+      async function handleSingleFile(file) {
+        if (!file) return;
+        userImages[activeSlotIndex] = await loadImageFile(file);
+        slotModal.classList.remove('open');
+        refreshCanvas();
+        showToast(`Slot #${activeSlotIndex + 1} berhasil diperbarui!`);
+      }
+
+      singleFileInput.addEventListener('change', (e) => {
+        handleSingleFile(e.target.files[0]);
+        e.target.value = '';
+      });
+      singleCameraInput.addEventListener('change', (e) => {
+        handleSingleFile(e.target.files[0]);
+        e.target.value = '';
+      });
+
+      document.getElementById('btn-slot-remove').addEventListener('click', () => {
+        userImages[activeSlotIndex] = null;
+        slotModal.classList.remove('open');
+        refreshCanvas();
+        showToast(`Slot #${activeSlotIndex + 1} direset ke demo`);
+      });
+
+      // Tombol Preset
+      document.getElementById('btn-load-light-demo').addEventListener('click', () => {
+        userImages.fill(null);
+        setTheme('light');
+        showToast('Demo Light SOPAN (2-3-2) dimuat');
+      });
+      document.getElementById('btn-load-dark-demo').addEventListener('click', () => {
+        userImages.fill(null);
+        setTheme('dark');
+        showToast('Demo Dark EcoVision (2-3-2) dimuat');
+      });
+      document.getElementById('btn-duplicate-remaining').addEventListener('click', () => {
+        const uploaded = userImages.filter(Boolean);
+        if (!uploaded.length) return showToast('Upload minimal 1 foto dulu!');
+        userImages = userImages.map((img, i) => img || uploaded[i % uploaded.length]);
+        refreshCanvas();
+        showToast('Slot kosong berhasil diisi otomatis!');
+      });
+      document.getElementById('btn-clear-all').addEventListener('click', () => {
+        userImages.fill(null);
+        refreshCanvas();
+        showToast('Semua slot direset ke tampilan default');
+      });
+
+      // Sidebar & Mobile Drawer
+      const sidebar = document.getElementById('sidebar-panel');
+      const backdrop = document.getElementById('mobile-backdrop');
+      document.getElementById('sidebar-toggle').addEventListener('click', () => sidebar.classList.toggle('collapsed'));
+      document.getElementById('mobile-fab').addEventListener('click', () => {
+        sidebar.classList.add('open');
+        backdrop.classList.add('open');
+      });
+      const closeDrawer = () => {
+        sidebar.classList.remove('open');
+        backdrop.classList.remove('open');
+      };
+      document.getElementById('sidebar-close-mobile').addEventListener('click', closeDrawer);
+      backdrop.addEventListener('click', closeDrawer);
+
+      // Export PNG
+      const exportModal = document.getElementById('export-modal');
+      document.getElementById('btn-open-export').addEventListener('click', () => exportModal.classList.add('open'));
+      document.getElementById('btn-close-modal').addEventListener('click', () => exportModal.classList.remove('open'));
+
+      document.querySelectorAll('.res-card').forEach((card) => {
+        card.addEventListener('click', () => {
+          document.querySelectorAll('.res-card').forEach((c) => c.classList.remove('active'));
+          card.classList.add('active');
+          selectedExportRes = card.dataset.res;
+        });
+      });
+
+      function createExportCanvas() {
+        const [w, h] = selectedExportRes.split('x').map(Number);
+        const off = document.createElement('canvas');
+        renderer.render(getActiveSlots(), off, w, h);
+        return off;
+      }
+
+      document.getElementById('btn-export-download').addEventListener('click', () => {
+        const off = createExportCanvas();
+        const a = document.createElement('a');
+        a.download = `mockup-3d-232-landscape-${renderer.theme}-${selectedExportRes}.png`;
+        a.href = off.toDataURL('image/png', 1.0);
+        a.click();
+        exportModal.classList.remove('open');
+        if (window.confetti) window.confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+        showToast(`PNG (${selectedExportRes}) berhasil didownload!`);
+      });
+
+      document.getElementById('btn-copy-clipboard').addEventListener('click', () => {
+        const off = createExportCanvas();
+        off.toBlob(async (blob) => {
+          try {
+            await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+            exportModal.classList.remove('open');
+            showToast('Gambar berhasil disalin ke Clipboard!');
+          } catch {
+            showToast('Browser tidak mengizinkan copy otomatis');
+          }
+        });
+      });
+
+      // Render Pertama Kali
+      refreshCanvas();
+    });
+  </script>
+</body>
+</html>

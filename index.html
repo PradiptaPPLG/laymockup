@@ -41,18 +41,26 @@
        ============================================================ */
     :root {
       --bg: #fafafa;
-      --fg: #111111;
-      --fg-muted: #6b7280;
-      --fg-subtle: #9ca3af;
-      --border-color: #e5e7eb;
-      --border-hover: #d1d5db;
+      --fg: #0f172a;
+      --fg-muted: #475569;
+      --fg-subtle: #94a3b8;
+      --border-color: #e2e8f0;
+      --border-hover: #cbd5e1;
       --card-bg: #ffffff;
-      --accent: #4f46e5;
-      --accent-hover: #4338ca;
-      --accent-light: #eef2ff;
+      
+      /* Palette 5: Electric Volt & Emerald Pro */
+      --accent: #10b981;
+      --accent-hover: #059669;
+      --accent-light: #ecfdf5;
       --emerald: #10b981;
+      --emerald-dark: #059669;
       --emerald-light: #ecfdf5;
-      --grid-color: rgba(99, 102, 241, 0.05);
+      --volt: #d2ff00;
+      --volt-hover: #c4ef00;
+      --volt-glow: rgba(210, 255, 0, 0.45);
+      --lime: #82cd47;
+      
+      --grid-color: rgba(16, 185, 129, 0.04);
 
       --radius-sm: 8px;
       --radius-btn: 14px;
@@ -62,8 +70,8 @@
 
       --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
       --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.07);
-      --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.09);
+      --shadow-md: 0 8px 24px rgba(16, 185, 129, 0.08);
+      --shadow-lg: 0 16px 48px rgba(15, 23, 42, 0.1);
     }
 
     *,
@@ -127,21 +135,17 @@
 
     /* Top Announcement Ribbon */
     .top-ribbon {
-      background: #ffffff;
-      border-bottom: 1px solid var(--border-color);
-      font-size: 13px;
-      color: var(--fg-muted);
-      text-align: center;
-      padding: 8px 14px;
+      background: #090d16;
+      color: #e2e8f0;
+      border-bottom: 1px solid rgba(210, 255, 0, 0.18);
+      padding: 7px 16px;
+      font-size: 11.5px;
+      font-weight: 500;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      width: 100%;
-      max-width: 100%;
-      box-sizing: border-box;
-      overflow: hidden;
+      gap: 10px;
+      letter-spacing: 0.01em;
     }
 
     .top-ribbon strong {
@@ -149,14 +153,14 @@
     }
 
     .top-ribbon .badge-sparkle {
-      display: inline-flex;
-      align-items: center;
-      padding: 2px 8px;
-      background: var(--accent-light);
-      color: var(--accent);
-      border-radius: var(--radius-full);
-      font-weight: 600;
-      font-size: 11px;
+      background: rgba(210, 255, 0, 0.12);
+      color: #d2ff00;
+      border: 1px solid rgba(210, 255, 0, 0.35);
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
     }
 
     /* Header & Navbar */
@@ -402,13 +406,16 @@
     }
 
     .btn-primary {
-      background: #111111;
+      background: #10b981;
       color: #ffffff;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      border: 1px solid #10b981;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.28);
     }
 
     .btn-primary:hover {
-      background: #262626;
+      background: #059669;
+      border-color: #059669;
+      box-shadow: 0 6px 22px rgba(16, 185, 129, 0.42);
       transform: translateY(-1px);
     }
 
@@ -514,9 +521,9 @@
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: #22c55e;
-      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
-      flex-shrink: 0;
+      background: #d2ff00;
+      box-shadow: 0 0 8px rgba(210, 255, 0, 0.9), 0 0 0 2px rgba(16, 185, 129, 0.3);
+      animation: pulseDot 2s infinite ease-in-out;
     }
 
     .hero-title {
@@ -535,9 +542,10 @@
     }
 
     .hero-title span.gradient-text {
-      background: linear-gradient(135deg, #111111 20%, #4f46e5 100%);
+      background: linear-gradient(135deg, #059669 0%, #10b981 35%, #82cd47 70%, #d2ff00 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .hero-desc {
@@ -569,8 +577,8 @@
 
     .etalase-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 28px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
     }
 
     .etalase-card {
@@ -618,28 +626,28 @@
 
     .etalase-badge-top {
       position: absolute;
-      top: 12px;
-      right: 12px;
-      background: rgba(255, 255, 255, 0.94);
+      top: 10px;
+      right: 10px;
+      background: rgba(9, 13, 22, 0.88);
       backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      color: #d2ff00;
+      border: 1px solid rgba(210, 255, 0, 0.35);
       padding: 4px 10px;
-      border-radius: var(--radius-full);
-      border: 1px solid var(--border-color);
-      font-size: 11px;
+      border-radius: 20px;
+      font-size: 10.5px;
       font-weight: 600;
-      color: var(--fg);
+      letter-spacing: 0.02em;
       display: flex;
       align-items: center;
       gap: 5px;
-      box-shadow: var(--shadow-xs);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       z-index: 2;
     }
 
     .etalase-badge-top.emerald {
-      background: rgba(236, 253, 245, 0.95);
-      border-color: rgba(16, 185, 129, 0.3);
-      color: #065f46;
+      background: rgba(6, 78, 59, 0.92);
+      color: #d2ff00;
+      border-color: rgba(210, 255, 0, 0.45);
     }
 
     .etalase-content {
@@ -2116,9 +2124,9 @@
       <div class="container">
         <div class="section-header">
           <span class="section-overline">ETALASE TEMPLATE ISOMETRIK</span>
-          <h2 class="section-title">4 Formasi Isometrik Eksklusif</h2>
+          <h2 class="section-title">6 Formasi Isometrik Eksklusif</h2>
           <p class="section-desc">
-            Pilih karakter tata letak yang paling pas: Formasi Intan 12 Kartu untuk presentasi komprehensif, atau Formasi Ringkas 1-2-3-2-1 (9 Kartu) yang lebih hemat penggunaan foto.
+            Pilih formasi yang paling tepat: Formasi Intan 12 Kartu, Formasi Ramping 9 Kartu, Formasi Landscape 7 Kartu (Staggered Hero), hingga Mockup Layar HP 3D Smartphone (9:16).
           </p>
         </div>
 
@@ -2129,7 +2137,6 @@
               <canvas id="canvas-centered-preview" width="560" height="315"></canvas>
               <div class="etalase-badge-top">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-
                   <circle cx="12" cy="12" r="10"></circle>
                   <circle cx="12" cy="12" r="3"></circle>
                 </svg>
@@ -2139,7 +2146,7 @@
 
             <div class="etalase-content">
               <div class="etalase-meta">
-                <span class="etalase-tag">TEMPLATE 01 · BALANCED FOCUS</span>
+                <span class="etalase-tag">TEMPLATE 01 · 12 FOTO</span>
               </div>
               <h3 class="etalase-title">1-3-4-3-1 Centered Diamond</h3>
               <div class="specs-grid">
@@ -2152,21 +2159,20 @@
                   <span class="spec-val">0.88x (1:1) & 0.55x (Fit)</span>
                 </div>
                 <div class="spec-item">
-                  <span class="spec-key">Jarak Celah (Gap)</span>
+                  <span class="spec-key">Jarak Celah</span>
                   <span class="spec-val">40px × 40px</span>
                 </div>
                 <div class="spec-item">
-                  <span class="spec-key">Karakter Visual</span>
+                  <span class="spec-key">Karakter</span>
                   <span class="spec-val">Simetris & Fokus Tengah</span>
                 </div>
               </div>
 
               <div class="etalase-btn-wrap">
                 <a href="studio-centered.html" class="btn btn-primary" title="Buka Template Centered Diamond">
-                  Buka Template Centered
+                  Buka Studio
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                      stroke-linejoin="round" />
+                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
                 </a>
               </div>
@@ -2190,7 +2196,7 @@
 
             <div class="etalase-content">
               <div class="etalase-meta">
-                <span class="etalase-tag emerald">TEMPLATE 02 · CINEMATIC EDGE-TO-EDGE</span>
+                <span class="etalase-tag emerald">TEMPLATE 02 · 12 FOTO</span>
               </div>
               <h3 class="etalase-title">1-3-4-3-1 Full-Bleed Stretch</h3>
               <div class="specs-grid">
@@ -2203,22 +2209,20 @@
                   <span class="spec-val">1.18x (Edge Fill Sinematik)</span>
                 </div>
                 <div class="spec-item">
-                  <span class="spec-key">Jarak Celah (Gap)</span>
-                  <span class="spec-val">36px × 36px (Tighter)</span>
+                  <span class="spec-key">Jarak Celah</span>
+                  <span class="spec-val">36px × 36px Rapat</span>
                 </div>
                 <div class="spec-item">
-                  <span class="spec-key">Fitur Khusus</span>
-                  <span class="spec-val">Kontrol Zoom (+ / -) Interaktif</span>
+                  <span class="spec-key">Karakter</span>
+                  <span class="spec-val">Tepi Penuh Sinematik</span>
                 </div>
               </div>
 
               <div class="etalase-btn-wrap">
-                <a href="studio-stretch.html" class="btn btn-primary"
-                  title="Buka Template Full-Bleed Stretch di studio-stretch.html">
-                  Buka Template Stretch
+                <a href="studio-stretch.html" class="btn btn-primary" title="Buka Template Full-Bleed Stretch">
+                  Buka Studio
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                      stroke-linejoin="round" />
+                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
                 </a>
               </div>
@@ -2241,7 +2245,7 @@
 
             <div class="etalase-content">
               <div class="etalase-meta">
-                <span class="etalase-tag">TEMPLATE 03 · LIGHTWEIGHT & BALANCED (9 FOTO)</span>
+                <span class="etalase-tag">TEMPLATE 03 · 9 FOTO</span>
               </div>
               <h3 class="etalase-title">1-2-3-2-1 Centered Zoom-Out</h3>
               <div class="specs-grid">
@@ -2250,25 +2254,24 @@
                   <span class="spec-val">1 - 2 - 3 - 2 - 1 Ramping</span>
                 </div>
                 <div class="spec-item">
-                  <span class="spec-key">Kapasitas Slot</span>
-                  <span class="spec-val">9 Tangkapan Layar</span>
-                </div>
-                <div class="spec-item">
                   <span class="spec-key">Default Zoom</span>
-                  <span class="spec-val">0.82x (Normal Awal Proporsional)</span>
+                  <span class="spec-val">0.82x (Normal Proporsional)</span>
                 </div>
                 <div class="spec-item">
-                  <span class="spec-key">Jarak Celah (Gap)</span>
+                  <span class="spec-key">Jarak Celah</span>
                   <span class="spec-val">40px × 40px Simetris</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Karakter</span>
+                  <span class="spec-val">Ringan & Bernafas Lega</span>
                 </div>
               </div>
 
               <div class="etalase-btn-wrap">
                 <a href="studio-9-zoomout.html" class="btn btn-primary" title="Buka Template 1-2-3-2-1 Zoom-Out">
-                  Buka 9-Card Zoom-Out
+                  Buka Studio
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                      stroke-linejoin="round" />
+                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
                 </a>
               </div>
@@ -2292,7 +2295,7 @@
 
             <div class="etalase-content">
               <div class="etalase-meta">
-                <span class="etalase-tag emerald">TEMPLATE 04 · FULL-BLEED IMMERSION (9 FOTO)</span>
+                <span class="etalase-tag emerald">TEMPLATE 04 · 9 FOTO</span>
               </div>
               <h3 class="etalase-title">1-2-3-2-1 Full-Bleed Stretch</h3>
               <div class="specs-grid">
@@ -2301,25 +2304,120 @@
                   <span class="spec-val">1 - 2 - 3 - 2 - 1 Melebar</span>
                 </div>
                 <div class="spec-item">
-                  <span class="spec-key">Kapasitas Slot</span>
-                  <span class="spec-val">9 Tangkapan Layar</span>
-                </div>
-                <div class="spec-item">
                   <span class="spec-key">Default Zoom</span>
                   <span class="spec-val">1.32x (Stretch Full-Bleed)</span>
                 </div>
                 <div class="spec-item">
-                  <span class="spec-key">Jarak Celah (Gap)</span>
+                  <span class="spec-key">Jarak Celah</span>
                   <span class="spec-val">36px × 36px Rapat Presisi</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Karakter</span>
+                  <span class="spec-val">Visual Besar & Dramatis</span>
                 </div>
               </div>
 
               <div class="etalase-btn-wrap">
                 <a href="studio-9-stretch.html" class="btn btn-primary" title="Buka Template 1-2-3-2-1 Stretch">
-                  Buka 9-Card Stretch
+                  Buka Studio
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                      stroke-linejoin="round" />
+                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- TEMPLATE 5: 2-3-2 LANDSCAPE STAGGERED (7 KARTU - BARU) -->
+          <article class="etalase-card featured" id="template-7-landscape-card" onclick="window.location.href='studio-7-landscape.html'">
+            <div class="etalase-preview-box">
+              <canvas id="canvas-7-landscape-preview" width="560" height="315"></canvas>
+              <div class="etalase-badge-top emerald">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+                7 Kartu Landscape (108%)
+              </div>
+            </div>
+
+            <div class="etalase-content">
+              <div class="etalase-meta">
+                <span class="etalase-tag emerald">TEMPLATE 05 · 7 FOTO BARU</span>
+              </div>
+              <h3 class="etalase-title">2-3-2 Landscape Staggered</h3>
+              <div class="specs-grid">
+                <div class="spec-item">
+                  <span class="spec-key">Formasi Grid</span>
+                  <span class="spec-val">2 - 3 - 2 Staggered</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Default Zoom</span>
+                  <span class="spec-val">1.08x (Hero Melayang)</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Jarak Celah</span>
+                  <span class="spec-val">38px × 38px Presisi</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Fitur Khusus</span>
+                  <span class="spec-val">✨ Hero Center Floating</span>
+                </div>
+              </div>
+
+              <div class="etalase-btn-wrap">
+                <a href="studio-7-landscape.html" class="btn btn-primary" title="Buka Template 2-3-2 Landscape">
+                  Buka Studio
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- TEMPLATE 6: 2-3-2 MOBILE 3D PHONE (7 LAYAR - BARU) -->
+          <article class="etalase-card featured" id="template-mobile-7-card" onclick="window.location.href='studio-mobile-7.html'">
+            <div class="etalase-preview-box">
+              <canvas id="canvas-mobile-7-preview" width="560" height="315"></canvas>
+              <div class="etalase-badge-top">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect>
+                  <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                </svg>
+                7 Layar Mobile App (9:16)
+              </div>
+            </div>
+
+            <div class="etalase-content">
+              <div class="etalase-meta">
+                <span class="etalase-tag volt">TEMPLATE 06 · MOBILE PHONE 3D</span>
+              </div>
+              <h3 class="etalase-title">2-3-2 Mobile Smartphone 3D</h3>
+              <div class="specs-grid">
+                <div class="spec-item">
+                  <span class="spec-key">Formasi Grid</span>
+                  <span class="spec-val">2 - 3 - 2 Layar HP</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Rasio Layar</span>
+                  <span class="spec-val">9:16 Portrait Mobile</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Bodi HP 3D</span>
+                  <span class="spec-val">Flagship Frame & Dynamic Pill</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Karakter</span>
+                  <span class="spec-val">Khusus UI Aplikasi HP</span>
+                </div>
+              </div>
+
+              <div class="etalase-btn-wrap">
+                <a href="studio-mobile-7.html" class="btn btn-primary" title="Buka Template 2-3-2 Mobile Phone">
+                  Buka Studio
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
                 </a>
               </div>
@@ -2487,6 +2585,8 @@
               <li><a href="studio-stretch.html">12 Full-Bleed Stretch</a></li>
               <li><a href="studio-9-zoomout.html">9 Kartu Zoom-Out</a></li>
               <li><a href="studio-9-stretch.html">9 Kartu Stretch Full</a></li>
+              <li><a href="studio-7-landscape.html">7 Kartu Landscape (Baru)</a></li>
+              <li><a href="studio-mobile-7.html">7 Layar Mobile App 3D (Baru)</a></li>
             </ul>
           </div>
 
@@ -2562,14 +2662,14 @@
 
       // 1. Background Kanvas
       const grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, '#e8eef6');
-      grad.addColorStop(0.5, '#dfe6f0');
-      grad.addColorStop(1, '#d2dbe7');
+      grad.addColorStop(0, '#e8f0eb');
+      grad.addColorStop(0.5, '#dfe9e2');
+      grad.addColorStop(1, '#d0ded5');
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, w, h);
 
-      // Grid dekoratif halus
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+      // Grid dekoratif halus bernuansa emerald/volt
+      ctx.strokeStyle = 'rgba(16, 185, 129, 0.12)';
       ctx.lineWidth = 1;
       for (let x = 0; x < w; x += 20) {
         ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
@@ -2587,7 +2687,10 @@
       let zoomFactor = 0.88;
       let gapX = 40, gapY = 40;
       let layout = [];
-      let isEmerald = false;
+      let isEmerald = true;
+      let isPhone = false;
+      let cardW = 920;
+      let cardH = 580;
 
       if (type === 'centered' || type === false) {
         zoomFactor = 0.88;
@@ -2602,7 +2705,6 @@
       } else if (type === 'stretch' || type === true) {
         zoomFactor = 1.18;
         gapX = 36; gapY = 36;
-        isEmerald = true;
         layout = [
           { col: -0.5, row: -2 },
           { col: -1.5, row: -1 }, { col: -0.5, row: -1 }, { col: 0.5, row: -1 },
@@ -2623,13 +2725,31 @@
       } else if (type === '9-stretch') {
         zoomFactor = 1.32;
         gapX = 36; gapY = 36;
-        isEmerald = true;
         layout = [
           { col: 0, row: -2 },
           { col: -1, row: -1 }, { col: 0, row: -1 },
           { col: -1, row: 0 }, { col: 0, row: 0, focal: true }, { col: 1, row: 0, focal: true },
           { col: 0, row: 1 }, { col: 1, row: 1 },
           { col: 0, row: 2 }
+        ];
+      } else if (type === '7-landscape') {
+        zoomFactor = 1.08;
+        gapX = 38; gapY = 38;
+        layout = [
+          { col: -1, row: -0.5 }, { col: 0, row: -1 },
+          { col: -1, row: 0.5 }, { col: 0, row: 0, focal: true }, { col: 1, row: -0.5 },
+          { col: 0, row: 1 }, { col: 1, row: 0.5 }
+        ];
+      } else if (type === 'mobile-7') {
+        zoomFactor = 1.14;
+        gapX = 42; gapY = 42;
+        isPhone = true;
+        cardW = 540;
+        cardH = 1100;
+        layout = [
+          { col: -1, row: -0.52 }, { col: -1, row: 0.48 },
+          { col: 0, row: -1.0 }, { col: 0, row: 0, focal: true }, { col: 0, row: 1.0 },
+          { col: 1, row: -0.62 }, { col: 1, row: 0.38 }
         ];
       }
 
@@ -2642,8 +2762,6 @@
       const originX = w * 0.5;
       const originY = h * 0.5;
 
-      const cardW = 920;
-      const cardH = 580;
       const stepX = cardW + gapX;
       const stepY = cardH + gapY;
 
@@ -2663,56 +2781,78 @@
       for (const c of cards) {
         const x = c.px - cardW / 2;
         const y = c.py - cardH / 2;
+        const radius = isPhone ? 42 : 22;
 
         // Shadow
-        ctx.fillStyle = 'rgba(15, 23, 42, 0.14)';
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.16)';
         ctx.beginPath();
-        ctx.roundRect(x + 12, y + 16, cardW, cardH, 22);
+        ctx.roundRect(x + 12, y + 16, cardW, cardH, radius);
         ctx.fill();
 
         // Slab
-        ctx.fillStyle = '#c7d2e0';
+        ctx.fillStyle = isPhone ? '#0f172a' : '#b8c9be';
         ctx.beginPath();
-        ctx.roundRect(x, y + 6, cardW, cardH, 22);
+        ctx.roundRect(x, y + (isPhone ? 10 : 6), cardW, cardH, radius);
         ctx.fill();
 
         // Surface
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = isPhone ? '#090d16' : '#ffffff';
         ctx.beginPath();
-        ctx.roundRect(x, y, cardW, cardH, 22);
+        ctx.roundRect(x, y, cardW, cardH, radius);
         ctx.fill();
 
         if (c.focal) {
-          ctx.fillStyle = isEmerald ? '#10b981' : '#2563eb';
+          // Emerald + Volt Focal Centerpiece
+          ctx.fillStyle = '#10b981';
           ctx.beginPath();
-          ctx.roundRect(x + 30, y + 30, cardW - 60, 90, 10);
+          if (isPhone) {
+            ctx.roundRect(x + 28, y + 28, cardW - 56, 160, 20);
+          } else {
+            ctx.roundRect(x + 30, y + 30, cardW - 60, 90, 10);
+          }
           ctx.fill();
 
-          ctx.fillStyle = '#e2e8f0';
+          ctx.fillStyle = '#d2ff00';
           ctx.beginPath();
-          ctx.roundRect(x + 30, y + 150, 220, 24, 6);
-          ctx.roundRect(x + 30, y + 190, 340, 16, 6);
+          if (isPhone) {
+            ctx.roundRect(x + 28, y + 220, 280, 36, 10);
+            ctx.fillStyle = '#334155';
+            ctx.roundRect(x + 28, y + 280, cardW - 56, 220, 16);
+          } else {
+            ctx.roundRect(x + 30, y + 150, 240, 24, 6);
+            ctx.fillStyle = '#e2e8f0';
+            ctx.roundRect(x + 30, y + 190, 340, 16, 6);
+          }
           ctx.fill();
+
+          // Volt glow border on focal card
+          ctx.strokeStyle = '#d2ff00';
+          ctx.lineWidth = 4;
+          ctx.beginPath();
+          ctx.roundRect(x, y, cardW, cardH, radius);
+          ctx.stroke();
         } else {
-          ctx.fillStyle = '#f1f5f9';
+          ctx.fillStyle = isPhone ? '#1e293b' : '#f1f5f9';
           ctx.beginPath();
-          ctx.roundRect(x + 30, y + 30, cardW - 60, 40, 8);
+          if (isPhone) {
+            ctx.roundRect(x + 24, y + 24, cardW - 48, 80, 14);
+            ctx.fillStyle = '#334155';
+            ctx.roundRect(x + 24, y + 130, 240, 24, 6);
+            ctx.roundRect(x + 24, y + 180, cardW - 48, 140, 12);
+          } else {
+            ctx.roundRect(x + 30, y + 30, cardW - 60, 40, 8);
+            ctx.fillStyle = '#e2e8f0';
+            ctx.roundRect(x + 30, y + 90, 180, 20, 6);
+            ctx.roundRect(x + 30, y + 130, 400, 14, 4);
+          }
           ctx.fill();
 
-          ctx.fillStyle = '#e2e8f0';
+          ctx.strokeStyle = isPhone ? 'rgba(255, 255, 255, 0.15)' : 'rgba(255, 255, 255, 0.9)';
+          ctx.lineWidth = 3;
           ctx.beginPath();
-          ctx.roundRect(x + 30, y + 90, 180, 20, 6);
-          ctx.roundRect(x + 30, y + 130, 400, 14, 4);
-          ctx.roundRect(x + 30, y + 160, 360, 14, 4);
-          ctx.roundRect(x + 30, y + 190, 300, 14, 4);
-          ctx.fill();
+          ctx.roundRect(x, y, cardW, cardH, radius);
+          ctx.stroke();
         }
-
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.roundRect(x, y, cardW, cardH, 22);
-        ctx.stroke();
       }
 
       ctx.restore();
@@ -2723,6 +2863,8 @@
       drawMiniIsometricPreview('canvas-stretch-preview', 'stretch');
       drawMiniIsometricPreview('canvas-9-zoomout-preview', '9-zoomout');
       drawMiniIsometricPreview('canvas-9-stretch-preview', '9-stretch');
+      drawMiniIsometricPreview('canvas-7-landscape-preview', '7-landscape');
+      drawMiniIsometricPreview('canvas-mobile-7-preview', 'mobile-7');
     });
 
     /* ============================================================
