@@ -1,0 +1,1920 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>3D Isometric Mockup Studio - 9 Card Showcase (1-2-3-2-1 Zoom-Out)</title>
+
+  <!-- CDN Icons & Confetti -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg-primary: #f1f5f9;
+      --bg-secondary: #ffffff;
+      --bg-canvas: #dce3ec;
+      --bg-glass: rgba(255, 255, 255, 0.94);
+      --border-glass: #e2e8f0;
+      --accent-primary: #2563eb;
+      --accent-hover: #1d4ed8;
+      --accent-emerald: #10b981;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #94a3b8;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --shadow-panel: 0 10px 35px -10px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Topbar */
+    .topbar {
+      height: 60px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-glass);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text-main);
+    }
+
+    .brand-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: rgba(37, 99, 235, 0.08);
+      color: var(--accent-primary);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+    }
+
+    .topbar-center {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      background: #ffffff;
+      color: var(--text-muted);
+      border: 1px solid var(--border-glass);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-pill:hover {
+      background: #f8fafc;
+      color: var(--text-main);
+      border-color: #cbd5e1;
+    }
+
+    .btn-pill.active {
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--accent-primary);
+      border-color: rgba(37, 99, 235, 0.4);
+      font-weight: 700;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 18px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 3px 12px rgba(37, 99, 235, 0.28);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 16px rgba(37, 99, 235, 0.4);
+    }
+
+    /* Main Workspace */
+    .main-content {
+      flex: 1;
+      position: relative;
+      display: flex;
+      overflow: hidden;
+      background: var(--bg-canvas);
+      transition: background 0.25s ease;
+    }
+
+    .canvas-viewport {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    #mockup-canvas {
+      max-width: 96%;
+      max-height: 92%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 14px;
+      box-shadow: 0 25px 65px rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(15, 23, 42, 0.08);
+      display: block;
+    }
+
+    /* Bottom Floating HUD */
+    .hud-status {
+      position: absolute;
+      bottom: 22px;
+      left: 22px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      padding: 6px 12px;
+      border-radius: 30px;
+      border: 1px solid var(--border-glass);
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      z-index: 20;
+    }
+
+    .hud-badge {
+      background: rgba(37, 99, 235, 0.08);
+      color: var(--accent-primary);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .hud-btn {
+      background: #f8fafc;
+      color: var(--text-main);
+      border: 1px solid #cbd5e1;
+      padding: 4px 10px;
+      border-radius: 14px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .hud-btn:hover {
+      background: #eff6ff;
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+    }
+
+    /* Sidebar Toggle */
+    .sidebar-toggle-btn {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 45;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 400px;
+      height: calc(100% - 24px);
+      margin: 12px 16px 12px 0;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-panel);
+      z-index: 40;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), margin 0.3s ease;
+    }
+
+    .sidebar.collapsed {
+      transform: translateX(calc(100% + 24px));
+      margin-right: -400px;
+    }
+
+    .sidebar-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border-glass);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tab-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px;
+    }
+
+    .tab-content::-webkit-scrollbar {
+      width: 5px;
+    }
+    .tab-content::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    .section {
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .upload-actions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .btn-upload-choice {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 13px 10px;
+      background: #f8fafc;
+      border: 1.5px dashed rgba(37, 99, 235, 0.32);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-upload-choice:hover {
+      background: rgba(37, 99, 235, 0.05);
+      border-color: var(--accent-primary);
+      transform: translateY(-1px);
+    }
+
+    .upload-icon {
+      font-size: 21px;
+    }
+
+    .upload-choice-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .upload-choice-sub {
+      font-size: 10px;
+      color: var(--text-dim);
+    }
+
+    .dropzone {
+      border: 1.5px dashed rgba(37, 99, 235, 0.32);
+      background: #f8fafc;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .dropzone:hover, .dropzone.dragover {
+      border-color: var(--accent-primary);
+      background: rgba(37, 99, 235, 0.05);
+    }
+
+    .dropzone-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 4px;
+    }
+
+    .dropzone-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* 1-2-3-2-1 Visual Diamond Navigator */
+    .slot-navigator {
+      background: #f8fafc;
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-md);
+      padding: 12px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      align-items: center;
+    }
+
+    .slot-row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .slot-card {
+      flex: 1;
+      max-width: 88px;
+      height: 46px;
+      background: #ffffff;
+      border: 1.5px solid var(--border-glass);
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .slot-row:first-child .slot-card,
+    .slot-row:last-child .slot-card {
+      max-width: 104px;
+    }
+
+    .slot-card:hover {
+      border-color: var(--accent-primary);
+      background: rgba(37, 99, 235, 0.06);
+      transform: translateY(-2px);
+    }
+
+    .slot-card.center-focus {
+      border-color: rgba(37, 99, 235, 0.65);
+      background: #eff6ff;
+    }
+
+    .slot-card.has-image {
+      border-color: var(--accent-emerald);
+    }
+
+    .slot-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0.85;
+      display: none;
+      pointer-events: none;
+    }
+
+    .slot-card.has-image .slot-thumb {
+      display: block;
+    }
+
+    .slot-number {
+      font-size: 10px;
+      font-weight: 700;
+      color: #0f172a;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.88);
+      padding: 1px 5px;
+      border-radius: 4px;
+      pointer-events: none;
+    }
+
+    .slot-tag {
+      font-size: 8px;
+      color: var(--text-muted);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .btn-preset {
+      padding: 9px 11px;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s;
+    }
+
+    .btn-preset:hover {
+      background: #f8fafc;
+      color: var(--text-main);
+      border-color: #cbd5e1;
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 450px;
+      max-width: 92%;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: 0 25px 60px rgba(15, 23, 42, 0.2);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .modal-title {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .export-res-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .res-card {
+      border: 1.5px solid var(--border-glass);
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 12px;
+      cursor: pointer;
+    }
+
+    .res-card.active {
+      border-color: var(--accent-primary);
+      background: rgba(37, 99, 235, 0.06);
+    }
+
+    .res-title {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .res-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #ffffff;
+      border: 1px solid #93c5fd;
+      padding: 12px 18px;
+      border-radius: 10px;
+      color: var(--text-main);
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 200;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .mobile-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.35);
+      z-index: 38;
+    }
+
+    .mobile-backdrop.open {
+      display: block;
+    }
+
+    .mobile-fab {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      border-radius: 30px;
+      background: var(--accent-primary);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      z-index: 39;
+    }
+
+    @media (max-width: 900px) {
+      .brand-badge, .topbar-center .btn-pill span, .sidebar-toggle-btn {
+        display: none;
+      }
+      .sidebar {
+        position: fixed;
+        right: 0;
+        top: 0;
+        height: 100%;
+        margin: 0;
+        width: 340px;
+        max-width: 88vw;
+        border-radius: 16px 0 0 16px;
+        z-index: 45;
+        transform: translateX(100%);
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      .mobile-fab {
+        display: flex;
+      }
+      .hud-status {
+        bottom: 76px;
+        left: 12px;
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">3D</div>
+      <div class="brand-title">3D Mockup Studio</div>
+      <span id="theme-badge" class="brand-badge">Light Mode</span>
+    </div>
+
+    <!-- Center Theme Toggles -->
+    <div class="topbar-center">
+      <button id="btn-theme-light" class="btn-pill active" title="Tema Lightmode (SMK SOPAN)">
+        <span>☀️ Reference Light (SOPAN)</span>
+      </button>
+      <button id="btn-theme-dark" class="btn-pill" title="Tema Darkmode (EcoVision AI)">
+        <span>🌙 Reference Dark (EcoVision)</span>
+      </button>
+    </div>
+
+    <!-- Right Action Buttons -->
+    <div class="topbar-right">
+      <button id="btn-open-export" class="btn-primary">
+        <span>⬇ Export PNG</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <main class="main-content">
+    <div id="viewport-container" class="canvas-viewport">
+      <canvas id="mockup-canvas"></canvas>
+
+      <!-- Bottom Quick Controls -->
+      <div class="hud-status">
+        <span class="hud-badge">Formasi 1-2-3-2-1 (9 Kartu)</span>
+        <button id="btn-zoom-out" class="hud-btn" title="Perkecil Sedikit">➖</button>
+        <button id="btn-toggle-zoom" class="hud-btn" title="Klik untuk ganti preset Zoom">
+          🔍 Zoom: 82% (Normal Awal)
+        </button>
+        <button id="btn-zoom-in" class="hud-btn" title="Perbesar Sedikit">➕</button>
+      </div>
+    </div>
+
+    <button id="sidebar-toggle" class="sidebar-toggle-btn" title="Buka/Tutup Panel">
+      ⇄
+    </button>
+
+    <div id="mobile-backdrop" class="mobile-backdrop"></div>
+
+    <button id="mobile-fab" class="mobile-fab">
+      <span>🖼️ Kelola 9 Foto</span>
+    </button>
+
+    <!-- Sidebar Panel -->
+    <aside id="sidebar-panel" class="sidebar">
+      <div class="sidebar-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="font-size: 14px; font-weight: 700;">9 Photos Management</div>
+          <span class="hud-badge">1-2-3-2-1</span>
+        </div>
+        <button id="sidebar-close-mobile" class="modal-close" title="Tutup">&times;</button>
+      </div>
+
+      <div class="tab-content">
+        <!-- Upload Section -->
+        <div class="section">
+          <div class="section-title">
+            <span>Upload Foto (File / Kamera)</span>
+            <span class="hud-badge">0% Crop</span>
+          </div>
+
+          <div class="upload-actions-grid">
+            <button id="btn-trigger-gallery" class="btn-upload-choice">
+              <span class="upload-icon">📁</span>
+              <span class="upload-choice-title">Pilih File / Galeri</span>
+              <span class="upload-choice-sub">Batch hingga 9 foto</span>
+            </button>
+
+            <button id="btn-trigger-camera" class="btn-upload-choice">
+              <span class="upload-icon">📷</span>
+              <span class="upload-choice-title">Buka Kamera HP</span>
+              <span class="upload-choice-sub">Ambil foto langsung</span>
+            </button>
+          </div>
+
+          <div id="batch-dropzone" class="dropzone">
+            <input type="file" id="batch-file-input" multiple accept="image/*" style="display: none;">
+            <input type="file" id="camera-batch-input" accept="image/*" capture="environment" style="display: none;">
+            <div style="font-size: 22px;">📥</div>
+            <div class="dropzone-title">Tarik & lepas screenshot ke sini</div>
+            <div class="dropzone-sub">Mendukung JPG, PNG, WEBP (Otomatis Rapi)</div>
+          </div>
+        </div>
+
+        <!-- 1-2-3-2-1 Visual Diamond Navigator -->
+        <div class="section">
+          <div class="section-title">
+            <span>Tata Letak 1-2-3-2-1 Diamond</span>
+            <span id="slot-count-badge" class="hud-badge">9 Slot Demo</span>
+          </div>
+
+          <div class="slot-navigator">
+            <!-- Baris 1 (1 Kartu) -->
+            <div class="slot-row">
+              <div class="slot-card" data-slot="0" title="Slot #1: Puncak Atas (Baris 1)">
+                <img id="thumb-0" class="slot-thumb" alt="">
+                <span class="slot-number">#1 Puncak</span>
+                <span class="slot-tag">1 Kartu</span>
+              </div>
+            </div>
+
+            <!-- Baris 2 (2 Kartu) -->
+            <div class="slot-row">
+              <div class="slot-card" data-slot="1" title="Slot #2: Atas Kiri (Baris 2)">
+                <img id="thumb-1" class="slot-thumb" alt="">
+                <span class="slot-number">#2</span>
+              </div>
+              <div class="slot-card" data-slot="2" title="Slot #3: Atas Kanan (Baris 2)">
+                <img id="thumb-2" class="slot-thumb" alt="">
+                <span class="slot-number">#3 ★</span>
+              </div>
+            </div>
+
+            <!-- Baris 3 (3 Kartu Tengah Utama) -->
+            <div class="slot-row">
+              <div class="slot-card" data-slot="3" title="Slot #4: Tengah Kiri (Baris 3)">
+                <img id="thumb-3" class="slot-thumb" alt="">
+                <span class="slot-number">#4</span>
+              </div>
+              <div class="slot-card center-focus" data-slot="4" title="Slot #5: Fokus Utama Tengah ★ (Baris 3)">
+                <img id="thumb-4" class="slot-thumb" alt="">
+                <span class="slot-number">#5 ★ Pusat</span>
+              </div>
+              <div class="slot-card center-focus" data-slot="5" title="Slot #6: Tengah Kanan ★ (Baris 3)">
+                <img id="thumb-5" class="slot-thumb" alt="">
+                <span class="slot-number">#6 ★</span>
+              </div>
+            </div>
+
+            <!-- Baris 4 (2 Kartu) -->
+            <div class="slot-row">
+              <div class="slot-card" data-slot="6" title="Slot #7: Bawah Kiri (Baris 4)">
+                <img id="thumb-6" class="slot-thumb" alt="">
+                <span class="slot-number">#7 ★</span>
+              </div>
+              <div class="slot-card" data-slot="7" title="Slot #8: Bawah Kanan (Baris 4)">
+                <img id="thumb-7" class="slot-thumb" alt="">
+                <span class="slot-number">#8</span>
+              </div>
+            </div>
+
+            <!-- Baris 5 (1 Kartu) -->
+            <div class="slot-row">
+              <div class="slot-card" data-slot="8" title="Slot #9: Dasar Bawah (Baris 5)">
+                <img id="thumb-8" class="slot-thumb" alt="">
+                <span class="slot-number">#9 Dasar</span>
+                <span class="slot-tag">1 Kartu</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="font-size: 11px; color: var(--text-dim); text-align: center; margin-top: 7px;">
+            Klik nomor slot di atas untuk mengganti foto satu per satu.
+          </div>
+        </div>
+
+        <!-- Presets -->
+        <div class="section">
+          <div class="section-title">Aksi & Demo Referensi</div>
+          <div class="preset-grid">
+            <button id="btn-load-light-demo" class="btn-preset">
+              <span>☀️ Demo Light SOPAN</span>
+            </button>
+            <button id="btn-load-dark-demo" class="btn-preset">
+              <span>🌙 Demo Dark EcoVision</span>
+            </button>
+            <button id="btn-duplicate-remaining" class="btn-preset">
+              <span>📋 Isi Slot Kosong</span>
+            </button>
+            <button id="btn-clear-all" class="btn-preset" style="color: #ef4444;">
+              <span>🗑️ Reset ke Default</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Slot Modal -->
+  <div id="slot-modal" class="modal-overlay">
+    <div class="modal-card" style="width: 370px;">
+      <div class="modal-header">
+        <div id="slot-modal-title" class="modal-title">Atur Slot #1</div>
+        <button id="btn-close-slot-modal" class="modal-close">&times;</button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button id="btn-slot-file" class="btn-pill" style="padding: 12px 16px; justify-content: flex-start; gap: 12px;">
+          <span style="font-size: 20px;">📁</span>
+          <div style="text-align: left;">
+            <div style="font-weight: 700; color: var(--text-main);">Pilih dari Galeri / File</div>
+            <div style="font-size: 11px; color: var(--text-dim);">Upload screenshot untuk slot ini</div>
+          </div>
+        </button>
+        <button id="btn-slot-camera" class="btn-pill" style="padding: 12px 16px; justify-content: flex-start; gap: 12px;">
+          <span style="font-size: 20px;">📷</span>
+          <div style="text-align: left;">
+            <div style="font-weight: 700; color: var(--text-main);">Ambil Foto via Kamera</div>
+            <div style="font-size: 11px; color: var(--text-dim);">Gunakan kamera langsung</div>
+          </div>
+        </button>
+        <button id="btn-slot-remove" class="btn-pill" style="padding: 12px 16px; justify-content: flex-start; gap: 12px; color: #ef4444;">
+          <span style="font-size: 20px;">🗑️</span>
+          <div style="text-align: left;">
+            <div style="font-weight: 700;">Kembalikan ke Default</div>
+            <div style="font-size: 11px; color: var(--text-dim);">Reset slot ini ke kartu demo</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export Modal -->
+  <div id="export-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">Export 3D Mockup PNG</div>
+        <button id="btn-close-modal" class="modal-close">&times;</button>
+      </div>
+      <div class="export-res-grid">
+        <div class="res-card active" data-res="2752x1536">
+          <div class="res-title">Resolusi Referensi ★</div>
+          <div class="res-sub">2752 × 1536 • 1:1 Pixel Match</div>
+        </div>
+        <div class="res-card" data-res="3840x2160">
+          <div class="res-title">4K Ultra HD</div>
+          <div class="res-sub">3840 × 2160 • Ekstra Tajam</div>
+        </div>
+        <div class="res-card" data-res="1920x1080">
+          <div class="res-title">1080p Full HD</div>
+          <div class="res-sub">1920 × 1080 • Standar Web</div>
+        </div>
+        <div class="res-card" data-res="1600x1200">
+          <div class="res-title">Dribbble Shot</div>
+          <div class="res-sub">1600 × 1200 (4:3)</div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button id="btn-export-download" class="btn-primary" style="flex: 1; justify-content: center; padding: 12px 20px;">
+          <span>⬇ Download High-Res PNG</span>
+        </button>
+        <button id="btn-copy-clipboard" class="btn-pill" style="padding: 12px 18px;">
+          <span>📋 Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <input type="file" id="single-file-input" accept="image/*" style="display: none;">
+  <input type="file" id="single-camera-input" accept="image/*" capture="environment" style="display: none;">
+
+  <div id="toast" class="toast">
+    <span>✅</span>
+    <span id="toast-msg">Siap digunakan</span>
+  </div>
+
+  <!-- ========================================================
+       ALL-IN-ONE JAVASCRIPT (9-CARD 1-2-3-2-1 ZOOM-OUT NORMAL)
+       ======================================================== -->
+  <script>
+    const TOTAL_SLOTS = 9;
+
+    if (!CanvasRenderingContext2D.prototype.roundRect) {
+      CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+        const radius = Math.min(r, w / 2, h / 2);
+        this.moveTo(x + radius, y);
+        this.lineTo(x + w - radius, y);
+        this.quadraticCurveTo(x + w, y, x + w, y + radius);
+        this.lineTo(x + w, y + h - radius);
+        this.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
+        this.lineTo(x + radius, y + h);
+        this.quadraticCurveTo(x, y + h, x, y + h - radius);
+        this.lineTo(x, y + radius);
+        this.quadraticCurveTo(x, y, x + radius, y);
+        this.closePath();
+      };
+    }
+
+    /**
+     * 1. GENERATOR KARTU DEMO (9 Kartu sesuai posisi 1-2-3-2-1)
+     */
+    class DemoGenerator {
+      static generateSet(theme = 'light') {
+        const cards = [];
+        for (let i = 0; i < TOTAL_SLOTS; i++) {
+          cards.push(theme === 'light' ? this.createLightCard(i) : this.createDarkCard(i));
+        }
+        return cards;
+      }
+
+      static createLightCard(index) {
+        const c = document.createElement('canvas');
+        c.width = 920;
+        c.height = 580;
+        const ctx = c.getContext('2d');
+
+        ctx.fillStyle = '#f8fafc';
+        ctx.fillRect(0, 0, 920, 580);
+
+        // Slot #3 (index 2: Atas Kanan) & Slot #5 ★ (index 4: Fokus Utama Tengah)
+        if (index === 2 || index === 4 || index === 0) {
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, 920, 54);
+          ctx.fillStyle = '#0f172a';
+          ctx.font = 'bold 19px sans-serif';
+          const title = index === 4 ? 'Portal Publik SOPAN' : (index === 2 ? 'Dashboard Admin' : 'Jam Operasional & Layanan SOPAN');
+          ctx.fillText(title, 30, 34);
+
+          const stats = [
+            { label: 'Total Guru', val: '97', bg: '#eff6ff', dot: '#3b82f6' },
+            { label: 'Total Siswa', val: '1994', bg: '#ecfdf5', dot: '#10b981' },
+            { label: 'Total Kelas', val: '54', bg: '#f5f3ff', dot: '#8b5cf6' },
+            { label: 'Pertemuan Hari Ini', val: '0', bg: '#fffbeb', dot: '#f59e0b' }
+          ];
+          stats.forEach((st, i) => {
+            const sx = 30 + i * 218;
+            const sy = 76;
+            ctx.fillStyle = '#ffffff';
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.roundRect(sx, sy, 202, 112, 12);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillStyle = st.bg;
+            ctx.beginPath();
+            ctx.roundRect(sx + 16, sy + 16, 32, 32, 8);
+            ctx.fill();
+
+            ctx.fillStyle = st.dot;
+            ctx.beginPath();
+            ctx.arc(sx + 32, sy + 32, 7, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 26px sans-serif';
+            ctx.fillText(st.val, sx + 16, sy + 78);
+
+            ctx.fillStyle = '#64748b';
+            ctx.font = '12px sans-serif';
+            ctx.fillText(st.label, sx + 16, sy + 98);
+          });
+
+          // Left Box
+          ctx.fillStyle = '#ffffff';
+          ctx.strokeStyle = '#e2e8f0';
+          ctx.beginPath();
+          ctx.roundRect(30, 210, 418, 340, 14);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.fillStyle = '#2563eb';
+          ctx.font = 'bold 11px sans-serif';
+          ctx.fillText('● SISTEM OPERASI PRESENSI SMKN 1 CIAMIS', 54, 250);
+
+          ctx.fillStyle = '#0f172a';
+          ctx.font = 'bold 24px sans-serif';
+          ctx.fillText('Aplikasi Sistem Operasi Presensi', 54, 288);
+          ctx.fillText('Kehadiran Mengajar Guru', 54, 318);
+
+          ctx.fillStyle = '#64748b';
+          ctx.font = '13px sans-serif';
+          ctx.fillText('Monitoring kehadiran real-time, rekapitulasi KBM,', 54, 352);
+          ctx.fillText('dan laporan presensi guru terintegrasi.', 54, 372);
+
+          ctx.fillStyle = '#0f172a';
+          ctx.beginPath();
+          ctx.roundRect(54, 466, 230, 50, 12);
+          ctx.fill();
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 14px sans-serif';
+          ctx.fillText('Install Aplikasi SOPAN', 84, 496);
+
+          // Right Box (Donut Chart)
+          ctx.fillStyle = '#ffffff';
+          ctx.strokeStyle = '#e2e8f0';
+          ctx.beginPath();
+          ctx.roundRect(470, 210, 420, 340, 14);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.fillStyle = '#0f172a';
+          ctx.font = 'bold 17px sans-serif';
+          ctx.fillText('Distribusi Kehadiran (7 Hari)', 496, 248);
+
+          const cx = 680, cy = 380, rad = 82;
+          ctx.lineWidth = 28;
+          ctx.strokeStyle = '#10b981';
+          ctx.beginPath();
+          ctx.arc(cx, cy, rad, 0, Math.PI * 1.45);
+          ctx.stroke();
+
+          ctx.strokeStyle = '#3b82f6';
+          ctx.beginPath();
+          ctx.arc(cx, cy, rad, Math.PI * 1.45, Math.PI * 1.82);
+          ctx.stroke();
+
+          ctx.strokeStyle = '#f59e0b';
+          ctx.beginPath();
+          ctx.arc(cx, cy, rad, Math.PI * 1.82, Math.PI * 2);
+          ctx.stroke();
+        } else if (index === 1 || index === 5 || index === 8) {
+          // Slot #2 (Atas Kiri), Slot #6 ★ (Tengah Kanan), Slot #9 (Dasar Bawah)
+          this.drawLightSidebar(ctx);
+          const grad = ctx.createLinearGradient(204, 60, 888, 210);
+          grad.addColorStop(0, '#3b82f6');
+          grad.addColorStop(1, '#2563eb');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.roundRect(208, 60, 682, 140, 14);
+          ctx.fill();
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 25px sans-serif';
+          ctx.fillText('Kenaikan Kelas & Tutup Tahun Ajaran', 236, 118);
+          ctx.fillStyle = 'rgba(255,255,255,0.86)';
+          ctx.font = '13px sans-serif';
+          ctx.fillText('Promosi tingkat kelas otomatis & pengarsipan data akademik tahunan.', 236, 148);
+
+          const boxes = ['2025/2026', '642 Siswa X', '724 Siswa XI', '628 Siswa XII'];
+          boxes.forEach((b, idx) => {
+            const bx = 208 + idx * 173;
+            ctx.fillStyle = '#ffffff';
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.roundRect(bx, 220, 160, 94, 10);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 20px sans-serif';
+            ctx.fillText(b, bx + 16, 276);
+          });
+
+          ctx.fillStyle = '#ffffff';
+          ctx.strokeStyle = '#e2e8f0';
+          ctx.beginPath();
+          ctx.roundRect(208, 334, 682, 214, 12);
+          ctx.fill();
+          ctx.stroke();
+
+          for (let r = 0; r < 3; r++) {
+            ctx.fillStyle = '#eff6ff';
+            ctx.beginPath();
+            ctx.roundRect(228, 356 + r * 56, 642, 42, 8);
+            ctx.fill();
+            ctx.fillStyle = '#1e293b';
+            ctx.font = 'bold 13px sans-serif';
+            ctx.fillText(`${r + 1}. Validasi Rapor & Konfigurasi Periode Tahun Akademik`, 246, 382 + r * 56);
+          }
+        } else {
+          // Slot #4 (Tengah Kiri: Manajemen Guru), Slot #7 (Bawah Kiri: Manajemen Siswa), Slot #8
+          this.drawLightSidebar(ctx);
+          ctx.fillStyle = '#0f172a';
+          ctx.font = 'bold 20px sans-serif';
+          ctx.fillText(index === 3 ? 'Manajemen Guru' : 'Manajemen Siswa', 208, 44);
+
+          ctx.fillStyle = '#10b981';
+          ctx.beginPath();
+          ctx.roundRect(764, 18, 126, 34, 8);
+          ctx.fill();
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 12px sans-serif';
+          ctx.fillText('+ Import Excel', 782, 39);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.strokeStyle = '#e2e8f0';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.roundRect(208, 68, 682, 482, 12);
+          ctx.fill();
+          ctx.stroke();
+
+          const names = index === 3
+            ? [
+                'ACEP MUHAMMAD SOLEH, S.Pd.',
+                'AGUNG SOFIYANI, S.E.',
+                'AI SITI MUNAWAROH, S.Pd.',
+                'ALISAH, S.Pd. H.J.',
+                'AMIRUDIN, S.Pd.',
+                'DRS. HENDRA KUSUMAH'
+              ]
+            : [
+                'ABDUL ROHIMAT',
+                'ADELLE MUAZARAH',
+                'ADITYA HERMAWAN',
+                'ALI ABDUL WAHID',
+                'ALIZA BUNGA BUDI PUTRI',
+                'PRADIPTA ENDRA MAULANA'
+              ];
+          names.forEach((name, rowIdx) => {
+            const ry = 128 + rowIdx * 66;
+            ctx.strokeStyle = '#f1f5f9';
+            ctx.beginPath();
+            ctx.moveTo(224, ry);
+            ctx.lineTo(872, ry);
+            ctx.stroke();
+
+            ctx.fillStyle = rowIdx % 2 === 0 ? '#3b82f6' : '#0ea5e9';
+            ctx.beginPath();
+            ctx.arc(252, ry + 32, 15, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 13px sans-serif';
+            ctx.fillText(name, 280, ry + 37);
+
+            ctx.fillStyle = '#dcfce7';
+            ctx.beginPath();
+            ctx.roundRect(634, ry + 18, 70, 26, 13);
+            ctx.fill();
+            ctx.fillStyle = '#15803d';
+            ctx.font = 'bold 11px sans-serif';
+            ctx.fillText('✓ Aktif', 648, ry + 35);
+
+            ctx.fillStyle = '#2563eb';
+            ctx.beginPath();
+            ctx.roundRect(730, ry + 18, 102, 26, 6);
+            ctx.fill();
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText('Detail Profil', 748, ry + 35);
+          });
+        }
+        return c;
+      }
+
+      static drawLightSidebar(ctx) {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, 186, 580);
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.beginPath();
+        ctx.moveTo(186, 0);
+        ctx.lineTo(186, 580);
+        ctx.stroke();
+
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 13px sans-serif';
+        ctx.fillText('SMK Negeri 1 Ciamis', 24, 36);
+
+        const menus = ['Dashboard', 'Guru', 'Siswa', 'Kelas', 'Jadwal KBM', 'Presensi', 'Kenaikan Kelas', 'Pengaturan'];
+        menus.forEach((m, i) => {
+          const my = 78 + i * 44;
+          if (i === 0 || i === 2) {
+            ctx.fillStyle = '#eff6ff';
+            ctx.beginPath();
+            ctx.roundRect(14, my - 18, 158, 32, 8);
+            ctx.fill();
+            ctx.fillStyle = '#2563eb';
+          } else {
+            ctx.fillStyle = '#64748b';
+          }
+          ctx.font = '600 12px sans-serif';
+          ctx.fillText(m, 32, my + 2);
+        });
+      }
+
+      static createDarkCard(index) {
+        const c = document.createElement('canvas');
+        c.width = 920;
+        c.height = 580;
+        const ctx = c.getContext('2d');
+
+        ctx.fillStyle = '#0b0f14';
+        ctx.fillRect(0, 0, 920, 580);
+
+        // Navbar
+        ctx.fillStyle = '#0f161d';
+        ctx.fillRect(0, 0, 920, 56);
+        ctx.fillStyle = '#06b6d4';
+        ctx.beginPath();
+        ctx.arc(38, 28, 10, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#f8fafc';
+        ctx.font = 'bold 15px sans-serif';
+        ctx.fillText('EcoVision AI', 58, 33);
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '12px sans-serif';
+        ctx.fillText('Home     Features     About     Model Testing', 290, 33);
+
+        ctx.strokeStyle = '#06b6d4';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.roundRect(770, 14, 120, 28, 14);
+        ctx.stroke();
+        ctx.fillStyle = '#e2e8f0';
+        ctx.font = 'bold 11px sans-serif';
+        ctx.fillText('Start Scanning', 790, 32);
+
+        if (index === 2 || index === 3) {
+          // Slot #3 (Atas Kanan) & Slot #4 (Tengah Kiri): Scan. Sort. Save the Planet.
+          ctx.fillStyle = 'rgba(16, 185, 129, 0.14)';
+          ctx.beginPath();
+          ctx.roundRect(48, 104, 240, 26, 13);
+          ctx.fill();
+          ctx.fillStyle = '#10b981';
+          ctx.font = 'bold 11px sans-serif';
+          ctx.fillText('● AI WASTE CLASSIFICATION', 64, 121);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 46px sans-serif';
+          ctx.fillText('Scan. Sort.', 48, 188);
+          ctx.fillStyle = '#06b6d4';
+          ctx.fillText('Save the Planet.', 48, 242);
+
+          ctx.fillStyle = '#94a3b8';
+          ctx.font = '14px sans-serif';
+          ctx.fillText('AI-powered waste classification and environmental education', 48, 286);
+          ctx.fillText('platform that helps everyone recycle accurately.', 48, 308);
+
+          const btnGrad = ctx.createLinearGradient(48, 344, 200, 388);
+          btnGrad.addColorStop(0, '#10b981');
+          btnGrad.addColorStop(1, '#06b6d4');
+          ctx.fillStyle = btnGrad;
+          ctx.beginPath();
+          ctx.roundRect(48, 344, 152, 44, 22);
+          ctx.fill();
+          ctx.fillStyle = '#041318';
+          ctx.font = 'bold 14px sans-serif';
+          ctx.fillText('Get Started →', 76, 371);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 25px sans-serif';
+          ctx.fillText('98.4%', 48, 468);
+          ctx.fillText('< 1s', 182, 468);
+          ctx.fillText('100%', 294, 468);
+          ctx.fillStyle = '#64748b';
+          ctx.font = '12px sans-serif';
+          ctx.fillText('AI Accuracy', 48, 490);
+          ctx.fillText('Scan Speed', 182, 490);
+          ctx.fillText('Open Source', 294, 490);
+
+          ctx.fillStyle = '#111921';
+          ctx.strokeStyle = 'rgba(6, 182, 212, 0.32)';
+          ctx.beginPath();
+          ctx.roundRect(520, 94, 352, 434, 18);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.strokeStyle = 'rgba(16, 185, 129, 0.4)';
+          ctx.beginPath();
+          ctx.arc(696, 260, 90, 0, Math.PI * 2);
+          ctx.stroke();
+        } else if (index === 4 || index === 0) {
+          // Slot #5 ★ (Pusat Tengah): Everything Features
+          ctx.textAlign = 'center';
+          ctx.fillStyle = '#10b981';
+          ctx.font = 'bold 12px sans-serif';
+          ctx.fillText('INTELLIGENT FEATURES', 460, 118);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 40px sans-serif';
+          ctx.fillText('Everything Features', 460, 164);
+
+          ctx.fillStyle = '#94a3b8';
+          ctx.font = '14px sans-serif';
+          ctx.fillText('Empowering citizens, students, and communities with AI sorting.', 460, 198);
+          ctx.textAlign = 'left';
+
+          const feats = ['AI Waste Detection', 'Smart Recycling', 'Environmental Impact', 'Responsible AI'];
+          feats.forEach((f, idx) => {
+            const fx = 44 + idx * 212;
+            ctx.fillStyle = '#111820';
+            ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+            ctx.beginPath();
+            ctx.roundRect(fx, 242, 196, 270, 16);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillStyle = 'rgba(16, 185, 129, 0.16)';
+            ctx.beginPath();
+            ctx.roundRect(fx + 20, 264, 42, 42, 10);
+            ctx.fill();
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 16px sans-serif';
+            ctx.fillText(f, fx + 20, 342);
+            ctx.fillStyle = '#64748b';
+            ctx.font = '12px sans-serif';
+            ctx.fillText('Real-time computer vision', fx + 20, 372);
+            ctx.fillText('classification & guidance.', fx + 20, 392);
+          });
+        } else if (index === 5) {
+          // Slot #6 ★ (Tengah Kanan): Waste Scanner
+          ctx.textAlign = 'center';
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 36px sans-serif';
+          ctx.fillText('Waste Scanner', 460, 134);
+          ctx.fillStyle = '#94a3b8';
+          ctx.font = '14px sans-serif';
+          ctx.fillText('Upload an image of waste and let AI analyze it.', 460, 164);
+
+          ctx.fillStyle = '#111820';
+          ctx.strokeStyle = 'rgba(6, 182, 212, 0.35)';
+          ctx.setLineDash([8, 6]);
+          ctx.beginPath();
+          ctx.roundRect(110, 204, 700, 300, 18);
+          ctx.fill();
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          ctx.fillStyle = '#06b6d4';
+          ctx.beginPath();
+          ctx.arc(460, 322, 28, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 17px sans-serif';
+          ctx.fillText('Click or drag image to upload', 460, 386);
+          ctx.textAlign = 'left';
+        } else {
+          // Slot #7 (Bawah Kiri) & lainnya: Sign in to EcoVision AI
+          ctx.textAlign = 'center';
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 34px sans-serif';
+          ctx.fillText('Sign in to EcoVision AI', 460, 148);
+
+          ctx.fillStyle = '#111820';
+          ctx.strokeStyle = 'rgba(255,255,255,0.09)';
+          ctx.beginPath();
+          ctx.roundRect(236, 186, 448, 310, 16);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.fillStyle = '#0b0f14';
+          ctx.beginPath();
+          ctx.roundRect(272, 234, 376, 46, 10);
+          ctx.roundRect(272, 304, 376, 46, 10);
+          ctx.fill();
+
+          const grad = ctx.createLinearGradient(272, 380, 648, 428);
+          grad.addColorStop(0, '#10b981');
+          grad.addColorStop(1, '#06b6d4');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.roundRect(272, 380, 376, 48, 24);
+          ctx.fill();
+
+          ctx.fillStyle = '#041318';
+          ctx.font = 'bold 15px sans-serif';
+          ctx.fillText('Sign In', 460, 410);
+          ctx.textAlign = 'left';
+        }
+        return c;
+      }
+    }
+
+    /**
+     * 2. ENGINE PROYEKSI BIDANG ISOMETRIK (Formasi 1 - 2 - 3 - 2 - 1 Zoom-Out Proporsional)
+     */
+    class IsometricRenderer {
+      constructor(canvas) {
+        this.canvas = canvas;
+        this.baseWidth = 2752;
+        this.baseHeight = 1536;
+        this.canvas.width = this.baseWidth;
+        this.canvas.height = this.baseHeight;
+
+        this.theme = 'light';
+
+        // Zoom dikembalikan ke 0.82 (Zoom-Out proporsional seperti awal, tidak stretch)
+        this.zoomFactor = 0.82;
+
+        // Dimensi kartu & celah lorong (konsisten, 0% overlap)
+        this.cardW = 920;
+        this.cardH = 580;
+        this.cardRadius = 22;
+        this.gapX = 40;
+        this.gapY = 40;
+
+        // Sudut miring bidang sesuai referensi
+        this.rotationDeg = -32.0;
+        this.foreshortenY = 0.86;
+      }
+
+      /**
+       * Formasi Murni 1 - 2 - 3 - 2 - 1 (Total 9 Kartu)
+       * Seluruh kartu berada pada koordinat bulat (col: -1, 0, +1) sehingga garis lorong
+       * 100% lurus menyambung dan terpusat tepat di Slot #5 ★ (col: 0, row: 0).
+       */
+      getFormation12321() {
+        return [
+          // BARIS 1 (row: -2) -> 1 Kartu Puncak Atas
+          { slot: 0, col:  0, row: -2 },
+
+          // BARIS 2 (row: -1) -> 2 Kartu Atas
+          { slot: 1, col: -1, row: -1 },
+          { slot: 2, col:  0, row: -1 },
+
+          // BARIS 3 (row: 0)  -> 3 Kartu Tengah Utama
+          { slot: 3, col: -1, row:  0 },
+          { slot: 4, col:  0, row:  0, focal: true }, // Slot #5 ★ Pusat Tengah Kanvas
+          { slot: 5, col:  1, row:  0, focal: true }, // Slot #6 ★ Tengah Kanan
+
+          // BARIS 4 (row: +1) -> 2 Kartu Bawah
+          { slot: 6, col:  0, row:  1 },
+          { slot: 7, col:  1, row:  1 },
+
+          // BARIS 5 (row: +2) -> 1 Kartu Dasar Bawah
+          { slot: 8, col:  0, row:  2 }
+        ];
+      }
+
+      render(slotsData, targetCanvas = this.canvas, customW = null, customH = null) {
+        const width = customW || targetCanvas.width;
+        const height = customH || targetCanvas.height;
+        if (targetCanvas.width !== width) targetCanvas.width = width;
+        if (targetCanvas.height !== height) targetCanvas.height = height;
+
+        const ctx = targetCanvas.getContext('2d');
+        ctx.save();
+
+        // 1. Gambar Background Studio
+        this.drawBackground(ctx, width, height);
+
+        // 2. Matriks Proyeksi Isometrik Terpusat (Dead-Center Alignment)
+        const rad = (this.rotationDeg * Math.PI) / 180;
+        const cos = Math.cos(rad);
+        const sin = Math.sin(rad);
+        const sy = this.foreshortenY;
+
+        const resScale = Math.min(width / this.baseWidth, height / this.baseHeight);
+        const S = resScale * this.zoomFactor;
+
+        const ux = cos * S;
+        const uy = sin * sy * S;
+        const vx = -sin * S;
+        const vy = cos * sy * S;
+
+        // Titik pusat 100% di tengah kanvas (50% X, 50% Y)
+        const originX = width * 0.5;
+        const originY = height * 0.5;
+
+        const stepX = this.cardW + this.gapX;
+        const stepY = this.cardH + this.gapY;
+
+        const layout = this.getFormation12321().map((item) => {
+          const planeX = item.col * stepX;
+          const planeY = item.row * stepY;
+          const screenX = originX + planeX * ux + planeY * vx;
+          const screenY = originY + planeX * uy + planeY * vy;
+          return { ...item, planeX, planeY, screenX, screenY };
+        });
+
+        // Urutkan dari belakang ke depan (berdasarkan screenY) agar bayangan 3D akurat
+        layout.sort((a, b) => a.screenY - b.screenY);
+
+        const det = ux * vy - uy * vx;
+        const screenDownToPlane = (dyScreen) => ({
+          dx: (-vx * dyScreen) / det,
+          dy: (ux * dyScreen) / det
+        });
+
+        ctx.setTransform(ux, uy, vx, vy, originX, originY);
+
+        for (const card of layout) {
+          const x = card.planeX - this.cardW / 2;
+          const y = card.planeY - this.cardH / 2;
+          const source = slotsData[card.slot];
+          this.drawCard(ctx, x, y, this.cardW, this.cardH, source, screenDownToPlane, S);
+        }
+
+        ctx.restore();
+      }
+
+      drawBackground(ctx, width, height) {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        if (this.theme === 'light') {
+          const grad = ctx.createLinearGradient(0, 0, width, height);
+          grad.addColorStop(0, '#e5eaf1');
+          grad.addColorStop(0.5, '#dbe2ec');
+          grad.addColorStop(1, '#ced7e4');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, width, height);
+        } else {
+          const grad = ctx.createRadialGradient(
+            width * 0.5, height * 0.45, width * 0.05,
+            width * 0.5, height * 0.5, width * 0.75
+          );
+          grad.addColorStop(0, '#0a1014');
+          grad.addColorStop(1, '#040608');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, width, height);
+        }
+      }
+
+      drawCard(ctx, x, y, w, h, source, screenDownToPlane, scale) {
+        const r = this.cardRadius;
+        const isLight = this.theme === 'light';
+
+        // 1. Soft Drop Shadow
+        const shadowOffset = screenDownToPlane(18 * scale);
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(x + shadowOffset.dx, y + shadowOffset.dy, w, h, r);
+        ctx.fillStyle = isLight ? 'rgba(15, 23, 42, 0.13)' : 'rgba(0, 0, 0, 0.74)';
+        ctx.shadowColor = isLight ? 'rgba(15, 23, 42, 0.18)' : 'rgba(0, 0, 0, 0.9)';
+        ctx.shadowBlur = 34 * scale;
+        ctx.shadowOffsetY = 10 * scale;
+        ctx.fill();
+        ctx.restore();
+
+        // 2. 3D Slab Thickness (Ketebalan kartu 3D)
+        for (let i = 4; i >= 1; i--) {
+          const tOff = screenDownToPlane((i / 4) * 7 * scale);
+          ctx.beginPath();
+          ctx.roundRect(x + tOff.dx, y + tOff.dy, w, h, r);
+          ctx.fillStyle = isLight
+            ? (i === 4 ? '#b8c4d4' : '#d8e1ed')
+            : (i === 4 ? '#091016' : '#16202a');
+          ctx.fill();
+        }
+
+        // 3. Permukaan Kartu & Gambar (0% Crop)
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, r);
+        ctx.fillStyle = isLight ? '#ffffff' : '#0b0f14';
+        ctx.fill();
+        ctx.clip();
+
+        if (source) {
+          const imgW = source.width || w;
+          const imgH = source.height || h;
+          const cardRatio = w / h;
+          const imgRatio = imgW / imgH;
+
+          let drawW = w, drawH = h, drawX = x, drawY = y;
+          if (Math.abs(imgRatio - cardRatio) > 0.18) {
+            if (imgRatio > cardRatio) {
+              drawW = w;
+              drawH = w / imgRatio;
+              drawY = y + (h - drawH) / 2;
+            } else {
+              drawH = h;
+              drawW = h * imgRatio;
+              drawX = x + (w - drawW) / 2;
+            }
+          }
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          ctx.drawImage(source, drawX, drawY, drawW, drawH);
+        }
+        ctx.restore();
+
+        // 4. Garis Tepi Halus (Crisp Border)
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, r);
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = isLight ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.12)';
+        ctx.stroke();
+      }
+    }
+
+    /**
+     * 3. KONTROLER APLIKASI UTAMA (9 SLOTS)
+     */
+    document.addEventListener('DOMContentLoaded', () => {
+      const canvas = document.getElementById('mockup-canvas');
+      const renderer = new IsometricRenderer(canvas);
+
+      let userImages = new Array(TOTAL_SLOTS).fill(null);
+      let demoCanvases = DemoGenerator.generateSet('light');
+      let activeSlotIndex = 0;
+      let selectedExportRes = '2752x1536';
+
+      function getActiveSlots() {
+        return userImages.map((img, i) => img || demoCanvases[i]);
+      }
+
+      function refreshCanvas() {
+        renderer.render(getActiveSlots());
+        updateNavigatorUI();
+      }
+
+      function updateNavigatorUI() {
+        let count = 0;
+        for (let i = 0; i < TOTAL_SLOTS; i++) {
+          const cardEl = document.querySelector(`.slot-card[data-slot="${i}"]`);
+          const thumbEl = document.getElementById(`thumb-${i}`);
+          if (!cardEl || !thumbEl) continue;
+
+          if (userImages[i]) {
+            count++;
+            cardEl.classList.add('has-image');
+            thumbEl.src = userImages[i].src;
+          } else {
+            cardEl.classList.remove('has-image');
+            thumbEl.removeAttribute('src');
+          }
+        }
+        const badge = document.getElementById('slot-count-badge');
+        if (badge) badge.textContent = count > 0 ? `${count}/${TOTAL_SLOTS} Foto Custom` : `${TOTAL_SLOTS} Slot Demo`;
+      }
+
+      function showToast(msg) {
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toast-msg');
+        toastMsg.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(window._toastTimer);
+        window._toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
+      }
+
+      function loadImageFile(file) {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      // Tema Light / Dark
+      const btnLight = document.getElementById('btn-theme-light');
+      const btnDark = document.getElementById('btn-theme-dark');
+      const themeBadge = document.getElementById('theme-badge');
+
+      function setTheme(theme) {
+        renderer.theme = theme;
+        demoCanvases = DemoGenerator.generateSet(theme);
+        btnLight.classList.toggle('active', theme === 'light');
+        btnDark.classList.toggle('active', theme === 'dark');
+        themeBadge.textContent = theme === 'light' ? 'Light Mode' : 'Dark Mode';
+        document.documentElement.style.setProperty('--bg-canvas', theme === 'light' ? '#dce3ec' : '#06090d');
+        refreshCanvas();
+      }
+
+      btnLight.addEventListener('click', () => {
+        setTheme('light');
+        showToast('Tema Reference Light (SMK SOPAN) aktif');
+      });
+
+      btnDark.addEventListener('click', () => {
+        setTheme('dark');
+        showToast('Tema Reference Dark (EcoVision AI) aktif');
+      });
+
+      // Kontrol Zoom (Tombol -, +, dan Toggle Preset)
+      const btnZoom = document.getElementById('btn-toggle-zoom');
+      const btnZoomIn = document.getElementById('btn-zoom-in');
+      const btnZoomOut = document.getElementById('btn-zoom-out');
+
+      function updateZoomLabel() {
+        const pct = Math.round(renderer.zoomFactor * 100);
+        btnZoom.textContent = `🔍 Zoom: ${pct}%`;
+      }
+
+      btnZoom.addEventListener('click', () => {
+        // Toggle antara 82% (Normal Awal) dan 62% (Fit Utuh 9 Kartu)
+        renderer.zoomFactor = Math.abs(renderer.zoomFactor - 0.82) < 0.05 ? 0.62 : 0.82;
+        updateZoomLabel();
+        refreshCanvas();
+      });
+
+      btnZoomIn.addEventListener('click', () => {
+        renderer.zoomFactor = Math.min(1.50, +(renderer.zoomFactor + 0.06).toFixed(2));
+        updateZoomLabel();
+        refreshCanvas();
+      });
+
+      btnZoomOut.addEventListener('click', () => {
+        renderer.zoomFactor = Math.max(0.50, +(renderer.zoomFactor - 0.06).toFixed(2));
+        updateZoomLabel();
+        refreshCanvas();
+      });
+
+      // Upload Batch & Drag-Drop
+      const batchInput = document.getElementById('batch-file-input');
+      const cameraBatchInput = document.getElementById('camera-batch-input');
+      const dropzone = document.getElementById('batch-dropzone');
+
+      document.getElementById('btn-trigger-gallery').addEventListener('click', () => batchInput.click());
+      document.getElementById('btn-trigger-camera').addEventListener('click', () => cameraBatchInput.click());
+      dropzone.addEventListener('click', () => batchInput.click());
+
+      async function handleBatchFiles(fileList) {
+        const files = Array.from(fileList).filter((f) => f.type.startsWith('image/'));
+        if (!files.length) return;
+        let startIdx = userImages.findIndex((img) => img === null);
+        if (startIdx === -1) startIdx = 0;
+
+        for (let i = 0; i < files.length && i < TOTAL_SLOTS; i++) {
+          userImages[(startIdx + i) % TOTAL_SLOTS] = await loadImageFile(files[i]);
+        }
+        refreshCanvas();
+        showToast(`${Math.min(files.length, TOTAL_SLOTS)} foto berhasil dimasukkan!`);
+      }
+
+      batchInput.addEventListener('change', (e) => {
+        handleBatchFiles(e.target.files);
+        e.target.value = '';
+      });
+      cameraBatchInput.addEventListener('change', (e) => {
+        handleBatchFiles(e.target.files);
+        e.target.value = '';
+      });
+
+      dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      });
+      dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+        if (e.dataTransfer.files?.length) handleBatchFiles(e.dataTransfer.files);
+      });
+
+      // Modal Per Slot
+      const slotModal = document.getElementById('slot-modal');
+      const slotModalTitle = document.getElementById('slot-modal-title');
+      const singleFileInput = document.getElementById('single-file-input');
+      const singleCameraInput = document.getElementById('single-camera-input');
+
+      document.querySelectorAll('.slot-card').forEach((card) => {
+        card.addEventListener('click', () => {
+          activeSlotIndex = parseInt(card.dataset.slot, 10);
+          slotModalTitle.textContent = `Atur Slot #${activeSlotIndex + 1}`;
+          slotModal.classList.add('open');
+        });
+      });
+
+      document.getElementById('btn-close-slot-modal').addEventListener('click', () => slotModal.classList.remove('open'));
+      document.getElementById('btn-slot-file').addEventListener('click', () => singleFileInput.click());
+      document.getElementById('btn-slot-camera').addEventListener('click', () => singleCameraInput.click());
+
+      async function handleSingleFile(file) {
+        if (!file) return;
+        userImages[activeSlotIndex] = await loadImageFile(file);
+        slotModal.classList.remove('open');
+        refreshCanvas();
+        showToast(`Slot #${activeSlotIndex + 1} berhasil diperbarui!`);
+      }
+
+      singleFileInput.addEventListener('change', (e) => {
+        handleSingleFile(e.target.files[0]);
+        e.target.value = '';
+      });
+      singleCameraInput.addEventListener('change', (e) => {
+        handleSingleFile(e.target.files[0]);
+        e.target.value = '';
+      });
+
+      document.getElementById('btn-slot-remove').addEventListener('click', () => {
+        userImages[activeSlotIndex] = null;
+        slotModal.classList.remove('open');
+        refreshCanvas();
+        showToast(`Slot #${activeSlotIndex + 1} direset ke demo`);
+      });
+
+      // Tombol Preset
+      document.getElementById('btn-load-light-demo').addEventListener('click', () => {
+        userImages.fill(null);
+        setTheme('light');
+        showToast('Demo Light SOPAN dimuat');
+      });
+      document.getElementById('btn-load-dark-demo').addEventListener('click', () => {
+        userImages.fill(null);
+        setTheme('dark');
+        showToast('Demo Dark EcoVision dimuat');
+      });
+      document.getElementById('btn-duplicate-remaining').addEventListener('click', () => {
+        const uploaded = userImages.filter(Boolean);
+        if (!uploaded.length) return showToast('Upload minimal 1 foto dulu!');
+        userImages = userImages.map((img, i) => img || uploaded[i % uploaded.length]);
+        refreshCanvas();
+        showToast('Slot kosong berhasil diisi otomatis!');
+      });
+      document.getElementById('btn-clear-all').addEventListener('click', () => {
+        userImages.fill(null);
+        refreshCanvas();
+        showToast('Semua slot direset ke tampilan default');
+      });
+
+      // Sidebar & Mobile Drawer
+      const sidebar = document.getElementById('sidebar-panel');
+      const backdrop = document.getElementById('mobile-backdrop');
+      document.getElementById('sidebar-toggle').addEventListener('click', () => sidebar.classList.toggle('collapsed'));
+      document.getElementById('mobile-fab').addEventListener('click', () => {
+        sidebar.classList.add('open');
+        backdrop.classList.add('open');
+      });
+      const closeDrawer = () => {
+        sidebar.classList.remove('open');
+        backdrop.classList.remove('open');
+      };
+      document.getElementById('sidebar-close-mobile').addEventListener('click', closeDrawer);
+      backdrop.addEventListener('click', closeDrawer);
+
+      // Export PNG
+      const exportModal = document.getElementById('export-modal');
+      document.getElementById('btn-open-export').addEventListener('click', () => exportModal.classList.add('open'));
+      document.getElementById('btn-close-modal').addEventListener('click', () => exportModal.classList.remove('open'));
+
+      document.querySelectorAll('.res-card').forEach((card) => {
+        card.addEventListener('click', () => {
+          document.querySelectorAll('.res-card').forEach((c) => c.classList.remove('active'));
+          card.classList.add('active');
+          selectedExportRes = card.dataset.res;
+        });
+      });
+
+      function createExportCanvas() {
+        const [w, h] = selectedExportRes.split('x').map(Number);
+        const off = document.createElement('canvas');
+        renderer.render(getActiveSlots(), off, w, h);
+        return off;
+      }
+
+      document.getElementById('btn-export-download').addEventListener('click', () => {
+        const off = createExportCanvas();
+        const a = document.createElement('a');
+        a.download = `mockup-3d-9cards-${renderer.theme}-${selectedExportRes}.png`;
+        a.href = off.toDataURL('image/png', 1.0);
+        a.click();
+        exportModal.classList.remove('open');
+        if (window.confetti) window.confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+        showToast(`PNG (${selectedExportRes}) berhasil didownload!`);
+      });
+
+      document.getElementById('btn-copy-clipboard').addEventListener('click', () => {
+        const off = createExportCanvas();
+        off.toBlob(async (blob) => {
+          try {
+            await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+            exportModal.classList.remove('open');
+            showToast('Gambar berhasil disalin ke Clipboard!');
+          } catch {
+            showToast('Browser tidak mengizinkan copy otomatis');
+          }
+        });
+      });
+
+      // Render Pertama Kali
+      refreshCanvas();
+    });
+  </script>
+</body>
+</html>
