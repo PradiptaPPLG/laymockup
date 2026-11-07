@@ -614,6 +614,43 @@
       border-color: rgba(155, 227, 222, 0.6);
     }
 
+    .etalase-card.recommended {
+      border: 2px solid #0f172a !important;
+      box-shadow: 0 8px 30px rgba(15, 23, 42, 0.12);
+    }
+
+    .etalase-badge-recommended {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      z-index: 3;
+      line-height: 1.2;
+    }
+
+    .tag-recommended {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: #0f172a;
+      color: #ffffff;
+      line-height: 1.2;
+      display: inline-flex;
+      align-items: center;
+    }
+
     .etalase-preview-box {
       width: 100%;
       aspect-ratio: 16 / 9;
@@ -2135,7 +2172,7 @@
       <div class="container">
         <div class="hero-pill">
           <span class="hero-pill-dot" aria-hidden="true"></span>
-          🌸 Pastel Studio Edition · Browser-Based 3D Engine · No Figma · No Blender Required
+          Pastel Studio Edition · Browser-Based 3D Engine · No Figma · No Blender Required
         </div>
 
         <h1 class="hero-title">
@@ -2150,26 +2187,26 @@
         <!-- Cute Pastel Chips -->
         <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin: 20px 0 28px 0;">
           <span style="display:inline-flex; align-items:center; gap:6px; background:#FFE3ED; border:1.5px solid #FFB8D2; color:#9d174d; font-weight:700; font-size:12px; padding:6px 14px; border-radius:999px; box-shadow:0 2px 8px rgba(255,184,210,0.35);">
-            🌸 6 Template Isometrik
+            9 Template Isometrik
           </span>
           <span style="display:inline-flex; align-items:center; gap:6px; background:#eafaf8; border:1.5px solid #9BE3DE; color:#044343; font-weight:700; font-size:12px; padding:6px 14px; border-radius:999px; box-shadow:0 2px 8px rgba(155,227,222,0.3);">
-            💎 100% Client-Side Private
+            100% Client-Side Private
           </span>
           <span style="display:inline-flex; align-items:center; gap:6px; background:#edf9f8; border:1.5px solid #BEEBE9; color:#0f3b42; font-weight:700; font-size:12px; padding:6px 14px; border-radius:999px; box-shadow:0 2px 8px rgba(190,235,233,0.3);">
-            ⚡ 4K PNG Resolusi Asli
+            4K PNG Resolusi Asli
           </span>
         </div>
 
         <div class="hero-actions" style="justify-content: center; gap: 14px;">
           <a href="#etalase" class="btn btn-primary btn-lg" style="background:#9BE3DE; color:#044343; font-weight:700; border:1.5px solid #7ed5cf; box-shadow:0 6px 20px rgba(155,227,222,0.5);">
-            Jelajahi 6 Template 💎
+            Jelajahi 9 Template
             <svg width="15" height="15" viewBox="0 0 14 14" fill="none">
               <path d="M7 2v10M2 7l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
                 stroke-linejoin="round" />
             </svg>
           </a>
           <a href="studio-centered.html" class="btn btn-lg" style="background:#FFE3ED; color:#9d174d; font-weight:700; border:1.5px solid #FFB8D2; box-shadow:0 6px 20px rgba(255,184,210,0.45);">
-            Buka Studio Langsung 🌸 &rarr;
+            Buka Studio Langsung &rarr;
           </a>
         </div>
       </div>
@@ -2180,9 +2217,9 @@
       <div class="container">
         <div class="section-header">
           <span class="section-overline">ETALASE TEMPLATE ISOMETRIK</span>
-          <h2 class="section-title">6 Formasi Isometrik Eksklusif</h2>
+          <h2 class="section-title">9 Formasi Isometrik Eksklusif</h2>
           <p class="section-desc">
-            Pilih formasi yang paling tepat: Formasi Intan 12 Kartu, Formasi Ramping 9 Kartu, Formasi Landscape 7 Kartu (Staggered Hero), hingga Mockup Layar HP 3D Smartphone (9:16).
+            Pilih formasi yang paling tepat: Formasi Intan 12 Kartu, Formasi Ramping 9 Kartu, Formasi Landscape 7 Kartu, hingga Mockup Layar Smartphone 3D (Single Phone, Dual Phone, dan 3-Kolom Vertical).
           </p>
         </div>
 
@@ -2236,9 +2273,10 @@
           </article>
 
           <!-- TEMPLATE 2: FULL-BLEED STRETCH -->
-          <article class="etalase-card" id="template-stretch-card" onclick="window.location.href='studio-stretch.html'">
+          <article class="etalase-card recommended" id="template-stretch-card" onclick="window.location.href='studio-stretch.html'">
             <div class="etalase-preview-box">
               <canvas id="canvas-stretch-preview" width="560" height="315"></canvas>
+              <div class="etalase-badge-recommended">REKOMENDASI</div>
               <div class="etalase-badge-top emerald">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <polyline points="15 3 21 3 21 9"></polyline>
@@ -2253,6 +2291,7 @@
             <div class="etalase-content">
               <div class="etalase-meta">
                 <span class="etalase-tag emerald">TEMPLATE 02 · 12 FOTO</span>
+                <span class="tag-recommended">REKOMENDASI</span>
               </div>
               <h3 class="etalase-title">1-3-4-3-1 Full-Bleed Stretch</h3>
               <div class="specs-grid">
@@ -2276,7 +2315,7 @@
 
               <div class="etalase-btn-wrap">
                 <a href="studio-stretch.html" class="btn" style="background:#FFE3ED; color:#9d174d; font-weight:700; border:1.5px solid #FFB8D2; box-shadow:0 4px 14px rgba(255,184,210,0.4);" title="Buka Template Full-Bleed Stretch">
-                  Buka Studio 🌸
+                  Buka Studio
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
@@ -2335,9 +2374,10 @@
           </article>
 
           <!-- TEMPLATE 4: 1-2-3-2-1 FULL-BLEED STRETCH (9 KARTU) -->
-          <article class="etalase-card featured" id="template-9-stretch-card" onclick="window.location.href='studio-9-stretch.html'">
+          <article class="etalase-card recommended" id="template-9-stretch-card" onclick="window.location.href='studio-9-stretch.html'">
             <div class="etalase-preview-box">
               <canvas id="canvas-9-stretch-preview" width="560" height="315"></canvas>
+              <div class="etalase-badge-recommended">REKOMENDASI</div>
               <div class="etalase-badge-top emerald">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <polyline points="15 3 21 3 21 9"></polyline>
@@ -2352,6 +2392,7 @@
             <div class="etalase-content">
               <div class="etalase-meta">
                 <span class="etalase-tag emerald">TEMPLATE 04 · 9 FOTO</span>
+                <span class="tag-recommended">REKOMENDASI</span>
               </div>
               <h3 class="etalase-title">1-2-3-2-1 Full-Bleed Stretch</h3>
               <div class="specs-grid">
@@ -2417,7 +2458,7 @@
                 </div>
                 <div class="spec-item">
                   <span class="spec-key">Fitur Khusus</span>
-                  <span class="spec-val">✨ Hero Center Floating</span>
+                  <span class="spec-val">Hero Center Floating</span>
                 </div>
               </div>
 
@@ -2471,7 +2512,7 @@
 
               <div class="etalase-btn-wrap">
                 <a href="studio-mobile-7.html" class="btn" style="background:#FFE3ED; color:#9d174d; font-weight:700; border:1.5px solid #FFB8D2; box-shadow:0 4px 14px rgba(255,184,210,0.4);" title="Buka Template 2-3-2 Mobile Phone">
-                  Buka Studio 🌸
+                  Buka Studio
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
@@ -2479,6 +2520,150 @@
               </div>
             </div>
           </article>
+          <!-- TEMPLATE 07: 1 LAYAR SINGLE PHONE 3D -->
+          <article class="etalase-card featured" id="template-mobile-1-card" onclick="window.location.href='studio-mobile-1.html'">
+            <div class="etalase-preview-box">
+              <canvas id="canvas-mobile-1-preview" width="560" height="315"></canvas>
+              <div class="etalase-badge-top">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect>
+                  <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                </svg>
+                1 Layar Solo (9:16)
+              </div>
+            </div>
+
+            <div class="etalase-content">
+              <div class="etalase-meta">
+                <span class="etalase-tag volt">TEMPLATE 07 · SINGLE PHONE 3D</span>
+              </div>
+              <h3 class="etalase-title">1 Layar Single Phone 3D</h3>
+              <div class="specs-grid">
+                <div class="spec-item">
+                  <span class="spec-key">Formasi Grid</span>
+                  <span class="spec-val">1 Layar Flagship Solo</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Rasio Layar</span>
+                  <span class="spec-val">9:16 Portrait HP</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Bodi HP 3D</span>
+                  <span class="spec-val">Dynamic Island 3D</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Karakter</span>
+                  <span class="spec-val">Fokus Detail 1 Aplikasi</span>
+                </div>
+              </div>
+
+              <div class="etalase-btn-wrap">
+                <a href="studio-mobile-1.html" class="btn btn-primary" title="Buka Template 1 Layar Single Phone 3D">
+                  Buka Studio
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- TEMPLATE 08: 2 LAYAR DUAL PHONE 3D -->
+          <article class="etalase-card featured" id="template-mobile-2-card" onclick="window.location.href='studio-mobile-2.html'">
+            <div class="etalase-preview-box">
+              <canvas id="canvas-mobile-2-preview" width="560" height="315"></canvas>
+              <div class="etalase-badge-top">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect>
+                  <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                </svg>
+                2 Layar Dual (9:16)
+              </div>
+            </div>
+
+            <div class="etalase-content">
+              <div class="etalase-meta">
+                <span class="etalase-tag volt">TEMPLATE 08 · DUAL PHONE 3D</span>
+              </div>
+              <h3 class="etalase-title">2 Layar Dual Phone 3D</h3>
+              <div class="specs-grid">
+                <div class="spec-item">
+                  <span class="spec-key">Formasi Grid</span>
+                  <span class="spec-val">2 Layar Berdampingan</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Rasio Layar</span>
+                  <span class="spec-val">9:16 Dual Portrait</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Bodi HP 3D</span>
+                  <span class="spec-val">Staggered Isometrik</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Karakter</span>
+                  <span class="spec-val">Komparasi 2 Tampilan</span>
+                </div>
+              </div>
+
+              <div class="etalase-btn-wrap">
+                <a href="studio-mobile-2.html" class="btn" style="background:#FFE3ED; color:#9d174d; font-weight:700; border:1.5px solid #FFB8D2; box-shadow:0 4px 14px rgba(255,184,210,0.4);" title="Buka Template 2 Layar Dual Phone 3D">
+                  Buka Studio
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- TEMPLATE 09: 6 LAYAR VERTICAL 3-KOLOM -->
+          <article class="etalase-card featured" id="template-mobile-6-card" onclick="window.location.href='studio-mobile-6.html'">
+            <div class="etalase-preview-box">
+              <canvas id="canvas-mobile-6-preview" width="560" height="315"></canvas>
+              <div class="etalase-badge-top">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect>
+                  <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                </svg>
+                6 Layar 3-Kolom (9:16)
+              </div>
+            </div>
+
+            <div class="etalase-content">
+              <div class="etalase-meta">
+                <span class="etalase-tag volt">TEMPLATE 09 · 3-KOLOM PHONE 3D</span>
+              </div>
+              <h3 class="etalase-title">6 Layar Vertical 3-Kolom</h3>
+              <div class="specs-grid">
+                <div class="spec-item">
+                  <span class="spec-key">Formasi Grid</span>
+                  <span class="spec-val">3 Kolom (2-2-2 Tegak)</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Rasio Layar</span>
+                  <span class="spec-val">9:16 Vertical Stagger</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Fitur Khusus</span>
+                  <span class="spec-val">Hero Utama di Tengah</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Karakter</span>
+                  <span class="spec-val">Showcase Multi-Screen</span>
+                </div>
+              </div>
+
+              <div class="etalase-btn-wrap">
+                <a href="studio-mobile-6.html" class="btn btn-primary" title="Buka Template 6 Layar Vertical 3-Kolom">
+                  Buka Studio
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
 
         </div>
       </div>
@@ -2640,8 +2825,11 @@
               <li><a href="studio-stretch.html">12 Full-Bleed Stretch</a></li>
               <li><a href="studio-9-zoomout.html">9 Kartu Zoom-Out</a></li>
               <li><a href="studio-9-stretch.html">9 Kartu Stretch Full</a></li>
-              <li><a href="studio-7-landscape.html">7 Kartu Landscape (Baru)</a></li>
-              <li><a href="studio-mobile-7.html">7 Layar Mobile App 3D (Baru)</a></li>
+              <li><a href="studio-7-landscape.html">7 Kartu Landscape</a></li>
+              <li><a href="studio-mobile-7.html">7 Layar Mobile App 3D</a></li>
+              <li><a href="studio-mobile-1.html">1 Layar Single Phone 3D (Baru)</a></li>
+              <li><a href="studio-mobile-2.html">2 Layar Dual Phone 3D (Baru)</a></li>
+              <li><a href="studio-mobile-6.html">6 Layar Vertical 3-Kolom (Baru)</a></li>
             </ul>
           </div>
 
@@ -2806,6 +2994,36 @@
           { col: 0, row: -1.0 }, { col: 0, row: 0, focal: true }, { col: 0, row: 1.0 },
           { col: 1, row: -0.62 }, { col: 1, row: 0.38 }
         ];
+      } else if (type === 'mobile-1') {
+        zoomFactor = 1.35;
+        gapX = 0; gapY = 0;
+        isPhone = true;
+        cardW = 540;
+        cardH = 1140;
+        layout = [
+          { col: 0, row: 0, focal: true }
+        ];
+      } else if (type === 'mobile-2') {
+        zoomFactor = 1.05;
+        gapX = 42; gapY = 42;
+        isPhone = true;
+        cardW = 540;
+        cardH = 1140;
+        layout = [
+          { col: -0.65, row: -0.05 },
+          { col: 0.65, row: 0.05, focal: true }
+        ];
+      } else if (type === 'mobile-6') {
+        zoomFactor = 0.85;
+        gapX = 36; gapY = 36;
+        isPhone = true;
+        cardW = 500;
+        cardH = 1040;
+        layout = [
+          { col: -1, row: -0.65 }, { col: -1, row: 0.50 },
+          { col: 0, row: -0.85 }, { col: 0, row: 0.15, focal: true },
+          { col: 1, row: -0.55 }, { col: 1, row: 0.65 }
+        ];
       }
 
       const S = (w / 2752) * zoomFactor;
@@ -2951,6 +3169,9 @@
       drawMiniIsometricPreview('canvas-9-stretch-preview', '9-stretch');
       drawMiniIsometricPreview('canvas-7-landscape-preview', '7-landscape');
       drawMiniIsometricPreview('canvas-mobile-7-preview', 'mobile-7');
+      drawMiniIsometricPreview('canvas-mobile-1-preview', 'mobile-1');
+      drawMiniIsometricPreview('canvas-mobile-2-preview', 'mobile-2');
+      drawMiniIsometricPreview('canvas-mobile-6-preview', 'mobile-6');
     });
 
     /* ============================================================

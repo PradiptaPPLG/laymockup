@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>1 Layar Single Phone 3D Studio - LayMockup × PixelCam</title>
+
+  <!-- CDN Icons & Confetti -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg-primary: #FFFDF9;
+      --bg-secondary: #ffffff;
+      --bg-canvas: #d7eae6;
+      --bg-glass: rgba(255, 253, 249, 0.94);
+      --border-glass: #e2edea;
+      --accent-primary: #9BE3DE;
+      --accent-hover: #7fd6d0;
+      --accent-dark: #0f766e;
+      --accent-mint: #9BE3DE;
+      --accent-pink: #FFE3ED;
+      --accent-ice: #BEEBE9;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #94a3b8;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --shadow-panel: 0 10px 35px -10px rgba(155, 227, 222, 0.25), 0 0 1px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Topbar Bersih (Studio Light Mode) */
+    .topbar {
+      height: 60px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-glass);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 14px;
+      box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text-main);
+    }
+
+    .brand-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: rgba(37, 99, 235, 0.08);
+      color: var(--accent-primary);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+    }
+
+    .topbar-center {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      background: #ffffff;
+      color: var(--text-muted);
+      border: 1px solid var(--border-glass);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .btn-pill:hover {
+      background: #f8fafc;
+      color: var(--text-main);
+      border-color: #cbd5e1;
+    }
+
+    .btn-pill.active {
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--accent-primary);
+      border-color: rgba(37, 99, 235, 0.4);
+      font-weight: 700;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-primary);
+      color: var(--accent-dark);
+      font-weight: 700;
+      border: 1.5px solid var(--accent-hover);
+      border-radius: var(--radius-md);
+      padding: 8px 16px;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 12px rgba(155, 227, 222, 0.35);
+    }
+    .btn-primary:hover {
+      background-color: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 16px rgba(37, 99, 235, 0.4);
+    }
+
+    /* Main Workspace */
+    .main-content {
+      flex: 1;
+      position: relative;
+      display: flex;
+      overflow: hidden;
+      background: var(--bg-canvas);
+      transition: background 0.25s ease;
+    }
+
+    .canvas-viewport {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    #mockup-canvas {
+      max-width: 96%;
+      max-height: 92%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 14px;
+      box-shadow: 0 25px 65px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(15, 23, 42, 0.06);
+      display: block;
+    }
+
+    /* Bottom Floating HUD */
+    .hud-status {
+      position: absolute;
+      bottom: 22px;
+      left: 22px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      padding: 6px 12px;
+      border-radius: 30px;
+      border: 1px solid var(--border-glass);
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      z-index: 20;
+      flex-wrap: wrap;
+    }
+
+    .hud-badge {
+      background: rgba(37, 99, 235, 0.08);
+      color: var(--accent-primary);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .hud-btn {
+      background: #f8fafc;
+      color: var(--text-main);
+      border: 1px solid #cbd5e1;
+      padding: 4px 10px;
+      border-radius: 14px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .hud-btn:hover {
+      background: #eff6ff;
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+    }
+
+    /* Sidebar Toggle */
+    .sidebar-toggle-btn {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 45;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 390px;
+      height: calc(100% - 24px);
+      margin: 12px 16px 12px 0;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-panel);
+      z-index: 40;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), margin 0.3s ease;
+    }
+
+    .sidebar.collapsed {
+      transform: translateX(calc(100% + 24px));
+      margin-right: -390px;
+    }
+
+    .sidebar-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border-glass);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tab-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px;
+    }
+
+    .tab-content::-webkit-scrollbar {
+      width: 5px;
+    }
+    .tab-content::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    .section {
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .upload-actions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .btn-upload-choice {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 13px 10px;
+      background: #f8fafc;
+      border: 1.5px dashed rgba(37, 99, 235, 0.32);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-upload-choice:hover {
+      background: rgba(37, 99, 235, 0.05);
+      border-color: var(--accent-primary);
+      transform: translateY(-1px);
+    }
+
+    .upload-icon {
+      font-size: 21px;
+    }
+
+    .upload-choice-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .upload-choice-sub {
+      font-size: 10px;
+      color: var(--text-dim);
+    }
+
+    .dropzone {
+      border: 1.5px dashed rgba(37, 99, 235, 0.32);
+      background: #f8fafc;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .dropzone:hover, .dropzone.dragover {
+      border-color: var(--accent-primary);
+      background: rgba(37, 99, 235, 0.05);
+    }
+
+    .dropzone-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 4px;
+    }
+
+    .dropzone-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Single Phone Visual Card Navigator */
+    .single-slot-navigator {
+      background: #f8fafc;
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .slot-card {
+      width: 150px;
+      height: 220px;
+      background: #ffffff;
+      border: 2.5px solid var(--accent-primary);
+      border-radius: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.2s ease;
+      box-shadow: 0 8px 22px rgba(37, 99, 235, 0.14);
+    }
+
+    /* Mini Dynamic Island di Navigator */
+    .slot-card::before {
+      content: "";
+      position: absolute;
+      top: 10px;
+      width: 40px;
+      height: 10px;
+      background: #0f172a;
+      border-radius: 10px;
+      z-index: 3;
+    }
+
+    .slot-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 26px rgba(37, 99, 235, 0.22);
+    }
+
+    .slot-card.has-image {
+      border-color: var(--accent-emerald);
+    }
+
+    .slot-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0.9;
+      display: none;
+      pointer-events: none;
+    }
+
+    .slot-card.has-image .slot-thumb {
+      display: block;
+    }
+
+    .slot-number {
+      font-size: 12px;
+      font-weight: 800;
+      color: #0f172a;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.92);
+      padding: 4px 10px;
+      border-radius: 8px;
+      pointer-events: none;
+      margin-top: 12px;
+    }
+
+    .slot-tag {
+      font-size: 10px;
+      color: var(--text-muted);
+      z-index: 2;
+      margin-top: 5px;
+      background: rgba(255, 255, 255, 0.88);
+      padding: 2px 7px;
+      border-radius: 5px;
+      pointer-events: none;
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .btn-preset {
+      padding: 9px 11px;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s;
+    }
+
+    .btn-preset:hover {
+      background: #f8fafc;
+      color: var(--text-main);
+      border-color: #cbd5e1;
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 450px;
+      max-width: 92%;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: 0 25px 60px rgba(15, 23, 42, 0.2);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .modal-title {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .export-res-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .res-card {
+      border: 1.5px solid var(--border-glass);
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 12px;
+      cursor: pointer;
+    }
+
+    .res-card.active {
+      border-color: var(--accent-primary);
+      background: rgba(37, 99, 235, 0.06);
+    }
+
+    .res-title {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .res-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #ffffff;
+      border: 1px solid #93c5fd;
+      padding: 12px 18px;
+      border-radius: 10px;
+      color: var(--text-main);
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 200;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .mobile-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.35);
+      z-index: 38;
+    }
+
+    .mobile-backdrop.open {
+      display: block;
+    }
+
+    .mobile-fab {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      border-radius: 30px;
+      background: var(--accent-primary);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      z-index: 39;
+    }
+
+    @media (max-width: 900px) {
+      .brand-badge, .topbar-center .btn-pill span, .sidebar-toggle-btn {
+        display: none;
+      }
+      .sidebar {
+        position: fixed;
+        right: 0;
+        top: 0;
+        height: 100%;
+        margin: 0;
+        width: 340px;
+        max-width: 88vw;
+        border-radius: 16px 0 0 16px;
+        z-index: 45;
+        transform: translateX(100%);
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      .mobile-fab {
+        display: flex;
+      }
+      .hud-status {
+        bottom: 76px;
+        left: 12px;
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="brand">
+      <a href="index.html" class="nav-back-btn" title="Kembali ke Beranda"
+        style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; color:#475569; font-size:12px; font-weight:600; padding:5px 11px; background:#f1f5f9; border-radius:8px; border:1px solid #cbd5e1; margin-right:8px; transition:all 0.2s;">
+        <span>←</span> Beranda
+      </a>
+      <div class="brand-icon">📱</div>
+      <div class="brand-title">1 Layar Single Phone 3D</div>
+      <span id="theme-badge" class="brand-badge" style="background:#FFE3ED; color:#9d174d; border:1px solid #FFB8D2; font-weight:700;">Solo Flagship</span>
+    </div>
+
+    <button id="sidebar-toggle" class="sidebar-toggle-btn" title="Buka/Tutup Panel">
+      ⇄
+    </button>
+
+    <div id="mobile-backdrop" class="mobile-backdrop"></div>
+
+    <button id="mobile-fab" class="mobile-fab">
+      <span>📱 Kelola Layar HP</span>
+    </button>
+
+    <!-- Sidebar Panel -->
+    <aside id="sidebar-panel" class="sidebar">
+      <div class="sidebar-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="font-size: 14px; font-weight: 700;">Single Phone Mockup</div>
+          <span class="hud-badge">1 Perangkat</span>
+        </div>
+        <button id="sidebar-close-mobile" class="modal-close" title="Tutup">&times;</button>
+      </div>
+
+      <div class="tab-content">
+        <!-- Upload Section -->
+        <div class="section">
+          <div class="section-title">
+            <span>Upload Screenshot HP</span>
+            <span class="hud-badge">Dynamic Island</span>
+          </div>
+
+          <div class="upload-actions-grid">
+            <button id="btn-trigger-gallery" class="btn-upload-choice">
+              <span class="upload-icon">📁</span>
+              <span class="upload-choice-title">Pilih File / Galeri</span>
+              <span class="upload-choice-sub">Pilih screenshot HP</span>
+            </button>
+
+            <button id="btn-trigger-camera" class="btn-upload-choice">
+              <span class="upload-icon">📷</span>
+              <span class="upload-choice-title">Buka Kamera HP</span>
+              <span class="upload-choice-sub">Ambil foto langsung</span>
+            </button>
+          </div>
+
+          <div id="batch-dropzone" class="dropzone">
+            <input type="file" id="single-file-input" accept="image/*" style="display: none;">
+            <input type="file" id="single-camera-input" accept="image/*" capture="environment" style="display: none;">
+            <div style="font-size: 22px;">📥</div>
+            <div class="dropzone-title">Tarik & lepas gambar layar HP ke sini</div>
+            <div class="dropzone-sub">Dynamic Island otomatis tetap tampil di atas layar</div>
+          </div>
+        </div>
+
+        <!-- Single Phone Visual Navigator -->
+        <div class="section">
+          <div class="section-title">
+            <span>Slot Perangkat Utama</span>
+            <span id="slot-count-badge" class="hud-badge">Poster Referensi</span>
+          </div>
+
+          <div class="single-slot-navigator">
+            <div id="slot-card-0" class="slot-card" title="Klik untuk mengganti gambar layar HP">
+              <img id="thumb-0" class="slot-thumb" alt="">
+              <span class="slot-number">📱 HP Utama #1</span>
+              <span id="slot-tag-0" class="slot-tag">Pink Petal Poster</span>
+            </div>
+          </div>
+
+          <div style="font-size: 11px; color: var(--text-dim); text-align: center; margin-top: 8px;">
+            Ketuk kartu HP di atas untuk mengganti atau menghapus gambar layar.
+          </div>
+        </div>
+
+        <!-- Preset Posters (Tanpa App Dummy) -->
+        <div class="section">
+          <div class="section-title">Pilih Poster Pratinjau (Tanpa App Dummy)</div>
+          <div class="preset-grid">
+            <button id="btn-poster-wireframe" class="btn-preset" style="background:#FFE3ED; border:1px solid #FFB8D2; font-weight:700;">
+              <span>🌸 Wireframe Bersih</span>
+            </button>
+            
+            <button id="btn-poster-pink" class="btn-preset">
+              <span>🌸 Pink Petal Poster</span>
+            </button>
+            <button id="btn-poster-violet" class="btn-preset">
+              <span>🟣 Violet Gradient</span>
+            </button>
+            <button id="btn-poster-orange" class="btn-preset">
+              <span>🔥 Crimson Orange</span>
+            </button>
+            <button id="btn-clear-all" class="btn-preset" style="color: #ef4444;">
+              <span>🗑️ Reset Default</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Info Box -->
+        <div class="section" style="background: rgba(37, 99, 235, 0.05); border: 1px solid rgba(37, 99, 235, 0.2); border-radius: var(--radius-md); padding: 12px;">
+          <div style="font-size: 12px; font-weight: 700; color: var(--accent-primary); margin-bottom: 4px;">
+            ✓ Single 3D Phone + Dynamic Island
+          </div>
+          <div style="font-size: 11px; color: var(--text-muted); line-height: 1.5;">
+            Sudut kemiringan berdiri persis referensi satuan, lengkap dengan bodi 3D, tombol samping, kilau kaca diagonal, Dynamic Island permanen, dan latar Studio Light bersih.
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Slot Modal -->
+  <div id="slot-modal" class="modal-overlay">
+    <div class="modal-card" style="width: 370px;">
+      <div class="modal-header">
+        <div class="modal-title">Atur Layar HP Utama</div>
+        <button id="btn-close-slot-modal" class="modal-close">&times;</button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button id="btn-slot-file" class="btn-pill" style="padding: 12px 16px; justify-content: flex-start; gap: 12px;">
+          <span style="font-size: 20px;">📁</span>
+          <div style="text-align: left;">
+            <div style="font-weight: 700; color: var(--text-main);">Pilih dari Galeri / File</div>
+            <div style="font-size: 11px; color: var(--text-dim);">Upload screenshot untuk HP ini</div>
+          </div>
+        </button>
+        <button id="btn-slot-camera" class="btn-pill" style="padding: 12px 16px; justify-content: flex-start; gap: 12px;">
+          <span style="font-size: 20px;">📷</span>
+          <div style="text-align: left;">
+            <div style="font-weight: 700; color: var(--text-main);">Ambil Foto via Kamera</div>
+            <div style="font-size: 11px; color: var(--text-dim);">Gunakan kamera langsung</div>
+          </div>
+        </button>
+        <button id="btn-slot-remove" class="btn-pill" style="padding: 12px 16px; justify-content: flex-start; gap: 12px; color: #ef4444;">
+          <span style="font-size: 20px;">🗑️</span>
+          <div style="text-align: left;">
+            <div style="font-weight: 700;">Kembalikan ke Poster Pratinjau</div>
+            <div style="font-size: 11px; color: var(--text-dim);">Hapus foto custom & gunakan poster</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export Modal -->
+  <div id="export-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">Export 3D Single Phone PNG</div>
+        <button id="btn-close-modal" class="modal-close">&times;</button>
+      </div>
+      <div class="export-res-grid">
+        <div class="res-card active" data-res="2752x1536">
+          <div class="res-title">Resolusi Studio ★</div>
+          <div class="res-sub">2752 × 1536 • High Detail</div>
+        </div>
+        <div class="res-card" data-res="3840x2160">
+          <div class="res-title">4K Ultra HD</div>
+          <div class="res-sub">3840 × 2160 • Ekstra Tajam</div>
+        </div>
+        <div class="res-card" data-res="1920x1080">
+          <div class="res-title">1080p Full HD</div>
+          <div class="res-sub">1920 × 1080 • Standar Web</div>
+        </div>
+        <div class="res-card" data-res="1600x1600">
+          <div class="res-title">Square Showcase</div>
+          <div class="res-sub">1600 × 1600 (1:1)</div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button id="btn-export-download" class="btn-primary" style="flex: 1; justify-content: center; padding: 12px 20px;">
+          <span>⬇ Download High-Res PNG</span>
+        </button>
+        <button id="btn-copy-clipboard" class="btn-pill" style="padding: 12px 18px;">
+          <span>📋 Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">
+    <span>✅</span>
+    <span id="toast-msg">Siap digunakan</span>
+  </div>
+
+  <!-- ========================================================
+       ALL-IN-ONE JAVASCRIPT (SINGLE 3D PHONE + POSTER PREVIEWS)
+       ======================================================== -->
+  <script>
+    if (!CanvasRenderingContext2D.prototype.roundRect) {
+      CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+        const radius = Math.min(r, w / 2, h / 2);
+        this.moveTo(x + radius, y);
+        this.lineTo(x + w - radius, y);
+        this.quadraticCurveTo(x + w, y, x + w, y + radius);
+        this.lineTo(x + w, y + h - radius);
+        this.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
+        this.lineTo(x + radius, y + h);
+        this.quadraticCurveTo(x, y + h, x, y + h - radius);
+        this.lineTo(x, y + radius);
+        this.quadraticCurveTo(x, y, x + radius, y);
+        this.closePath();
+      };
+    }
+
+    /**
+     * 1. GENERATOR POSTER PRATINJAU (Tanpa App Dummy)
+     *    - 'pink'   : Pink Petal Poster ("PHONE MOCKUP" + "*")
+     *    - 'violet' : Violet Gradient Poster ("+ PHONE MOCKUP")
+     *    - 'orange' : Crimson Orange Poster ("Free Device Screen Mockup" sesuai referensi satuan)
+     */
+        /**
+     * DemoGenerator - Wireframe Skeleton Generator (Kotak Putih Abu Bersih)
+     */
+    class DemoGenerator {
+      static createPlaceholderCard(index = 0, theme = 'light', count = 1, isMobile = true) {
+        const c = document.createElement('canvas');
+        const w = 540;
+        const h = 1140;
+        c.width = w;
+        c.height = h;
+        const ctx = c.getContext('2d');
+
+        const isDark = theme === 'dark';
+
+        // 1. Surface Background (Kotak Putih Abu Bersih)
+        ctx.fillStyle = isDark ? '#0b0f17' : '#f8fafc';
+        ctx.fillRect(0, 0, w, h);
+
+        // 2. Subtle Grid
+        ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.02)' : 'rgba(15, 23, 42, 0.025)';
+        const tileSize = 24;
+        for (let y = 0; y < h; y += tileSize) {
+          for (let x = 0; x < w; x += tileSize) {
+            if (((x / tileSize) + (y / tileSize)) % 2 === 0) {
+              ctx.fillRect(x, y, tileSize, tileSize);
+            }
+          }
+        }
+
+        // Outer Border
+        ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(1, 1, w - 2, h - 2);
+
+        // Dynamic Island Notch
+        ctx.fillStyle = isDark ? '#1e293b' : '#e2e8f0';
+        ctx.beginPath();
+        ctx.roundRect((w - 120) / 2, 16, 120, 24, 12);
+        ctx.fill();
+
+        // Status Bar
+        ctx.fillStyle = isDark ? '#475569' : '#94a3b8';
+        ctx.font = 'bold 14px ui-monospace, monospace';
+        ctx.fillText('9:41', 28, 34);
+        ctx.beginPath();
+        ctx.roundRect(w - 60, 20, 32, 14, 4);
+        ctx.fill();
+
+        // Topbar
+        const topBarY = 56;
+        ctx.fillStyle = '#FFE3ED';
+        ctx.beginPath();
+        ctx.roundRect(20, topBarY, w - 40, 58, 14);
+        ctx.fill();
+        ctx.strokeStyle = '#FFB8D2';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 18px sans-serif';
+        ctx.fillText('🌸 SLOT #1 · SOLO FLAGSHIP', 38, topBarY + 36);
+
+        // Hero Skeleton
+        const heroY = topBarY + 76;
+        ctx.fillStyle = isDark ? '#161f30' : '#ffffff';
+        ctx.beginPath();
+        ctx.roundRect(20, heroY, w - 40, 230, 18);
+        ctx.fill();
+        ctx.strokeStyle = isDark ? '#334155' : '#e2e8f0';
+        ctx.stroke();
+
+        ctx.fillStyle = 'rgba(155, 227, 222, 0.45)';
+        ctx.beginPath();
+        ctx.roundRect(38, heroY + 24, w - 76, 28, 8);
+        ctx.fill();
+        ctx.fillStyle = isDark ? '#243247' : '#f1f5f9';
+        ctx.beginPath();
+        ctx.roundRect(38, heroY + 70, (w - 76) * 0.7, 18, 6);
+        ctx.roundRect(38, heroY + 102, (w - 76) * 0.85, 18, 6);
+        ctx.fill();
+
+        // Dropzone Area
+        const dropY = heroY + 252;
+        ctx.fillStyle = isDark ? 'rgba(155, 227, 222, 0.08)' : 'rgba(155, 227, 222, 0.12)';
+        ctx.strokeStyle = '#9BE3DE';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([8, 6]);
+        ctx.beginPath();
+        ctx.roundRect(20, dropY, w - 40, 290, 20);
+        ctx.fill();
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.fillStyle = '#0f766e';
+        ctx.font = '46px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('📱', w / 2, dropY + 85);
+
+        ctx.fillStyle = isDark ? '#f8fafc' : '#0f172a';
+        ctx.font = 'bold 21px sans-serif';
+        ctx.fillText('Slot #1: Siap Diisi Foto HP', w / 2, dropY + 132);
+
+        ctx.fillStyle = isDark ? '#94a3b8' : '#64748b';
+        ctx.font = '14px sans-serif';
+        ctx.fillText('Ketuk atau tarik screenshot 9:16 ke sini', w / 2, dropY + 168);
+
+        ctx.fillStyle = '#0f766e';
+        ctx.font = 'bold 13px ui-monospace, monospace';
+        ctx.fillText('FORMAT: JPG / PNG / WEBP', w / 2, dropY + 210);
+        ctx.textAlign = 'left';
+
+        // Bottom List Items
+        const listY = dropY + 314;
+        for (let i = 0; i < 3; i++) {
+          const itemY = listY + i * 62;
+          if (itemY + 50 > h - 40) break;
+          ctx.fillStyle = isDark ? '#161f30' : '#ffffff';
+          ctx.beginPath();
+          ctx.roundRect(20, itemY, w - 40, 52, 12);
+          ctx.fill();
+          ctx.strokeStyle = isDark ? '#1e293b' : '#f1f5f9';
+          ctx.stroke();
+
+          ctx.fillStyle = isDark ? '#334155' : '#e2e8f0';
+          ctx.beginPath();
+          ctx.roundRect(36, itemY + 14, 24, 24, 6);
+          ctx.roundRect(72, itemY + 18, 180, 16, 5);
+          ctx.fill();
+        }
+
+        return c;
+      }
+    }
+
+    class ReferencePosterGenerator {
+      static createPoster(style = 'pink') {
+        if (style === 'violet') return this.createVioletGradientPoster();
+        if (style === 'orange') return this.createCrimsonOrangePoster();
+        return this.createPinkPetalPoster();
+      }
+
+      static createPinkPetalPoster() {
+        const w = 640, h = 1360;
+        const c = document.createElement('canvas');
+        c.width = w;
+        c.height = h;
+        const ctx = c.getContext('2d');
+
+        const baseGrad = ctx.createLinearGradient(0, 0, w, h);
+        baseGrad.addColorStop(0, '#ffffff');
+        baseGrad.addColorStop(0.72, '#ffffff');
+        baseGrad.addColorStop(1, '#fce7f3');
+        ctx.fillStyle = baseGrad;
+        ctx.fillRect(0, 0, w, h);
+
+        // Kelopak Abstrak Pink-Lavender Lembut di Atas
+        ctx.save();
+        const petal1 = ctx.createRadialGradient(180, 290, 20, 240, 260, 290);
+        petal1.addColorStop(0, 'rgba(244, 114, 182, 0.44)');
+        petal1.addColorStop(0.55, 'rgba(232, 121, 249, 0.20)');
+        petal1.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        ctx.fillStyle = petal1;
+        ctx.beginPath();
+        ctx.arc(210, 260, 270, 0, Math.PI * 2);
+        ctx.fill();
+
+        const petal2 = ctx.createRadialGradient(500, 340, 10, 480, 320, 320);
+        petal2.addColorStop(0, 'rgba(236, 72, 153, 0.46)');
+        petal2.addColorStop(0.6, 'rgba(192, 132, 252, 0.22)');
+        petal2.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        ctx.fillStyle = petal2;
+        ctx.beginPath();
+        ctx.arc(490, 330, 300, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = 'rgba(236, 72, 153, 0.24)';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(170, 440, 260, -Math.PI * 0.45, Math.PI * 0.05);
+        ctx.stroke();
+        ctx.restore();
+
+        // Tipografi Utama: "PHONE MOCKUP"
+        ctx.fillStyle = '#18181b';
+        ctx.textAlign = 'center';
+        ctx.font = '800 92px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.fillText('PHONE', w / 2, 720);
+        ctx.fillText('MOCKUP', w / 2, 815);
+
+        // Simbol Asterisk / Bintang 8-Sudut
+        ctx.save();
+        ctx.translate(w / 2, 935);
+        ctx.strokeStyle = '#18181b';
+        ctx.lineWidth = 3.5;
+        for (let a = 0; a < 4; a++) {
+          ctx.beginPath();
+          ctx.moveTo(-14, 0);
+          ctx.lineTo(14, 0);
+          ctx.stroke();
+          ctx.rotate(Math.PI / 4);
+        }
+        ctx.restore();
+
+        ctx.fillStyle = '#18181b';
+        ctx.font = '700 17px sans-serif';
+        ctx.fillText('SCREEN MOCKUP', w / 2, 1020);
+
+        ctx.fillStyle = '#52525b';
+        ctx.font = '500 15px sans-serif';
+        ctx.fillText('SIMPLE MOMENTS SMARTER TECHNOLOGY', w / 2, 1062);
+        ctx.fillText('THE FUTURE BEAUTIFULLY DESIGNED', w / 2, 1086);
+        ctx.fillText('BETTER DESIGN', w / 2, 1110);
+
+        ctx.textAlign = 'left';
+        return c;
+      }
+
+      static createVioletGradientPoster() {
+        const w = 640, h = 1360;
+        const c = document.createElement('canvas');
+        c.width = w;
+        c.height = h;
+        const ctx = c.getContext('2d');
+
+        const bgGrad = ctx.createRadialGradient(w * 0.5, h * 0.54, 40, w * 0.5, h * 0.52, 760);
+        bgGrad.addColorStop(0, '#4f46e5');
+        bgGrad.addColorStop(0.38, '#6366f1');
+        bgGrad.addColorStop(0.68, '#a855f7');
+        bgGrad.addColorStop(0.88, '#e9d5ff');
+        bgGrad.addColorStop(1, '#ffffff');
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.textAlign = 'center';
+
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+        ctx.font = '600 17px sans-serif';
+        ctx.fillText('DESIGNED AROUND', w / 2, 430);
+        ctx.fillText('YOUR WORLD', w / 2, 454);
+
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 3;
+        const px = 112, py = 595;
+        ctx.beginPath();
+        ctx.moveTo(px - 12, py);
+        ctx.lineTo(px + 12, py);
+        ctx.moveTo(px, py - 12);
+        ctx.lineTo(px, py + 12);
+        ctx.stroke();
+
+        ctx.save();
+        ctx.translate(w / 2 + 10, 635);
+        ctx.scale(0.82, 1.32);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '800 112px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.fillText('PHONE', 0, 0);
+        ctx.fillText('MOCKUP', 0, 96);
+        ctx.restore();
+
+        ctx.fillStyle = '#1e1b4b';
+        ctx.font = '700 18px sans-serif';
+        ctx.fillText('SCREEN MOCKUP', w / 2, 1035);
+
+        ctx.fillStyle = '#312e81';
+        ctx.font = '500 16px sans-serif';
+        ctx.fillText('EXPERIENCE THE NEXT', w / 2, 1076);
+        ctx.fillText('BUILT AROUND YOUR EVERYDAY', w / 2, 1100);
+        ctx.fillText('SMART TECHNOLOGY SIMPLE', w / 2, 1124);
+
+        ctx.textAlign = 'left';
+        return c;
+      }
+
+      static createCrimsonOrangePoster() {
+        const w = 640, h = 1360;
+        const c = document.createElement('canvas');
+        c.width = w;
+        c.height = h;
+        const ctx = c.getContext('2d');
+
+        // Gradasi Gelap Atas-Kanan ke Merah-Oranye Terang di Kiri-Bawah (Persis Referensi Satuan)
+        const bgGrad = ctx.createLinearGradient(w * 0.85, 80, w * 0.15, h * 0.92);
+        bgGrad.addColorStop(0, '#12080a');
+        bgGrad.addColorStop(0.28, '#4c1118');
+        bgGrad.addColorStop(0.58, '#c23014');
+        bgGrad.addColorStop(0.85, '#ea580c');
+        bgGrad.addColorStop(1, '#f97316');
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, w, h);
+
+        // Cahaya Merah di Pojok Kiri Atas
+        const topGlow = ctx.createRadialGradient(80, 120, 10, 110, 160, 280);
+        topGlow.addColorStop(0, '#ef4444');
+        topGlow.addColorStop(1, 'rgba(239, 68, 68, 0)');
+        ctx.fillStyle = topGlow;
+        ctx.fillRect(0, 0, 400, 420);
+
+        // Ikon Geometris Putih di Kiri Atas
+        ctx.save();
+        ctx.translate(92, 160);
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 14;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        ctx.moveTo(-24, -10);
+        ctx.lineTo(0, -32);
+        ctx.lineTo(26, -6);
+        ctx.lineTo(-10, 28);
+        ctx.lineTo(14, 48);
+        ctx.lineTo(36, 24);
+        ctx.stroke();
+        ctx.restore();
+
+        // Pill "DEVICE MOCKUP"
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.55)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.roundRect(62, 745, 248, 52, 26);
+        ctx.stroke();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '600 20px sans-serif';
+        ctx.fillText('DEVICE MOCKUP', 96, 778);
+
+        // Tipografi Besar Rata Kiri: "Free Device Screen Mockup"
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '400 108px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.fillText('Free', 58, 905);
+        ctx.fillText('Device', 58, 1015);
+        ctx.fillText('Screen', 58, 1125);
+        ctx.fillText('Mockup', 58, 1235);
+
+        return c;
+      }
+    }
+
+    /**
+     * 2. ENGINE PROYEKSI 3D SINGLE PHONE (Sudut Miring Berdiri Persis Referensi Satuan)
+     */
+    class SinglePhoneStudioRenderer {
+      constructor(canvas) {
+        this.canvas = canvas;
+        this.baseWidth = 2752;
+        this.baseHeight = 1536;
+        this.canvas.width = this.baseWidth;
+        this.canvas.height = this.baseHeight;
+
+        // Background Studio: 'light' (Cool Slate Awal), 'warm' (Warm Grey Referensi Satuan), 'dark' (Dark Studio)
+        this.bgTheme = 'light';
+
+        // Warna Bodi Sasis: 'slate' (Dark Slate/Midnight seperti referensi satuan) atau 'titanium' (Silver Titanium)
+        this.chassisColor = 'slate';
+
+        this.zoomFactor = 1.0;
+        this.showDynamicIsland = true;
+        this.showGlare = true;
+
+        // Dimensi Layar HP Portrait
+        this.cardW = 540;
+        this.cardH = 1140;
+        this.cardRadius = 86;
+
+        // Sudut Miring & Kemiringan Perspektif (Persis Referensi Satuan)
+        this.rotationDeg = -17.5;
+        this.skewXDeg = 6.5;
+        this.foreshortenY = 0.94;
+      }
+
+      render(screenSource, targetCanvas = this.canvas, customW = null, customH = null) {
+        const width = customW || targetCanvas.width;
+        const height = customH || targetCanvas.height;
+        if (targetCanvas.width !== width) targetCanvas.width = width;
+        if (targetCanvas.height !== height) targetCanvas.height = height;
+
+        const ctx = targetCanvas.getContext('2d');
+        ctx.save();
+
+        // 1. Gambar Background Studio
+        this.drawStudioBackground(ctx, width, height);
+
+        // 2. Matriks Proyeksi 3D Single Phone Terpusat di Tengah Kanvas
+        const rotRad = (this.rotationDeg * Math.PI) / 180;
+        const skewRad = (this.skewXDeg * Math.PI) / 180;
+
+        const cos = Math.cos(rotRad);
+        const sin = Math.sin(rotRad);
+        const tanSkew = Math.tan(skewRad);
+        const sy = this.foreshortenY;
+
+        const resScale = Math.min(width / this.baseWidth, height / this.baseHeight);
+        const S = resScale * this.zoomFactor;
+
+        // Basis vektor bidang layar HP
+        const ux = cos * S;
+        const uy = sin * sy * S;
+        const vx = (-sin + cos * tanSkew) * S;
+        const vy = (cos + sin * tanSkew) * sy * S;
+
+        // Pusat tepat di tengah kanvas (50% X, 50% Y)
+        const originX = width * 0.50;
+        const originY = height * 0.50;
+
+        const det = ux * vy - uy * vx;
+        const screenOffsetToPlane = (dxScreen, dyScreen) => ({
+          dx: (vy * dxScreen - vx * dyScreen) / det,
+          dy: (-uy * dxScreen + ux * dyScreen) / det
+        });
+
+        ctx.setTransform(ux, uy, vx, vy, originX, originY);
+
+        const x = -this.cardW / 2;
+        const y = -this.cardH / 2;
+
+        this.draw3DSinglePhone(ctx, x, y, this.cardW, this.cardH, screenSource, screenOffsetToPlane, S);
+
+        ctx.restore();
+      }
+
+      drawStudioBackground(ctx, width, height) {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        if (this.bgTheme === 'light') {
+          // Gaya Studio Pastel Light (Mint-Ice-Rose Estetik)
+          const grad = ctx.createLinearGradient(0, 0, width, height);
+          grad.addColorStop(0, '#e8f7f5');
+          grad.addColorStop(0.5, '#dcf2ef');
+          grad.addColorStop(1, '#cfe8e4');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, width, height);
+        } else if (this.bgTheme === 'warm') {
+          // Gaya Warm Off-White / Light Grey seperti Gambar Referensi Satuan
+          const grad = ctx.createLinearGradient(0, 0, width, height);
+          grad.addColorStop(0, '#f0f0f0');
+          grad.addColorStop(0.5, '#e8e8e8');
+          grad.addColorStop(1, '#dcdcdc');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, width, height);
+        } else {
+          // Dark Studio
+          const grad = ctx.createRadialGradient(
+            width * 0.5, height * 0.45, width * 0.05,
+            width * 0.5, height * 0.5, width * 0.75
+          );
+          grad.addColorStop(0, '#131a26');
+          grad.addColorStop(1, '#05070b');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, width, height);
+        }
+      }
+
+      draw3DSinglePhone(ctx, x, y, w, h, source, screenOffsetToPlane, scale) {
+        const r = this.cardRadius;
+        const bezelThick = 14;
+        const fx = x - bezelThick;
+        const fy = y - bezelThick;
+        const fw = w + bezelThick * 2;
+        const fh = h + bezelThick * 2;
+        const fr = r + bezelThick;
+
+        // Vektor ekstrusi bodi 3D ke kiri-bawah (memperlihatkan sasis kiri & bawah seperti gambar referensi)
+        const depthX = -32 * scale;
+        const depthY = 20 * scale;
+
+        const isDarkBg = this.bgTheme === 'dark';
+        const isSlate = this.chassisColor === 'slate';
+
+        // 1. Ambient Studio Drop Shadow
+        const shadowOff = screenOffsetToPlane(depthX * 1.4, depthY * 2.2);
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(fx + shadowOff.dx, fy + shadowOff.dy, fw, fh, fr);
+        ctx.fillStyle = isDarkBg ? 'rgba(0, 0, 0, 0.75)' : 'rgba(15, 23, 42, 0.16)';
+        ctx.shadowColor = isDarkBg ? 'rgba(0, 0, 0, 0.9)' : 'rgba(15, 23, 42, 0.24)';
+        ctx.shadowBlur = 64 * scale;
+        ctx.shadowOffsetX = -16 * scale;
+        ctx.shadowOffsetY = 32 * scale;
+        ctx.fill();
+        ctx.restore();
+
+        // 2. Dinding Samping Sasis 3D (Dark Slate / Natural Titanium)
+        const steps = 26;
+        for (let i = steps; i >= 1; i--) {
+          const t = i / steps;
+          const off = screenOffsetToPlane(depthX * t, depthY * t);
+
+          ctx.beginPath();
+          ctx.roundRect(fx + off.dx, fy + off.dy, fw, fh, fr);
+
+          if (isSlate) {
+            // Palet Dark Titanium / Midnight Slate (Persis Referensi Satuan)
+            if (i === steps) {
+              ctx.fillStyle = '#0f141c';
+            } else if (i > steps - 4) {
+              ctx.fillStyle = '#1e2633';
+            } else if (i < 4) {
+              ctx.fillStyle = '#475569';
+            } else {
+              ctx.fillStyle = '#2c3545';
+            }
+          } else {
+            // Palet Silver / Natural Titanium
+            if (i === steps) {
+              ctx.fillStyle = '#57534e';
+            } else if (i > steps - 4) {
+              ctx.fillStyle = '#78716c';
+            } else if (i < 4) {
+              ctx.fillStyle = '#e7e5e4';
+            } else {
+              ctx.fillStyle = '#a8a29e';
+            }
+          }
+          ctx.fill();
+
+          // Garis Antena & Tombol Samping Kiri pada Lapisan Tengah Sasis
+          if (i === Math.floor(steps * 0.55)) {
+            ctx.save();
+            // Garis Antena Atas & Bawah
+            ctx.fillStyle = isSlate ? '#64748b' : '#78716c';
+            ctx.fillRect(fx + off.dx - 1, fy + off.dy + 115, 6, 5);
+            ctx.fillRect(fx + off.dx - 1, fy + off.dy + fh - 120, 6, 5);
+
+            // Tombol Samping (Silent/Action, Volume Up, Volume Down / Side Slot)
+            ctx.fillStyle = isSlate ? '#1e293b' : '#78716c';
+            ctx.strokeStyle = isSlate ? '#64748b' : '#44403c';
+            ctx.lineWidth = 1.8;
+
+            // Tombol Action / Silent
+            ctx.beginPath();
+            ctx.roundRect(fx + off.dx - 3, fy + off.dy + 210, 8, 54, 4);
+            ctx.fill();
+            ctx.stroke();
+
+            // Tombol Volume Up
+            ctx.beginPath();
+            ctx.roundRect(fx + off.dx - 3, fy + off.dy + 310, 8, 105, 4);
+            ctx.fill();
+            ctx.stroke();
+
+            // Tombol Volume Down / mmWave Cutout
+            ctx.beginPath();
+            ctx.roundRect(fx + off.dx - 3, fy + off.dy + 455, 8, 125, 4);
+            ctx.fill();
+            ctx.stroke();
+            ctx.restore();
+          }
+        }
+
+        // 3. Rim Chamfer Luar & Bezel Kaca Hitam
+        ctx.beginPath();
+        ctx.roundRect(fx, fy, fw, fh, fr);
+        ctx.fillStyle = isSlate ? '#334155' : '#e7e5e4';
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = isSlate ? 'rgba(255, 255, 255, 0.35)' : '#ffffff';
+        ctx.stroke();
+
+        // Bezel Kaca Hitam Dalam
+        ctx.beginPath();
+        ctx.roundRect(x - 10, y - 10, w + 20, h + 20, r + 10);
+        ctx.fillStyle = '#07090e';
+        ctx.fill();
+
+        // 4. Permukaan Layar & Gambar Poster (Clipped)
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, r);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+        ctx.clip();
+
+        if (source) {
+          const imgW = source.width || w;
+          const imgH = source.height || h;
+          const cardRatio = w / h;
+          const imgRatio = imgW / imgH;
+
+          let drawW = w, drawH = h, drawX = x, drawY = y;
+          if (imgRatio > cardRatio) {
+            drawH = h;
+            drawW = h * imgRatio;
+            drawX = x + (w - drawW) / 2;
+          } else {
+            drawW = w;
+            drawH = w / imgRatio;
+            drawY = y + (h - drawH) / 2;
+          }
+
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          ctx.drawImage(source, drawX, drawY, drawW, drawH);
+        }
+
+        // 5. Efek Kilau Kaca Layar Diagonal (Diagonal Glass Reflection seperti Referensi Satuan)
+        if (this.showGlare) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.lineTo(x + w * 0.78, y);
+          ctx.lineTo(x, y + h * 0.58);
+          ctx.closePath();
+
+          const glareGrad = ctx.createLinearGradient(x, y, x + w * 0.65, y + h * 0.5);
+          glareGrad.addColorStop(0, 'rgba(255, 255, 255, 0.16)');
+          glareGrad.addColorStop(0.5, 'rgba(255, 255, 255, 0.06)');
+          glareGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+          ctx.fillStyle = glareGrad;
+          ctx.fill();
+          ctx.restore();
+        }
+
+        // 6. DYNAMIC ISLAND PERMANEN DI ATAS LAYAR
+        if (this.showDynamicIsland) {
+          const islandW = 166;
+          const islandH = 48;
+          const islandX = x + (w - islandW) / 2;
+          const islandY = y + 26;
+
+          // Kapsul Hitam Dynamic Island
+          ctx.fillStyle = '#050507';
+          ctx.beginPath();
+          ctx.roundRect(islandX, islandY, islandW, islandH, islandH / 2);
+          ctx.fill();
+
+          // Rim tipis di sekeliling Dynamic Island agar tetap terlihat di layar gelap
+          ctx.lineWidth = 1.2;
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+          ctx.stroke();
+
+          // Lensa Kamera Depan & Sensor di Dalam Dynamic Island
+          ctx.fillStyle = '#141824';
+          ctx.beginPath();
+          ctx.arc(islandX + 34, islandY + islandH / 2, 10, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = '#3b82f6';
+          ctx.globalAlpha = 0.4;
+          ctx.beginPath();
+          ctx.arc(islandX + 32, islandY + islandH / 2 - 2, 4, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.globalAlpha = 1.0;
+        }
+
+        ctx.restore();
+
+        // 7. Highlight Tepi Layar Kaca
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, r);
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.28)';
+        ctx.stroke();
+      }
+    }
+
+    /**
+     * 3. KONTROLER APLIKASI UTAMA
+     */
+    document.addEventListener('DOMContentLoaded', () => {
+      const canvas = document.getElementById('mockup-canvas');
+      const renderer = new SinglePhoneStudioRenderer(canvas);
+
+      let userImage = null;
+      let activePosterStyle = 'pink'; // Default menggunakan gaya poster aturan tadi
+      let defaultPoster = ReferencePosterGenerator.createPoster(activePosterStyle);
+      let selectedExportRes = '2752x1536';
+
+      function getActiveScreen() {
+        return userImage || defaultPoster;
+      }
+
+      function refreshCanvas() {
+        renderer.render(getActiveScreen());
+        updateNavigatorUI();
+      }
+
+      function updateNavigatorUI() {
+        const cardEl = document.getElementById('slot-card-0');
+        const thumbEl = document.getElementById('thumb-0');
+        const badgeEl = document.getElementById('slot-count-badge');
+        const tagEl = document.getElementById('slot-tag-0');
+
+        const posterNames = {
+          pink: 'Pink Petal Poster',
+          violet: 'Violet Gradient',
+          orange: 'Crimson Orange'
+        };
+
+        if (userImage) {
+          cardEl.classList.add('has-image');
+          thumbEl.src = userImage.src;
+          badgeEl.textContent = '1 Foto Custom';
+          tagEl.textContent = 'Screenshot Custom';
+        } else {
+          cardEl.classList.remove('has-image');
+          thumbEl.removeAttribute('src');
+          badgeEl.textContent = 'Poster Referensi';
+          tagEl.textContent = posterNames[activePosterStyle];
+        }
+      }
+
+      function showToast(msg) {
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toast-msg');
+        toastMsg.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(window._toastTimer);
+        window._toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
+      }
+
+      function loadImageFile(file) {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      // Background Studio Switcher
+      const btnBgLight = document.getElementById('btn-bg-light');
+      const btnBgWarm = document.getElementById('btn-bg-warm');
+      const btnBgDark = document.getElementById('btn-bg-dark');
+      const themeBadge = document.getElementById('theme-badge');
+
+      function setStudioBg(mode) {
+        renderer.bgTheme = mode;
+        btnBgLight.classList.toggle('active', mode === 'light');
+        btnBgWarm.classList.toggle('active', mode === 'warm');
+        btnBgDark.classList.toggle('active', mode === 'dark');
+
+        const cssBgMap = { light: '#dce3ed', warm: '#e5e5e5', dark: '#070a0f' };
+        const badgeMap = { light: 'Studio Light Mode', warm: 'Warm Grey Studio', dark: 'Dark Studio Mode' };
+        document.documentElement.style.setProperty('--bg-canvas', cssBgMap[mode]);
+        themeBadge.textContent = badgeMap[mode];
+        refreshCanvas();
+      }
+
+      btnBgLight.addEventListener('click', () => {
+        setStudioBg('light');
+        showToast('Background Studio Light aktif');
+      });
+      btnBgWarm.addEventListener('click', () => {
+        setStudioBg('warm');
+        showToast('Background Warm Grey (Referensi Satuan) aktif');
+      });
+      btnBgDark.addEventListener('click', () => {
+        setStudioBg('dark');
+        showToast('Background Dark Studio aktif');
+      });
+
+      // Kontrol HUD Bawah
+      const btnZoom = document.getElementById('btn-toggle-zoom');
+      const btnZoomIn = document.getElementById('btn-zoom-in');
+      const btnZoomOut = document.getElementById('btn-zoom-out');
+      const btnChassis = document.getElementById('btn-toggle-chassis');
+      const btnIsland = document.getElementById('btn-toggle-island');
+      const btnGlare = document.getElementById('btn-toggle-glare');
+
+      function updateZoomLabel() {
+        btnZoom.textContent = `🔍 Zoom: ${Math.round(renderer.zoomFactor * 100)}%`;
+      }
+
+      btnZoom.addEventListener('click', () => {
+        renderer.zoomFactor = Math.abs(renderer.zoomFactor - 1.0) < 0.04 ? 0.85 : 1.0;
+        updateZoomLabel();
+        refreshCanvas();
+      });
+      btnZoomIn.addEventListener('click', () => {
+        renderer.zoomFactor = Math.min(1.40, +(renderer.zoomFactor + 0.06).toFixed(2));
+        updateZoomLabel();
+        refreshCanvas();
+      });
+      btnZoomOut.addEventListener('click', () => {
+        renderer.zoomFactor = Math.max(0.65, +(renderer.zoomFactor - 0.06).toFixed(2));
+        updateZoomLabel();
+        refreshCanvas();
+      });
+
+      btnChassis.addEventListener('click', () => {
+        renderer.chassisColor = renderer.chassisColor === 'slate' ? 'titanium' : 'slate';
+        btnChassis.textContent = renderer.chassisColor === 'slate'
+          ? '🎨 Bodi: Dark Slate'
+          : '🎨 Bodi: Silver Titanium';
+        refreshCanvas();
+      });
+
+      btnIsland.addEventListener('click', () => {
+        renderer.showDynamicIsland = !renderer.showDynamicIsland;
+        btnIsland.textContent = `💊 Dynamic Island: ${renderer.showDynamicIsland ? 'ON' : 'OFF'}`;
+        refreshCanvas();
+      });
+
+      btnGlare.addEventListener('click', () => {
+        renderer.showGlare = !renderer.showGlare;
+        btnGlare.textContent = `✨ Glare: ${renderer.showGlare ? 'ON' : 'OFF'}`;
+        refreshCanvas();
+      });
+
+      // Upload File & Kamera
+      const singleFileInput = document.getElementById('single-file-input');
+      const singleCameraInput = document.getElementById('single-camera-input');
+      const dropzone = document.getElementById('batch-dropzone');
+      const slotModal = document.getElementById('slot-modal');
+
+      document.getElementById('btn-trigger-gallery').addEventListener('click', () => singleFileInput.click());
+      document.getElementById('btn-trigger-camera').addEventListener('click', () => singleCameraInput.click());
+      dropzone.addEventListener('click', () => singleFileInput.click());
+
+      async function handleUploadedFile(file) {
+        if (!file || !file.type.startsWith('image/')) return;
+        userImage = await loadImageFile(file);
+        slotModal.classList.remove('open');
+        refreshCanvas();
+        showToast('Layar HP berhasil diperbarui!');
+      }
+
+      singleFileInput.addEventListener('change', (e) => {
+        handleUploadedFile(e.target.files[0]);
+        e.target.value = '';
+      });
+      singleCameraInput.addEventListener('change', (e) => {
+        handleUploadedFile(e.target.files[0]);
+        e.target.value = '';
+      });
+
+      dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      });
+      dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+        if (e.dataTransfer.files?.length) handleUploadedFile(e.dataTransfer.files[0]);
+      });
+
+      // Modal Slot
+      document.getElementById('slot-card-0').addEventListener('click', () => {
+        slotModal.classList.add('open');
+      });
+      document.getElementById('btn-close-slot-modal').addEventListener('click', () => slotModal.classList.remove('open'));
+      document.getElementById('btn-slot-file').addEventListener('click', () => singleFileInput.click());
+      document.getElementById('btn-slot-camera').addEventListener('click', () => singleCameraInput.click());
+      document.getElementById('btn-slot-remove').addEventListener('click', () => {
+        userImage = null;
+        slotModal.classList.remove('open');
+        refreshCanvas();
+        showToast('Dikembalikan ke poster pratinjau');
+      });
+
+      // Pilih Poster Pratinjau
+      function selectPoster(style, label) {
+        userImage = null;
+        activePosterStyle = style;
+        defaultPoster = ReferencePosterGenerator.createPoster(style);
+        refreshCanvas();
+        showToast(`Poster ${label} aktif`);
+      }
+
+            document.getElementById('btn-poster-wireframe').addEventListener('click', () => {
+        currentSource = DemoGenerator.createPlaceholderCard(0, renderer.bgTheme === 'dark' ? 'dark' : 'light', 1, true);
+        document.getElementById('slot-tag-0').textContent = 'Wireframe Bersih';
+        refreshCanvas();
+        updateThumbnail();
+        showToast('Kembali ke Wireframe Bersih (Kotak Putih Abu)');
+      });
+      document.getElementById('btn-poster-pink').addEventListener('click', () => selectPoster('pink', 'Pink Petal'));
+      document.getElementById('btn-poster-violet').addEventListener('click', () => selectPoster('violet', 'Violet Gradient'));
+      document.getElementById('btn-poster-orange').addEventListener('click', () => selectPoster('orange', 'Crimson Orange'));
+
+      document.getElementById('btn-clear-all').addEventListener('click', () => {
+        userImage = null;
+        activePosterStyle = 'pink';
+        defaultPoster = ReferencePosterGenerator.createPoster('pink');
+        setStudioBg('light');
+        showToast('Semua pengaturan direset ke default');
+      });
+
+      // Sidebar & Mobile Drawer
+      const sidebar = document.getElementById('sidebar-panel');
+      const backdrop = document.getElementById('mobile-backdrop');
+      document.getElementById('sidebar-toggle').addEventListener('click', () => sidebar.classList.toggle('collapsed'));
+      document.getElementById('mobile-fab').addEventListener('click', () => {
+        sidebar.classList.add('open');
+        backdrop.classList.add('open');
+      });
+      const closeDrawer = () => {
+        sidebar.classList.remove('open');
+        backdrop.classList.remove('open');
+      };
+      document.getElementById('sidebar-close-mobile').addEventListener('click', closeDrawer);
+      backdrop.addEventListener('click', closeDrawer);
+
+      // Export PNG
+      const exportModal = document.getElementById('export-modal');
+      document.getElementById('btn-open-export').addEventListener('click', () => exportModal.classList.add('open'));
+      document.getElementById('btn-close-modal').addEventListener('click', () => exportModal.classList.remove('open'));
+
+      document.querySelectorAll('.res-card').forEach((card) => {
+        card.addEventListener('click', () => {
+          document.querySelectorAll('.res-card').forEach((c) => c.classList.remove('active'));
+          card.classList.add('active');
+          selectedExportRes = card.dataset.res;
+        });
+      });
+
+      function createExportCanvas() {
+        const [w, h] = selectedExportRes.split('x').map(Number);
+        const off = document.createElement('canvas');
+        renderer.render(getActiveScreen(), off, w, h);
+        return off;
+      }
+
+      document.getElementById('btn-export-download').addEventListener('click', () => {
+        const off = createExportCanvas();
+        const a = document.createElement('a');
+        a.download = `single-phone-mockup-${renderer.bgTheme}-${selectedExportRes}.png`;
+        a.href = off.toDataURL('image/png', 1.0);
+        a.click();
+        exportModal.classList.remove('open');
+        if (window.confetti) window.confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+        showToast(`PNG (${selectedExportRes}) berhasil didownload!`);
+      });
+
+      document.getElementById('btn-copy-clipboard').addEventListener('click', () => {
+        const off = createExportCanvas();
+        off.toBlob(async (blob) => {
+          try {
+            await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+            exportModal.classList.remove('open');
+            showToast('Gambar berhasil disalin ke Clipboard!');
+          } catch {
+            showToast('Browser tidak mengizinkan copy otomatis');
+          }
+        });
+      });
+
+      // Render Pertama Kali
+      refreshCanvas();
+    });
+  </script>
+</body>
+</html>

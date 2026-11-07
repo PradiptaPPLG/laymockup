@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Vertical 3-Column Phone Mockup Studio - Dynamic Island</title>
+
+  <!-- CDN Icons & Confetti -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg-primary: #f1f5f9;
+      --bg-secondary: #ffffff;
+      --bg-canvas: #dce3ed;
+      --bg-glass: rgba(255, 255, 255, 0.94);
+      --border-glass: #e2e8f0;
+      --accent-primary: #2563eb;
+      --accent-hover: #1d4ed8;
+      --accent-emerald: #10b981;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #94a3b8;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --shadow-panel: 0 10px 35px -10px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Topbar Bersih (Light Mode) */
+    .topbar {
+      height: 60px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-glass);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 13px;
+      box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text-main);
+    }
+
+    .brand-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: rgba(37, 99, 235, 0.08);
+      color: var(--accent-primary);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+    }
+
+    .topbar-center {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      background: #ffffff;
+      color: var(--text-muted);
+      border: 1px solid var(--border-glass);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .btn-pill:hover {
+      background: #f8fafc;
+      color: var(--text-main);
+      border-color: #cbd5e1;
+    }
+
+    .btn-pill.active {
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--accent-primary);
+      border-color: rgba(37, 99, 235, 0.4);
+      font-weight: 700;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 18px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 3px 12px rgba(37, 99, 235, 0.28);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 16px rgba(37, 99, 235, 0.4);
+    }
+
+    /* Main Workspace */
+    .main-content {
+      flex: 1;
+      position: relative;
+      display: flex;
+      overflow: hidden;
+      background: var(--bg-canvas);
+      transition: background 0.25s ease;
+    }
+
+    .canvas-viewport {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    #mockup-canvas {
+      max-width: 96%;
+      max-height: 92%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 14px;
+      box-shadow: 0 25px 65px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(15, 23, 42, 0.06);
+      display: block;
+    }
+
+    /* Bottom Floating HUD */
+    .hud-status {
+      position: absolute;
+      bottom: 22px;
+      left: 22px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      padding: 6px 12px;
+      border-radius: 30px;
+      border: 1px solid var(--border-glass);
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      z-index: 20;
+      flex-wrap: wrap;
+    }
+
+    .hud-badge {
+      background: rgba(37, 99, 235, 0.08);
+      color: var(--accent-primary);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .hud-btn {
+      background: #f8fafc;
+      color: var(--text-main);
+      border: 1px solid #cbd5e1;
+      padding: 4px 10px;
+      border-radius: 14px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .hud-btn:hover {
+      background: #eff6ff;
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+    }
+
+    /* Sidebar Toggle */
+    .sidebar-toggle-btn {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 45;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 400px;
+      height: calc(100% - 24px);
+      margin: 12px 16px 12px 0;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-panel);
+      z-index: 40;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), margin 0.3s ease;
+    }
+
+    .sidebar.collapsed {
+      transform: translateX(calc(100% + 24px));
+      margin-right: -400px;
+    }
+
+    .sidebar-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border-glass);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tab-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px;
+    }
+
+    .tab-content::-webkit-scrollbar {
+      width: 5px;
+    }
+    .tab-content::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    .section {
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .upload-actions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .btn-upload-choice {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 13px 10px;
+      background: #f8fafc;
+      border: 1.5px dashed rgba(37, 99, 235, 0.32);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-upload-choice:hover {
+      background: rgba(37, 99, 235, 0.05);
+      border-color: var(--accent-primary);
+      transform: translateY(-1px);
+    }
+
+    .upload-icon {
+      font-size: 21px;
+    }
+
+    .upload-choice-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .upload-choice-sub {
+      font-size: 10px;
+      color: var(--text-dim);
+    }
+
+    .dropzone {
+      border: 1.5px dashed rgba(37, 99, 235, 0.32);
+      background: #f8fafc;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .dropzone:hover, .dropzone.dragover {
+      border-color: var(--accent-primary);
+      background: rgba(37, 99, 235, 0.05);
+    }
+
+    .dropzone-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 4px;
+    }
+
+    .dropzone-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* 3-Column Staggered Navigator (2 - 2 - 2) */
+    .slot-navigator-3col {
+      background: #f8fafc;
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-md);
+      padding: 14px 12px;
+      display: grid;
+      grid-template-columns: 1fr 1.08fr 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .slot-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Efek Staggered Visual di Navigator seperti Referensi */
+    .slot-col.col-left {
+      margin-top: 6px;
+    }
+    .slot-col.col-center {
+      margin-top: 0px;
+    }
+    .slot-col.col-right {
+      margin-top: 16px;
+    }
+
+    .slot-card {
+      height: 88px;
+      background: #ffffff;
+      border: 1.5px solid var(--border-glass);
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Mini Dynamic Island di Navigator */
+    .slot-card::before {
+      content: "";
+      position: absolute;
+      top: 6px;
+      width: 26px;
+      height: 6px;
+      background: #0f172a;
+      border-radius: 8px;
+      z-index: 3;
+    }
+
+    .slot-card:hover {
+      border-color: var(--accent-primary);
+      background: #eff6ff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(37, 99, 235, 0.14);
+    }
+
+    .slot-card.center-focus {
+      height: 104px;
+      border: 2px solid var(--accent-primary);
+      background: #eff6ff;
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.18);
+    }
+
+    .slot-card.has-image {
+      border-color: var(--accent-emerald);
+    }
+
+    .slot-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0.88;
+      display: none;
+      pointer-events: none;
+    }
+
+    .slot-card.has-image .slot-thumb {
+      display: block;
+    }
+
+    .slot-number {
+      font-size: 11px;
+      font-weight: 700;
+      color: #0f172a;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.92);
+      padding: 2px 7px;
+      border-radius: 5px;
+      pointer-events: none;
+      margin-top: 8px;
+    }
+
+    .slot-tag {
+      font-size: 9px;
+      color: var(--text-muted);
+      z-index: 2;
+      margin-top: 3px;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 1px 5px;
+      border-radius: 4px;
+      pointer-events: none;
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .btn-preset {
+      padding: 9px 11px;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s;
+    }
+
+    .btn-preset:hover {
+      background: #f8fafc;
+      color: var(--text-main);
+      border-color: #cbd5e1;
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 450px;
+      max-width: 92%;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: 0 25px 60px rgba(15, 23, 42, 0.2);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .modal-title {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .export-res-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .res-card {
+      border: 1.5px solid var(--border-glass);
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 12px;
+      cursor: pointer;
+    }
+
+    .res-card.active {
+      border-color: var(--accent-primary);
+      background: rgba(37, 99, 235, 0.06);
+    }
+
+    .res-title {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .res-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #ffffff;
+      border: 1px solid #93c5fd;
+      padding: 12px 18px;
+      border-radius: 10px;
+      color: var(--text-main);
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 200;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .mobile-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.35);
+      z-index: 38;
+    }
+
+    .mobile-backdrop.open {
+      display: block;
+    }
+
+    .mobile-fab {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      border-radius: 30px;
+      background: var(--accent-primary);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      z-index: 39;
+    }
+
+    @media (max-width: 900px) {
+      .brand-badge, .topbar-center .btn-pill span, .sidebar-toggle-btn {
+        display: none;
+      }
+      .sidebar {
+        position: fixed;
+        right: 0;
+        top: 0;
+        height: 100%;
+        margin: 0;
+        width: 340px;
+        max-width: 88vw;
+        border-radius: 16px 0 0 16px;
+        z-index: 45;
+        transform: translateX(100%);
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      .mobile-fab {
+        display: flex;
+      }
+      .hud-status {
+        bottom: 76px;
+        left: 12px;
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">📱</div>
+      <div class="brand-title">Vertical 3-Col Phone Studio</div>
+      <span id="theme-badge" class="brand-badge">Studio Light Mode</span>
+    </div>
+
+    <!-- Center Background Toggles -->
+    <div class="topbar-center">
+      <button id="btn-bg-light" class="btn-pill active" title="Background Studio Terang (Seperti Versi Awal)">
+        <span>☀️ Studio Light BG (Default)</span>
+      </button>
+      <button id="btn-bg-lavender" class="btn-pill" title="Background Lavender Halus (Seperti Gambar Referensi)">
+        <span>💜 Soft Lavender BG</span>
+      </button>
+      <button id="btn-bg-dark" class="btn-pill" title="Background Studio Gelap">
+        <span>🌙 Dark Studio BG</span>
+      </button>
+    </div>
+
+    <!-- Right Action Buttons -->
+    <div class="topbar-right">
+      <button id="btn-open-export" class="btn-primary">
+        <span>⬇ Export PNG</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <main class="main-content">
+    <div id="viewport-container" class="canvas-viewport">
+      <canvas id="mockup-canvas"></canvas>
+
+      <!-- Bottom Quick Controls -->
+      <div class="hud-status">
+        <span class="hud-badge">3 Kolom Tegak (2-2-2)</span>
+        <button id="btn-zoom-out" class="hud-btn" title="Perkecil">➖</button>
+        <button id="btn-toggle-zoom" class="hud-btn" title="Klik untuk ganti preset Zoom">
+          🔍 Zoom: 100% (Persis Referensi)
+        </button>
+        <button id="btn-zoom-in" class="hud-btn" title="Perbesar">➕</button>
+        <button id="btn-toggle-island" class="hud-btn" title="Ganti Gaya Dynamic Island / Notch">
+          💊 Cutout: Dynamic Island
+        </button>
+        <button id="btn-toggle-fit" class="hud-btn" title="Mode Pas Gambar">
+          🖼️ Fit: Full Layar
+        </button>
+      </div>
+    </div>
+
+    <button id="sidebar-toggle" class="sidebar-toggle-btn" title="Buka/Tutup Panel">
+      ⇄
+    </button>
+
+    <div id="mobile-backdrop" class="mobile-backdrop"></div>
+
+    <button id="mobile-fab" class="mobile-fab">
+      <span>📱 Kelola 6 Layar HP</span>
+    </button>
+
+    <!-- Sidebar Panel -->
+    <aside id="sidebar-panel" class="sidebar">
+      <div class="sidebar-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="font-size: 14px; font-weight: 700;">6 Screens Management</div>
+          <span class="hud-badge">2-2-2 Tegak</span>
+        </div>
+        <button id="sidebar-close-mobile" class="modal-close" title="Tutup">&times;</button>
+      </div>
+
+      <div class="tab-content">
+        <!-- Upload Section -->
+        <div class="section">
+          <div class="section-title">
+            <span>Upload Screenshot HP</span>
+            <span class="hud-badge">Dynamic Island</span>
+          </div>
+
+          <div class="upload-actions-grid">
+            <button id="btn-trigger-gallery" class="btn-upload-choice">
+              <span class="upload-icon">📁</span>
+              <span class="upload-choice-title">Pilih File / Galeri</span>
+              <span class="upload-choice-sub">Batch hingga 6 gambar</span>
+            </button>
+
+            <button id="btn-trigger-camera" class="btn-upload-choice">
+              <span class="upload-icon">📷</span>
+              <span class="upload-choice-title">Buka Kamera HP</span>
+              <span class="upload-choice-sub">Ambil foto langsung</span>
+            </button>
+          </div>
+
+          <div id="batch-dropzone" class="dropzone">
+            <input type="file" id="batch-file-input" multiple accept="image/*" style="display: none;">
+            <input type="file" id="camera-batch-input" accept="image/*" capture="environment" style="display: none;">
+            <div style="font-size: 22px;">📥</div>
+            <div class="dropzone-title">Tarik & lepas gambar layar HP ke sini</div>
+            <div class="dropzone-sub">Dynamic Island otomatis tetap tampil di atas layar</div>
+          </div>
+        </div>
+
+        <!-- 3-Column Vertical Staggered Navigator -->
+        <div class="section">
+          <div class="section-title">
+            <span>Tata Letak 3 Kolom (2 - 2 - 2)</span>
+            <span id="slot-count-badge" class="hud-badge">Poster Referensi</span>
+          </div>
+
+          <div class="slot-navigator-3col">
+            <!-- Kolom Kiri (2 Layar) -->
+            <div class="slot-col col-left">
+              <div class="slot-card" data-slot="0" title="Slot #1: Kolom Kiri Atas">
+                <img id="thumb-0" class="slot-thumb" alt="">
+                <span class="slot-number">#1 Kiri Atas</span>
+                <span class="slot-tag">Violet Poster</span>
+              </div>
+              <div class="slot-card" data-slot="1" title="Slot #2: Kolom Kiri Bawah">
+                <img id="thumb-1" class="slot-thumb" alt="">
+                <span class="slot-number">#2 Kiri Bawah</span>
+                <span class="slot-tag">Pink Poster</span>
+              </div>
+            </div>
+
+            <!-- Kolom Tengah (2 Layar + HERO UTAMA di Tengah-Bawah) -->
+            <div class="slot-col col-center">
+              <div class="slot-card" data-slot="2" title="Slot #3: Kolom Tengah Atas">
+                <img id="thumb-2" class="slot-thumb" alt="">
+                <span class="slot-number">#3 Tgh Atas</span>
+                <span class="slot-tag">Pink Poster</span>
+              </div>
+              <div class="slot-card center-focus" data-slot="3" title="Slot #4 ★ HERO UTAMA (Tampil Utuh di Tengah)">
+                <img id="thumb-3" class="slot-thumb" alt="">
+                <span class="slot-number">#4 ★ HERO</span>
+                <span class="slot-tag">Utuh di Tengah</span>
+              </div>
+            </div>
+
+            <!-- Kolom Kanan (2 Layar) -->
+            <div class="slot-col col-right">
+              <div class="slot-card" data-slot="4" title="Slot #5: Kolom Kanan Atas">
+                <img id="thumb-4" class="slot-thumb" alt="">
+                <span class="slot-number">#5 Kanan Atas</span>
+                <span class="slot-tag">Pink Poster</span>
+              </div>
+              <div class="slot-card" data-slot="5" title="Slot #6: Kolom Kanan Bawah">
+                <img id="thumb-5" class="slot-thumb" alt="">
+                <span class="slot-number">#6 Kanan Bwh</span>
+                <span class="slot-tag">Violet Poster</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="font-size: 11px; color: var(--text-dim); text-align: center; margin-top: 8px;">
+            Slot <b>#4 ★ HERO</b> tampil 100% utuh di tengah-bawah persis foto referensi.
+          </div>
+        </div>
+
+        <!-- Presets -->
+        <div class="section">
+          <div class="section-title">Aksi Cepat</div>
+          <div class="preset-grid">
+            <button id="btn-swap-posters" class="btn-preset">
+              <span>🔄 Balik Tema Poster</span>
+            </button>
+            <button id="btn-duplicate-remaining" class="btn-preset">
+              <span>📋 Isi Slot Kosong</span>
+            </button>
+            <button id="btn-reset-posters" class="btn-preset">
+              <span>✨ Poster Referensi</span>
+            </button>
+            <button id="btn-clear-all" class="btn-preset" style="color: #ef4444;">
+              <span>🗑️ Reset Default</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Info Box -->
+        <div class="section" style="background: rgba(37, 99, 235, 0.05); border: 1px solid rgba(37, 99, 235, 0.2); border-radius: var(--radius-md); padding: 12px;">
+          <div style="font-size: 12px; font-weight: 700; color: var(--accent-primary); margin-bottom: 4px;">
+            ✓ 3 Kolom Tegak + Dynamic Island + Poster
+          </div>
+          <div style="font-size: 11px; color: var(--text-muted); line-height: 1.5;">
+            Susunan 3 kolom vertikal staggered persis gambar referensi, dipadukan dengan Dynamic Island modern dan pratinjau poster "PHONE MOCKUP" tanpa aplikasi dummy.
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Slot Modal -->
+  <div id="slot-modal" class="modal-overlay">
+    <div class="modal-card" style="width: 370px;">
+      <div class="modal-header">
+        <div id="slot-modal-title" class="modal-title">Atur Slot #1</div>
+        <button id="btn-close-slot-modal" class="modal-close">&times;</button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button id="btn-slot-file" class="btn-pill" style="padding: 12px 16px; justify-content: flex-start; gap: 12px;">
+          <span style="font-size: 20px;">📁</span>
+          <div style="text-align: left;">
+            <div style="font-weight: 700; color: var(--text-main);">Pilih dari Galeri / File</div>
+            <div style="font-size: 11px; color: var(--text-dim);">Upload screenshot untuk layar HP ini</div>
+          </div>
+        </button>
+        <button id="btn-slot-camera" class="btn-pill" style="padding: 12px 16px; justify-content: flex-start; gap: 12px;">
+          <span style="font-size: 20px;">📷</span>
+          <div style="text-align: left;">
+            <div style="font-weight: 700; color: var(--text-main);">Ambil Foto via Kamera</div>
+            <div style="font-size: 11px; color: var(--text-dim);">Gunakan kamera langsung</div>
+          </div>
+        </button>
+        <button id="btn-slot-remove" class="btn-pill" style="padding: 12px 16px; justify-content: flex-start; gap: 12px; color: #ef4444;">
+          <span style="font-size: 20px;">🗑️</span>
+          <div style="text-align: left;">
+            <div style="font-weight: 700;">Kembalikan ke Poster Referensi</div>
+            <div style="font-size: 11px; color: var(--text-dim);">Reset layar ini ke poster bawaan</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export Modal -->
+  <div id="export-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">Export Vertical Phone Showcase PNG</div>
+        <button id="btn-close-modal" class="modal-close">&times;</button>
+      </div>
+      <div class="export-res-grid">
+        <div class="res-card active" data-res="2752x1536">
+          <div class="res-title">Resolusi Studio ★</div>
+          <div class="res-sub">2752 × 1536 • High Detail</div>
+        </div>
+        <div class="res-card" data-res="3840x2160">
+          <div class="res-title">4K Ultra HD</div>
+          <div class="res-sub">3840 × 2160 • Ekstra Tajam</div>
+        </div>
+        <div class="res-card" data-res="1920x1080">
+          <div class="res-title">1080p Full HD</div>
+          <div class="res-sub">1920 × 1080 • Standar Web</div>
+        </div>
+        <div class="res-card" data-res="1600x1200">
+          <div class="res-title">Dribbble Shot</div>
+          <div class="res-sub">1600 × 1200 (4:3)</div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button id="btn-export-download" class="btn-primary" style="flex: 1; justify-content: center; padding: 12px 20px;">
+          <span>⬇ Download High-Res PNG</span>
+        </button>
+        <button id="btn-copy-clipboard" class="btn-pill" style="padding: 12px 18px;">
+          <span>📋 Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <input type="file" id="single-file-input" accept="image/*" style="display: none;">
+  <input type="file" id="single-camera-input" accept="image/*" capture="environment" style="display: none;">
+
+  <div id="toast" class="toast">
+    <span>✅</span>
+    <span id="toast-msg">Siap digunakan</span>
+  </div>
+
+  <!-- ========================================================
+       ALL-IN-ONE JAVASCRIPT (3-COLUMN VERTICAL + POSTER PREVIEW)
+       ======================================================== -->
+  <script>
+    const TOTAL_SLOTS = 6;
+
+    if (!CanvasRenderingContext2D.prototype.roundRect) {
+      CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+        const radius = Math.min(r, w / 2, h / 2);
+        this.moveTo(x + radius, y);
+        this.lineTo(x + w - radius, y);
+        this.quadraticCurveTo(x + w, y, x + w, y + radius);
+        this.lineTo(x + w, y + h - radius);
+        this.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
+        this.lineTo(x + radius, y + h);
+        this.quadraticCurveTo(x, y + h, x, y + h - radius);
+        this.lineTo(x, y + radius);
+        this.quadraticCurveTo(x, y, x + radius, y);
+        this.closePath();
+      };
+    }
+
+    /**
+     * 1. GENERATOR POSTER MINIMALIS "PHONE MOCKUP" (Tanpa App Dummy)
+     *    Menggunakan 2 gaya poster dari referensi sebelumnya (Pink Petal & Violet Gradient)
+     */
+    class ReferencePosterGenerator {
+      static generateSixSet(invert = false) {
+        const pink = this.createLeftPinkPetalPoster();
+        const violet = this.createRightVioletGradientPoster();
+        // Pola selang-seling harmonis pada 6 slot (Hero #4 menggunakan Violet/Pink)
+        if (!invert) {
+          return [
+            violet, // Slot #1 (Kiri Atas)
+            pink,   // Slot #2 (Kiri Bawah)
+            pink,   // Slot #3 (Tengah Atas)
+            violet, // Slot #4 ★ HERO UTAMA (Tengah Bawah Utuh)
+            pink,   // Slot #5 (Kanan Atas)
+            violet  // Slot #6 (Kanan Bawah)
+          ];
+        } else {
+          return [
+            pink,   // Slot #1
+            violet, // Slot #2
+            violet, // Slot #3
+            pink,   // Slot #4 ★ HERO UTAMA
+            violet, // Slot #5
+            pink    // Slot #6
+          ];
+        }
+      }
+
+      static createLeftPinkPetalPoster() {
+        const w = 640, h = 1360;
+        const c = document.createElement('canvas');
+        c.width = w;
+        c.height = h;
+        const ctx = c.getContext('2d');
+
+        // Latar dasar putih bersih dengan semburat pink lembut di bawah
+        const baseGrad = ctx.createLinearGradient(0, 0, w, h);
+        baseGrad.addColorStop(0, '#ffffff');
+        baseGrad.addColorStop(0.72, '#ffffff');
+        baseGrad.addColorStop(1, '#fce7f3');
+        ctx.fillStyle = baseGrad;
+        ctx.fillRect(0, 0, w, h);
+
+        // Kelopak Abstrak Pink-Lavender Lembut di Atas
+        ctx.save();
+        const petal1 = ctx.createRadialGradient(180, 290, 20, 240, 260, 290);
+        petal1.addColorStop(0, 'rgba(244, 114, 182, 0.42)');
+        petal1.addColorStop(0.55, 'rgba(232, 121, 249, 0.18)');
+        petal1.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        ctx.fillStyle = petal1;
+        ctx.beginPath();
+        ctx.arc(210, 260, 270, 0, Math.PI * 2);
+        ctx.fill();
+
+        const petal2 = ctx.createRadialGradient(500, 340, 10, 480, 320, 320);
+        petal2.addColorStop(0, 'rgba(236, 72, 153, 0.45)');
+        petal2.addColorStop(0.6, 'rgba(192, 132, 252, 0.22)');
+        petal2.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        ctx.fillStyle = petal2;
+        ctx.beginPath();
+        ctx.arc(490, 330, 300, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = 'rgba(236, 72, 153, 0.22)';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(170, 440, 260, -Math.PI * 0.45, Math.PI * 0.05);
+        ctx.stroke();
+        ctx.restore();
+
+        // Tipografi Utama: "PHONE MOCKUP"
+        ctx.fillStyle = '#18181b';
+        ctx.textAlign = 'center';
+        ctx.font = '800 92px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.fillText('PHONE', w / 2, 700);
+        ctx.fillText('MOCKUP', w / 2, 795);
+
+        // Simbol Asterisk / Bintang 8-Sudut
+        ctx.save();
+        ctx.translate(w / 2, 915);
+        ctx.strokeStyle = '#18181b';
+        ctx.lineWidth = 3.5;
+        for (let a = 0; a < 4; a++) {
+          ctx.beginPath();
+          ctx.moveTo(-14, 0);
+          ctx.lineTo(14, 0);
+          ctx.stroke();
+          ctx.rotate(Math.PI / 4);
+        }
+        ctx.restore();
+
+        // Teks Kecil Bawah
+        ctx.fillStyle = '#18181b';
+        ctx.font = '700 17px sans-serif';
+        ctx.fillText('SCREEN MOCKUP', w / 2, 1005);
+
+        ctx.fillStyle = '#52525b';
+        ctx.font = '500 15px sans-serif';
+        ctx.fillText('SIMPLE MOMENTS SMARTER TECHNOLOGY', w / 2, 1048);
+        ctx.fillText('THE FUTURE BEAUTIFULLY DESIGNED', w / 2, 1072);
+        ctx.fillText('BETTER DESIGN', w / 2, 1096);
+
+        // Bulatan Panah Bawah Halus
+        ctx.fillStyle = 'rgba(24, 24, 27, 0.08)';
+        ctx.beginPath();
+        ctx.arc(w / 2, 1225, 42, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#18181b';
+        ctx.font = 'bold 26px sans-serif';
+        ctx.fillText('→', w / 2, 1234);
+
+        ctx.textAlign = 'left';
+        return c;
+      }
+
+      static createRightVioletGradientPoster() {
+        const w = 640, h = 1360;
+        const c = document.createElement('canvas');
+        c.width = w;
+        c.height = h;
+        const ctx = c.getContext('2d');
+
+        // Gradasi Putih-Ungu-Biru Elektrik
+        const bgGrad = ctx.createRadialGradient(w * 0.5, h * 0.54, 40, w * 0.5, h * 0.52, 760);
+        bgGrad.addColorStop(0, '#4f46e5');
+        bgGrad.addColorStop(0.38, '#6366f1');
+        bgGrad.addColorStop(0.68, '#a855f7');
+        bgGrad.addColorStop(0.88, '#e9d5ff');
+        bgGrad.addColorStop(1, '#ffffff');
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.textAlign = 'center';
+
+        // Teks Kecil Atas
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+        ctx.font = '600 17px sans-serif';
+        ctx.fillText('DESIGNED AROUND', w / 2, 415);
+        ctx.fillText('YOUR WORLD', w / 2, 440);
+
+        // Simbol "+" Kecil di Kiri Teks PHONE
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 3;
+        const px = 112, py = 580;
+        ctx.beginPath();
+        ctx.moveTo(px - 12, py);
+        ctx.lineTo(px + 12, py);
+        ctx.moveTo(px, py - 12);
+        ctx.lineTo(px, py + 12);
+        ctx.stroke();
+
+        // Tipografi Condensed Tinggi: "PHONE MOCKUP"
+        ctx.save();
+        ctx.translate(w / 2 + 10, 620);
+        ctx.scale(0.82, 1.32);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '800 112px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.fillText('PHONE', 0, 0);
+        ctx.fillText('MOCKUP', 0, 96);
+        ctx.restore();
+
+        // Teks Bawah
+        ctx.fillStyle = '#1e1b4b';
+        ctx.font = '700 18px sans-serif';
+        ctx.fillText('SCREEN MOCKUP', w / 2, 1015);
+
+        ctx.fillStyle = '#312e81';
+        ctx.font = '500 16px sans-serif';
+        ctx.fillText('EXPERIENCE THE NEXT', w / 2, 1056);
+        ctx.fillText('BUILT AROUND YOUR EVERYDAY', w / 2, 1080);
+        ctx.fillText('SMART TECHNOLOGY SIMPLE', w / 2, 1104);
+
+        // Bulatan Panah Bawah Halus (seperti aksen di gambar referensi baru)
+        ctx.fillStyle = 'rgba(30, 27, 75, 0.14)';
+        ctx.beginPath();
+        ctx.arc(w / 2, 1225, 42, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#1e1b4b';
+        ctx.font = 'bold 26px sans-serif';
+        ctx.fillText('→', w / 2, 1234);
+
+        ctx.textAlign = 'left';
+        return c;
+      }
+    }
+
+    /**
+     * 2. ENGINE RENDERER 3 KOLOM TEGAK STAGGERED (Persis Geometri Gambar Referensi)
+     */
+    class VerticalStaggeredRenderer {
+      constructor(canvas) {
+        this.canvas = canvas;
+        this.baseWidth = 2752;
+        this.baseHeight = 1536;
+        this.canvas.width = this.baseWidth;
+        this.canvas.height = this.baseHeight;
+
+        // Background Studio: 'light' (Cool Slate Awal), 'lavender' (Lavender Referensi), 'dark' (Dark Studio)
+        this.bgTheme = 'light';
+
+        this.zoomFactor = 1.0;
+
+        // Mode Cutout Atas: 'island' (Dynamic Island Default), 'notch' (Classic Notch Referensi), 'none'
+        this.cutoutMode = 'island';
+
+        this.fitMode = 'cover';
+
+        // Ukuran kartu HP dalam koordinat referensi 2752 x 1536 (1:1 dengan proporsi gambar referensi)
+        this.cardW = 736;
+        this.cardH = 1520;
+        this.cardRadius = 86;
+      }
+
+      /**
+       * Posisi 6 Layar HP dalam 3 Kolom Tegak Staggered (Persis Gambar Referensi):
+       * - Kolom Kiri   (centerX = -880): Slot #1 (Atas) & Slot #2 (Bawah)
+       * - Kolom Tengah (centerX =    0): Slot #3 (Atas) & Slot #4 ★ HERO UTAMA (Tampil Utuh)
+       * - Kolom Kanan  (centerX = +880): Slot #5 (Atas) & Slot #6 (Bawah)
+       */
+      getStaggered6Layout() {
+        const colSpacing = 880; // Jarak antar pusat kolom (736px lebar + 144px celah lorong)
+
+        return [
+          // KOLOM KIRI (2 Layar)
+          { slot: 0, cx: -colSpacing, topY: -1300 }, // Slot #1: Kiri Atas (Tampak bagian bawah)
+          { slot: 1, cx: -colSpacing, topY:  -185 }, // Slot #2: Kiri Bawah (Tampak bagian atas-tengah)
+
+          // KOLOM TENGAH (2 Layar)
+          { slot: 2, cx: 0,           topY: -1585 }, // Slot #3: Tengah Atas (Tampak ujung bawah)
+          { slot: 3, cx: 0,           topY:  -460, hero: true }, // Slot #4 ★ HERO UTAMA (Utuh di Tengah)
+
+          // KOLOM KANAN (2 Layar)
+          { slot: 4, cx:  colSpacing, topY: -1085 }, // Slot #5: Kanan Atas (Tampak tengah-bawah)
+          { slot: 5, cx:  colSpacing, topY:    30 }  // Slot #6: Kanan Bawah (Tampak bagian atas)
+        ];
+      }
+
+      render(slotsData, targetCanvas = this.canvas, customW = null, customH = null) {
+        const width = customW || targetCanvas.width;
+        const height = customH || targetCanvas.height;
+        if (targetCanvas.width !== width) targetCanvas.width = width;
+        if (targetCanvas.height !== height) targetCanvas.height = height;
+
+        const ctx = targetCanvas.getContext('2d');
+        ctx.save();
+
+        // 1. Gambar Background Studio
+        this.drawStudioBackground(ctx, width, height);
+
+        // 2. Transformasi Skala Terpusat di Tengah Kanvas
+        const resScale = Math.min(width / this.baseWidth, height / this.baseHeight);
+        const S = resScale * this.zoomFactor;
+
+        const originX = width * 0.5;
+        const originY = height * 0.5;
+
+        ctx.setTransform(S, 0, 0, S, originX, originY);
+
+        const layout = this.getStaggered6Layout();
+
+        for (const item of layout) {
+          const x = item.cx - this.cardW / 2;
+          const y = item.topY;
+          const source = slotsData[item.slot];
+          this.drawVerticalPhoneCard(ctx, x, y, this.cardW, this.cardH, source, S, item.hero);
+        }
+
+        ctx.restore();
+      }
+
+      drawStudioBackground(ctx, width, height) {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        if (this.bgTheme === 'light') {
+          // Gaya Studio Terang Awal (Cool Slate-Grey Bersih)
+          const grad = ctx.createLinearGradient(0, 0, width, height);
+          grad.addColorStop(0, '#e8edf5');
+          grad.addColorStop(0.5, '#dde4ef');
+          grad.addColorStop(1, '#cfd8e6');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, width, height);
+        } else if (this.bgTheme === 'lavender') {
+          // Gaya Soft Lavender dari Gambar Referensi Baru
+          const grad = ctx.createLinearGradient(0, 0, width, height);
+          grad.addColorStop(0, '#e6dff7');
+          grad.addColorStop(0.5, '#ddd5f3');
+          grad.addColorStop(1, '#d2c8ee');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, width, height);
+        } else {
+          // Dark Studio
+          const grad = ctx.createRadialGradient(
+            width * 0.5, height * 0.45, width * 0.05,
+            width * 0.5, height * 0.5, width * 0.75
+          );
+          grad.addColorStop(0, '#111824');
+          grad.addColorStop(1, '#05070b');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, width, height);
+        }
+      }
+
+      drawVerticalPhoneCard(ctx, x, y, w, h, source, scale, isHero) {
+        const r = this.cardRadius;
+        const isDarkBg = this.bgTheme === 'dark';
+
+        // 1. Bayangan Studio Lembut (Soft Drop Shadow)
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, r);
+        ctx.fillStyle = isDarkBg ? 'rgba(0, 0, 0, 0.75)' : 'rgba(15, 23, 42, 0.14)';
+        ctx.shadowColor = isDarkBg ? 'rgba(0, 0, 0, 0.9)' : 'rgba(15, 23, 42, 0.20)';
+        ctx.shadowBlur = (isHero ? 54 : 38) * scale;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = (isHero ? 24 : 16) * scale;
+        ctx.fill();
+        ctx.restore();
+
+        // 2. Bezel Bingkai Tipis Elegan
+        ctx.beginPath();
+        ctx.roundRect(x - 6, y - 6, w + 12, h + 12, r + 6);
+        ctx.fillStyle = isDarkBg ? '#1e293b' : '#ffffff';
+        ctx.fill();
+
+        // 3. Permukaan Layar & Gambar (Clipped)
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, r);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+        ctx.clip();
+
+        if (source) {
+          const imgW = source.width || w;
+          const imgH = source.height || h;
+          const cardRatio = w / h;
+          const imgRatio = imgW / imgH;
+
+          let drawW = w, drawH = h, drawX = x, drawY = y;
+          if (this.fitMode === 'cover') {
+            if (imgRatio > cardRatio) {
+              drawH = h;
+              drawW = h * imgRatio;
+              drawX = x + (w - drawW) / 2;
+            } else {
+              drawW = w;
+              drawH = w / imgRatio;
+              drawY = y + (h - drawH) / 2;
+            }
+          } else {
+            if (imgRatio > cardRatio) {
+              drawW = w;
+              drawH = w / imgRatio;
+              drawY = y + (h - drawH) / 2;
+            } else {
+              drawH = h;
+              drawW = h * imgRatio;
+              drawX = x + (w - drawW) / 2;
+            }
+          }
+
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          ctx.drawImage(source, drawX, drawY, drawW, drawH);
+        }
+
+        // 4. DYNAMIC ISLAND ATAU CLASSIC NOTCH DI ATAS LAYAR
+        if (this.cutoutMode === 'island') {
+          const islandW = 216;
+          const islandH = 58;
+          const islandX = x + (w - islandW) / 2;
+          const islandY = y + 32;
+
+          // Kapsul Hitam Dynamic Island
+          ctx.fillStyle = '#09090b';
+          ctx.beginPath();
+          ctx.roundRect(islandX, islandY, islandW, islandH, islandH / 2);
+          ctx.fill();
+
+          // Detail Lensa Kamera Depan di Dalam Dynamic Island
+          ctx.fillStyle = '#181826';
+          ctx.beginPath();
+          ctx.arc(islandX + islandW - 34, islandY + islandH / 2, 12, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = '#3b82f6';
+          ctx.globalAlpha = 0.35;
+          ctx.beginPath();
+          ctx.arc(islandX + islandW - 36, islandY + islandH / 2 - 2, 5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.globalAlpha = 1.0;
+        } else if (this.cutoutMode === 'notch') {
+          // Tab Notch Menyatu dari Atas seperti Gambar Referensi
+          const notchW = 340;
+          const notchH = 54;
+          const notchX = x + (w - notchW) / 2;
+          ctx.fillStyle = '#09090b';
+          ctx.beginPath();
+          ctx.roundRect(notchX, y - 16, notchW, notchH + 16, 28);
+          ctx.fill();
+        }
+
+        ctx.restore();
+
+        // 5. Garis Tepi Halus
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, r);
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = isDarkBg ? 'rgba(255, 255, 255, 0.18)' : 'rgba(15, 23, 42, 0.08)';
+        ctx.stroke();
+      }
+    }
+
+    /**
+     * 3. KONTROLER APLIKASI UTAMA
+     */
+    document.addEventListener('DOMContentLoaded', () => {
+      const canvas = document.getElementById('mockup-canvas');
+      const renderer = new VerticalStaggeredRenderer(canvas);
+
+      let userImages = new Array(TOTAL_SLOTS).fill(null);
+      let invertPosters = false;
+      let defaultPosters = ReferencePosterGenerator.generateSixSet(invertPosters);
+      let activeSlotIndex = 0;
+      let selectedExportRes = '2752x1536';
+
+      function getActiveSlots() {
+        return userImages.map((img, i) => img || defaultPosters[i]);
+      }
+
+      function refreshCanvas() {
+        renderer.render(getActiveSlots());
+        updateNavigatorUI();
+      }
+
+      function updateNavigatorUI() {
+        let count = 0;
+        for (let i = 0; i < TOTAL_SLOTS; i++) {
+          const cardEl = document.querySelector(`.slot-card[data-slot="${i}"]`);
+          const thumbEl = document.getElementById(`thumb-${i}`);
+          if (!cardEl || !thumbEl) continue;
+
+          if (userImages[i]) {
+            count++;
+            cardEl.classList.add('has-image');
+            thumbEl.src = userImages[i].src;
+          } else {
+            cardEl.classList.remove('has-image');
+            thumbEl.removeAttribute('src');
+          }
+        }
+        const badge = document.getElementById('slot-count-badge');
+        if (badge) {
+          badge.textContent = count > 0 ? `${count}/6 Foto Custom` : 'Poster Referensi';
+        }
+      }
+
+      function showToast(msg) {
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toast-msg');
+        toastMsg.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(window._toastTimer);
+        window._toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
+      }
+
+      function loadImageFile(file) {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      // Background Studio Switcher
+      const btnBgLight = document.getElementById('btn-bg-light');
+      const btnBgLavender = document.getElementById('btn-bg-lavender');
+      const btnBgDark = document.getElementById('btn-bg-dark');
+      const themeBadge = document.getElementById('theme-badge');
+
+      function setStudioBg(mode) {
+        renderer.bgTheme = mode;
+        btnBgLight.classList.toggle('active', mode === 'light');
+        btnBgLavender.classList.toggle('active', mode === 'lavender');
+        btnBgDark.classList.toggle('active', mode === 'dark');
+
+        const cssBgMap = { light: '#dce3ed', lavender: '#ddd5f3', dark: '#070a0f' };
+        const badgeMap = { light: 'Studio Light Mode', lavender: 'Soft Lavender BG', dark: 'Dark Studio Mode' };
+        document.documentElement.style.setProperty('--bg-canvas', cssBgMap[mode]);
+        themeBadge.textContent = badgeMap[mode];
+        refreshCanvas();
+      }
+
+      btnBgLight.addEventListener('click', () => {
+        setStudioBg('light');
+        showToast('Background Studio Light (Default Awal) aktif');
+      });
+      btnBgLavender.addEventListener('click', () => {
+        setStudioBg('lavender');
+        showToast('Background Soft Lavender aktif');
+      });
+      btnBgDark.addEventListener('click', () => {
+        setStudioBg('dark');
+        showToast('Background Dark Studio aktif');
+      });
+
+      // Kontrol HUD Bawah
+      const btnZoom = document.getElementById('btn-toggle-zoom');
+      const btnZoomIn = document.getElementById('btn-zoom-in');
+      const btnZoomOut = document.getElementById('btn-zoom-out');
+      const btnIsland = document.getElementById('btn-toggle-island');
+      const btnFit = document.getElementById('btn-toggle-fit');
+
+      function updateZoomLabel() {
+        btnZoom.textContent = `🔍 Zoom: ${Math.round(renderer.zoomFactor * 100)}%`;
+      }
+
+      btnZoom.addEventListener('click', () => {
+        // Toggle antara 100% (Persis Crop Referensi) dan 44% (Lihat Utuh Semua 6 HP)
+        renderer.zoomFactor = Math.abs(renderer.zoomFactor - 1.0) < 0.05 ? 0.44 : 1.0;
+        updateZoomLabel();
+        refreshCanvas();
+      });
+      btnZoomIn.addEventListener('click', () => {
+        renderer.zoomFactor = Math.min(1.35, +(renderer.zoomFactor + 0.08).toFixed(2));
+        updateZoomLabel();
+        refreshCanvas();
+      });
+      btnZoomOut.addEventListener('click', () => {
+        renderer.zoomFactor = Math.max(0.40, +(renderer.zoomFactor - 0.08).toFixed(2));
+        updateZoomLabel();
+        refreshCanvas();
+      });
+
+      btnIsland.addEventListener('click', () => {
+        const order = ['island', 'notch', 'none'];
+        const nextIdx = (order.indexOf(renderer.cutoutMode) + 1) % order.length;
+        renderer.cutoutMode = order[nextIdx];
+        const labelMap = {
+          island: '💊 Cutout: Dynamic Island',
+          notch: '📱 Cutout: Classic Notch',
+          none: '🔲 Cutout: Off'
+        };
+        btnIsland.textContent = labelMap[renderer.cutoutMode];
+        refreshCanvas();
+      });
+
+      btnFit.addEventListener('click', () => {
+        renderer.fitMode = renderer.fitMode === 'cover' ? 'contain' : 'cover';
+        btnFit.textContent = renderer.fitMode === 'cover'
+          ? '🖼️ Fit: Full Layar'
+          : '🖼️ Fit: 0% Crop';
+        refreshCanvas();
+      });
+
+      // Upload Batch & Drag-Drop
+      const batchInput = document.getElementById('batch-file-input');
+      const cameraBatchInput = document.getElementById('camera-batch-input');
+      const dropzone = document.getElementById('batch-dropzone');
+
+      document.getElementById('btn-trigger-gallery').addEventListener('click', () => batchInput.click());
+      document.getElementById('btn-trigger-camera').addEventListener('click', () => cameraBatchInput.click());
+      dropzone.addEventListener('click', () => batchInput.click());
+
+      async function handleBatchFiles(fileList) {
+        const files = Array.from(fileList).filter((f) => f.type.startsWith('image/'));
+        if (!files.length) return;
+        let startIdx = userImages.findIndex((img) => img === null);
+        if (startIdx === -1) startIdx = 0;
+
+        for (let i = 0; i < files.length && i < TOTAL_SLOTS; i++) {
+          userImages[(startIdx + i) % TOTAL_SLOTS] = await loadImageFile(files[i]);
+        }
+        refreshCanvas();
+        showToast(`${Math.min(files.length, TOTAL_SLOTS)} gambar berhasil dimasukkan!`);
+      }
+
+      batchInput.addEventListener('change', (e) => {
+        handleBatchFiles(e.target.files);
+        e.target.value = '';
+      });
+      cameraBatchInput.addEventListener('change', (e) => {
+        handleBatchFiles(e.target.files);
+        e.target.value = '';
+      });
+
+      dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      });
+      dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+        if (e.dataTransfer.files?.length) handleBatchFiles(e.dataTransfer.files);
+      });
+
+      // Modal Per Slot
+      const slotModal = document.getElementById('slot-modal');
+      const slotModalTitle = document.getElementById('slot-modal-title');
+      const singleFileInput = document.getElementById('single-file-input');
+      const singleCameraInput = document.getElementById('single-camera-input');
+
+      document.querySelectorAll('.slot-card').forEach((card) => {
+        card.addEventListener('click', () => {
+          activeSlotIndex = parseInt(card.dataset.slot, 10);
+          slotModalTitle.textContent = activeSlotIndex === 3
+            ? 'Atur Slot #4 ★ (HERO TENGAH UTUH)'
+            : `Atur Slot #${activeSlotIndex + 1}`;
+          slotModal.classList.add('open');
+        });
+      });
+
+      document.getElementById('btn-close-slot-modal').addEventListener('click', () => slotModal.classList.remove('open'));
+      document.getElementById('btn-slot-file').addEventListener('click', () => singleFileInput.click());
+      document.getElementById('btn-slot-camera').addEventListener('click', () => singleCameraInput.click());
+
+      async function handleSingleFile(file) {
+        if (!file) return;
+        userImages[activeSlotIndex] = await loadImageFile(file);
+        slotModal.classList.remove('open');
+        refreshCanvas();
+        showToast(`Slot #${activeSlotIndex + 1} berhasil diperbarui!`);
+      }
+
+      singleFileInput.addEventListener('change', (e) => {
+        handleSingleFile(e.target.files[0]);
+        e.target.value = '';
+      });
+      singleCameraInput.addEventListener('change', (e) => {
+        handleSingleFile(e.target.files[0]);
+        e.target.value = '';
+      });
+
+      document.getElementById('btn-slot-remove').addEventListener('click', () => {
+        userImages[activeSlotIndex] = null;
+        slotModal.classList.remove('open');
+        refreshCanvas();
+        showToast(`Slot #${activeSlotIndex + 1} dikembalikan ke poster referensi`);
+      });
+
+      // Tombol Aksi Cepat
+      document.getElementById('btn-swap-posters').addEventListener('click', () => {
+        invertPosters = !invertPosters;
+        defaultPosters = ReferencePosterGenerator.generateSixSet(invertPosters);
+        refreshCanvas();
+        showToast('Susunan warna poster Pink ⇄ Violet ditukar!');
+      });
+
+      document.getElementById('btn-duplicate-remaining').addEventListener('click', () => {
+        const uploaded = userImages.filter(Boolean);
+        if (!uploaded.length) return showToast('Upload minimal 1 gambar dulu!');
+        userImages = userImages.map((img, i) => img || uploaded[i % uploaded.length]);
+        refreshCanvas();
+        showToast('Semua slot kosong berhasil diisi otomatis!');
+      });
+
+      document.getElementById('btn-reset-posters').addEventListener('click', () => {
+        userImages.fill(null);
+        defaultPosters = ReferencePosterGenerator.generateSixSet(false);
+        refreshCanvas();
+        showToast('Poster referensi dimuat ulang');
+      });
+
+      document.getElementById('btn-clear-all').addEventListener('click', () => {
+        userImages.fill(null);
+        invertPosters = false;
+        defaultPosters = ReferencePosterGenerator.generateSixSet(false);
+        setStudioBg('light');
+        showToast('Semua pengaturan direset ke default');
+      });
+
+      // Sidebar & Mobile Drawer
+      const sidebar = document.getElementById('sidebar-panel');
+      const backdrop = document.getElementById('mobile-backdrop');
+      document.getElementById('sidebar-toggle').addEventListener('click', () => sidebar.classList.toggle('collapsed'));
+      document.getElementById('mobile-fab').addEventListener('click', () => {
+        sidebar.classList.add('open');
+        backdrop.classList.add('open');
+      });
+      const closeDrawer = () => {
+        sidebar.classList.remove('open');
+        backdrop.classList.remove('open');
+      };
+      document.getElementById('sidebar-close-mobile').addEventListener('click', closeDrawer);
+      backdrop.addEventListener('click', closeDrawer);
+
+      // Export PNG
+      const exportModal = document.getElementById('export-modal');
+      document.getElementById('btn-open-export').addEventListener('click', () => exportModal.classList.add('open'));
+      document.getElementById('btn-close-modal').addEventListener('click', () => exportModal.classList.remove('open'));
+
+      document.querySelectorAll('.res-card').forEach((card) => {
+        card.addEventListener('click', () => {
+          document.querySelectorAll('.res-card').forEach((c) => c.classList.remove('active'));
+          card.classList.add('active');
+          selectedExportRes = card.dataset.res;
+        });
+      });
+
+      function createExportCanvas() {
+        const [w, h] = selectedExportRes.split('x').map(Number);
+        const off = document.createElement('canvas');
+        renderer.render(getActiveSlots(), off, w, h);
+        return off;
+      }
+
+      document.getElementById('btn-export-download').addEventListener('click', () => {
+        const off = createExportCanvas();
+        const a = document.createElement('a');
+        a.download = `vertical-3col-phone-mockup-${renderer.bgTheme}-${selectedExportRes}.png`;
+        a.href = off.toDataURL('image/png', 1.0);
+        a.click();
+        exportModal.classList.remove('open');
+        if (window.confetti) window.confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+        showToast(`PNG (${selectedExportRes}) berhasil didownload!`);
+      });
+
+      document.getElementById('btn-copy-clipboard').addEventListener('click', () => {
+        const off = createExportCanvas();
+        off.toBlob(async (blob) => {
+          try {
+            await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+            exportModal.classList.remove('open');
+            showToast('Gambar berhasil disalin ke Clipboard!');
+          } catch {
+            showToast('Browser tidak mengizinkan copy otomatis');
+          }
+        });
+      });
+
+      // Render Pertama Kali
+      refreshCanvas();
+    });
+  </script>
+</body>
+</html>
