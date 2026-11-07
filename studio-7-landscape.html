@@ -11,21 +11,23 @@
 
   <style>
     :root {
-      --bg-primary: #f1f5f9;
+      --bg-primary: #FFFDF9;
       --bg-secondary: #ffffff;
-      --bg-canvas: #e2e8f0;
-      --bg-glass: rgba(255, 255, 255, 0.94);
-      --border-glass: #e2e8f0;
-      --accent-primary: #10b981;
-      --accent-hover: #059669;
-      --accent-emerald: #10b981;
-    --accent-volt: #d2ff00;
+      --bg-canvas: #d7eae6;
+      --bg-glass: rgba(255, 253, 249, 0.94);
+      --border-glass: #e2edea;
+      --accent-primary: #9BE3DE;
+      --accent-hover: #7fd6d0;
+      --accent-dark: #0f766e;
+      --accent-mint: #9BE3DE;
+      --accent-pink: #FFE3ED;
+      --accent-ice: #BEEBE9;
       --text-main: #0f172a;
       --text-muted: #475569;
       --text-dim: #94a3b8;
       --radius-lg: 16px;
       --radius-md: 10px;
-      --shadow-panel: 0 10px 35px -10px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0, 0, 0, 0.08);
+      --shadow-panel: 0 10px 35px -10px rgba(155, 227, 222, 0.25), 0 0 1px rgba(0, 0, 0, 0.08);
     }
 
     * {
@@ -123,515 +125,11 @@
     }
 
     .btn-pill.active {
-      background: rgba(37, 99, 235, 0.1);
-      color: var(--accent-primary);
-      border-color: rgba(37, 99, 235, 0.4);
+      background: #FFE3ED;
+      color: #9d174d;
+      border: 1.5px solid #FFB8D2;
       font-weight: 700;
-    }
-
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .btn-primary {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 8px 18px;
-      border-radius: 9px;
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      color: #ffffff;
-      font-size: 13px;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 3px 12px rgba(37, 99, 235, 0.28);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 5px 16px rgba(37, 99, 235, 0.4);
-    }
-
-    /* Main Workspace */
-    .main-content {
-      flex: 1;
-      position: relative;
-      display: flex;
-      overflow: hidden;
-      background: var(--bg-canvas);
-      transition: background 0.25s ease;
-    }
-
-    .canvas-viewport {
-      flex: 1;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-      position: relative;
-      overflow: hidden;
-      user-select: none;
-    }
-
-    #mockup-canvas {
-      max-width: 96%;
-      max-height: 92%;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      border-radius: 14px;
-      box-shadow: 0 25px 65px rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(15, 23, 42, 0.08);
-      display: block;
-    }
-
-    /* Bottom Floating HUD */
-    .hud-status {
-      position: absolute;
-      bottom: 22px;
-      left: 22px;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      padding: 6px 12px;
-      border-radius: 30px;
-      border: 1px solid var(--border-glass);
-      font-size: 12px;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-      z-index: 20;
-      flex-wrap: wrap;
-    }
-
-    .hud-badge {
-      background: rgba(37, 99, 235, 0.08);
-      color: var(--accent-primary);
-      border: 1px solid rgba(37, 99, 235, 0.2);
-      padding: 2px 8px;
-      border-radius: 6px;
-      font-size: 11px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .hud-btn {
-      background: #f8fafc;
-      color: var(--text-main);
-      border: 1px solid #cbd5e1;
-      padding: 4px 10px;
-      border-radius: 14px;
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .hud-btn:hover {
-      background: #eff6ff;
-      border-color: var(--accent-primary);
-      color: var(--accent-primary);
-    }
-
-    /* Sidebar Toggle */
-    .sidebar-toggle-btn {
-      position: absolute;
-      top: 14px;
-      right: 16px;
-      width: 38px;
-      height: 38px;
-      border-radius: 9px;
-      background: #ffffff;
-      border: 1px solid var(--border-glass);
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 45;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
-    }
-
-    /* Sidebar */
-    .sidebar {
-      width: 400px;
-      height: calc(100% - 24px);
-      margin: 12px 16px 12px 0;
-      background: #ffffff;
-      border: 1px solid var(--border-glass);
-      border-radius: var(--radius-lg);
-      display: flex;
-      flex-direction: column;
-      box-shadow: var(--shadow-panel);
-      z-index: 40;
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), margin 0.3s ease;
-    }
-
-    .sidebar.collapsed {
-      transform: translateX(calc(100% + 24px));
-      margin-right: -400px;
-    }
-
-    .sidebar-header {
-      padding: 15px 20px;
-      border-bottom: 1px solid var(--border-glass);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .tab-content {
-      flex: 1;
-      overflow-y: auto;
-      padding: 16px 20px;
-    }
-
-    .tab-content::-webkit-scrollbar {
-      width: 5px;
-    }
-    .tab-content::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 4px;
-    }
-
-    .section {
-      margin-bottom: 18px;
-    }
-
-    .section-title {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.7px;
-      color: var(--text-muted);
-      font-weight: 700;
-      margin-bottom: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .upload-actions-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .btn-upload-choice {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      padding: 13px 10px;
-      background: #f8fafc;
-      border: 1.5px dashed rgba(37, 99, 235, 0.32);
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .btn-upload-choice:hover {
-      background: rgba(37, 99, 235, 0.05);
-      border-color: var(--accent-primary);
-      transform: translateY(-1px);
-    }
-
-    .upload-icon {
-      font-size: 21px;
-    }
-
-    .upload-choice-title {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-main);
-    }
-
-    .upload-choice-sub {
-      font-size: 10px;
-      color: var(--text-dim);
-    }
-
-    .dropzone {
-      border: 1.5px dashed rgba(37, 99, 235, 0.32);
-      background: #f8fafc;
-      border-radius: var(--radius-md);
-      padding: 14px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .dropzone:hover, .dropzone.dragover {
-      border-color: var(--accent-primary);
-      background: rgba(37, 99, 235, 0.05);
-    }
-
-    .dropzone-title {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-top: 4px;
-    }
-
-    .dropzone-sub {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    /* 2-3-2 Visual Navigator */
-    .slot-navigator {
-      background: #f8fafc;
-      border: 1px solid var(--border-glass);
-      border-radius: var(--radius-md);
-      padding: 14px 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-      align-items: center;
-    }
-
-    .slot-row {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      width: 100%;
-    }
-
-    .slot-card {
-      flex: 1;
-      max-width: 98px;
-      height: 54px;
-      background: #ffffff;
-      border: 1.5px solid var(--border-glass);
-      border-radius: 8px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.2s ease;
-    }
-
-    .slot-card:hover {
-      border-color: var(--accent-primary);
-      background: rgba(37, 99, 235, 0.06);
-      transform: translateY(-2px);
-    }
-
-    .slot-card.center-focus {
-      border-color: var(--accent-primary);
-      background: #eff6ff;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
-    }
-
-    .slot-card.has-image {
-      border-color: var(--accent-emerald);
-    }
-
-    .slot-thumb {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0.85;
-      display: none;
-      pointer-events: none;
-    }
-
-    .slot-card.has-image .slot-thumb {
-      display: block;
-    }
-
-    .slot-number {
-      font-size: 11px;
-      font-weight: 700;
-      color: #0f172a;
-      z-index: 2;
-      background: rgba(255, 255, 255, 0.9);
-      padding: 1px 6px;
-      border-radius: 4px;
-      pointer-events: none;
-    }
-
-    .slot-tag {
-      font-size: 9px;
-      color: var(--text-muted);
-      z-index: 2;
-      margin-top: 2px;
-      pointer-events: none;
-    }
-
-    .preset-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-    }
-
-    .btn-preset {
-      padding: 9px 11px;
-      background: #ffffff;
-      border: 1px solid var(--border-glass);
-      border-radius: 8px;
-      color: var(--text-muted);
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      transition: all 0.2s;
-    }
-
-    .btn-preset:hover {
-      background: #f8fafc;
-      color: var(--text-main);
-      border-color: #cbd5e1;
-    }
-
-    /* Modals */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.45);
-      backdrop-filter: blur(5px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-    }
-
-    .modal-overlay.open {
-      display: flex;
-    }
-
-    .modal-card {
-      width: 450px;
-      max-width: 92%;
-      background: #ffffff;
-      border: 1px solid var(--border-glass);
-      border-radius: var(--radius-lg);
-      padding: 22px;
-      box-shadow: 0 25px 60px rgba(15, 23, 42, 0.2);
-    }
-
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-    }
-
-    .modal-title {
-      font-size: 17px;
-      font-weight: 700;
-    }
-
-    .modal-close {
-      background: transparent;
-      border: none;
-      color: var(--text-dim);
-      font-size: 22px;
-      cursor: pointer;
-    }
-
-    .export-res-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-
-    .res-card {
-      border: 1.5px solid var(--border-glass);
-      background: #f8fafc;
-      border-radius: 10px;
-      padding: 12px;
-      cursor: pointer;
-    }
-
-    .res-card.active {
-      border-color: var(--accent-primary);
-      background: rgba(37, 99, 235, 0.06);
-    }
-
-    .res-title {
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .res-sub {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: #ffffff;
-      border: 1px solid #93c5fd;
-      padding: 12px 18px;
-      border-radius: 10px;
-      color: var(--text-main);
-      font-size: 13px;
-      font-weight: 600;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      z-index: 200;
-      transform: translateY(100px);
-      opacity: 0;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    .mobile-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.35);
-      z-index: 38;
-    }
-
-    .mobile-backdrop.open {
-      display: block;
-    }
-
-    .mobile-fab {
-      display: none;
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: 12px 20px;
-      border-radius: 30px;
-      background: var(--accent-primary);
-      color: #ffffff;
-      font-size: 14px;
-      font-weight: 700;
-      border: none;
-      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      z-index: 39;
+      box-shadow: 0 2px 10px rgba(255, 184, 210, 0.4);
     }
 
     /* ============================================================
@@ -820,8 +318,7 @@
         justify-content: center !important;
         gap: 8px !important;
         border-radius: 14px !important;
-        background: var(--accent-primary) !important;
-        color: #ffffff !important;
+        background: var(--accent-primary) !important; color: #0f172a !important; font-weight: 700;
         font-size: 13.5px !important;
         font-weight: 700 !important;
         border: none !important;
@@ -1037,10 +534,10 @@
     <!-- Center Theme Toggles -->
     <div class="topbar-center">
       <button id="btn-theme-light" class="btn-pill active" title="Tema Studio Light">
-        <span>☀️ Studio Light (SOPAN)</span>
+        <span>🌸 Pastel Light</span>
       </button>
       <button id="btn-theme-dark" class="btn-pill" title="Tema Studio Dark">
-        <span>🌙 Studio Dark (EcoVision)</span>
+        <span>🌙 Wireframe Dark</span>
       </button>
     </div>
 
@@ -1185,10 +682,10 @@
           <div class="section-title">Aksi & Demo Referensi</div>
           <div class="preset-grid">
             <button id="btn-load-light-demo" class="btn-preset">
-              <span>☀️ Demo Light SOPAN</span>
+              <span>🌸 Pastel Light</span>
             </button>
             <button id="btn-load-dark-demo" class="btn-preset">
-              <span>🌙 Demo Dark EcoVision</span>
+              <span>🌙 Wireframe Dark</span>
             </button>
             <button id="btn-duplicate-remaining" class="btn-preset">
               <span>📋 Isi Slot Kosong</span>
@@ -1305,537 +802,268 @@
      * 1. GENERATOR KARTU DEMO LANDSCAPE PC (960 x 600 - Rasio 16:10)
      */
     class DemoGenerator {
-      static generateSet(theme = 'light') {
+      static generateSet(theme = 'light', isMobile = false) {
         const cards = [];
-        for (let i = 0; i < TOTAL_SLOTS; i++) {
-          cards.push(theme === 'light' ? this.createLightCard(i) : this.createDarkCard(i));
+        const count = typeof TOTAL_SLOTS !== 'undefined' ? TOTAL_SLOTS : 12;
+        for (let i = 0; i < count; i++) {
+          cards.push(this.createPlaceholderCard(i, theme, count, isMobile));
         }
         return cards;
       }
 
-      static createLightCard(index) {
+      static createLightCard(index, count = 12, isMobile = false) {
+        return this.createPlaceholderCard(index, 'light', count, isMobile);
+      }
+
+      static createDarkCard(index, count = 12, isMobile = false) {
+        return this.createPlaceholderCard(index, 'dark', count, isMobile);
+      }
+
+      static createPlaceholderCard(index, theme = 'light', count = 12, isMobile = false) {
         const c = document.createElement('canvas');
-        c.width = 960;
-        c.height = 600;
+        const w = isMobile ? 540 : 920;
+        const h = isMobile ? 1100 : 580;
+        c.width = w;
+        c.height = h;
         const ctx = c.getContext('2d');
 
-        // Slot #4 ★ (index 3: HERO CENTER) -> Tampilan Hero Спеsial / Portal Utama
-        if (index === 3) {
-          const heroGrad = ctx.createLinearGradient(0, 0, 960, 600);
-          heroGrad.addColorStop(0, '#1e3a8a');
-          heroGrad.addColorStop(0.55, '#2563eb');
-          heroGrad.addColorStop(1, '#1d4ed8');
-          ctx.fillStyle = heroGrad;
-          ctx.fillRect(0, 0, 960, 600);
+        const isDark = theme === 'dark' || theme === 'ecovision';
+        const isFocal = (count === 12 && (index === 5 || index === 6)) ||
+                        (count === 9 && index === 4) ||
+                        (count === 7 && index === 3);
 
-          // Dekorasi Lingkaran Halus seperti Referensi
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
-          ctx.lineWidth = 42;
+        // 1. Surface Background (Kotak Putih Abu Bersih)
+        ctx.fillStyle = isDark ? '#0b0f17' : '#f8fafc';
+        ctx.fillRect(0, 0, w, h);
+
+        // 2. Subtle Checkerboard / Grid Tile Pattern
+        ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.02)' : 'rgba(15, 23, 42, 0.025)';
+        const tileSize = isMobile ? 24 : 32;
+        for (let y = 0; y < h; y += tileSize) {
+          for (let x = 0; x < w; x += tileSize) {
+            if (((x / tileSize) + (y / tileSize)) % 2 === 0) {
+              ctx.fillRect(x, y, tileSize, tileSize);
+            }
+          }
+        }
+
+        // Outer Card Border
+        ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(1, 1, w - 2, h - 2);
+
+        if (isMobile) {
+          // ==========================================
+          // SMARTPHONE PORTRAIT WIREFRAME (540 x 1100)
+          // ==========================================
+          // Dynamic Island Notch
+          ctx.fillStyle = isDark ? '#1e293b' : '#e2e8f0';
           ctx.beginPath();
-          ctx.arc(820, 180, 240, 0, Math.PI * 2);
+          ctx.roundRect((w - 120) / 2, 16, 120, 24, 12);
+          ctx.fill();
+
+          // Status Bar
+          ctx.fillStyle = isDark ? '#475569' : '#94a3b8';
+          ctx.font = 'bold 14px ui-monospace, monospace';
+          ctx.fillText('9:41', 28, 34);
+          ctx.beginPath();
+          ctx.roundRect(w - 60, 20, 32, 14, 4);
+          ctx.fill();
+
+          // App Topbar
+          const topBarY = 56;
+          ctx.fillStyle = isFocal ? '#FFE3ED' : (isDark ? '#1e293b' : (index % 3 === 0 ? '#FFE3ED' : (index % 3 === 1 ? '#9BE3DE' : '#BEEBE9')));
+          ctx.beginPath();
+          ctx.roundRect(20, topBarY, w - 40, 58, 14);
+          ctx.fill();
+          ctx.strokeStyle = isFocal ? '#FFB8D2' : (isDark ? '#334155' : '#e2e8f0');
+          ctx.lineWidth = isFocal ? 2 : 1;
           ctx.stroke();
 
-          // Badge Atas
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+          ctx.fillStyle = isFocal ? '#0f172a' : (isDark ? '#f8fafc' : '#0f172a');
+          ctx.font = 'bold 18px sans-serif';
+          ctx.fillText(isFocal ? `🌸 SLOT #${index + 1} (FOKUS UTAMA)` : `SLOT #${index + 1}`, 38, topBarY + 36);
+
+          // Hero Area Skeleton
+          const heroY = topBarY + 74;
+          ctx.fillStyle = isDark ? '#161f30' : '#ffffff';
+          ctx.beginPath();
+          ctx.roundRect(20, heroY, w - 40, 220, 18);
+          ctx.fill();
+          ctx.strokeStyle = isDark ? '#334155' : '#e2e8f0';
+          ctx.stroke();
+
+          ctx.fillStyle = isFocal ? 'rgba(16, 185, 129, 0.25)' : (isDark ? '#334155' : '#e2e8f0');
+          ctx.beginPath();
+          ctx.roundRect(38, heroY + 24, w - 76, 28, 8);
+          ctx.fill();
+          ctx.fillStyle = isDark ? '#243247' : '#f1f5f9';
+          ctx.beginPath();
+          ctx.roundRect(38, heroY + 68, (w - 76) * 0.7, 18, 6);
+          ctx.roundRect(38, heroY + 98, (w - 76) * 0.85, 18, 6);
+          ctx.fill();
+
+          // Center Call-To-Action Dropzone
+          const dropY = heroY + 240;
+          ctx.fillStyle = isDark ? 'rgba(16, 185, 129, 0.06)' : 'rgba(16, 185, 129, 0.04)';
+          ctx.strokeStyle = isFocal ? '#9BE3DE' : (isDark ? '#334155' : '#cbd5e1');
           ctx.lineWidth = 2;
-          ctx.beginPath();
-          ctx.roundRect(68, 86, 220, 38, 19);
-          ctx.stroke();
-          ctx.fillStyle = '#e0f2fe';
-          ctx.font = 'bold 14px sans-serif';
-          ctx.fillText('● PORTAL UTAMA SOPAN', 92, 110);
-
-          // Judul Besar Landscape
-          ctx.fillStyle = '#ffffff';
-          ctx.font = 'bold 54px sans-serif';
-          ctx.fillText('Sistem Operasi', 68, 200);
-          ctx.fillText('Presensi & KBM', 68, 264);
-          ctx.fillStyle = '#93c5fd';
-          ctx.fillText('SMKN 1 Ciamis', 68, 328);
-
-          ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
-          ctx.font = '18px sans-serif';
-          ctx.fillText('Monitoring kehadiran guru, jadwal mengajar, & rekapitulasi siswa real-time.', 68, 382);
-
-          // Mini Stat Cards di Bawah Hero
-          const heroStats = [
-            { val: '97', label: 'Total Guru Aktif' },
-            { val: '1.994', label: 'Total Siswa' },
-            { val: '54', label: 'Rombel Kelas' },
-            { val: '100%', label: 'Presensi Digital' }
-          ];
-          heroStats.forEach((st, idx) => {
-            const bx = 68 + idx * 208;
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
-            ctx.beginPath();
-            ctx.roundRect(bx, 436, 192, 104, 14);
-            ctx.fill();
-
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 30px sans-serif';
-            ctx.fillText(st.val, bx + 22, 484);
-
-            ctx.fillStyle = '#bfdbfe';
-            ctx.font = '13px sans-serif';
-            ctx.fillText(st.label, bx + 22, 514);
-          });
-
-          return c;
-        }
-
-        // Background kartu sekitar
-        ctx.fillStyle = '#f8fafc';
-        ctx.fillRect(0, 0, 960, 600);
-
-        if (index === 1 || index === 4) {
-          // Dashboard Statistik & Donut Chart
-          ctx.fillStyle = '#ffffff';
-          ctx.fillRect(0, 0, 960, 56);
-          ctx.fillStyle = '#0f172a';
-          ctx.font = 'bold 19px sans-serif';
-          ctx.fillText(index === 1 ? 'Dashboard Admin SOPAN' : 'Monitoring Kehadiran Siswa', 32, 35);
-
-          const stats = [
-            { label: 'Total Guru', val: '97', bg: '#eff6ff', dot: '#3b82f6' },
-            { label: 'Total Siswa', val: '1994', bg: '#ecfdf5', dot: '#10b981' },
-            { label: 'Total Kelas', val: '54', bg: '#f5f3ff', dot: '#8b5cf6' },
-            { label: 'Hadir Hari Ini', val: '98.6%', bg: '#fffbeb', dot: '#f59e0b' }
-          ];
-          stats.forEach((st, i) => {
-            const sx = 32 + i * 228;
-            const sy = 78;
-            ctx.fillStyle = '#ffffff';
-            ctx.strokeStyle = '#e2e8f0';
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            ctx.roundRect(sx, sy, 212, 114, 12);
-            ctx.fill();
-            ctx.stroke();
-
-            ctx.fillStyle = st.bg;
-            ctx.beginPath();
-            ctx.roundRect(sx + 16, sy + 16, 32, 32, 8);
-            ctx.fill();
-
-            ctx.fillStyle = st.dot;
-            ctx.beginPath();
-            ctx.arc(sx + 32, sy + 32, 7, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 26px sans-serif';
-            ctx.fillText(st.val, sx + 16, sy + 80);
-
-            ctx.fillStyle = '#64748b';
-            ctx.font = '12px sans-serif';
-            ctx.fillText(st.label, sx + 16, sy + 100);
-          });
-
-          // Left Box
-          ctx.fillStyle = '#ffffff';
-          ctx.strokeStyle = '#e2e8f0';
-          ctx.beginPath();
-          ctx.roundRect(32, 214, 438, 354, 14);
-          ctx.fill();
-          ctx.stroke();
-
-          ctx.fillStyle = '#2563eb';
-          ctx.font = 'bold 11px sans-serif';
-          ctx.fillText('● REKAPITULASI KBM HARIAN', 56, 254);
-
-          ctx.fillStyle = '#0f172a';
-          ctx.font = 'bold 24px sans-serif';
-          ctx.fillText('Evaluasi Presensi &', 56, 292);
-          ctx.fillText('Ketercapaian Materi', 56, 322);
-
-          ctx.fillStyle = '#64748b';
-          ctx.font = '13px sans-serif';
-          ctx.fillText('Data sinkron otomatis dengan jurnal kelas digital', 56, 356);
-          ctx.fillText('dan laporan bulanan kurikulum.', 56, 376);
-
-          ctx.fillStyle = '#0f172a';
-          ctx.beginPath();
-          ctx.roundRect(56, 486, 220, 48, 10);
-          ctx.fill();
-          ctx.fillStyle = '#ffffff';
-          ctx.font = 'bold 14px sans-serif';
-          ctx.fillText('Unduh Laporan PDF', 96, 515);
-
-          // Right Box (Donut Chart)
-          ctx.fillStyle = '#ffffff';
-          ctx.strokeStyle = '#e2e8f0';
-          ctx.beginPath();
-          ctx.roundRect(490, 214, 438, 354, 14);
-          ctx.fill();
-          ctx.stroke();
-
-          ctx.fillStyle = '#0f172a';
-          ctx.font = 'bold 17px sans-serif';
-          ctx.fillText('Distribusi Kehadiran (7 Hari)', 516, 254);
-
-          const cx = 709, cy = 396, rad = 86;
-          ctx.lineWidth = 28;
-          ctx.strokeStyle = '#10b981';
-          ctx.beginPath();
-          ctx.arc(cx, cy, rad, 0, Math.PI * 1.48);
-          ctx.stroke();
-
-          ctx.strokeStyle = '#3b82f6';
-          ctx.beginPath();
-          ctx.arc(cx, cy, rad, Math.PI * 1.48, Math.PI * 1.84);
-          ctx.stroke();
-
-          ctx.strokeStyle = '#f59e0b';
-          ctx.beginPath();
-          ctx.arc(cx, cy, rad, Math.PI * 1.84, Math.PI * 2);
-          ctx.stroke();
-        } else if (index === 0 || index === 6) {
-          // Kenaikan Kelas & Tutup Tahun Ajaran
-          this.drawLightSidebar(ctx);
-          const grad = ctx.createLinearGradient(210, 60, 920, 210);
-          grad.addColorStop(0, '#3b82f6');
-          grad.addColorStop(1, '#2563eb');
-          ctx.fillStyle = grad;
-          ctx.beginPath();
-          ctx.roundRect(212, 60, 716, 144, 14);
-          ctx.fill();
-
-          ctx.fillStyle = '#ffffff';
-          ctx.font = 'bold 26px sans-serif';
-          ctx.fillText('Kenaikan Kelas & Tutup Tahun Ajaran', 242, 120);
-          ctx.fillStyle = 'rgba(255,255,255,0.88)';
-          ctx.font = '14px sans-serif';
-          ctx.fillText('Promosi tingkat kelas otomatis & pengarsipan data akademik tahunan.', 242, 150);
-
-          const boxes = ['2025/2026', '642 Siswa X', '724 Siswa XI', '628 Siswa XII'];
-          boxes.forEach((b, idx) => {
-            const bx = 212 + idx * 182;
-            ctx.fillStyle = '#ffffff';
-            ctx.strokeStyle = '#e2e8f0';
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            ctx.roundRect(bx, 224, 168, 96, 10);
-            ctx.fill();
-            ctx.stroke();
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 20px sans-serif';
-            ctx.fillText(b, bx + 18, 280);
-          });
-
-          ctx.fillStyle = '#ffffff';
-          ctx.strokeStyle = '#e2e8f0';
-          ctx.beginPath();
-          ctx.roundRect(212, 340, 716, 228, 12);
-          ctx.fill();
-          ctx.stroke();
-
-          for (let r = 0; r < 3; r++) {
-            ctx.fillStyle = '#eff6ff';
-            ctx.beginPath();
-            ctx.roundRect(232, 364 + r * 58, 676, 44, 8);
-            ctx.fill();
-            ctx.fillStyle = '#1e293b';
-            ctx.font = 'bold 13px sans-serif';
-            ctx.fillText(`${r + 1}. Validasi Rapor & Konfigurasi Periode Tahun Akademik`, 252, 391 + r * 58);
-          }
-        } else {
-          // Tabel Manajemen Guru / Siswa
-          this.drawLightSidebar(ctx);
-          ctx.fillStyle = '#0f172a';
-          ctx.font = 'bold 20px sans-serif';
-          ctx.fillText(index === 2 ? 'Manajemen Guru' : 'Manajemen Siswa', 212, 44);
-
-          ctx.fillStyle = '#10b981';
-          ctx.beginPath();
-          ctx.roundRect(796, 18, 132, 34, 8);
-          ctx.fill();
-          ctx.fillStyle = '#ffffff';
-          ctx.font = 'bold 12px sans-serif';
-          ctx.fillText('+ Import Excel', 816, 39);
-
-          ctx.fillStyle = '#ffffff';
-          ctx.strokeStyle = '#e2e8f0';
-          ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          ctx.roundRect(212, 68, 716, 500, 12);
-          ctx.fill();
-          ctx.stroke();
-
-          const names = index === 2
-            ? [
-                'ACEP MUHAMMAD SOLEH, S.Pd.',
-                'AGUNG SOFIYANI, S.E.',
-                'AI SITI MUNAWAROH, S.Pd.',
-                'ALISAH, S.Pd. H.J.',
-                'AMIRUDIN, S.Pd.',
-                'DRS. HENDRA KUSUMAH'
-              ]
-            : [
-                'ABDUL ROHIMAT',
-                'ADELLE MUAZARAH',
-                'ADITYA HERMAWAN',
-                'ALI ABDUL WAHID',
-                'ALIZA BUNGA BUDI PUTRI',
-                'PRADIPTA ENDRA MAULANA'
-              ];
-          names.forEach((name, rowIdx) => {
-            const ry = 130 + rowIdx * 68;
-            ctx.strokeStyle = '#f1f5f9';
-            ctx.beginPath();
-            ctx.moveTo(230, ry);
-            ctx.lineTo(908, ry);
-            ctx.stroke();
-
-            ctx.fillStyle = rowIdx % 2 === 0 ? '#3b82f6' : '#0ea5e9';
-            ctx.beginPath();
-            ctx.arc(258, ry + 32, 15, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 13px sans-serif';
-            ctx.fillText(name, 286, ry + 37);
-
-            ctx.fillStyle = '#dcfce7';
-            ctx.beginPath();
-            ctx.roundRect(664, ry + 18, 74, 26, 13);
-            ctx.fill();
-            ctx.fillStyle = '#15803d';
-            ctx.font = 'bold 11px sans-serif';
-            ctx.fillText('✓ Aktif', 680, ry + 35);
-
-            ctx.fillStyle = '#2563eb';
-            ctx.beginPath();
-            ctx.roundRect(764, ry + 18, 108, 26, 6);
-            ctx.fill();
-            ctx.fillStyle = '#ffffff';
-            ctx.fillText('Detail Profil', 784, ry + 35);
-          });
-        }
-        return c;
-      }
-
-      static drawLightSidebar(ctx) {
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, 190, 600);
-        ctx.strokeStyle = '#e2e8f0';
-        ctx.beginPath();
-        ctx.moveTo(190, 0);
-        ctx.lineTo(190, 600);
-        ctx.stroke();
-
-        ctx.fillStyle = '#0f172a';
-        ctx.font = 'bold 13px sans-serif';
-        ctx.fillText('SMK Negeri 1 Ciamis', 24, 38);
-
-        const menus = ['Dashboard', 'Guru', 'Siswa', 'Kelas', 'Jadwal KBM', 'Presensi', 'Kenaikan Kelas', 'Pengaturan'];
-        menus.forEach((m, i) => {
-          const my = 80 + i * 46;
-          if (i === 0 || i === 2) {
-            ctx.fillStyle = '#eff6ff';
-            ctx.beginPath();
-            ctx.roundRect(14, my - 18, 162, 34, 8);
-            ctx.fill();
-            ctx.fillStyle = '#2563eb';
-          } else {
-            ctx.fillStyle = '#64748b';
-          }
-          ctx.font = '600 12px sans-serif';
-          ctx.fillText(m, 32, my + 3);
-        });
-      }
-
-      static createDarkCard(index) {
-        const c = document.createElement('canvas');
-        c.width = 960;
-        c.height = 600;
-        const ctx = c.getContext('2d');
-
-        ctx.fillStyle = '#0b0f14';
-        ctx.fillRect(0, 0, 960, 600);
-
-        // Navbar
-        ctx.fillStyle = '#0f161d';
-        ctx.fillRect(0, 0, 960, 58);
-        ctx.fillStyle = '#06b6d4';
-        ctx.beginPath();
-        ctx.arc(38, 29, 10, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = '#f8fafc';
-        ctx.font = 'bold 15px sans-serif';
-        ctx.fillText('EcoVision AI', 58, 34);
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = '12px sans-serif';
-        ctx.fillText('Home     Features     About     Model Testing', 300, 34);
-
-        ctx.strokeStyle = '#06b6d4';
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.roundRect(804, 15, 124, 28, 14);
-        ctx.stroke();
-        ctx.fillStyle = '#e2e8f0';
-        ctx.font = 'bold 11px sans-serif';
-        ctx.fillText('Start Scanning', 824, 33);
-
-        if (index === 3) {
-          // Slot #4 ★ (HERO CENTER): Scan. Sort. Save the Planet.
-          const heroGrad = ctx.createLinearGradient(0, 58, 960, 600);
-          heroGrad.addColorStop(0, '#09131c');
-          heroGrad.addColorStop(1, '#0d1f2d');
-          ctx.fillStyle = heroGrad;
-          ctx.fillRect(0, 58, 960, 542);
-
-          ctx.fillStyle = 'rgba(16, 185, 129, 0.16)';
-          ctx.beginPath();
-          ctx.roundRect(52, 108, 250, 28, 14);
-          ctx.fill();
-          ctx.fillStyle = '#10b981';
-          ctx.font = 'bold 11px sans-serif';
-          ctx.fillText('● AI WASTE CLASSIFICATION', 68, 126);
-
-          ctx.fillStyle = '#ffffff';
-          ctx.font = 'bold 50px sans-serif';
-          ctx.fillText('Scan. Sort.', 52, 198);
-          ctx.fillStyle = '#06b6d4';
-          ctx.fillText('Save the Planet.', 52, 256);
-
-          ctx.fillStyle = '#94a3b8';
-          ctx.font = '15px sans-serif';
-          ctx.fillText('AI-powered waste classification and environmental education', 52, 302);
-          ctx.fillText('platform that helps everyone recycle accurately.', 52, 324);
-
-          const btnGrad = ctx.createLinearGradient(52, 360, 212, 406);
-          btnGrad.addColorStop(0, '#10b981');
-          btnGrad.addColorStop(1, '#06b6d4');
-          ctx.fillStyle = btnGrad;
-          ctx.beginPath();
-          ctx.roundRect(52, 360, 160, 46, 23);
-          ctx.fill();
-          ctx.fillStyle = '#041318';
-          ctx.font = 'bold 14px sans-serif';
-          ctx.fillText('Get Started →', 82, 388);
-
-          ctx.fillStyle = '#ffffff';
-          ctx.font = 'bold 26px sans-serif';
-          ctx.fillText('98.4%', 52, 488);
-          ctx.fillText('< 1s', 190, 488);
-          ctx.fillText('100%', 308, 488);
-          ctx.fillStyle = '#64748b';
-          ctx.font = '12px sans-serif';
-          ctx.fillText('AI Accuracy', 52, 510);
-          ctx.fillText('Scan Speed', 190, 510);
-          ctx.fillText('Open Source', 308, 510);
-
-          ctx.fillStyle = '#111921';
-          ctx.strokeStyle = 'rgba(6, 182, 212, 0.38)';
-          ctx.beginPath();
-          ctx.roundRect(540, 98, 370, 452, 18);
-          ctx.fill();
-          ctx.stroke();
-
-          ctx.strokeStyle = 'rgba(16, 185, 129, 0.45)';
-          ctx.beginPath();
-          ctx.arc(725, 274, 96, 0, Math.PI * 2);
-          ctx.stroke();
-        } else if (index === 1 || index === 4) {
-          // Everything Features
-          ctx.textAlign = 'center';
-          ctx.fillStyle = '#10b981';
-          ctx.font = 'bold 12px sans-serif';
-          ctx.fillText('INTELLIGENT FEATURES', 480, 122);
-
-          ctx.fillStyle = '#ffffff';
-          ctx.font = 'bold 40px sans-serif';
-          ctx.fillText('Everything Features', 480, 168);
-
-          ctx.fillStyle = '#94a3b8';
-          ctx.font = '14px sans-serif';
-          ctx.fillText('Empowering citizens, students, and communities with AI sorting.', 480, 202);
-          ctx.textAlign = 'left';
-
-          const feats = ['AI Waste Detection', 'Smart Recycling', 'Environmental Impact', 'Responsible AI'];
-          feats.forEach((f, idx) => {
-            const fx = 48 + idx * 222;
-            ctx.fillStyle = '#111820';
-            ctx.strokeStyle = 'rgba(255,255,255,0.08)';
-            ctx.beginPath();
-            ctx.roundRect(fx, 248, 204, 282, 16);
-            ctx.fill();
-            ctx.stroke();
-
-            ctx.fillStyle = 'rgba(16, 185, 129, 0.16)';
-            ctx.beginPath();
-            ctx.roundRect(fx + 20, 270, 44, 44, 10);
-            ctx.fill();
-
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 16px sans-serif';
-            ctx.fillText(f, fx + 20, 352);
-            ctx.fillStyle = '#64748b';
-            ctx.font = '12px sans-serif';
-            ctx.fillText('Real-time computer vision', fx + 20, 382);
-            ctx.fillText('classification & guidance.', fx + 20, 402);
-          });
-        } else if (index === 2 || index === 5) {
-          // Waste Scanner
-          ctx.textAlign = 'center';
-          ctx.fillStyle = '#ffffff';
-          ctx.font = 'bold 36px sans-serif';
-          ctx.fillText('Waste Scanner', 480, 138);
-          ctx.fillStyle = '#94a3b8';
-          ctx.font = '14px sans-serif';
-          ctx.fillText('Upload an image of waste and let AI analyze it.', 480, 168);
-
-          ctx.fillStyle = '#111820';
-          ctx.strokeStyle = 'rgba(6, 182, 212, 0.35)';
           ctx.setLineDash([8, 6]);
           ctx.beginPath();
-          ctx.roundRect(120, 210, 720, 314, 18);
+          ctx.roundRect(20, dropY, w - 40, 280, 20);
           ctx.fill();
           ctx.stroke();
           ctx.setLineDash([]);
 
-          ctx.fillStyle = '#06b6d4';
-          ctx.beginPath();
-          ctx.arc(480, 332, 30, 0, Math.PI * 2);
-          ctx.fill();
-
-          ctx.fillStyle = '#ffffff';
-          ctx.font = 'bold 17px sans-serif';
-          ctx.fillText('Click or drag image to upload', 480, 398);
-          ctx.textAlign = 'left';
-        } else {
-          // Sign In Card
+          ctx.fillStyle = isFocal ? '#0f766e' : (isDark ? '#64748b' : '#94a3b8');
+          ctx.font = '42px sans-serif';
           ctx.textAlign = 'center';
-          ctx.fillStyle = '#ffffff';
-          ctx.font = 'bold 34px sans-serif';
-          ctx.fillText('Sign in to EcoVision AI', 480, 152);
+          ctx.fillText('📱', w / 2, dropY + 85);
 
-          ctx.fillStyle = '#111820';
-          ctx.strokeStyle = 'rgba(255,255,255,0.09)';
+          ctx.fillStyle = isDark ? '#f8fafc' : '#0f172a';
+          ctx.font = 'bold 20px sans-serif';
+          ctx.fillText(`Slot #${index + 1}: Siap Diisi Foto HP`, w / 2, dropY + 130);
+
+          ctx.fillStyle = isDark ? '#94a3b8' : '#64748b';
+          ctx.font = '14px sans-serif';
+          ctx.fillText('Ketuk atau tarik screenshot 9:16 ke sini', w / 2, dropY + 165);
+
+          ctx.fillStyle = isFocal ? '#83264e' : (isDark ? '#38bdf8' : '#0f766e');
+          ctx.font = 'bold 13px ui-monospace, monospace';
+          ctx.fillText('FORMAT: JPG / PNG / WEBP', w / 2, dropY + 205);
+          ctx.textAlign = 'left';
+
+          // Bottom List Skeletons
+          const listY = dropY + 300;
+          for (let i = 0; i < 3; i++) {
+            const itemY = listY + i * 62;
+            if (itemY + 50 > h - 40) break;
+            ctx.fillStyle = isDark ? '#161f30' : '#ffffff';
+            ctx.beginPath();
+            ctx.roundRect(20, itemY, w - 40, 52, 12);
+            ctx.fill();
+            ctx.strokeStyle = isDark ? '#1e293b' : '#f1f5f9';
+            ctx.stroke();
+
+            ctx.fillStyle = isDark ? '#334155' : '#e2e8f0';
+            ctx.beginPath();
+            ctx.roundRect(36, itemY + 14, 24, 24, 6);
+            ctx.roundRect(72, itemY + 18, 180, 16, 5);
+            ctx.fill();
+          }
+
+          // Bottom Nav Bar
+          ctx.fillStyle = isDark ? '#1e293b' : '#cbd5e1';
           ctx.beginPath();
-          ctx.roundRect(250, 192, 460, 320, 16);
+          ctx.roundRect((w - 140) / 2, h - 18, 140, 5, 3);
           ctx.fill();
+
+        } else {
+          // ==========================================
+          // LANDSCAPE WIREFRAME CARD (920 x 580)
+          // ==========================================
+          const headerH = 64;
+          ctx.fillStyle = isFocal ? '#FFE3ED' : (isDark ? '#161f30' : (index % 3 === 0 ? '#FFE3ED' : (index % 3 === 1 ? '#9BE3DE' : '#BEEBE9')));
+          ctx.fillRect(0, 0, w, headerH);
+
+          ctx.strokeStyle = isFocal ? '#FFB8D2' : (isDark ? '#1e293b' : '#e2e8f0');
+          ctx.lineWidth = isFocal ? 2.5 : 1;
+          ctx.beginPath();
+          ctx.moveTo(0, headerH);
+          ctx.lineTo(w, headerH);
           ctx.stroke();
 
-          ctx.fillStyle = '#0b0f14';
-          ctx.beginPath();
-          ctx.roundRect(288, 242, 384, 48, 10);
-          ctx.roundRect(288, 314, 384, 48, 10);
-          ctx.fill();
+          ctx.fillStyle = isFocal ? '#0f172a' : (isDark ? '#f8fafc' : '#0f172a');
+          ctx.font = 'bold 20px sans-serif';
+          ctx.fillText(isFocal ? `🌸 SLOT #${index + 1} (FOKUS UTAMA)` : `SLOT #${index + 1}`, 32, 40);
 
-          const grad = ctx.createLinearGradient(288, 392, 672, 440);
-          grad.addColorStop(0, '#10b981');
-          grad.addColorStop(1, '#06b6d4');
-          ctx.fillStyle = grad;
+          ctx.fillStyle = isFocal ? '#9BE3DE' : (isDark ? '#1e293b' : '#f1f5f9');
           ctx.beginPath();
-          ctx.roundRect(288, 392, 384, 50, 25);
+          ctx.roundRect(w - 190, 16, 158, 32, 8);
           ctx.fill();
+          ctx.fillStyle = isFocal ? '#044343' : (isDark ? '#94a3b8' : '#64748b');
+          ctx.font = 'bold 12px ui-monospace, monospace';
+          ctx.fillText(isFocal ? '🌸 FOKUS HERO' : 'SIAP UNGGAH', w - 170, 37);
 
-          ctx.fillStyle = '#041318';
-          ctx.font = 'bold 15px sans-serif';
-          ctx.fillText('Sign In', 480, 422);
+          // 3 Metric Skeleton Cards
+          const metricY = 88;
+          const metricW = 268;
+          const metricH = 92;
+          const metricGap = 20;
+          for (let i = 0; i < 3; i++) {
+            const mx = 32 + i * (metricW + metricGap);
+            ctx.fillStyle = isDark ? '#131b2a' : '#ffffff';
+            ctx.beginPath();
+            ctx.roundRect(mx, metricY, metricW, metricH, 12);
+            ctx.fill();
+            ctx.strokeStyle = isDark ? '#1e293b' : '#e2e8f0';
+            ctx.stroke();
+
+            ctx.fillStyle = isFocal && i === 0 ? 'rgba(155, 227, 222, 0.5)' : (isDark ? '#334155' : '#e2e8f0');
+            ctx.beginPath();
+            ctx.roundRect(mx + 16, metricY + 16, 32, 32, 8);
+            ctx.fill();
+
+            ctx.fillStyle = isDark ? '#243247' : '#f1f5f9';
+            ctx.beginPath();
+            ctx.roundRect(mx + 60, metricY + 20, 110, 14, 4);
+            ctx.roundRect(mx + 60, metricY + 44, 70, 18, 5);
+            ctx.fill();
+          }
+
+          // Center Dropzone Invitation Box
+          const boxY = 202;
+          const boxW = w - 64;
+          const boxH = 220;
+          ctx.fillStyle = isFocal ? 'rgba(255, 227, 237, 0.55)' : (isDark ? '#0d131f' : '#ffffff');
+          ctx.strokeStyle = isFocal ? '#FF8EB2' : (isDark ? '#334155' : '#cbd5e1');
+          ctx.lineWidth = 2;
+          ctx.setLineDash([8, 6]);
+          ctx.beginPath();
+          ctx.roundRect(32, boxY, boxW, boxH, 16);
+          ctx.fill();
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          ctx.textAlign = 'center';
+          ctx.fillStyle = isFocal ? '#0f766e' : (isDark ? '#64748b' : '#94a3b8');
+          ctx.font = '40px sans-serif';
+          ctx.fillText(isFocal ? '🌸' : '📷', w / 2, boxY + 70);
+
+          ctx.fillStyle = isDark ? '#f8fafc' : '#0f172a';
+          ctx.font = 'bold 22px sans-serif';
+          ctx.fillText(`Slot #${index + 1}: Siap Diisi Screenshot Anda`, w / 2, boxY + 115);
+
+          ctx.fillStyle = isDark ? '#94a3b8' : '#64748b';
+          ctx.font = '15px sans-serif';
+          ctx.fillText('Tarik gambar ke layar atau klik slot ini untuk mengganti foto', w / 2, boxY + 148);
+
+          ctx.fillStyle = isFocal ? '#83264e' : (isDark ? '#38bdf8' : '#0f766e');
+          ctx.font = 'bold 12.5px ui-monospace, monospace';
+          ctx.fillText('PRESET WIREFRAME BERSIH • KOTAK PUTIH ABU • 1:1 RESOLUSI ASLI', w / 2, boxY + 182);
           ctx.textAlign = 'left';
+
+          // Bottom Skeleton Rows
+          const tableY = boxY + boxH + 20;
+          ctx.fillStyle = isDark ? '#161f30' : '#ffffff';
+          ctx.beginPath();
+          ctx.roundRect(32, tableY, boxW, 110, 12);
+          ctx.fill();
+          ctx.strokeStyle = isDark ? '#1e293b' : '#e2e8f0';
+          ctx.stroke();
+
+          for (let r = 0; r < 2; r++) {
+            const ry = tableY + 20 + r * 42;
+            ctx.fillStyle = isDark ? '#243247' : '#f1f5f9';
+            ctx.beginPath();
+            ctx.roundRect(50, ry, 160, 14, 4);
+            ctx.roundRect(240, ry, 280, 14, 4);
+            ctx.roundRect(560, ry, 140, 14, 4);
+            ctx.roundRect(740, ry, 110, 14, 4);
+            ctx.fill();
+          }
         }
+
         return c;
       }
     }
@@ -2171,12 +1399,12 @@
 
       btnLight.addEventListener('click', () => {
         setTheme('light');
-        showToast('Tema Studio Light (SOPAN) aktif');
+        showToast('Tema Light Mode aktif (Wireframe Bersih)');
       });
 
       btnDark.addEventListener('click', () => {
         setTheme('dark');
-        showToast('Tema Studio Dark (EcoVision) aktif');
+        showToast('Tema Dark Mode aktif (Wireframe Sinematik)');
       });
 
       // Kontrol Zoom, Pola 2-3-2, & Hero Melayang
@@ -2313,12 +1541,12 @@
       document.getElementById('btn-load-light-demo').addEventListener('click', () => {
         userImages.fill(null);
         setTheme('light');
-        showToast('Demo Light SOPAN (2-3-2) dimuat');
+        showToast('Preset Wireframe Light dimuat');
       });
       document.getElementById('btn-load-dark-demo').addEventListener('click', () => {
         userImages.fill(null);
         setTheme('dark');
-        showToast('Demo Dark EcoVision (2-3-2) dimuat');
+        showToast('Preset Wireframe Dark dimuat');
       });
       document.getElementById('btn-duplicate-remaining').addEventListener('click', () => {
         const uploaded = userImages.filter(Boolean);

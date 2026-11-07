@@ -1,458 +1,277 @@
+/**
+ * DemoGenerator - Precision 3D Isometric Wireframe Placeholder Engine
+ * Generates clean, commercial wireframe skeleton cards (kotak putih-abu)
+ * preventing user confusion and inviting screenshot uploads.
+ */
 class DemoGenerator {
-    static generateSet(theme = 'light') {
+    static generateSet(theme = 'light', count = 12, isMobile = false) {
         const cards = [];
-        for (let i = 0; i < 12; i++) {
-            cards.push(theme === 'light' ? this.createLightCard(i) : this.createDarkCard(i));
+        for (let i = 0; i < count; i++) {
+            cards.push(this.createPlaceholderCard(i, theme, count, isMobile));
         }
         return cards;
     }
 
-    static createLightCard(index) {
+    static createLightCard(index, count = 12, isMobile = false) {
+        return this.createPlaceholderCard(index, 'light', count, isMobile);
+    }
+
+    static createDarkCard(index, count = 12, isMobile = false) {
+        return this.createPlaceholderCard(index, 'dark', count, isMobile);
+    }
+
+    static createPlaceholderCard(index, theme = 'light', count = 12, isMobile = false) {
         const c = document.createElement('canvas');
-        c.width = 920;
-        c.height = 580;
+        const w = isMobile ? 540 : 920;
+        const h = isMobile ? 1100 : 580;
+        c.width = w;
+        c.height = h;
         const ctx = c.getContext('2d');
 
-        ctx.fillStyle = '#f8fafc';
-        ctx.fillRect(0, 0, 920, 580);
+        const isDark = theme === 'dark' || theme === 'ecovision';
+        const isFocal = (count === 12 && (index === 5 || index === 6)) ||
+                        (count === 9 && index === 4) ||
+                        (count === 7 && index === 3);
 
-        // Slot #3 (Dashboard Admin) & Slot #6 (Portal Publik SOPAN)
-        if (index === 2 || index === 5) {
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, 920, 54);
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 19px sans-serif';
-            ctx.fillText(index === 5 ? 'Portal Publik SOPAN' : 'Dashboard Admin', 30, 34);
+        // 1. Background Surface
+        ctx.fillStyle = isDark ? '#0b0f17' : '#f8fafc';
+        ctx.fillRect(0, 0, w, h);
 
-            const stats = [
-                { label: 'Total Guru', val: '97', bg: '#eff6ff', dot: '#3b82f6' },
-                { label: 'Total Siswa', val: '1994', bg: '#ecfdf5', dot: '#10b981' },
-                { label: 'Total Kelas', val: '54', bg: '#f5f3ff', dot: '#8b5cf6' },
-                { label: 'Pertemuan Hari Ini', val: '0', bg: '#fffbeb', dot: '#f59e0b' }
-            ];
-            stats.forEach((st, i) => {
-                const sx = 30 + i * 218;
-                const sy = 76;
-                ctx.fillStyle = '#ffffff';
-                ctx.strokeStyle = '#e2e8f0';
-                ctx.lineWidth = 1.5;
-                ctx.beginPath();
-                ctx.roundRect(sx, sy, 202, 112, 12);
-                ctx.fill();
-                ctx.stroke();
-
-                ctx.fillStyle = st.bg;
-                ctx.beginPath();
-                ctx.roundRect(sx + 16, sy + 16, 32, 32, 8);
-                ctx.fill();
-
-                ctx.fillStyle = st.dot;
-                ctx.beginPath();
-                ctx.arc(sx + 32, sy + 32, 7, 0, Math.PI * 2);
-                ctx.fill();
-
-                ctx.fillStyle = '#0f172a';
-                ctx.font = 'bold 26px sans-serif';
-                ctx.fillText(st.val, sx + 16, sy + 78);
-
-                ctx.fillStyle = '#64748b';
-                ctx.font = '12px sans-serif';
-                ctx.fillText(st.label, sx + 16, sy + 98);
-            });
-
-            // Left Box
-            ctx.fillStyle = '#ffffff';
-            ctx.strokeStyle = '#e2e8f0';
-            ctx.beginPath();
-            ctx.roundRect(30, 210, 418, 340, 14);
-            ctx.fill();
-            ctx.stroke();
-
-            ctx.fillStyle = '#2563eb';
-            ctx.font = 'bold 11px sans-serif';
-            ctx.fillText('● SISTEM OPERASI PRESENSI SMKN 1 CIAMIS', 54, 250);
-
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 24px sans-serif';
-            ctx.fillText('Aplikasi Sistem Operasi Presensi', 54, 288);
-            ctx.fillText('Kehadiran Mengajar Guru', 54, 318);
-
-            ctx.fillStyle = '#64748b';
-            ctx.font = '13px sans-serif';
-            ctx.fillText('Monitoring kehadiran real-time, rekapitulasi KBM,', 54, 352);
-            ctx.fillText('dan laporan presensi guru terintegrasi.', 54, 372);
-
-            ctx.fillStyle = '#0f172a';
-            ctx.beginPath();
-            ctx.roundRect(54, 466, 230, 50, 12);
-            ctx.fill();
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 14px sans-serif';
-            ctx.fillText('Install Aplikasi SOPAN', 84, 496);
-
-            // Right Box (Donut Chart)
-            ctx.fillStyle = '#ffffff';
-            ctx.strokeStyle = '#e2e8f0';
-            ctx.beginPath();
-            ctx.roundRect(470, 210, 420, 340, 14);
-            ctx.fill();
-            ctx.stroke();
-
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 17px sans-serif';
-            ctx.fillText('Distribusi Kehadiran (7 Hari)', 496, 248);
-
-            const cx = 680, cy = 380, rad = 82;
-            ctx.lineWidth = 28;
-            ctx.strokeStyle = '#10b981';
-            ctx.beginPath();
-            ctx.arc(cx, cy, rad, 0, Math.PI * 1.45);
-            ctx.stroke();
-
-            ctx.strokeStyle = '#3b82f6';
-            ctx.beginPath();
-            ctx.arc(cx, cy, rad, Math.PI * 1.45, Math.PI * 1.82);
-            ctx.stroke();
-
-            ctx.strokeStyle = '#f59e0b';
-            ctx.beginPath();
-            ctx.arc(cx, cy, rad, Math.PI * 1.82, Math.PI * 2);
-            ctx.stroke();
-        } else if (index === 1 || index === 6 || index === 11) {
-            // Blue Gradient Header Card: Kenaikan Kelas & Tutup Tahun Ajaran
-            this.drawLightSidebar(ctx);
-            const grad = ctx.createLinearGradient(204, 60, 888, 210);
-            grad.addColorStop(0, '#3b82f6');
-            grad.addColorStop(1, '#2563eb');
-            ctx.fillStyle = grad;
-            ctx.beginPath();
-            ctx.roundRect(208, 60, 682, 140, 14);
-            ctx.fill();
-
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 25px sans-serif';
-            ctx.fillText('Kenaikan Kelas & Tutup Tahun Ajaran', 236, 118);
-            ctx.fillStyle = 'rgba(255,255,255,0.86)';
-            ctx.font = '13px sans-serif';
-            ctx.fillText('Promosi tingkat kelas otomatis & pengarsipan data akademik tahunan.', 236, 148);
-
-            const boxes = ['2025/2026', '642 Siswa X', '724 Siswa XI', '628 Siswa XII'];
-            boxes.forEach((b, idx) => {
-                const bx = 208 + idx * 173;
-                ctx.fillStyle = '#ffffff';
-                ctx.strokeStyle = '#e2e8f0';
-                ctx.lineWidth = 1.5;
-                ctx.beginPath();
-                ctx.roundRect(bx, 220, 160, 94, 10);
-                ctx.fill();
-                ctx.stroke();
-                ctx.fillStyle = '#0f172a';
-                ctx.font = 'bold 20px sans-serif';
-                ctx.fillText(b, bx + 16, 276);
-            });
-
-            ctx.fillStyle = '#ffffff';
-            ctx.strokeStyle = '#e2e8f0';
-            ctx.beginPath();
-            ctx.roundRect(208, 334, 682, 214, 12);
-            ctx.fill();
-            ctx.stroke();
-
-            for (let r = 0; r < 3; r++) {
-                ctx.fillStyle = '#eff6ff';
-                ctx.beginPath();
-                ctx.roundRect(228, 356 + r * 56, 642, 42, 8);
-                ctx.fill();
-                ctx.fillStyle = '#1e293b';
-                ctx.font = 'bold 13px sans-serif';
-                ctx.fillText(`${r + 1}. Validasi Rapor & Konfigurasi Periode Tahun Akademik`, 246, 382 + r * 56);
+        // 2. Subtle Checkerboard / Grid Pattern
+        ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.02)' : 'rgba(15, 23, 42, 0.025)';
+        const tileSize = isMobile ? 24 : 32;
+        for (let y = 0; y < h; y += tileSize) {
+            for (let x = 0; x < w; x += tileSize) {
+                if (((x / tileSize) + (y / tileSize)) % 2 === 0) {
+                    ctx.fillRect(x, y, tileSize, tileSize);
+                }
             }
-        } else {
-            // Table Card: Manajemen Guru / Manajemen Siswa
-            this.drawLightSidebar(ctx);
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 20px sans-serif';
-            ctx.fillText(index % 2 === 0 ? 'Manajemen Guru' : 'Manajemen Siswa', 208, 44);
-
-            ctx.fillStyle = '#10b981';
-            ctx.beginPath();
-            ctx.roundRect(764, 18, 126, 34, 8);
-            ctx.fill();
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 12px sans-serif';
-            ctx.fillText('+ Import Excel', 782, 39);
-
-            ctx.fillStyle = '#ffffff';
-            ctx.strokeStyle = '#e2e8f0';
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            ctx.roundRect(208, 68, 682, 482, 12);
-            ctx.fill();
-            ctx.stroke();
-
-            const names = [
-                'ACEP MUHAMMAD SOLEH, S.Pd.',
-                'AGUNG SOFIYANI, S.E.',
-                'AI SITI MUNAWAROH, S.Pd.',
-                'ALISAH, S.Pd. H.J.',
-                'AMIRUDIN, S.Pd.',
-                'ABDUL ROHIMAT'
-            ];
-            names.forEach((name, rowIdx) => {
-                const ry = 128 + rowIdx * 66;
-                ctx.strokeStyle = '#f1f5f9';
-                ctx.beginPath();
-                ctx.moveTo(224, ry);
-                ctx.lineTo(872, ry);
-                ctx.stroke();
-
-                ctx.fillStyle = rowIdx % 2 === 0 ? '#3b82f6' : '#0ea5e9';
-                ctx.beginPath();
-                ctx.arc(252, ry + 32, 15, 0, Math.PI * 2);
-                ctx.fill();
-
-                ctx.fillStyle = '#0f172a';
-                ctx.font = 'bold 13px sans-serif';
-                ctx.fillText(name, 280, ry + 37);
-
-                ctx.fillStyle = '#dcfce7';
-                ctx.beginPath();
-                ctx.roundRect(634, ry + 18, 70, 26, 13);
-                ctx.fill();
-                ctx.fillStyle = '#15803d';
-                ctx.font = 'bold 11px sans-serif';
-                ctx.fillText('✓ Aktif', 648, ry + 35);
-
-                ctx.fillStyle = '#2563eb';
-                ctx.beginPath();
-                ctx.roundRect(730, ry + 18, 102, 26, 6);
-                ctx.fill();
-                ctx.fillStyle = '#ffffff';
-                ctx.fillText('Detail Profil', 748, ry + 35);
-            });
         }
-        return c;
-    }
 
-    static drawLightSidebar(ctx) {
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, 186, 580);
-        ctx.strokeStyle = '#e2e8f0';
-        ctx.beginPath();
-        ctx.moveTo(186, 0);
-        ctx.lineTo(186, 580);
-        ctx.stroke();
+        // Outer Card Border
+        ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(1, 1, w - 2, h - 2);
 
-        ctx.fillStyle = '#0f172a';
-        ctx.font = 'bold 13px sans-serif';
-        ctx.fillText('SMK Negeri 1 Ciamis', 24, 36);
-
-        const menus = ['Dashboard', 'Guru', 'Siswa', 'Kelas', 'Jadwal KBM', 'Presensi', 'Kenaikan Kelas', 'Pengaturan'];
-        menus.forEach((m, i) => {
-            const my = 78 + i * 44;
-            if (i === 0 || i === 2) {
-                ctx.fillStyle = '#eff6ff';
-                ctx.beginPath();
-                ctx.roundRect(14, my - 18, 158, 32, 8);
-                ctx.fill();
-                ctx.fillStyle = '#2563eb';
-            } else {
-                ctx.fillStyle = '#64748b';
-            }
-            ctx.font = '600 12px sans-serif';
-            ctx.fillText(m, 32, my + 2);
-        });
-    }
-
-    static createDarkCard(index) {
-        const c = document.createElement('canvas');
-        c.width = 920;
-        c.height = 580;
-        const ctx = c.getContext('2d');
-
-        ctx.fillStyle = '#0b0f14';
-        ctx.fillRect(0, 0, 920, 580);
-
-        // Navbar
-        ctx.fillStyle = '#0f161d';
-        ctx.fillRect(0, 0, 920, 56);
-        ctx.fillStyle = '#06b6d4';
-        ctx.beginPath();
-        ctx.arc(38, 28, 10, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = '#f8fafc';
-        ctx.font = 'bold 15px sans-serif';
-        ctx.fillText('EcoVision AI', 58, 33);
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = '12px sans-serif';
-        ctx.fillText('Home     Features     About     Model Testing', 290, 33);
-
-        ctx.strokeStyle = '#06b6d4';
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.roundRect(770, 14, 120, 28, 14);
-        ctx.stroke();
-        ctx.fillStyle = '#e2e8f0';
-        ctx.font = 'bold 11px sans-serif';
-        ctx.fillText('Start Scanning', 790, 32);
-
-        if (index === 2 || index === 8) {
-            // Hero Card: Scan. Sort. Save the Planet.
-            ctx.fillStyle = 'rgba(16, 185, 129, 0.14)';
+        if (isMobile) {
+            // ==========================================
+            // SMARTPHONE PORTRAIT WIREFRAME (540 x 1100)
+            // ==========================================
+            // Dynamic Island / Speaker Notch
+            ctx.fillStyle = isDark ? '#1e293b' : '#e2e8f0';
             ctx.beginPath();
-            ctx.roundRect(48, 104, 240, 26, 13);
+            ctx.roundRect((w - 120) / 2, 16, 120, 24, 12);
             ctx.fill();
-            ctx.fillStyle = '#10b981';
-            ctx.font = 'bold 11px sans-serif';
-            ctx.fillText('● AI WASTE CLASSIFICATION', 64, 121);
 
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 46px sans-serif';
-            ctx.fillText('Scan. Sort.', 48, 188);
-            ctx.fillStyle = '#06b6d4';
-            ctx.fillText('Save the Planet.', 48, 242);
-
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = '14px sans-serif';
-            ctx.fillText('AI-powered waste classification and environmental education', 48, 286);
-            ctx.fillText('platform that helps everyone recycle accurately.', 48, 308);
-
-            const btnGrad = ctx.createLinearGradient(48, 344, 200, 388);
-            btnGrad.addColorStop(0, '#10b981');
-            btnGrad.addColorStop(1, '#06b6d4');
-            ctx.fillStyle = btnGrad;
+            // Status Bar time & battery pills
+            ctx.fillStyle = isDark ? '#475569' : '#94a3b8';
+            ctx.font = 'bold 14px ui-monospace, monospace';
+            ctx.fillText('9:41', 28, 34);
             ctx.beginPath();
-            ctx.roundRect(48, 344, 152, 44, 22);
+            ctx.roundRect(w - 60, 20, 32, 14, 4);
             ctx.fill();
-            ctx.fillStyle = '#041318';
-            ctx.font = 'bold 14px sans-serif';
-            ctx.fillText('Get Started →', 76, 371);
 
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 25px sans-serif';
-            ctx.fillText('98.4%', 48, 468);
-            ctx.fillText('< 1s', 182, 468);
-            ctx.fillText('100%', 294, 468);
-            ctx.fillStyle = '#64748b';
-            ctx.font = '12px sans-serif';
-            ctx.fillText('AI Accuracy', 48, 490);
-            ctx.fillText('Scan Speed', 182, 490);
-            ctx.fillText('Open Source', 294, 490);
-
-            ctx.fillStyle = '#111921';
-            ctx.strokeStyle = 'rgba(6, 182, 212, 0.32)';
+            // App Topbar
+            const topBarY = 56;
+            ctx.fillStyle = isFocal ? '#FFE3ED' : (isDark ? '#1e293b' : (index % 3 === 0 ? '#FFE3ED' : (index % 3 === 1 ? '#9BE3DE' : '#BEEBE9')));
             ctx.beginPath();
-            ctx.roundRect(520, 94, 352, 434, 18);
+            ctx.roundRect(20, topBarY, w - 40, 58, 14);
             ctx.fill();
+            ctx.strokeStyle = isFocal ? '#FFB8D2' : (isDark ? '#334155' : '#e2e8f0');
+            ctx.lineWidth = isFocal ? 2 : 1;
             ctx.stroke();
 
-            ctx.strokeStyle = 'rgba(16, 185, 129, 0.4)';
+            ctx.fillStyle = isFocal ? '#0f172a' : (isDark ? '#f8fafc' : '#0f172a');
+            ctx.font = 'bold 18px sans-serif';
+            ctx.fillText(isFocal ? `🌸 SLOT #${index + 1} (FOKUS UTAMA)` : `SLOT #${index + 1}`, 38, topBarY + 36);
+
+            // Hero Card Area
+            const heroY = topBarY + 74;
+            ctx.fillStyle = isDark ? '#161f30' : '#ffffff';
             ctx.beginPath();
-            ctx.arc(696, 260, 90, 0, Math.PI * 2);
+            ctx.roundRect(20, heroY, w - 40, 220, 18);
+            ctx.fill();
+            ctx.strokeStyle = isDark ? '#334155' : '#e2e8f0';
             ctx.stroke();
-        } else if (index === 5) {
-            // Center Card #6: Everything Features
-            ctx.textAlign = 'center';
-            ctx.fillStyle = '#10b981';
-            ctx.font = 'bold 12px sans-serif';
-            ctx.fillText('INTELLIGENT FEATURES', 460, 118);
 
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 40px sans-serif';
-            ctx.fillText('Everything Features', 460, 164);
+            // Skeleton lines inside hero
+            ctx.fillStyle = isFocal ? 'rgba(155, 227, 222, 0.45)' : (isDark ? '#334155' : '#e2e8f0');
+            ctx.beginPath();
+            ctx.roundRect(38, heroY + 24, w - 76, 28, 8);
+            ctx.fill();
+            ctx.fillStyle = isDark ? '#243247' : '#f1f5f9';
+            ctx.beginPath();
+            ctx.roundRect(38, heroY + 68, (w - 76) * 0.7, 18, 6);
+            ctx.roundRect(38, heroY + 98, (w - 76) * 0.85, 18, 6);
+            ctx.fill();
 
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = '14px sans-serif';
-            ctx.fillText('Empowering citizens, students, and communities with AI sorting.', 460, 198);
-            ctx.textAlign = 'left';
-
-            const feats = ['AI Waste Detection', 'Smart Recycling', 'Environmental Impact', 'Responsible AI'];
-            feats.forEach((f, idx) => {
-                const fx = 44 + idx * 212;
-                ctx.fillStyle = '#111820';
-                ctx.strokeStyle = 'rgba(255,255,255,0.08)';
-                ctx.beginPath();
-                ctx.roundRect(fx, 242, 196, 270, 16);
-                ctx.fill();
-                ctx.stroke();
-
-                ctx.fillStyle = 'rgba(16, 185, 129, 0.16)';
-                ctx.beginPath();
-                ctx.roundRect(fx + 20, 264, 42, 42, 10);
-                ctx.fill();
-
-                ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 16px sans-serif';
-                ctx.fillText(f, fx + 20, 342);
-                ctx.fillStyle = '#64748b';
-                ctx.font = '12px sans-serif';
-                ctx.fillText('Real-time computer vision', fx + 20, 372);
-                ctx.fillText('classification & guidance.', fx + 20, 392);
-            });
-        } else if (index === 6) {
-            // Card #7: Waste Scanner
-            ctx.textAlign = 'center';
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 36px sans-serif';
-            ctx.fillText('Waste Scanner', 460, 134);
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = '14px sans-serif';
-            ctx.fillText('Upload an image of waste and let AI analyze it.', 460, 164);
-
-            ctx.fillStyle = '#111820';
-            ctx.strokeStyle = 'rgba(6, 182, 212, 0.35)';
+            // Center Call-To-Action Dropzone
+            const dropY = heroY + 240;
+            ctx.fillStyle = isFocal ? 'rgba(255, 227, 237, 0.55)' : (isDark ? 'rgba(155, 227, 222, 0.08)' : 'rgba(255, 227, 237, 0.18)');
+            ctx.strokeStyle = isFocal ? '#FF8EB2' : (isDark ? '#334155' : '#cbd5e1');
+            ctx.lineWidth = 2;
             ctx.setLineDash([8, 6]);
             ctx.beginPath();
-            ctx.roundRect(110, 204, 700, 300, 18);
+            ctx.roundRect(20, dropY, w - 40, 280, 20);
+            ctx.fill();
+            ctx.stroke();
+            ctx.setLineDash([]); // Reset dash
+
+            // Upload Camera Icon
+            ctx.fillStyle = isFocal ? '#0f766e' : (isDark ? '#64748b' : '#94a3b8');
+            ctx.font = '42px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(isFocal ? '🌸' : '📱', w / 2, dropY + 85);
+
+            ctx.fillStyle = isDark ? '#f8fafc' : '#0f172a';
+            ctx.font = 'bold 20px sans-serif';
+            ctx.fillText(`Slot #${index + 1}: Siap Diisi Foto HP`, w / 2, dropY + 130);
+
+            ctx.fillStyle = isDark ? '#94a3b8' : '#64748b';
+            ctx.font = '14px sans-serif';
+            ctx.fillText('Ketuk atau tarik screenshot 9:16 ke sini', w / 2, dropY + 165);
+
+            ctx.fillStyle = isFocal ? '#83264e' : (isDark ? '#38bdf8' : '#0f766e');
+            ctx.font = 'bold 13px ui-monospace, monospace';
+            ctx.fillText('FORMAT: JPG / PNG / WEBP', w / 2, dropY + 205);
+            ctx.textAlign = 'left';
+
+            // Bottom List Skeletons
+            const listY = dropY + 300;
+            for (let i = 0; i < 3; i++) {
+                const itemY = listY + i * 62;
+                if (itemY + 50 > h - 40) break;
+                ctx.fillStyle = isDark ? '#161f30' : '#ffffff';
+                ctx.beginPath();
+                ctx.roundRect(20, itemY, w - 40, 52, 12);
+                ctx.fill();
+                ctx.strokeStyle = isDark ? '#1e293b' : '#f1f5f9';
+                ctx.stroke();
+
+                ctx.fillStyle = isDark ? '#334155' : '#e2e8f0';
+                ctx.beginPath();
+                ctx.roundRect(36, itemY + 14, 24, 24, 6);
+                ctx.roundRect(72, itemY + 18, 180, 16, 5);
+                ctx.fill();
+            }
+
+            // Bottom Nav Bar
+            ctx.fillStyle = isDark ? '#1e293b' : '#cbd5e1';
+            ctx.beginPath();
+            ctx.roundRect((w - 140) / 2, h - 18, 140, 5, 3);
+            ctx.fill();
+
+        } else {
+            // ==========================================
+            // LANDSCAPE WIREFRAME CARD (920 x 580)
+            // ==========================================
+            // Header Bar
+            const headerH = 64;
+            ctx.fillStyle = isFocal ? '#FFE3ED' : (isDark ? '#161f30' : (index % 3 === 0 ? '#FFE3ED' : (index % 3 === 1 ? '#9BE3DE' : '#BEEBE9')));
+            ctx.fillRect(0, 0, w, headerH);
+
+            ctx.strokeStyle = isFocal ? '#FFB8D2' : (isDark ? '#1e293b' : '#e2e8f0');
+            ctx.lineWidth = isFocal ? 2.5 : 1;
+            ctx.beginPath();
+            ctx.moveTo(0, headerH);
+            ctx.lineTo(w, headerH);
+            ctx.stroke();
+
+            // Header Icon / Title
+            ctx.fillStyle = isFocal ? '#0f172a' : (isDark ? '#f8fafc' : '#0f172a');
+            ctx.font = 'bold 20px sans-serif';
+            ctx.fillText(isFocal ? `🌸 SLOT #${index + 1} (FOKUS UTAMA)` : `SLOT #${index + 1}`, 32, 40);
+
+            // Right header status badge
+            ctx.fillStyle = isFocal ? '#9BE3DE' : (isDark ? '#1e293b' : '#f1f5f9');
+            ctx.beginPath();
+            ctx.roundRect(w - 190, 16, 158, 32, 8);
+            ctx.fill();
+            ctx.fillStyle = isFocal ? '#044343' : (isDark ? '#94a3b8' : '#64748b');
+            ctx.font = 'bold 12px ui-monospace, monospace';
+            ctx.fillText(isFocal ? '🌸 FOKUS HERO' : 'SIAP UNGGAH', w - 170, 37);
+
+            // 3 Top Metric Skeleton Cards
+            const metricY = 88;
+            const metricW = 268;
+            const metricH = 92;
+            const metricGap = 20;
+            for (let i = 0; i < 3; i++) {
+                const mx = 32 + i * (metricW + metricGap);
+                ctx.fillStyle = isDark ? '#131b2a' : '#ffffff';
+                ctx.beginPath();
+                ctx.roundRect(mx, metricY, metricW, metricH, 12);
+                ctx.fill();
+                ctx.strokeStyle = isDark ? '#1e293b' : '#e2e8f0';
+                ctx.stroke();
+
+                // Skeleton bars inside metric
+                ctx.fillStyle = isFocal && i === 0 ? 'rgba(155, 227, 222, 0.5)' : (isDark ? '#334155' : '#e2e8f0');
+                ctx.beginPath();
+                ctx.roundRect(mx + 16, metricY + 16, 32, 32, 8);
+                ctx.fill();
+
+                ctx.fillStyle = isDark ? '#243247' : '#f1f5f9';
+                ctx.beginPath();
+                ctx.roundRect(mx + 60, metricY + 20, 110, 14, 4);
+                ctx.roundRect(mx + 60, metricY + 44, 70, 18, 5);
+                ctx.fill();
+            }
+
+            // Center Dropzone Invitation Box
+            const boxY = 202;
+            const boxW = w - 64;
+            const boxH = 220;
+            ctx.fillStyle = isFocal ? 'rgba(255, 227, 237, 0.55)' : (isDark ? '#0d131f' : '#ffffff');
+            ctx.strokeStyle = isFocal ? '#FF8EB2' : (isDark ? '#334155' : '#cbd5e1');
+            ctx.lineWidth = 2;
+            ctx.setLineDash([8, 6]);
+            ctx.beginPath();
+            ctx.roundRect(32, boxY, boxW, boxH, 16);
             ctx.fill();
             ctx.stroke();
             ctx.setLineDash([]);
 
-            ctx.fillStyle = '#06b6d4';
-            ctx.beginPath();
-            ctx.arc(460, 322, 28, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 17px sans-serif';
-            ctx.fillText('Click or drag image to upload', 460, 386);
-            ctx.textAlign = 'left';
-        } else {
-            // Sign In Card
+            // Center text and icon inside dropzone
             ctx.textAlign = 'center';
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 34px sans-serif';
-            ctx.fillText('Sign in to EcoVision AI', 460, 148);
+            ctx.fillStyle = isFocal ? '#0f766e' : (isDark ? '#64748b' : '#94a3b8');
+            ctx.font = '40px sans-serif';
+            ctx.fillText(isFocal ? '🌸' : '📷', w / 2, boxY + 70);
 
-            ctx.fillStyle = '#111820';
-            ctx.strokeStyle = 'rgba(255,255,255,0.09)';
+            ctx.fillStyle = isDark ? '#f8fafc' : '#0f172a';
+            ctx.font = 'bold 22px sans-serif';
+            ctx.fillText(`Slot #${index + 1}: Siap Diisi Screenshot Anda`, w / 2, boxY + 115);
+
+            ctx.fillStyle = isDark ? '#94a3b8' : '#64748b';
+            ctx.font = '15px sans-serif';
+            ctx.fillText('Tarik gambar ke layar atau klik slot ini untuk mengganti foto', w / 2, boxY + 148);
+
+            ctx.fillStyle = isFocal ? '#83264e' : (isDark ? '#38bdf8' : '#0f766e');
+            ctx.font = 'bold 12.5px ui-monospace, monospace';
+            ctx.fillText('PRESET WIREFRAME BERSIH • RASIO 16:9 • 1:1 RESOLUSI ASLI', w / 2, boxY + 182);
+            ctx.textAlign = 'left';
+
+            // Bottom Skeleton Table Rows
+            const tableY = boxY + boxH + 20;
+            ctx.fillStyle = isDark ? '#161f30' : '#ffffff';
             ctx.beginPath();
-            ctx.roundRect(236, 186, 448, 310, 16);
+            ctx.roundRect(32, tableY, boxW, 110, 12);
             ctx.fill();
+            ctx.strokeStyle = isDark ? '#1e293b' : '#e2e8f0';
             ctx.stroke();
 
-            ctx.fillStyle = '#0b0f14';
-            ctx.beginPath();
-            ctx.roundRect(272, 234, 376, 46, 10);
-            ctx.roundRect(272, 304, 376, 46, 10);
-            ctx.fill();
-
-            const grad = ctx.createLinearGradient(272, 380, 648, 428);
-            grad.addColorStop(0, '#10b981');
-            grad.addColorStop(1, '#06b6d4');
-            ctx.fillStyle = grad;
-            ctx.beginPath();
-            ctx.roundRect(272, 380, 376, 48, 24);
-            ctx.fill();
-
-            ctx.fillStyle = '#041318';
-            ctx.font = 'bold 15px sans-serif';
-            ctx.fillText('Sign In', 460, 410);
-            ctx.textAlign = 'left';
+            for (let r = 0; r < 2; r++) {
+                const ry = tableY + 20 + r * 42;
+                ctx.fillStyle = isDark ? '#243247' : '#f1f5f9';
+                ctx.beginPath();
+                ctx.roundRect(50, ry, 160, 14, 4);
+                ctx.roundRect(240, ry, 280, 14, 4);
+                ctx.roundRect(560, ry, 140, 14, 4);
+                ctx.roundRect(740, ry, 110, 14, 4);
+                ctx.fill();
+            }
         }
+
         return c;
     }
 }
-
-window.DemoGenerator = DemoGenerator;
-window.ReferenceDemoGenerator = DemoGenerator;

@@ -11,21 +11,23 @@
 
   <style>
     :root {
-      --bg-primary: #f1f5f9;
+      --bg-primary: #FFFDF9;
       --bg-secondary: #ffffff;
-      --bg-canvas: #cfd2d6;
-      --bg-glass: rgba(255, 255, 255, 0.94);
-      --border-glass: #e2e8f0;
-      --accent-primary: #10b981;
-      --accent-hover: #059669;
-      --accent-emerald: #10b981;
-    --accent-volt: #d2ff00;
+      --bg-canvas: #d7eae6;
+      --bg-glass: rgba(255, 253, 249, 0.94);
+      --border-glass: #e2edea;
+      --accent-primary: #9BE3DE;
+      --accent-hover: #7fd6d0;
+      --accent-dark: #0f766e;
+      --accent-mint: #9BE3DE;
+      --accent-pink: #FFE3ED;
+      --accent-ice: #BEEBE9;
       --text-main: #0f172a;
       --text-muted: #475569;
       --text-dim: #94a3b8;
       --radius-lg: 16px;
       --radius-md: 10px;
-      --shadow-panel: 0 10px 35px -10px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0, 0, 0, 0.08);
+      --shadow-panel: 0 10px 35px -10px rgba(155, 227, 222, 0.25), 0 0 1px rgba(0, 0, 0, 0.08);
     }
 
     * {
@@ -124,519 +126,11 @@
     }
 
     .btn-pill.active {
-      background: rgba(37, 99, 235, 0.1);
-      color: var(--accent-primary);
-      border-color: rgba(37, 99, 235, 0.4);
+      background: #FFE3ED;
+      color: #9d174d;
+      border: 1.5px solid #FFB8D2;
       font-weight: 700;
-    }
-
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .btn-primary {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 8px 18px;
-      border-radius: 9px;
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      color: #ffffff;
-      font-size: 13px;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 3px 12px rgba(37, 99, 235, 0.28);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 5px 16px rgba(37, 99, 235, 0.4);
-    }
-
-    /* Main Workspace */
-    .main-content {
-      flex: 1;
-      position: relative;
-      display: flex;
-      overflow: hidden;
-      background: var(--bg-canvas);
-      transition: background 0.25s ease;
-    }
-
-    .canvas-viewport {
-      flex: 1;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-      position: relative;
-      overflow: hidden;
-      user-select: none;
-    }
-
-    #mockup-canvas {
-      max-width: 96%;
-      max-height: 92%;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      border-radius: 14px;
-      box-shadow: 0 25px 65px rgba(15, 23, 42, 0.24), 0 0 0 1px rgba(15, 23, 42, 0.08);
-      display: block;
-    }
-
-    /* Bottom Floating HUD */
-    .hud-status {
-      position: absolute;
-      bottom: 22px;
-      left: 22px;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      padding: 6px 12px;
-      border-radius: 30px;
-      border: 1px solid var(--border-glass);
-      font-size: 12px;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-      z-index: 20;
-      flex-wrap: wrap;
-    }
-
-    .hud-badge {
-      background: rgba(37, 99, 235, 0.08);
-      color: var(--accent-primary);
-      border: 1px solid rgba(37, 99, 235, 0.2);
-      padding: 2px 8px;
-      border-radius: 6px;
-      font-size: 11px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .hud-btn {
-      background: #f8fafc;
-      color: var(--text-main);
-      border: 1px solid #cbd5e1;
-      padding: 4px 10px;
-      border-radius: 14px;
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .hud-btn:hover {
-      background: #eff6ff;
-      border-color: var(--accent-primary);
-      color: var(--accent-primary);
-    }
-
-    /* Sidebar Toggle */
-    .sidebar-toggle-btn {
-      position: absolute;
-      top: 14px;
-      right: 16px;
-      width: 38px;
-      height: 38px;
-      border-radius: 9px;
-      background: #ffffff;
-      border: 1px solid var(--border-glass);
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 45;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
-    }
-
-    /* Sidebar */
-    .sidebar {
-      width: 400px;
-      height: calc(100% - 24px);
-      margin: 12px 16px 12px 0;
-      background: #ffffff;
-      border: 1px solid var(--border-glass);
-      border-radius: var(--radius-lg);
-      display: flex;
-      flex-direction: column;
-      box-shadow: var(--shadow-panel);
-      z-index: 40;
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), margin 0.3s ease;
-    }
-
-    .sidebar.collapsed {
-      transform: translateX(calc(100% + 24px));
-      margin-right: -400px;
-    }
-
-    .sidebar-header {
-      padding: 15px 20px;
-      border-bottom: 1px solid var(--border-glass);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .tab-content {
-      flex: 1;
-      overflow-y: auto;
-      padding: 16px 20px;
-    }
-
-    .tab-content::-webkit-scrollbar {
-      width: 5px;
-    }
-    .tab-content::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 4px;
-    }
-
-    .section {
-      margin-bottom: 18px;
-    }
-
-    .section-title {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.7px;
-      color: var(--text-muted);
-      font-weight: 700;
-      margin-bottom: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .upload-actions-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .btn-upload-choice {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      padding: 13px 10px;
-      background: #f8fafc;
-      border: 1.5px dashed rgba(37, 99, 235, 0.32);
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .btn-upload-choice:hover {
-      background: rgba(37, 99, 235, 0.05);
-      border-color: var(--accent-primary);
-      transform: translateY(-1px);
-    }
-
-    .upload-icon {
-      font-size: 21px;
-    }
-
-    .upload-choice-title {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-main);
-    }
-
-    .upload-choice-sub {
-      font-size: 10px;
-      color: var(--text-dim);
-    }
-
-    .dropzone {
-      border: 1.5px dashed rgba(37, 99, 235, 0.32);
-      background: #f8fafc;
-      border-radius: var(--radius-md);
-      padding: 14px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .dropzone:hover, .dropzone.dragover {
-      border-color: var(--accent-primary);
-      background: rgba(37, 99, 235, 0.05);
-    }
-
-    .dropzone-title {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-top: 4px;
-    }
-
-    .dropzone-sub {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    /* 2-3-2 Mobile Portrait Navigator (3 Columns: 2 Left, 3 Center, 2 Right) */
-    .slot-navigator-cols {
-      background: #f8fafc;
-      border: 1px solid var(--border-glass);
-      border-radius: var(--radius-md);
-      padding: 14px 12px;
-      display: grid;
-      grid-template-columns: 1fr 1.15fr 1fr;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .slot-col {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .slot-card {
-      width: 100%;
-      height: 76px;
-      background: #ffffff;
-      border: 1.5px solid var(--border-glass);
-      border-radius: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
-    }
-
-    .slot-card:hover {
-      border-color: var(--accent-primary);
-      background: rgba(37, 99, 235, 0.06);
-      transform: translateY(-2px);
-    }
-
-    .slot-card.center-focus {
-      height: 90px;
-      border: 2px solid var(--accent-primary);
-      background: #eff6ff;
-      box-shadow: 0 6px 14px rgba(37, 99, 235, 0.18);
-    }
-
-    .slot-card.has-image {
-      border-color: var(--accent-emerald);
-    }
-
-    .slot-thumb {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0.85;
-      display: none;
-      pointer-events: none;
-    }
-
-    .slot-card.has-image .slot-thumb {
-      display: block;
-    }
-
-    .slot-number {
-      font-size: 11px;
-      font-weight: 700;
-      color: #0f172a;
-      z-index: 2;
-      background: rgba(255, 255, 255, 0.9);
-      padding: 2px 6px;
-      border-radius: 5px;
-      pointer-events: none;
-    }
-
-    .slot-tag {
-      font-size: 9px;
-      color: var(--text-muted);
-      z-index: 2;
-      margin-top: 3px;
-      background: rgba(255, 255, 255, 0.85);
-      padding: 1px 5px;
-      border-radius: 4px;
-      pointer-events: none;
-    }
-
-    .preset-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-    }
-
-    .btn-preset {
-      padding: 9px 11px;
-      background: #ffffff;
-      border: 1px solid var(--border-glass);
-      border-radius: 8px;
-      color: var(--text-muted);
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      transition: all 0.2s;
-    }
-
-    .btn-preset:hover {
-      background: #f8fafc;
-      color: var(--text-main);
-      border-color: #cbd5e1;
-    }
-
-    /* Modals */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.45);
-      backdrop-filter: blur(5px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-    }
-
-    .modal-overlay.open {
-      display: flex;
-    }
-
-    .modal-card {
-      width: 450px;
-      max-width: 92%;
-      background: #ffffff;
-      border: 1px solid var(--border-glass);
-      border-radius: var(--radius-lg);
-      padding: 22px;
-      box-shadow: 0 25px 60px rgba(15, 23, 42, 0.2);
-    }
-
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-    }
-
-    .modal-title {
-      font-size: 17px;
-      font-weight: 700;
-    }
-
-    .modal-close {
-      background: transparent;
-      border: none;
-      color: var(--text-dim);
-      font-size: 22px;
-      cursor: pointer;
-    }
-
-    .export-res-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-
-    .res-card {
-      border: 1.5px solid var(--border-glass);
-      background: #f8fafc;
-      border-radius: 10px;
-      padding: 12px;
-      cursor: pointer;
-    }
-
-    .res-card.active {
-      border-color: var(--accent-primary);
-      background: rgba(37, 99, 235, 0.06);
-    }
-
-    .res-title {
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .res-sub {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: #ffffff;
-      border: 1px solid #93c5fd;
-      padding: 12px 18px;
-      border-radius: 10px;
-      color: var(--text-main);
-      font-size: 13px;
-      font-weight: 600;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      z-index: 200;
-      transform: translateY(100px);
-      opacity: 0;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    .mobile-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.35);
-      z-index: 38;
-    }
-
-    .mobile-backdrop.open {
-      display: block;
-    }
-
-    .mobile-fab {
-      display: none;
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: 12px 20px;
-      border-radius: 30px;
-      background: var(--accent-primary);
-      color: #ffffff;
-      font-size: 14px;
-      font-weight: 700;
-      border: none;
-      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      z-index: 39;
+      box-shadow: 0 2px 10px rgba(255, 184, 210, 0.4);
     }
 
     /* ============================================================
@@ -825,8 +319,7 @@
         justify-content: center !important;
         gap: 8px !important;
         border-radius: 14px !important;
-        background: var(--accent-primary) !important;
-        color: #ffffff !important;
+        background: var(--accent-primary) !important; color: #0f172a !important; font-weight: 700;
         font-size: 13.5px !important;
         font-weight: 700 !important;
         border: none !important;
@@ -1041,14 +534,14 @@
 
     <!-- Center Theme Toggles -->
     <div class="topbar-center">
-      <button id="btn-theme-indigo" class="btn-pill active" title="Tema Referensi Indigo Mobile">
-        <span>📱 Reference Indigo</span>
+      <button id="btn-theme-light" class="btn-pill active" title="Tema Light Mode (Wireframe Bersih)">
+        <span>🌸 Pastel Light</span>
       </button>
-      <button id="btn-theme-light" class="btn-pill" title="Tema Light SOPAN Mobile">
-        <span>☀️ Light SOPAN</span>
+      <button id="btn-theme-dark" class="btn-pill" title="Tema Dark Mode (Wireframe Sinematik)">
+        <span>🌙 Wireframe Dark</span>
       </button>
-      <button id="btn-theme-dark" class="btn-pill" title="Tema Dark EcoVision Mobile">
-        <span>🌙 Dark EcoVision</span>
+      <button id="btn-theme-indigo" class="btn-pill" title="Tema Referensi Indigo Mobile">
+        <span>📱 Studio Slate</span>
       </button>
     </div>
 
@@ -1196,11 +689,11 @@
         <div class="section">
           <div class="section-title">Aksi & Tema Demo</div>
           <div class="preset-grid">
-            <button id="btn-load-indigo-demo" class="btn-preset">
-              <span>📱 Demo Referensi</span>
-            </button>
             <button id="btn-load-light-demo" class="btn-preset">
-              <span>☀️ Demo SOPAN App</span>
+              <span>🌸 Pastel Light</span>
+            </button>
+            <button id="btn-load-dark-demo" class="btn-preset">
+              <span>🌙 Wireframe Dark</span>
             </button>
             <button id="btn-duplicate-remaining" class="btn-preset">
               <span>📋 Isi Slot Kosong</span>
@@ -1317,448 +810,269 @@
      * 1. GENERATOR LAYAR DEMO MOBILE PORTRAIT (500 x 1060 - Rasio Modern iPhone 9:19)
      */
     class DemoGenerator {
-      static generateSet(theme = 'indigo') {
+      static generateSet(theme = 'light', isMobile = false) {
         const cards = [];
-        for (let i = 0; i < TOTAL_SLOTS; i++) {
-          if (theme === 'indigo') {
-            cards.push(this.createIndigoRefCard(i));
-          } else if (theme === 'light') {
-            cards.push(this.createLightSopanMobile(i));
-          } else {
-            cards.push(this.createDarkEcoMobile(i));
-          }
+        const count = typeof TOTAL_SLOTS !== 'undefined' ? TOTAL_SLOTS : 12;
+        for (let i = 0; i < count; i++) {
+          cards.push(this.createPlaceholderCard(i, theme, count, isMobile));
         }
         return cards;
       }
 
-      /**
-       * Tema 1: Persis Foto Referensi (Slate Indigo Mobile + Checkerboard Placeholders)
-       */
-      static createIndigoRefCard(index) {
-        const w = 500, h = 1060;
+      static createLightCard(index, count = 12, isMobile = false) {
+        return this.createPlaceholderCard(index, 'light', count, isMobile);
+      }
+
+      static createDarkCard(index, count = 12, isMobile = false) {
+        return this.createPlaceholderCard(index, 'dark', count, isMobile);
+      }
+
+      static createPlaceholderCard(index, theme = 'light', count = 12, isMobile = false) {
         const c = document.createElement('canvas');
+        const w = isMobile ? 540 : 920;
+        const h = isMobile ? 1100 : 580;
         c.width = w;
         c.height = h;
         const ctx = c.getContext('2d');
 
-        // Slot #1 (Kiri Atas, index 0) & Slot #7 (Kanan Bawah, index 6): Frosted Checkerboard Placeholder
-        if (index === 0 || index === 6) {
-          ctx.fillStyle = '#e4e6eb';
-          ctx.fillRect(0, 0, w, h);
+        const isDark = theme === 'dark' || theme === 'ecovision';
+        const isFocal = (count === 12 && (index === 5 || index === 6)) ||
+                        (count === 9 && index === 4) ||
+                        (count === 7 && index === 3);
 
-          const tile = 50;
-          for (let y = 0; y < h; y += tile) {
-            for (let x = 0; x < w; x += tile) {
-              if (((x / tile) + (y / tile)) % 2 === 0) {
-                ctx.fillStyle = '#d5d8de';
-                ctx.fillRect(x, y, tile, tile);
-              }
+        // 1. Surface Background (Kotak Putih Abu Bersih)
+        ctx.fillStyle = isDark ? '#0b0f17' : '#f8fafc';
+        ctx.fillRect(0, 0, w, h);
+
+        // 2. Subtle Checkerboard / Grid Tile Pattern
+        ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.02)' : 'rgba(15, 23, 42, 0.025)';
+        const tileSize = isMobile ? 24 : 32;
+        for (let y = 0; y < h; y += tileSize) {
+          for (let x = 0; x < w; x += tileSize) {
+            if (((x / tileSize) + (y / tileSize)) % 2 === 0) {
+              ctx.fillRect(x, y, tileSize, tileSize);
             }
           }
-
-          // Notch / Speaker Pill Cutout di atas seperti referensi
-          ctx.fillStyle = '#c8ccd2';
-          ctx.strokeStyle = 'rgba(255,255,255,0.8)';
-          ctx.lineWidth = 2;
-          ctx.beginPath();
-          ctx.roundRect(w / 2 - 68, 28, 136, 36, 18);
-          ctx.fill();
-          ctx.stroke();
-
-          return c;
         }
 
-        // Latar utama Slate-Indigo seperti foto referensi
-        const bgGrad = ctx.createLinearGradient(0, 0, w, h);
-        bgGrad.addColorStop(0, '#444b6e');
-        bgGrad.addColorStop(1, '#2b314d');
-        ctx.fillStyle = bgGrad;
-        ctx.fillRect(0, 0, w, h);
+        // Outer Card Border
+        ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(1, 1, w - 2, h - 2);
 
-        // Slot #4 ★ HERO (index 3): "Mobile App Screen Mockup" + Pita Hijau Tosca
-        if (index === 3) {
-          // Pita melengkung hijau tosca (Teal Ribbon Loop) dari atas tengah
-          ctx.save();
-          ctx.strokeStyle = '#6ec6c2';
-          ctx.lineWidth = 22;
-          ctx.lineCap = 'round';
+        if (isMobile) {
+          // ==========================================
+          // SMARTPHONE PORTRAIT WIREFRAME (540 x 1100)
+          // ==========================================
+          // Dynamic Island Notch
+          ctx.fillStyle = isDark ? '#1e293b' : '#e2e8f0';
           ctx.beginPath();
-          ctx.moveTo(235, -10);
-          ctx.bezierCurveTo(240, 180, 255, 360, 315, 360);
-          ctx.bezierCurveTo(360, 360, 360, 275, 312, 275);
-          ctx.bezierCurveTo(265, 275, 290, 410, 345, 485);
-          ctx.stroke();
-          ctx.restore();
-
-          // Teks Hero Utama
-          ctx.fillStyle = '#e2e8f0';
-          ctx.font = '500 64px sans-serif';
-          ctx.fillText('Mobile', 64, 590);
-          ctx.fillText('App', 64, 662);
-          ctx.fillText('Screen', 64, 734);
-          ctx.fillText('Mockup', 64, 806);
-
-          ctx.fillStyle = '#94a3b8';
-          ctx.font = '500 26px sans-serif';
-          ctx.fillText('Great design, faster', 64, 868);
-
-          // Pill "High Quality"
-          ctx.strokeStyle = 'rgba(226, 232, 240, 0.45)';
-          ctx.lineWidth = 2;
-          ctx.beginPath();
-          ctx.roundRect(160, 920, 180, 48, 24);
-          ctx.stroke();
-          ctx.fillStyle = '#cbd5e1';
-          ctx.font = '600 20px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.fillText('High Quality', 250, 951);
-          ctx.textAlign = 'left';
-
-          return c;
-        }
-
-        // Status Bar iOS + Dynamic Island untuk layar aplikasi sekitar
-        this.drawStatusBar(ctx, w, true);
-
-        // Slot #2 (Kiri Bawah, index 1): "What do you need assistance with?"
-        if (index === 1) {
-          ctx.fillStyle = '#94a3b8';
-          ctx.font = '600 18px sans-serif';
-          ctx.fillText('‹ Back', 34, 118);
-          ctx.textAlign = 'center';
-          ctx.fillStyle = '#cbd5e1';
-          ctx.fillText('Roadside Assistance', w / 2, 118);
-          ctx.textAlign = 'left';
-
-          ctx.fillStyle = '#ef4444';
-          ctx.beginPath();
-          ctx.roundRect(w - 96, 94, 64, 34, 10);
+          ctx.roundRect((w - 120) / 2, 16, 120, 24, 12);
           ctx.fill();
-          ctx.fillStyle = '#ffffff';
-          ctx.font = 'bold 16px sans-serif';
-          ctx.fillText('End', w - 79, 117);
 
-          ctx.textAlign = 'center';
-          ctx.fillStyle = '#ffffff';
-          ctx.font = 'bold 34px sans-serif';
-          ctx.fillText('What do you need', w / 2, 230);
-          ctx.fillText('assistance with?', w / 2, 274);
-
-          const buttons = ['Locked Out', 'No Fuel or Charge', 'Flat Tire', 'Won\'t Start', 'Vehicle Stuck'];
-          buttons.forEach((label, idx) => {
-            const by = 350 + idx * 102;
-            ctx.fillStyle = '#e5e7eb';
-            ctx.beginPath();
-            ctx.roundRect(42, by, w - 84, 80, 22);
-            ctx.fill();
-
-            ctx.fillStyle = '#1e293b';
-            ctx.font = 'bold 22px sans-serif';
-            ctx.fillText(label, w / 2, by + 48);
-          });
-          ctx.textAlign = 'left';
-        }
-        // Slot #3 (Tengah Atas, index 2): Bottom Action X & Chat Bubble
-        else if (index === 2) {
-          ctx.strokeStyle = 'rgba(255,255,255,0.12)';
-          ctx.lineWidth = 2;
+          // Status Bar
+          ctx.fillStyle = isDark ? '#475569' : '#94a3b8';
+          ctx.font = 'bold 14px ui-monospace, monospace';
+          ctx.fillText('9:41', 28, 34);
           ctx.beginPath();
-          ctx.arc(w / 2, 460, 120, 0, Math.PI * 2);
+          ctx.roundRect(w - 60, 20, 32, 14, 4);
+          ctx.fill();
+
+          // App Topbar
+          const topBarY = 56;
+          ctx.fillStyle = isFocal ? '#FFE3ED' : (isDark ? '#1e293b' : (index % 3 === 0 ? '#FFE3ED' : (index % 3 === 1 ? '#9BE3DE' : '#BEEBE9')));
+          ctx.beginPath();
+          ctx.roundRect(20, topBarY, w - 40, 58, 14);
+          ctx.fill();
+          ctx.strokeStyle = isFocal ? '#FFB8D2' : (isDark ? '#334155' : '#e2e8f0');
+          ctx.lineWidth = isFocal ? 2 : 1;
           ctx.stroke();
 
-          // Tombol Bulat X (Kiri Bawah) & Chat (Kanan Bawah) persis referensi
-          ctx.fillStyle = 'rgba(255,255,255,0.18)';
-          ctx.beginPath();
-          ctx.arc(96, h - 110, 38, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.beginPath();
-          ctx.arc(w - 96, h - 110, 38, 0, Math.PI * 2);
-          ctx.fill();
-
-          ctx.fillStyle = '#ffffff';
-          ctx.font = 'bold 26px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.fillText('✕', 96, h - 101);
-          ctx.fillText('💬', w - 96, h - 101);
-          ctx.textAlign = 'left';
-        }
-        // Slot #5 (Tengah Bawah, index 4): "Finding Karol Carey"
-        else if (index === 4) {
-          ctx.fillStyle = '#94a3b8';
-          ctx.font = '500 22px sans-serif';
-          ctx.fillText('Finding', 44, 150);
-          ctx.fillStyle = '#ffffff';
-          ctx.font = 'bold 42px sans-serif';
-          ctx.fillText('Karol Carey', 44, 200);
-
-          // Radar circles
-          ctx.strokeStyle = 'rgba(110, 198, 194, 0.25)';
-          ctx.lineWidth = 3;
-          ctx.beginPath();
-          ctx.arc(w / 2, 560, 160, 0, Math.PI * 2);
-          ctx.stroke();
-          ctx.beginPath();
-          ctx.arc(w / 2, 560, 95, 0, Math.PI * 2);
-          ctx.stroke();
-        }
-        // Slot #6 (Kanan Atas, index 5): "...Vehicle Stuck / Other Issue"
-        else if (index === 5) {
-          ctx.textAlign = 'center';
-          const opts = ['Flat Tire', 'Won\'t Start', 'Vehicle Tow', 'Vehicle Stuck'];
-          opts.forEach((label, idx) => {
-            const by = 380 + idx * 102;
-            ctx.fillStyle = '#e5e7eb';
-            ctx.beginPath();
-            ctx.roundRect(42, by, w - 84, 80, 22);
-            ctx.fill();
-
-            ctx.fillStyle = '#1e293b';
-            ctx.font = 'bold 22px sans-serif';
-            ctx.fillText(label, w / 2, by + 48);
-          });
-
-          ctx.fillStyle = '#94a3b8';
-          ctx.font = '500 20px sans-serif';
-          ctx.fillText('Other Issue', w / 2, 855);
-          ctx.textAlign = 'left';
-        }
-
-        // Home Indicator Bar di bawah layar
-        this.drawHomeIndicator(ctx, w, h, true);
-        return c;
-      }
-
-      /**
-       * Tema 2: Light Mode SOPAN Mobile App
-       */
-      static createLightSopanMobile(index) {
-        const w = 500, h = 1060;
-        const c = document.createElement('canvas');
-        c.width = w;
-        c.height = h;
-        const ctx = c.getContext('2d');
-
-        ctx.fillStyle = '#f8fafc';
-        ctx.fillRect(0, 0, w, h);
-
-        if (index === 3) {
-          // Hero Phone (#4 ★): SOPAN Mobile Splash / Home Hero
-          const grad = ctx.createLinearGradient(0, 0, w, h);
-          grad.addColorStop(0, '#1e40af');
-          grad.addColorStop(0.5, '#2563eb');
-          grad.addColorStop(1, '#1d4ed8');
-          ctx.fillStyle = grad;
-          ctx.fillRect(0, 0, w, h);
-
-          this.drawStatusBar(ctx, w, true);
-
-          ctx.fillStyle = 'rgba(255,255,255,0.16)';
-          ctx.beginPath();
-          ctx.roundRect(52, 160, 160, 40, 20);
-          ctx.fill();
-          ctx.fillStyle = '#ffffff';
-          ctx.font = 'bold 16px sans-serif';
-          ctx.fillText('● SOPAN MOBILE', 72, 186);
-
-          ctx.font = 'bold 54px sans-serif';
-          ctx.fillText('Presensi', 52, 290);
-          ctx.fillText('Mengajar', 52, 354);
-          ctx.fillStyle = '#93c5fd';
-          ctx.fillText('Lebih Cepat.', 52, 418);
-
-          // Kartu Putih Mengambang di Dalam Layar
-          ctx.fillStyle = '#ffffff';
-          ctx.beginPath();
-          ctx.roundRect(42, 490, w - 84, 460, 32);
-          ctx.fill();
-
-          ctx.fillStyle = '#0f172a';
-          ctx.font = 'bold 24px sans-serif';
-          ctx.fillText('Ringkasan Hari Ini', 74, 548);
-
-          const items = [
-            { label: 'Total Guru Hadir', val: '97 Guru', col: '#2563eb' },
-            { label: 'Rombel Aktif KBM', val: '54 Kelas', col: '#10b981' },
-            { label: 'Siswa Terdata', val: '1.994 Siswa', col: '#8b5cf6' }
-          ];
-          items.forEach((it, i) => {
-            const iy = 584 + i * 108;
-            ctx.fillStyle = '#f1f5f9';
-            ctx.beginPath();
-            ctx.roundRect(72, iy, w - 144, 88, 18);
-            ctx.fill();
-
-            ctx.fillStyle = '#64748b';
-            ctx.font = '600 16px sans-serif';
-            ctx.fillText(it.label, 98, iy + 36);
-
-            ctx.fillStyle = it.col;
-            ctx.font = 'bold 26px sans-serif';
-            ctx.fillText(it.val, 98, iy + 70);
-          });
-
-          this.drawHomeIndicator(ctx, w, h, true);
-          return c;
-        }
-
-        this.drawStatusBar(ctx, w, false);
-
-        // Header App
-        ctx.fillStyle = '#0f172a';
-        ctx.font = 'bold 26px sans-serif';
-        ctx.fillText(index % 2 === 0 ? 'Jadwal Mengajar' : 'Daftar Presensi Guru', 36, 128);
-
-        // Banner Biru
-        ctx.fillStyle = '#2563eb';
-        ctx.beginPath();
-        ctx.roundRect(36, 158, w - 72, 148, 24);
-        ctx.fill();
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 24px sans-serif';
-        ctx.fillText('SMKN 1 Ciamis', 64, 212);
-        ctx.fillStyle = '#bfdbfe';
-        ctx.font = '17px sans-serif';
-        ctx.fillText('Semester Genap • 2025/2026', 64, 246);
-
-        // List Cards
-        for (let r = 0; r < 5; r++) {
-          const ry = 336 + r * 124;
-          ctx.fillStyle = '#ffffff';
-          ctx.strokeStyle = '#e2e8f0';
-          ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          ctx.roundRect(36, ry, w - 72, 104, 20);
-          ctx.fill();
-          ctx.stroke();
-
-          ctx.fillStyle = '#eff6ff';
-          ctx.beginPath();
-          ctx.arc(84, ry + 52, 24, 0, Math.PI * 2);
-          ctx.fill();
-
-          ctx.fillStyle = '#0f172a';
+          ctx.fillStyle = isFocal ? '#0f172a' : (isDark ? '#f8fafc' : '#0f172a');
           ctx.font = 'bold 18px sans-serif';
-          ctx.fillText(`XII PPLG ${r + 1} • Pemrograman Web`, 126, ry + 46);
-          ctx.fillStyle = '#64748b';
-          ctx.font = '15px sans-serif';
-          ctx.fillText('07:30 - 09:45 WIB • Ruang Lab RPS', 126, ry + 74);
-        }
+          ctx.fillText(isFocal ? `🌸 SLOT #${index + 1} (FOKUS UTAMA)` : `SLOT #${index + 1}`, 38, topBarY + 36);
 
-        this.drawHomeIndicator(ctx, w, h, false);
-        return c;
-      }
-
-      /**
-       * Tema 3: Dark Mode EcoVision AI Mobile App
-       */
-      static createDarkEcoMobile(index) {
-        const w = 500, h = 1060;
-        const c = document.createElement('canvas');
-        c.width = w;
-        c.height = h;
-        const ctx = c.getContext('2d');
-
-        ctx.fillStyle = '#090d12';
-        ctx.fillRect(0, 0, w, h);
-        this.drawStatusBar(ctx, w, true);
-
-        if (index === 3) {
-          // Hero Phone (#4 ★)
-          ctx.fillStyle = 'rgba(16, 185, 129, 0.16)';
+          // Hero Area Skeleton
+          const heroY = topBarY + 74;
+          ctx.fillStyle = isDark ? '#161f30' : '#ffffff';
           ctx.beginPath();
-          ctx.roundRect(48, 140, 210, 38, 19);
+          ctx.roundRect(20, heroY, w - 40, 220, 18);
           ctx.fill();
-          ctx.fillStyle = '#10b981';
-          ctx.font = 'bold 15px sans-serif';
-          ctx.fillText('● ECOVISION AI APP', 68, 165);
-
-          ctx.fillStyle = '#ffffff';
-          ctx.font = 'bold 54px sans-serif';
-          ctx.fillText('Scan.', 48, 250);
-          ctx.fillText('Sort.', 48, 314);
-          ctx.fillStyle = '#06b6d4';
-          ctx.fillText('Recycle.', 48, 378);
-
-          // Scanner Viewfinder Box
-          ctx.fillStyle = '#111922';
-          ctx.strokeStyle = 'rgba(6, 182, 212, 0.45)';
-          ctx.lineWidth = 3;
-          ctx.beginPath();
-          ctx.roundRect(48, 430, w - 96, 420, 32);
-          ctx.fill();
+          ctx.strokeStyle = isDark ? '#334155' : '#e2e8f0';
           ctx.stroke();
 
-          ctx.strokeStyle = '#10b981';
+          ctx.fillStyle = isFocal ? 'rgba(16, 185, 129, 0.25)' : (isDark ? '#334155' : '#e2e8f0');
           ctx.beginPath();
-          ctx.arc(w / 2, 640, 110, 0, Math.PI * 2);
-          ctx.stroke();
-
-          // CTA Pill
-          const grad = ctx.createLinearGradient(48, 890, w - 48, 960);
-          grad.addColorStop(0, '#10b981');
-          grad.addColorStop(1, '#06b6d4');
-          ctx.fillStyle = grad;
-          ctx.beginPath();
-          ctx.roundRect(48, 890, w - 96, 74, 37);
+          ctx.roundRect(38, heroY + 24, w - 76, 28, 8);
           ctx.fill();
-          ctx.fillStyle = '#041318';
-          ctx.font = 'bold 22px sans-serif';
+          ctx.fillStyle = isDark ? '#243247' : '#f1f5f9';
+          ctx.beginPath();
+          ctx.roundRect(38, heroY + 68, (w - 76) * 0.7, 18, 6);
+          ctx.roundRect(38, heroY + 98, (w - 76) * 0.85, 18, 6);
+          ctx.fill();
+
+          // Center Call-To-Action Dropzone
+          const dropY = heroY + 240;
+          ctx.fillStyle = isDark ? 'rgba(16, 185, 129, 0.06)' : 'rgba(16, 185, 129, 0.04)';
+          ctx.strokeStyle = isFocal ? '#9BE3DE' : (isDark ? '#334155' : '#cbd5e1');
+          ctx.lineWidth = 2;
+          ctx.setLineDash([8, 6]);
+          ctx.beginPath();
+          ctx.roundRect(20, dropY, w - 40, 280, 20);
+          ctx.fill();
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          ctx.fillStyle = isFocal ? '#0f766e' : (isDark ? '#64748b' : '#94a3b8');
+          ctx.font = '42px sans-serif';
           ctx.textAlign = 'center';
-          ctx.fillText('Start AI Camera Scan →', w / 2, 935);
-          ctx.textAlign = 'left';
-        } else {
-          ctx.fillStyle = '#ffffff';
-          ctx.font = 'bold 28px sans-serif';
-          ctx.fillText('AI Waste Analytics', 40, 132);
+          ctx.fillText('📱', w / 2, dropY + 85);
 
-          for (let r = 0; r < 4; r++) {
-            const ry = 180 + r * 195;
-            ctx.fillStyle = '#121922';
-            ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+          ctx.fillStyle = isDark ? '#f8fafc' : '#0f172a';
+          ctx.font = 'bold 20px sans-serif';
+          ctx.fillText(`Slot #${index + 1}: Siap Diisi Foto HP`, w / 2, dropY + 130);
+
+          ctx.fillStyle = isDark ? '#94a3b8' : '#64748b';
+          ctx.font = '14px sans-serif';
+          ctx.fillText('Ketuk atau tarik screenshot 9:16 ke sini', w / 2, dropY + 165);
+
+          ctx.fillStyle = isFocal ? '#83264e' : (isDark ? '#38bdf8' : '#0f766e');
+          ctx.font = 'bold 13px ui-monospace, monospace';
+          ctx.fillText('FORMAT: JPG / PNG / WEBP', w / 2, dropY + 205);
+          ctx.textAlign = 'left';
+
+          // Bottom List Skeletons
+          const listY = dropY + 300;
+          for (let i = 0; i < 3; i++) {
+            const itemY = listY + i * 62;
+            if (itemY + 50 > h - 40) break;
+            ctx.fillStyle = isDark ? '#161f30' : '#ffffff';
             ctx.beginPath();
-            ctx.roundRect(40, ry, w - 80, 170, 24);
+            ctx.roundRect(20, itemY, w - 40, 52, 12);
             ctx.fill();
+            ctx.strokeStyle = isDark ? '#1e293b' : '#f1f5f9';
             ctx.stroke();
 
-            ctx.fillStyle = '#06b6d4';
-            ctx.font = 'bold 22px sans-serif';
-            ctx.fillText(`Recyclable Plastic #${r + 1}`, 70, ry + 62);
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = '17px sans-serif';
-            ctx.fillText('98.4% Confidence • PET Bottle', 70, ry + 102);
+            ctx.fillStyle = isDark ? '#334155' : '#e2e8f0';
+            ctx.beginPath();
+            ctx.roundRect(36, itemY + 14, 24, 24, 6);
+            ctx.roundRect(72, itemY + 18, 180, 16, 5);
+            ctx.fill();
+          }
+
+          // Bottom Nav Bar
+          ctx.fillStyle = isDark ? '#1e293b' : '#cbd5e1';
+          ctx.beginPath();
+          ctx.roundRect((w - 140) / 2, h - 18, 140, 5, 3);
+          ctx.fill();
+
+        } else {
+          // ==========================================
+          // LANDSCAPE WIREFRAME CARD (920 x 580)
+          // ==========================================
+          const headerH = 64;
+          ctx.fillStyle = isFocal ? '#FFE3ED' : (isDark ? '#161f30' : (index % 3 === 0 ? '#FFE3ED' : (index % 3 === 1 ? '#9BE3DE' : '#BEEBE9')));
+          ctx.fillRect(0, 0, w, headerH);
+
+          ctx.strokeStyle = isFocal ? '#FFB8D2' : (isDark ? '#1e293b' : '#e2e8f0');
+          ctx.lineWidth = isFocal ? 2.5 : 1;
+          ctx.beginPath();
+          ctx.moveTo(0, headerH);
+          ctx.lineTo(w, headerH);
+          ctx.stroke();
+
+          ctx.fillStyle = isFocal ? '#0f172a' : (isDark ? '#f8fafc' : '#0f172a');
+          ctx.font = 'bold 20px sans-serif';
+          ctx.fillText(isFocal ? `🌸 SLOT #${index + 1} (FOKUS UTAMA)` : `SLOT #${index + 1}`, 32, 40);
+
+          ctx.fillStyle = isFocal ? '#9BE3DE' : (isDark ? '#1e293b' : '#f1f5f9');
+          ctx.beginPath();
+          ctx.roundRect(w - 190, 16, 158, 32, 8);
+          ctx.fill();
+          ctx.fillStyle = isFocal ? '#044343' : (isDark ? '#94a3b8' : '#64748b');
+          ctx.font = 'bold 12px ui-monospace, monospace';
+          ctx.fillText(isFocal ? '🌸 FOKUS HERO' : 'SIAP UNGGAH', w - 170, 37);
+
+          // 3 Metric Skeleton Cards
+          const metricY = 88;
+          const metricW = 268;
+          const metricH = 92;
+          const metricGap = 20;
+          for (let i = 0; i < 3; i++) {
+            const mx = 32 + i * (metricW + metricGap);
+            ctx.fillStyle = isDark ? '#131b2a' : '#ffffff';
+            ctx.beginPath();
+            ctx.roundRect(mx, metricY, metricW, metricH, 12);
+            ctx.fill();
+            ctx.strokeStyle = isDark ? '#1e293b' : '#e2e8f0';
+            ctx.stroke();
+
+            ctx.fillStyle = isFocal && i === 0 ? 'rgba(155, 227, 222, 0.5)' : (isDark ? '#334155' : '#e2e8f0');
+            ctx.beginPath();
+            ctx.roundRect(mx + 16, metricY + 16, 32, 32, 8);
+            ctx.fill();
+
+            ctx.fillStyle = isDark ? '#243247' : '#f1f5f9';
+            ctx.beginPath();
+            ctx.roundRect(mx + 60, metricY + 20, 110, 14, 4);
+            ctx.roundRect(mx + 60, metricY + 44, 70, 18, 5);
+            ctx.fill();
+          }
+
+          // Center Dropzone Invitation Box
+          const boxY = 202;
+          const boxW = w - 64;
+          const boxH = 220;
+          ctx.fillStyle = isFocal ? 'rgba(255, 227, 237, 0.55)' : (isDark ? '#0d131f' : '#ffffff');
+          ctx.strokeStyle = isFocal ? '#FF8EB2' : (isDark ? '#334155' : '#cbd5e1');
+          ctx.lineWidth = 2;
+          ctx.setLineDash([8, 6]);
+          ctx.beginPath();
+          ctx.roundRect(32, boxY, boxW, boxH, 16);
+          ctx.fill();
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          ctx.textAlign = 'center';
+          ctx.fillStyle = isFocal ? '#0f766e' : (isDark ? '#64748b' : '#94a3b8');
+          ctx.font = '40px sans-serif';
+          ctx.fillText(isFocal ? '🌸' : '📷', w / 2, boxY + 70);
+
+          ctx.fillStyle = isDark ? '#f8fafc' : '#0f172a';
+          ctx.font = 'bold 22px sans-serif';
+          ctx.fillText(`Slot #${index + 1}: Siap Diisi Screenshot Anda`, w / 2, boxY + 115);
+
+          ctx.fillStyle = isDark ? '#94a3b8' : '#64748b';
+          ctx.font = '15px sans-serif';
+          ctx.fillText('Tarik gambar ke layar atau klik slot ini untuk mengganti foto', w / 2, boxY + 148);
+
+          ctx.fillStyle = isFocal ? '#83264e' : (isDark ? '#38bdf8' : '#0f766e');
+          ctx.font = 'bold 12.5px ui-monospace, monospace';
+          ctx.fillText('PRESET WIREFRAME BERSIH • KOTAK PUTIH ABU • 1:1 RESOLUSI ASLI', w / 2, boxY + 182);
+          ctx.textAlign = 'left';
+
+          // Bottom Skeleton Rows
+          const tableY = boxY + boxH + 20;
+          ctx.fillStyle = isDark ? '#161f30' : '#ffffff';
+          ctx.beginPath();
+          ctx.roundRect(32, tableY, boxW, 110, 12);
+          ctx.fill();
+          ctx.strokeStyle = isDark ? '#1e293b' : '#e2e8f0';
+          ctx.stroke();
+
+          for (let r = 0; r < 2; r++) {
+            const ry = tableY + 20 + r * 42;
+            ctx.fillStyle = isDark ? '#243247' : '#f1f5f9';
+            ctx.beginPath();
+            ctx.roundRect(50, ry, 160, 14, 4);
+            ctx.roundRect(240, ry, 280, 14, 4);
+            ctx.roundRect(560, ry, 140, 14, 4);
+            ctx.roundRect(740, ry, 110, 14, 4);
+            ctx.fill();
           }
         }
 
-        this.drawHomeIndicator(ctx, w, h, true);
         return c;
-      }
-
-      static drawStatusBar(ctx, w, isDarkTextLight) {
-        ctx.fillStyle = isDarkTextLight ? '#ffffff' : '#0f172a';
-        ctx.font = 'bold 18px sans-serif';
-        ctx.fillText('9:41', 42, 52);
-
-        // Dynamic Island Pill
-        ctx.fillStyle = '#090d14';
-        ctx.beginPath();
-        ctx.roundRect(w / 2 - 64, 24, 128, 36, 18);
-        ctx.fill();
-
-        // Signal / Wifi / Battery Icons
-        ctx.fillStyle = isDarkTextLight ? '#ffffff' : '#0f172a';
-        ctx.fillRect(w - 108, 40, 6, 12);
-        ctx.fillRect(w - 98, 36, 6, 16);
-        ctx.fillRect(w - 88, 32, 6, 20);
-        ctx.beginPath();
-        ctx.roundRect(w - 68, 34, 30, 16, 4);
-        ctx.fill();
-      }
-
-      static drawHomeIndicator(ctx, w, h, isLightBar) {
-        ctx.fillStyle = isLightBar ? 'rgba(255,255,255,0.75)' : 'rgba(15,23,42,0.35)';
-        ctx.beginPath();
-        ctx.roundRect(w / 2 - 72, h - 22, 144, 7, 4);
-        ctx.fill();
       }
     }
 
@@ -1773,7 +1087,7 @@
         this.canvas.width = this.baseWidth;
         this.canvas.height = this.baseHeight;
 
-        this.theme = 'indigo'; // 'indigo' (Referensi), 'light', 'dark'
+        this.theme = 'light'; // 'light' (Default), 'dark', 'indigo'
 
         // Zoom Default 1.14 agar ukuran layar HP besar & proporsional persis gambar referensi
         this.zoomFactor = 1.14;
@@ -2126,7 +1440,7 @@
       const renderer = new IsometricMobileRenderer(canvas);
 
       let userImages = new Array(TOTAL_SLOTS).fill(null);
-      let demoCanvases = DemoGenerator.generateSet('indigo');
+      let demoCanvases = DemoGenerator.generateSet('light', true);
       let activeSlotIndex = 0;
       let selectedExportRes = '2752x1536';
 
@@ -2187,12 +1501,12 @@
 
       function setTheme(theme) {
         renderer.theme = theme;
-        demoCanvases = DemoGenerator.generateSet(theme);
+        demoCanvases = DemoGenerator.generateSet(theme, true);
         btnIndigo.classList.toggle('active', theme === 'indigo');
         btnLight.classList.toggle('active', theme === 'light');
         btnDark.classList.toggle('active', theme === 'dark');
 
-        const bgMap = { indigo: '#cfd2d6', light: '#e2e8f0', dark: '#070a0f' };
+        const bgMap = { indigo: '#cfd2d6', light: '#d7eae6', dark: '#070a0f' };
         document.documentElement.style.setProperty('--bg-canvas', bgMap[theme]);
         refreshCanvas();
       }
@@ -2203,11 +1517,11 @@
       });
       btnLight.addEventListener('click', () => {
         setTheme('light');
-        showToast('Tema Light SOPAN Mobile aktif');
+        showToast('Tema Light Mode aktif (Wireframe Bersih)');
       });
       btnDark.addEventListener('click', () => {
         setTheme('dark');
-        showToast('Tema Dark EcoVision Mobile aktif');
+        showToast('Tema Dark Mode aktif (Wireframe Sinematik)');
       });
 
       // Kontrol HUD Bawah (Zoom, Bodi HP 3D, Mode Fit)
@@ -2341,15 +1655,15 @@
       });
 
       // Tombol Preset
-      document.getElementById('btn-load-indigo-demo').addEventListener('click', () => {
-        userImages.fill(null);
-        setTheme('indigo');
-        showToast('Demo Referensi Indigo Mobile dimuat');
-      });
       document.getElementById('btn-load-light-demo').addEventListener('click', () => {
         userImages.fill(null);
         setTheme('light');
-        showToast('Demo SOPAN Mobile App dimuat');
+        showToast('Preset Wireframe Light dimuat');
+      });
+      document.getElementById('btn-load-dark-demo').addEventListener('click', () => {
+        userImages.fill(null);
+        setTheme('dark');
+        showToast('Preset Wireframe Dark dimuat');
       });
       document.getElementById('btn-duplicate-remaining').addEventListener('click', () => {
         const uploaded = userImages.filter(Boolean);
