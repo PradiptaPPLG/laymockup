@@ -1705,6 +1705,11 @@
         overflow: hidden;
       }
 
+      .etalase-preview-box {
+        min-height: 0 !important;
+        aspect-ratio: 16 / 9 !important;
+      }
+
       .specs-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1716,6 +1721,8 @@
         margin-bottom: 10px;
         width: 100%;
         box-sizing: border-box;
+        min-height: auto !important;
+        align-content: stretch !important;
       }
 
       .spec-item {
@@ -1723,6 +1730,7 @@
         flex-direction: column;
         gap: 1px;
         min-width: 0;
+        min-height: auto !important;
       }
 
       .spec-key {
@@ -1964,6 +1972,11 @@
         -webkit-line-clamp: 2 !important;
       }
 
+      .etalase-preview-box {
+        min-height: 0 !important;
+        aspect-ratio: 16 / 9 !important;
+      }
+
       .specs-grid {
         display: grid !important;
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -1972,6 +1985,12 @@
         margin-bottom: 8px !important;
         width: 100% !important;
         box-sizing: border-box !important;
+        min-height: auto !important;
+        align-content: stretch !important;
+      }
+
+      .spec-item {
+        min-height: auto !important;
       }
 
       .spec-key {
@@ -2343,9 +2362,20 @@
       }
       .etalase-card {
         border-radius: 11px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        height: 100% !important;
+      }
+      .etalase-preview-box {
+        min-height: 0 !important;
+        height: auto !important;
+        aspect-ratio: 16 / 9 !important;
       }
       .etalase-content {
         padding: 7px 6px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 1 auto !important;
       }
       .etalase-meta .tag-recommended {
         display: none !important; /* Hide duplicate tag so TEMPLATE 0X doesn't get cut off */
@@ -2366,22 +2396,44 @@
         display: none !important;
       }
       .specs-grid {
+        display: grid !important;
         grid-template-columns: 1fr 1fr !important;
         gap: 2px 4px !important;
         padding: 4px 5px !important;
-        margin-bottom: 5px !important;
+        margin-bottom: 6px !important;
         border-radius: 6px !important;
+        min-height: auto !important;
+        height: auto !important;
+        align-content: stretch !important;
+      }
+      .spec-item {
+        min-height: auto !important;
+        height: auto !important;
+        gap: 1px !important;
+        display: flex !important;
+        flex-direction: column !important;
       }
       .spec-key {
         font-size: 6.8px !important;
+        line-height: 1.15 !important;
       }
       .spec-val {
         font-size: 8px !important;
+        line-height: 1.2 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+      .etalase-btn-wrap {
+        margin-top: auto !important;
       }
       .etalase-btn-wrap .btn {
         padding: 6px 4px !important;
         font-size: 10px !important;
         border-radius: 6px !important;
+        height: 30px !important;
+        min-height: 30px !important;
+        max-height: 30px !important;
       }
 
       /* 5. Tutorial Section */
@@ -2631,7 +2683,7 @@
 
       <!-- Mobile Controls (Buttons + Hamburger) -->
       <div class="mobile-controls">
-        <a href="#etalase" class="mobile-quick-btn" title="Pilih 4 Template Studio">
+        <a href="#etalase" class="mobile-quick-btn" title="Pilih Template Studio">
           <span>Pilih Studio</span>
           <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
             <path d="M7 2v10M2 7l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
@@ -2657,7 +2709,7 @@
         <span class="icon">💎</span>
         <div>
           <div class="title">Etalase Template</div>
-          <div class="sub">9 Formasi Mockup Isometrik</div>
+          <div class="sub">12 Formasi Mockup Isometrik</div>
         </div>
       </a>
       <a href="#tutorial" class="mobile-nav-link" data-close>
@@ -2700,7 +2752,7 @@
         <!-- Cute Pastel Chips -->
         <div class="hero-chips" style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin: 16px 0 22px 0;">
           <span class="hero-chip" style="display:inline-flex; align-items:center; gap:6px; background:#FFE3ED; border:1.5px solid #FFB8D2; color:#9d174d; font-weight:700; font-size:12px; padding:6px 14px; border-radius:999px; box-shadow:0 2px 8px rgba(255,184,210,0.35);">
-            9 Template Isometrik
+            12 Template Isometrik
           </span>
           <span class="hero-chip" style="display:inline-flex; align-items:center; gap:6px; background:#eafaf8; border:1.5px solid #9BE3DE; color:#044343; font-weight:700; font-size:12px; padding:6px 14px; border-radius:999px; box-shadow:0 2px 8px rgba(155,227,222,0.3);">
             100% Client-Side Private
@@ -2712,7 +2764,7 @@
 
         <div class="hero-actions" style="justify-content: center; gap: 14px;">
           <a href="#etalase" class="btn btn-primary btn-lg hero-main-btn" style="background:#9BE3DE; color:#044343; font-weight:700; border:1.5px solid #7ed5cf; box-shadow:0 6px 20px rgba(155,227,222,0.5);">
-            Jelajahi 9 Template
+            Jelajahi 12 Template
             <svg width="15" height="15" viewBox="0 0 14 14" fill="none">
               <path d="M7 2v10M2 7l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
                 stroke-linejoin="round" />
@@ -2745,9 +2797,9 @@
       <div class="container">
         <div class="section-header">
           <span class="section-overline">ETALASE TEMPLATE ISOMETRIK</span>
-          <h2 class="section-title">9 Formasi Isometrik Eksklusif</h2>
+          <h2 class="section-title">12 Formasi Isometrik Eksklusif</h2>
           <p class="section-desc">
-            Pilih formasi yang paling tepat: Formasi Intan 12 Kartu, Formasi Ramping 9 Kartu, Formasi Landscape 7 Kartu, hingga Mockup Layar Smartphone 3D (Single Phone, Dual Phone, dan 3-Kolom Vertical).
+            Pilih formasi yang paling tepat: Formasi Intan 12 Kartu, Formasi Ramping 9 Kartu, Formasi Landscape 7 Kartu, Mockup Layar Smartphone 3D, hingga Single, Dual & 2x2 Grid Desktop 3D.
           </p>
         </div>
 
@@ -3193,6 +3245,154 @@
           </article>
 
 
+        
+          <!-- TEMPLATE 10: 1 LAYAR SINGLE DESKTOP 3D -->
+          <article class="etalase-card featured" id="template-desktop-1-card" onclick="window.location.href='studio-desktop-1.html'">
+            <div class="etalase-preview-box">
+              <canvas id="canvas-desktop-1-preview" width="560" height="315"></canvas>
+              <div class="etalase-badge-top">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                  <line x1="8" y1="21" x2="16" y2="21"></line>
+                  <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+                1 Layar Desktop (16:10)
+              </div>
+            </div>
+
+            <div class="etalase-content">
+              <div class="etalase-meta">
+                <span class="etalase-tag mint">TEMPLATE 10 · 1 FOTO DESKTOP</span>
+              </div>
+              <h3 class="etalase-title">1 Layar Single Desktop 3D</h3>
+              <div class="specs-grid">
+                <div class="spec-item">
+                  <span class="spec-key">Formasi Grid</span>
+                  <span class="spec-val">1 Layar Solo (Center)</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Rasio Layar</span>
+                  <span class="spec-val">16:10 / 16:9 PC Desktop</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Default Zoom</span>
+                  <span class="spec-val">1.0x (Standar 1:1)</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Karakter</span>
+                  <span class="spec-val">Minimalis & Fokus Penuh</span>
+                </div>
+              </div>
+
+              <div class="etalase-btn-wrap">
+                <a href="studio-desktop-1.html" class="btn btn-primary" title="Buka Template 1 Layar Single Desktop 3D">
+                  Buka Studio
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- TEMPLATE 11: 2 LAYAR DUAL DESKTOP 3D -->
+          <article class="etalase-card featured" id="template-desktop-2-card" onclick="window.location.href='studio-desktop-2.html'">
+            <div class="etalase-preview-box">
+              <canvas id="canvas-desktop-2-preview" width="560" height="315"></canvas>
+              <div class="etalase-badge-top">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                  <line x1="8" y1="21" x2="16" y2="21"></line>
+                  <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+                2 Layar Desktop Dual
+              </div>
+            </div>
+
+            <div class="etalase-content">
+              <div class="etalase-meta">
+                <span class="etalase-tag volt">TEMPLATE 11 · 2 FOTO DESKTOP</span>
+              </div>
+              <h3 class="etalase-title">2 Layar Dual Desktop 3D</h3>
+              <div class="specs-grid">
+                <div class="spec-item">
+                  <span class="spec-key">Formasi Grid</span>
+                  <span class="spec-val">2 Layar Berdampingan</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Rasio Layar</span>
+                  <span class="spec-val">16:10 / 16:9 PC Desktop</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Default Zoom</span>
+                  <span class="spec-val">1.0x (Standar 1:1)</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Karakter</span>
+                  <span class="spec-val">Komparasi & Alur Fitur</span>
+                </div>
+              </div>
+
+              <div class="etalase-btn-wrap">
+                <a href="studio-desktop-2.html" class="btn btn-primary" title="Buka Template 2 Layar Dual Desktop 3D">
+                  Buka Studio
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- TEMPLATE 12: 4 LAYAR GRID 2x2 DESKTOP 3D -->
+          <article class="etalase-card featured" id="template-desktop-4-card" onclick="window.location.href='studio-desktop-4.html'">
+            <div class="etalase-preview-box">
+              <canvas id="canvas-desktop-4-preview" width="560" height="315"></canvas>
+              <div class="etalase-badge-top">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                  <line x1="8" y1="21" x2="16" y2="21"></line>
+                  <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+                4 Layar Grid 2x2 Desktop
+              </div>
+            </div>
+
+            <div class="etalase-content">
+              <div class="etalase-meta">
+                <span class="etalase-tag rose">TEMPLATE 12 · 4 FOTO DESKTOP</span>
+              </div>
+              <h3 class="etalase-title">4 Layar Grid 2x2 Desktop 3D</h3>
+              <div class="specs-grid">
+                <div class="spec-item">
+                  <span class="spec-key">Formasi Grid</span>
+                  <span class="spec-val">Grid 2x2 / Staggered</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Rasio Layar</span>
+                  <span class="spec-val">16:10 / 16:9 PC Desktop</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Default Zoom</span>
+                  <span class="spec-val">0.95x (Optimal)</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-key">Karakter</span>
+                  <span class="spec-val">Dashboard Showcase Lengkap</span>
+                </div>
+              </div>
+
+              <div class="etalase-btn-wrap">
+                <a href="studio-desktop-4.html" class="btn btn-primary" title="Buka Template 4 Layar Grid 2x2 Desktop 3D">
+                  Buka Studio
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
         </div>
       </div>
     </section>
@@ -3232,7 +3432,7 @@
               </p>
             </div>
             <div class="tutorial-pill-tag" style="color:#0f766e;">
-              <span>✓ 9 Formasi Presisi Siap Pakai</span>
+              <span>✓ 12 Formasi Presisi Siap Pakai</span>
             </div>
           </div>
 
@@ -3319,7 +3519,7 @@
           <div>
             <h3 class="tutorial-cta-title">Siap Mencoba Membuat Mockup Anda?</h3>
             <p class="tutorial-cta-desc">
-              Pilih salah satu dari 9 formasi template studio di atas dan wujudkan presentasi profesional sekarang juga.
+              Pilih salah satu dari 12 formasi template studio di atas dan wujudkan presentasi profesional sekarang juga.
             </p>
           </div>
           <a href="#etalase" class="btn btn-primary" style="background:#9BE3DE; color:#044343; font-weight:700; border:1.5px solid #7ed5cf; padding:12px 24px; border-radius:12px; box-shadow:0 6px 18px rgba(155,227,222,0.4); white-space:nowrap;" title="Kembali ke Etalase Template di Atas">
@@ -3493,6 +3693,9 @@
               <li><a href="studio-mobile-1.html">1 Layar Single Phone 3D (Baru)</a></li>
               <li><a href="studio-mobile-2.html">2 Layar Dual Phone 3D (Baru)</a></li>
               <li><a href="studio-mobile-6.html">6 Layar Vertical 3-Kolom (Baru)</a></li>
+              <li><a href="studio-desktop-1.html">1 Layar Single Desktop 3D (Baru)</a></li>
+              <li><a href="studio-desktop-2.html">2 Layar Dual Desktop 3D (Baru)</a></li>
+              <li><a href="studio-desktop-4.html">4 Layar Grid 2x2 Desktop 3D (Baru)</a></li>
             </ul>
           </div>
 
@@ -3702,6 +3905,37 @@
           { col: 0, row: -0.85 }, { col: 0, row: 0.15, focal: true },
           { col: 1, row: -0.55 }, { col: 1, row: 0.65 }
         ];
+            } else if (type === 'desktop-1') {
+        zoomFactor = 1.0;
+        gapX = 0; gapY = 0;
+        isPhone = false;
+        cardW = 920;
+        cardH = 580;
+        layout = [
+          { col: 0, row: 0, focal: true }
+        ];
+      } else if (type === 'desktop-2') {
+        zoomFactor = 1.0;
+        gapX = 48; gapY = 0;
+        isPhone = false;
+        cardW = 920;
+        cardH = 580;
+        layout = [
+          { col: -0.5, row: 0 },
+          { col: 0.5, row: 0, focal: true }
+        ];
+      } else if (type === 'desktop-4') {
+        zoomFactor = 0.95;
+        gapX = 44; gapY = 44;
+        isPhone = false;
+        cardW = 920;
+        cardH = 580;
+        layout = [
+          { col: -0.5, row: -0.5 },
+          { col: 0.5, row: -0.5 },
+          { col: -0.5, row: 0.5, focal: true },
+          { col: 0.5, row: 0.5 }
+        ];
       }
 
       const S = (w / 2752) * zoomFactor;
@@ -3850,6 +4084,9 @@
       drawMiniIsometricPreview('canvas-mobile-1-preview', 'mobile-1');
       drawMiniIsometricPreview('canvas-mobile-2-preview', 'mobile-2');
       drawMiniIsometricPreview('canvas-mobile-6-preview', 'mobile-6');
+      drawMiniIsometricPreview('canvas-desktop-1-preview', 'desktop-1');
+      drawMiniIsometricPreview('canvas-desktop-2-preview', 'desktop-2');
+      drawMiniIsometricPreview('canvas-desktop-4-preview', 'desktop-4');
     }
 
     if (document.readyState === 'loading') {

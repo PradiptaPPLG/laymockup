@@ -215,7 +215,7 @@
       gap: 6px;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
       z-index: 20;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
     }
 
     .hud-badge {
@@ -763,6 +763,7 @@
         -webkit-overflow-scrolling: touch !important;
         z-index: 30 !important;
         right: auto !important;
+        flex-wrap: nowrap !important;
       }
       .hud-status::-webkit-scrollbar {
         display: none !important;
@@ -1124,7 +1125,7 @@
         <span class="hud-badge">3 Kolom Tegak (2-2-2)</span>
         <button id="btn-zoom-out" class="hud-btn" title="Perkecil">➖</button>
         <button id="btn-toggle-zoom" class="hud-btn" title="Klik untuk ganti preset Zoom">
-          🔍 Zoom: 100% (Persis Referensi)
+          🔍 Zoom: 100%
         </button>
         <button id="btn-zoom-in" class="hud-btn" title="Perbesar">➕</button>
         <button id="btn-toggle-island" class="hud-btn" title="Ganti Gaya Dynamic Island / Notch">
@@ -1353,8 +1354,23 @@
         /**
      * DemoGenerator - Wireframe Skeleton Generator (Kotak Putih Abu Bersih)
      */
+    /**
+     * GENERATOR KARTU PLACEHOLDER WIREFRAME BERSIH (Estetik Pastel)
+     * Persis standar produksi LayMockup x PixelCam
+     */
+    /**
+     * GENERATOR KARTU PLACEHOLDER WIREFRAME BERSIH (Estetik Pastel)
+     * Persis standar produksi LayMockup x PixelCam (Sesuai Referensi Visual)
+     */
+    /**
+     * GENERATOR KARTU PLACEHOLDER WIREFRAME BERSIH (Estetik Pastel)
+     * Persis standar produksi LayMockup x PixelCam (Sesuai Referensi Visual)
+     */
     class DemoGenerator {
-      static generateSet(theme = 'light', isMobile = true, count = 6) {
+      static generateSet(theme = 'light', isMobile = false, count = null) {
+        if (count === null || count === undefined) {
+          count = typeof TOTAL_SLOTS !== 'undefined' ? TOTAL_SLOTS : 12;
+        }
         const cards = [];
         for (let i = 0; i < count; i++) {
           cards.push(this.createPlaceholderCard(i, theme, count, isMobile));
@@ -1362,24 +1378,41 @@
         return cards;
       }
 
-      static createPlaceholderCard(index = 0, theme = 'light', count = 6, isMobile = true) {
+      static createLightCard(index, count = null, isMobile = false) {
+        if (count === null || count === undefined) count = typeof TOTAL_SLOTS !== 'undefined' ? TOTAL_SLOTS : 12;
+        return this.createPlaceholderCard(index, 'light', count, isMobile);
+      }
+
+      static createDarkCard(index, count = null, isMobile = false) {
+        if (count === null || count === undefined) count = typeof TOTAL_SLOTS !== 'undefined' ? TOTAL_SLOTS : 12;
+        return this.createPlaceholderCard(index, 'dark', count, isMobile);
+      }
+
+      static createPlaceholderCard(index, theme = 'light', count = null, isMobile = false) {
+        if (count === null || count === undefined) count = typeof TOTAL_SLOTS !== 'undefined' ? TOTAL_SLOTS : 12;
         const c = document.createElement('canvas');
-        const w = 736;
-        const h = 1520;
+        const w = isMobile ? 540 : 920;
+        const h = isMobile ? (count === 1 || count === 2 ? 1140 : 1100) : 580;
         c.width = w;
         c.height = h;
         const ctx = c.getContext('2d');
 
-        const isDark = theme === 'dark';
-        const isHero = index === 3; // Slot #4 adalah Hero Utama di tengah!
+        const isDark = theme === 'dark' || theme === 'ecovision';
+        const isFocal = (count === 1) ||
+                        (count === 2 && index === 1) ||
+                        (count === 4 && index === 2) ||
+                        (count === 6 && index === 3) ||
+                        (count === 7 && index === 3) ||
+                        (count === 9 && index === 4) ||
+                        (count === 12 && (index === 5 || index === 6));
 
         // 1. Surface Background (Kotak Putih Abu Bersih)
         ctx.fillStyle = isDark ? '#0b0f17' : '#f8fafc';
         ctx.fillRect(0, 0, w, h);
 
-        // 2. Subtle Grid
+        // 2. Subtle Checkerboard / Grid Tile Pattern
         ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.02)' : 'rgba(15, 23, 42, 0.025)';
-        const tileSize = 32;
+        const tileSize = isMobile ? 24 : 32;
         for (let y = 0; y < h; y += tileSize) {
           for (let x = 0; x < w; x += tileSize) {
             if (((x / tileSize) + (y / tileSize)) % 2 === 0) {
@@ -1388,299 +1421,238 @@
           }
         }
 
-        // Outer Border
-        ctx.strokeStyle = isHero ? '#FFB8D2' : (isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)');
-        ctx.lineWidth = isHero ? 3 : 2;
+        // Outer Card Border
+        ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)';
+        ctx.lineWidth = 2;
         ctx.strokeRect(1, 1, w - 2, h - 2);
 
-        // Dynamic Island Notch
-        ctx.fillStyle = isDark ? '#1e293b' : '#e2e8f0';
-        ctx.beginPath();
-        ctx.roundRect((w - 180) / 2, 24, 180, 36, 18);
-        ctx.fill();
+        if (isMobile) {
+          // ==========================================
+          // SMARTPHONE PORTRAIT WIREFRAME (540 x 1100 / 1140)
+          // ==========================================
+          // Dynamic Island Notch
+          ctx.fillStyle = isDark ? '#1e293b' : '#e2e8f0';
+          ctx.beginPath();
+          ctx.roundRect((w - 120) / 2, 16, 120, 24, 12);
+          ctx.fill();
 
-        // Status Bar
-        ctx.fillStyle = isDark ? '#475569' : '#94a3b8';
-        ctx.font = 'bold 20px ui-monospace, monospace';
-        ctx.fillText('9:41', 42, 48);
-        ctx.beginPath();
-        ctx.roundRect(w - 90, 30, 48, 20, 6);
-        ctx.fill();
+          // Status Bar
+          ctx.fillStyle = isDark ? '#475569' : '#94a3b8';
+          ctx.font = 'bold 14px ui-monospace, monospace';
+          ctx.fillText('9:41', 28, 34);
+          ctx.beginPath();
+          ctx.roundRect(w - 60, 20, 32, 14, 4);
+          ctx.fill();
 
-        // Topbar
-        const topBarY = 80;
-        ctx.fillStyle = isHero ? '#FFE3ED' : (index % 2 === 0 ? '#9BE3DE' : '#BEEBE9');
-        ctx.beginPath();
-        ctx.roundRect(28, topBarY, w - 56, 76, 18);
-        ctx.fill();
-        ctx.strokeStyle = isHero ? '#FFB8D2' : '#7fd6d0';
-        ctx.lineWidth = 2;
-        ctx.stroke();
+          // App Topbar
+          const topBarY = 56;
+          ctx.fillStyle = isFocal ? '#FFE3ED' : (isDark ? '#1e293b' : (index % 3 === 0 ? '#FFE3ED' : (index % 3 === 1 ? '#9BE3DE' : '#BEEBE9')));
+          ctx.beginPath();
+          ctx.roundRect(20, topBarY, w - 40, 58, 14);
+          ctx.fill();
+          ctx.strokeStyle = isFocal ? '#FFB8D2' : (isDark ? '#334155' : '#e2e8f0');
+          ctx.lineWidth = isFocal ? 2 : 1;
+          ctx.stroke();
 
-        ctx.fillStyle = isHero ? '#9d174d' : '#0f172a';
-        ctx.font = 'bold 24px sans-serif';
-        const label = isHero ? '🌸 SLOT #4 ★ HERO UTAMA (TENGAH)' : `📱 SLOT #${index + 1}`;
-        ctx.fillText(label, 52, topBarY + 48);
+          ctx.fillStyle = isFocal ? '#0f172a' : (isDark ? '#f8fafc' : '#0f172a');
+          ctx.font = 'bold 18px sans-serif';
+          let mobileLabel = isFocal ? `🌸 SLOT #${index + 1} (FOKUS UTAMA)` : `SLOT #${index + 1}`;
+          if (count === 1) mobileLabel = '🌸 SLOT #1 · SOLO FLAGSHIP';
+          if (count === 2) mobileLabel = index === 0 ? '📱 SLOT #1 · HP KIRI' : '🌸 SLOT #2 · HP KANAN';
+          if (count === 6 && isFocal) mobileLabel = '🌸 SLOT #4 ★ HERO UTAMA (TENGAH)';
+          ctx.fillText(mobileLabel, 38, topBarY + 36);
 
-        // Hero Skeleton Card
-        const heroY = topBarY + 104;
-        ctx.fillStyle = isDark ? '#161f30' : '#ffffff';
-        ctx.beginPath();
-        ctx.roundRect(28, heroY, w - 56, 320, 22);
-        ctx.fill();
-        ctx.strokeStyle = isDark ? '#334155' : '#e2e8f0';
-        ctx.stroke();
-
-        ctx.fillStyle = isHero ? 'rgba(255, 184, 210, 0.6)' : 'rgba(155, 227, 222, 0.5)';
-        ctx.beginPath();
-        ctx.roundRect(52, heroY + 36, w - 104, 38, 10);
-        ctx.fill();
-        ctx.fillStyle = isDark ? '#243247' : '#f1f5f9';
-        ctx.beginPath();
-        ctx.roundRect(52, heroY + 98, (w - 104) * 0.72, 24, 8);
-        ctx.roundRect(52, heroY + 138, (w - 104) * 0.88, 24, 8);
-        ctx.fill();
-
-        // Center Dropzone
-        const dropY = heroY + 350;
-        ctx.fillStyle = isHero ? 'rgba(255, 227, 237, 0.35)' : 'rgba(155, 227, 222, 0.14)';
-        ctx.strokeStyle = isHero ? '#FFB8D2' : '#9BE3DE';
-        ctx.lineWidth = 2.5;
-        ctx.setLineDash([10, 8]);
-        ctx.beginPath();
-        ctx.roundRect(28, dropY, w - 56, 380, 24);
-        ctx.fill();
-        ctx.stroke();
-        ctx.setLineDash([]);
-
-        ctx.fillStyle = isHero ? '#be185d' : '#0f766e';
-        ctx.font = '64px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText(isHero ? '⭐' : '📱', w / 2, dropY + 110);
-
-        ctx.fillStyle = isDark ? '#f8fafc' : '#0f172a';
-        ctx.font = 'bold 28px sans-serif';
-        ctx.fillText(`Slot #${index + 1}: Siap Diisi Foto HP`, w / 2, dropY + 175);
-
-        ctx.fillStyle = isDark ? '#94a3b8' : '#64748b';
-        ctx.font = '18px sans-serif';
-        ctx.fillText('Ketuk atau tarik screenshot 9:16 ke sini', w / 2, dropY + 225);
-
-        ctx.fillStyle = isHero ? '#9d174d' : '#0f766e';
-        ctx.font = 'bold 16px ui-monospace, monospace';
-        ctx.fillText(isHero ? '⭐ FOKUS UTAMA: LAYAR TAMPIL UTUH' : 'FORMAT: JPG / PNG / WEBP', w / 2, dropY + 280);
-        ctx.textAlign = 'left';
-
-        // Bottom List Items
-        const listY = dropY + 410;
-        for (let i = 0; i < 4; i++) {
-          const itemY = listY + i * 84;
-          if (itemY + 70 > h - 40) break;
+          // Hero Area Skeleton
+          const heroY = topBarY + 74;
           ctx.fillStyle = isDark ? '#161f30' : '#ffffff';
           ctx.beginPath();
-          ctx.roundRect(28, itemY, w - 56, 70, 16);
+          ctx.roundRect(20, heroY, w - 40, 220, 18);
           ctx.fill();
-          ctx.strokeStyle = isDark ? '#1e293b' : '#f1f5f9';
+          ctx.strokeStyle = isDark ? '#334155' : '#e2e8f0';
           ctx.stroke();
 
-          ctx.fillStyle = isDark ? '#334155' : '#e2e8f0';
+          ctx.fillStyle = isFocal ? 'rgba(16, 185, 129, 0.25)' : (isDark ? '#334155' : '#e2e8f0');
           ctx.beginPath();
-          ctx.roundRect(50, itemY + 18, 34, 34, 8);
-          ctx.roundRect(100, itemY + 24, 240, 22, 6);
+          ctx.roundRect(38, heroY + 24, w - 76, 28, 8);
           ctx.fill();
-        }
+          ctx.fillStyle = isDark ? '#243247' : '#f1f5f9';
+          ctx.beginPath();
+          ctx.roundRect(38, heroY + 68, (w - 76) * 0.7, 18, 6);
+          ctx.roundRect(38, heroY + 98, (w - 76) * 0.85, 18, 6);
+          ctx.fill();
 
-        return c;
-      }
-    }
+          // Center Call-To-Action Dropzone
+          const dropY = heroY + 240;
+          ctx.fillStyle = isFocal ? 'rgba(255, 227, 237, 0.55)' : (isDark ? '#0d131f' : '#ffffff');
+          ctx.strokeStyle = isFocal ? '#FF8EB2' : (isDark ? '#334155' : '#cbd5e1');
+          ctx.lineWidth = 2;
+          ctx.setLineDash([8, 6]);
+          ctx.beginPath();
+          ctx.roundRect(20, dropY, w - 40, 280, 20);
+          ctx.fill();
+          ctx.stroke();
+          ctx.setLineDash([]);
 
-    class ReferencePosterGenerator {
-      static generateSixSet(invert = false) {
-        const pink = this.createLeftPinkPetalPoster();
-        const violet = this.createRightVioletGradientPoster();
-        // Pola selang-seling harmonis pada 6 slot (Hero #4 menggunakan Violet/Pink)
-        if (!invert) {
-          return [
-            violet, // Slot #1 (Kiri Atas)
-            pink,   // Slot #2 (Kiri Bawah)
-            pink,   // Slot #3 (Tengah Atas)
-            violet, // Slot #4 ★ HERO UTAMA (Tengah Bawah Utuh)
-            pink,   // Slot #5 (Kanan Atas)
-            violet  // Slot #6 (Kanan Bawah)
-          ];
+          ctx.textAlign = 'center';
+          ctx.fillStyle = isFocal ? '#0f766e' : (isDark ? '#64748b' : '#94a3b8');
+          ctx.font = '42px sans-serif';
+          ctx.fillText(isFocal ? '🌸' : '📱', w / 2, dropY + 85);
+
+          ctx.fillStyle = isDark ? '#f8fafc' : '#0f172a';
+          ctx.font = 'bold 20px sans-serif';
+          ctx.fillText(`Slot #${index + 1}: Siap Diisi Foto HP`, w / 2, dropY + 130);
+
+          ctx.fillStyle = isDark ? '#94a3b8' : '#64748b';
+          ctx.font = '14px sans-serif';
+          ctx.fillText('Ketuk atau tarik screenshot 9:16 ke sini', w / 2, dropY + 165);
+
+          ctx.fillStyle = isFocal ? '#83264e' : (isDark ? '#38bdf8' : '#0f766e');
+          ctx.font = 'bold 12.5px ui-monospace, monospace';
+          ctx.fillText('PRESET WIREFRAME BERSIH • KOTAK PUTIH ABU • 9:16 RESOLUSI ASLI', w / 2, dropY + 205);
+          ctx.textAlign = 'left';
+
+          // Bottom List Skeletons
+          const listY = dropY + 300;
+          for (let i = 0; i < 3; i++) {
+            const itemY = listY + i * 62;
+            if (itemY + 50 > h - 40) break;
+            ctx.fillStyle = isDark ? '#161f30' : '#ffffff';
+            ctx.beginPath();
+            ctx.roundRect(20, itemY, w - 40, 52, 12);
+            ctx.fill();
+            ctx.strokeStyle = isDark ? '#1e293b' : '#f1f5f9';
+            ctx.stroke();
+
+            ctx.fillStyle = isDark ? '#334155' : '#e2e8f0';
+            ctx.beginPath();
+            ctx.roundRect(36, itemY + 14, 24, 24, 6);
+            ctx.roundRect(72, itemY + 18, 180, 16, 5);
+            ctx.fill();
+          }
+
+          // Bottom Nav Bar
+          ctx.fillStyle = isDark ? '#1e293b' : '#cbd5e1';
+          ctx.beginPath();
+          ctx.roundRect((w - 140) / 2, h - 18, 140, 5, 3);
+          ctx.fill();
+
         } else {
-          return [
-            pink,   // Slot #1
-            violet, // Slot #2
-            violet, // Slot #3
-            pink,   // Slot #4 ★ HERO UTAMA
-            violet, // Slot #5
-            pink    // Slot #6
-          ];
-        }
-      }
+          // ==========================================
+          // LANDSCAPE WIREFRAME CARD (920 x 580)
+          // ==========================================
+          const headerH = 64;
+          ctx.fillStyle = isFocal ? '#FFE3ED' : (isDark ? '#161f30' : (index % 3 === 0 ? '#FFE3ED' : (index % 3 === 1 ? '#9BE3DE' : '#BEEBE9')));
+          ctx.fillRect(0, 0, w, headerH);
 
-      static createLeftPinkPetalPoster() {
-        const w = 640, h = 1360;
-        const c = document.createElement('canvas');
-        c.width = w;
-        c.height = h;
-        const ctx = c.getContext('2d');
-
-        // Latar dasar putih bersih dengan semburat pink lembut di bawah
-        const baseGrad = ctx.createLinearGradient(0, 0, w, h);
-        baseGrad.addColorStop(0, '#ffffff');
-        baseGrad.addColorStop(0.72, '#ffffff');
-        baseGrad.addColorStop(1, '#fce7f3');
-        ctx.fillStyle = baseGrad;
-        ctx.fillRect(0, 0, w, h);
-
-        // Kelopak Abstrak Pink-Lavender Lembut di Atas
-        ctx.save();
-        const petal1 = ctx.createRadialGradient(180, 290, 20, 240, 260, 290);
-        petal1.addColorStop(0, 'rgba(244, 114, 182, 0.42)');
-        petal1.addColorStop(0.55, 'rgba(232, 121, 249, 0.18)');
-        petal1.addColorStop(1, 'rgba(255, 255, 255, 0)');
-        ctx.fillStyle = petal1;
-        ctx.beginPath();
-        ctx.arc(210, 260, 270, 0, Math.PI * 2);
-        ctx.fill();
-
-        const petal2 = ctx.createRadialGradient(500, 340, 10, 480, 320, 320);
-        petal2.addColorStop(0, 'rgba(236, 72, 153, 0.45)');
-        petal2.addColorStop(0.6, 'rgba(192, 132, 252, 0.22)');
-        petal2.addColorStop(1, 'rgba(255, 255, 255, 0)');
-        ctx.fillStyle = petal2;
-        ctx.beginPath();
-        ctx.arc(490, 330, 300, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.strokeStyle = 'rgba(236, 72, 153, 0.22)';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.arc(170, 440, 260, -Math.PI * 0.45, Math.PI * 0.05);
-        ctx.stroke();
-        ctx.restore();
-
-        // Tipografi Utama: "PHONE MOCKUP"
-        ctx.fillStyle = '#18181b';
-        ctx.textAlign = 'center';
-        ctx.font = '800 92px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-        ctx.fillText('PHONE', w / 2, 700);
-        ctx.fillText('MOCKUP', w / 2, 795);
-
-        // Simbol Asterisk / Bintang 8-Sudut
-        ctx.save();
-        ctx.translate(w / 2, 915);
-        ctx.strokeStyle = '#18181b';
-        ctx.lineWidth = 3.5;
-        for (let a = 0; a < 4; a++) {
+          ctx.strokeStyle = isFocal ? '#FFB8D2' : (isDark ? '#1e293b' : '#e2e8f0');
+          ctx.lineWidth = isFocal ? 2.5 : 1;
           ctx.beginPath();
-          ctx.moveTo(-14, 0);
-          ctx.lineTo(14, 0);
+          ctx.moveTo(0, headerH);
+          ctx.lineTo(w, headerH);
           ctx.stroke();
-          ctx.rotate(Math.PI / 4);
+
+          ctx.fillStyle = isFocal ? '#0f172a' : (isDark ? '#f8fafc' : '#0f172a');
+          ctx.font = 'bold 20px sans-serif';
+          let deskLabel = isFocal ? `🌸 SLOT #${index + 1} (FOKUS UTAMA)` : `SLOT #${index + 1}`;
+          if (count === 1) deskLabel = '🌸 SLOT #1 · SOLO DESKTOP (FOKUS UTAMA)';
+          if (count === 2) deskLabel = index === 0 ? 'SLOT #1 · LAYAR KIRI' : '🌸 SLOT #2 ★ LAYAR KANAN (FOKUS UTAMA)';
+          if (count === 4) {
+            const posLabels = ['#1 · ATAS KIRI', '#2 · ATAS KANAN', '#3 ★ HERO PUSAT', '#4 · BAWAH KANAN'];
+            deskLabel = isFocal ? `🌸 SLOT ${posLabels[index]}` : `SLOT ${posLabels[index]}`;
+          }
+          ctx.fillText(deskLabel, 32, 40);
+
+          ctx.fillStyle = isFocal ? '#9BE3DE' : (isDark ? '#1e293b' : '#f1f5f9');
+          ctx.beginPath();
+          ctx.roundRect(w - 190, 16, 158, 32, 8);
+          ctx.fill();
+          ctx.fillStyle = isFocal ? '#044343' : (isDark ? '#94a3b8' : '#64748b');
+          ctx.font = 'bold 12px ui-monospace, monospace';
+          ctx.fillText(isFocal ? '🌸 FOKUS HERO' : 'SIAP UNGGAH', w - 170, 37);
+
+          // 3 Metric Skeleton Cards
+          const metricY = 88;
+          const metricW = 268;
+          const metricH = 92;
+          const metricGap = 20;
+          for (let i = 0; i < 3; i++) {
+            const mx = 32 + i * (metricW + metricGap);
+            ctx.fillStyle = isDark ? '#131b2a' : '#ffffff';
+            ctx.beginPath();
+            ctx.roundRect(mx, metricY, metricW, metricH, 12);
+            ctx.fill();
+            ctx.strokeStyle = isDark ? '#1e293b' : '#e2e8f0';
+            ctx.stroke();
+
+            ctx.fillStyle = isFocal && i === 0 ? 'rgba(155, 227, 222, 0.5)' : (isDark ? '#334155' : '#e2e8f0');
+            ctx.beginPath();
+            ctx.roundRect(mx + 16, metricY + 16, 32, 32, 8);
+            ctx.fill();
+
+            ctx.fillStyle = isDark ? '#243247' : '#f1f5f9';
+            ctx.beginPath();
+            ctx.roundRect(mx + 60, metricY + 20, 110, 14, 4);
+            ctx.roundRect(mx + 60, metricY + 44, 70, 18, 5);
+            ctx.fill();
+          }
+
+          // Center Dropzone Invitation Box
+          const boxY = 202;
+          const boxW = w - 64;
+          const boxH = 220;
+          ctx.fillStyle = isFocal ? 'rgba(255, 227, 237, 0.55)' : (isDark ? '#0d131f' : '#ffffff');
+          ctx.strokeStyle = isFocal ? '#FF8EB2' : (isDark ? '#334155' : '#cbd5e1');
+          ctx.lineWidth = 2;
+          ctx.setLineDash([8, 6]);
+          ctx.beginPath();
+          ctx.roundRect(32, boxY, boxW, boxH, 16);
+          ctx.fill();
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          ctx.textAlign = 'center';
+          ctx.fillStyle = isFocal ? '#0f766e' : (isDark ? '#64748b' : '#94a3b8');
+          ctx.font = '40px sans-serif';
+          ctx.fillText(isFocal ? '🌸' : '📷', w / 2, boxY + 70);
+
+          ctx.fillStyle = isDark ? '#f8fafc' : '#0f172a';
+          ctx.font = 'bold 22px sans-serif';
+          ctx.fillText(`Slot #${index + 1}: Siap Diisi Screenshot Anda`, w / 2, boxY + 115);
+
+          ctx.fillStyle = isDark ? '#94a3b8' : '#64748b';
+          ctx.font = '15px sans-serif';
+          ctx.fillText('Tarik gambar ke layar atau klik slot ini untuk mengganti foto', w / 2, boxY + 148);
+
+          ctx.fillStyle = isFocal ? '#83264e' : (isDark ? '#38bdf8' : '#0f766e');
+          ctx.font = 'bold 12.5px ui-monospace, monospace';
+          ctx.fillText('PRESET WIREFRAME BERSIH • KOTAK PUTIH ABU • 1:1 RESOLUSI ASLI', w / 2, boxY + 182);
+          ctx.textAlign = 'left';
+
+          // Bottom Skeleton Rows
+          const tableY = boxY + boxH + 20;
+          ctx.fillStyle = isDark ? '#161f30' : '#ffffff';
+          ctx.beginPath();
+          ctx.roundRect(32, tableY, boxW, 110, 12);
+          ctx.fill();
+          ctx.strokeStyle = isDark ? '#1e293b' : '#e2e8f0';
+          ctx.stroke();
+
+          for (let r = 0; r < 2; r++) {
+            const ry = tableY + 20 + r * 42;
+            ctx.fillStyle = isDark ? '#243247' : '#f1f5f9';
+            ctx.beginPath();
+            ctx.roundRect(50, ry, 160, 14, 4);
+            ctx.roundRect(240, ry, 280, 14, 4);
+            ctx.roundRect(560, ry, 140, 14, 4);
+            ctx.roundRect(740, ry, 110, 14, 4);
+            ctx.fill();
+          }
         }
-        ctx.restore();
 
-        // Teks Kecil Bawah
-        ctx.fillStyle = '#18181b';
-        ctx.font = '700 17px sans-serif';
-        ctx.fillText('SCREEN MOCKUP', w / 2, 1005);
-
-        ctx.fillStyle = '#52525b';
-        ctx.font = '500 15px sans-serif';
-        ctx.fillText('SIMPLE MOMENTS SMARTER TECHNOLOGY', w / 2, 1048);
-        ctx.fillText('THE FUTURE BEAUTIFULLY DESIGNED', w / 2, 1072);
-        ctx.fillText('BETTER DESIGN', w / 2, 1096);
-
-        // Bulatan Panah Bawah Halus
-        ctx.fillStyle = 'rgba(24, 24, 27, 0.08)';
-        ctx.beginPath();
-        ctx.arc(w / 2, 1225, 42, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = '#18181b';
-        ctx.font = 'bold 26px sans-serif';
-        ctx.fillText('→', w / 2, 1234);
-
-        ctx.textAlign = 'left';
-        return c;
-      }
-
-      static createRightVioletGradientPoster() {
-        const w = 640, h = 1360;
-        const c = document.createElement('canvas');
-        c.width = w;
-        c.height = h;
-        const ctx = c.getContext('2d');
-
-        // Gradasi Putih-Ungu-Biru Elektrik
-        const bgGrad = ctx.createRadialGradient(w * 0.5, h * 0.54, 40, w * 0.5, h * 0.52, 760);
-        bgGrad.addColorStop(0, '#4f46e5');
-        bgGrad.addColorStop(0.38, '#6366f1');
-        bgGrad.addColorStop(0.68, '#a855f7');
-        bgGrad.addColorStop(0.88, '#e9d5ff');
-        bgGrad.addColorStop(1, '#ffffff');
-        ctx.fillStyle = bgGrad;
-        ctx.fillRect(0, 0, w, h);
-
-        ctx.textAlign = 'center';
-
-        // Teks Kecil Atas
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-        ctx.font = '600 17px sans-serif';
-        ctx.fillText('DESIGNED AROUND', w / 2, 415);
-        ctx.fillText('YOUR WORLD', w / 2, 440);
-
-        // Simbol "+" Kecil di Kiri Teks PHONE
-        ctx.strokeStyle = '#ffffff';
-        ctx.lineWidth = 3;
-        const px = 112, py = 580;
-        ctx.beginPath();
-        ctx.moveTo(px - 12, py);
-        ctx.lineTo(px + 12, py);
-        ctx.moveTo(px, py - 12);
-        ctx.lineTo(px, py + 12);
-        ctx.stroke();
-
-        // Tipografi Condensed Tinggi: "PHONE MOCKUP"
-        ctx.save();
-        ctx.translate(w / 2 + 10, 620);
-        ctx.scale(0.82, 1.32);
-        ctx.fillStyle = '#ffffff';
-        ctx.font = '800 112px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-        ctx.fillText('PHONE', 0, 0);
-        ctx.fillText('MOCKUP', 0, 96);
-        ctx.restore();
-
-        // Teks Bawah
-        ctx.fillStyle = '#1e1b4b';
-        ctx.font = '700 18px sans-serif';
-        ctx.fillText('SCREEN MOCKUP', w / 2, 1015);
-
-        ctx.fillStyle = '#312e81';
-        ctx.font = '500 16px sans-serif';
-        ctx.fillText('EXPERIENCE THE NEXT', w / 2, 1056);
-        ctx.fillText('BUILT AROUND YOUR EVERYDAY', w / 2, 1080);
-        ctx.fillText('SMART TECHNOLOGY SIMPLE', w / 2, 1104);
-
-        // Bulatan Panah Bawah Halus (seperti aksen di gambar referensi baru)
-        ctx.fillStyle = 'rgba(30, 27, 75, 0.14)';
-        ctx.beginPath();
-        ctx.arc(w / 2, 1225, 42, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = '#1e1b4b';
-        ctx.font = 'bold 26px sans-serif';
-        ctx.fillText('→', w / 2, 1234);
-
-        ctx.textAlign = 'left';
         return c;
       }
     }
 
-    /**
-     * 2. ENGINE RENDERER 3 KOLOM TEGAK STAGGERED (Persis Geometri Gambar Referensi)
-     */
     class VerticalStaggeredRenderer {
       constructor(canvas) {
         this.canvas = canvas;

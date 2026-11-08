@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnZoom.addEventListener('click', () => {
         renderer.zoomMode = renderer.zoomMode === 'reference' ? 'fit' : 'reference';
         btnZoom.textContent = renderer.zoomMode === 'reference'
-            ? '🔍 Zoom: 1:1 Persis Referensi'
+            ? '🔍 Zoom: 1:1'
             : '🔍 Zoom: Lihat Utuh 12 Kartu';
         refreshCanvas();
     });

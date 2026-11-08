@@ -1580,36 +1580,49 @@
     /**
      * 1. GENERATOR LAYAR DEMO MOBILE PORTRAIT (500 x 1060 - Rasio Modern iPhone 9:19)
      */
+    /**
+     * GENERATOR KARTU PLACEHOLDER WIREFRAME BERSIH (Estetik Pastel)
+     * Persis standar produksi LayMockup x PixelCam (Sesuai Referensi Visual)
+     */
     class DemoGenerator {
-      static generateSet(theme = 'light', isMobile = false) {
+      static generateSet(theme = 'light', isMobile = false, count = null) {
+        if (count === null || count === undefined) {
+          count = typeof TOTAL_SLOTS !== 'undefined' ? TOTAL_SLOTS : 12;
+        }
         const cards = [];
-        const count = typeof TOTAL_SLOTS !== 'undefined' ? TOTAL_SLOTS : 12;
         for (let i = 0; i < count; i++) {
           cards.push(this.createPlaceholderCard(i, theme, count, isMobile));
         }
         return cards;
       }
 
-      static createLightCard(index, count = 12, isMobile = false) {
+      static createLightCard(index, count = null, isMobile = false) {
+        if (count === null || count === undefined) count = typeof TOTAL_SLOTS !== 'undefined' ? TOTAL_SLOTS : 12;
         return this.createPlaceholderCard(index, 'light', count, isMobile);
       }
 
-      static createDarkCard(index, count = 12, isMobile = false) {
+      static createDarkCard(index, count = null, isMobile = false) {
+        if (count === null || count === undefined) count = typeof TOTAL_SLOTS !== 'undefined' ? TOTAL_SLOTS : 12;
         return this.createPlaceholderCard(index, 'dark', count, isMobile);
       }
 
-      static createPlaceholderCard(index, theme = 'light', count = 12, isMobile = false) {
+      static createPlaceholderCard(index, theme = 'light', count = null, isMobile = false) {
+        if (count === null || count === undefined) count = typeof TOTAL_SLOTS !== 'undefined' ? TOTAL_SLOTS : 12;
         const c = document.createElement('canvas');
         const w = isMobile ? 540 : 920;
-        const h = isMobile ? 1100 : 580;
+        const h = isMobile ? (count === 1 || count === 2 ? 1140 : 1100) : 580;
         c.width = w;
         c.height = h;
         const ctx = c.getContext('2d');
 
         const isDark = theme === 'dark' || theme === 'ecovision';
-        const isFocal = (count === 12 && (index === 5 || index === 6)) ||
+        const isFocal = (count === 1) ||
+                        (count === 2 && index === 1) ||
+                        (count === 4 && index === 2) ||
+                        (count === 6 && index === 3) ||
+                        (count === 7 && index === 3) ||
                         (count === 9 && index === 4) ||
-                        (count === 7 && index === 3);
+                        (count === 12 && (index === 5 || index === 6));
 
         // 1. Surface Background (Kotak Putih Abu Bersih)
         ctx.fillStyle = isDark ? '#0b0f17' : '#f8fafc';
@@ -1633,7 +1646,7 @@
 
         if (isMobile) {
           // ==========================================
-          // SMARTPHONE PORTRAIT WIREFRAME (540 x 1100)
+          // SMARTPHONE PORTRAIT WIREFRAME (540 x 1100 / 1140)
           // ==========================================
           // Dynamic Island Notch
           ctx.fillStyle = isDark ? '#1e293b' : '#e2e8f0';
@@ -1661,7 +1674,11 @@
 
           ctx.fillStyle = isFocal ? '#0f172a' : (isDark ? '#f8fafc' : '#0f172a');
           ctx.font = 'bold 18px sans-serif';
-          ctx.fillText(isFocal ? `🌸 SLOT #${index + 1} (FOKUS UTAMA)` : `SLOT #${index + 1}`, 38, topBarY + 36);
+          let mobileLabel = isFocal ? `🌸 SLOT #${index + 1} (FOKUS UTAMA)` : `SLOT #${index + 1}`;
+          if (count === 1) mobileLabel = '🌸 SLOT #1 · SOLO FLAGSHIP';
+          if (count === 2) mobileLabel = index === 0 ? '📱 SLOT #1 · HP KIRI' : '🌸 SLOT #2 · HP KANAN';
+          if (count === 6 && isFocal) mobileLabel = '🌸 SLOT #4 ★ HERO UTAMA (TENGAH)';
+          ctx.fillText(mobileLabel, 38, topBarY + 36);
 
           // Hero Area Skeleton
           const heroY = topBarY + 74;
@@ -1684,8 +1701,8 @@
 
           // Center Call-To-Action Dropzone
           const dropY = heroY + 240;
-          ctx.fillStyle = isDark ? 'rgba(16, 185, 129, 0.06)' : 'rgba(16, 185, 129, 0.04)';
-          ctx.strokeStyle = isFocal ? '#9BE3DE' : (isDark ? '#334155' : '#cbd5e1');
+          ctx.fillStyle = isFocal ? 'rgba(255, 227, 237, 0.55)' : (isDark ? '#0d131f' : '#ffffff');
+          ctx.strokeStyle = isFocal ? '#FF8EB2' : (isDark ? '#334155' : '#cbd5e1');
           ctx.lineWidth = 2;
           ctx.setLineDash([8, 6]);
           ctx.beginPath();
@@ -1694,10 +1711,10 @@
           ctx.stroke();
           ctx.setLineDash([]);
 
+          ctx.textAlign = 'center';
           ctx.fillStyle = isFocal ? '#0f766e' : (isDark ? '#64748b' : '#94a3b8');
           ctx.font = '42px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.fillText('📱', w / 2, dropY + 85);
+          ctx.fillText(isFocal ? '🌸' : '📱', w / 2, dropY + 85);
 
           ctx.fillStyle = isDark ? '#f8fafc' : '#0f172a';
           ctx.font = 'bold 20px sans-serif';
@@ -1708,8 +1725,8 @@
           ctx.fillText('Ketuk atau tarik screenshot 9:16 ke sini', w / 2, dropY + 165);
 
           ctx.fillStyle = isFocal ? '#83264e' : (isDark ? '#38bdf8' : '#0f766e');
-          ctx.font = 'bold 13px ui-monospace, monospace';
-          ctx.fillText('FORMAT: JPG / PNG / WEBP', w / 2, dropY + 205);
+          ctx.font = 'bold 12.5px ui-monospace, monospace';
+          ctx.fillText('PRESET WIREFRAME BERSIH • KOTAK PUTIH ABU • 9:16 RESOLUSI ASLI', w / 2, dropY + 205);
           ctx.textAlign = 'left';
 
           // Bottom List Skeletons
@@ -1754,7 +1771,14 @@
 
           ctx.fillStyle = isFocal ? '#0f172a' : (isDark ? '#f8fafc' : '#0f172a');
           ctx.font = 'bold 20px sans-serif';
-          ctx.fillText(isFocal ? `🌸 SLOT #${index + 1} (FOKUS UTAMA)` : `SLOT #${index + 1}`, 32, 40);
+          let deskLabel = isFocal ? `🌸 SLOT #${index + 1} (FOKUS UTAMA)` : `SLOT #${index + 1}`;
+          if (count === 1) deskLabel = '🌸 SLOT #1 · SOLO DESKTOP (FOKUS UTAMA)';
+          if (count === 2) deskLabel = index === 0 ? 'SLOT #1 · LAYAR KIRI' : '🌸 SLOT #2 ★ LAYAR KANAN (FOKUS UTAMA)';
+          if (count === 4) {
+            const posLabels = ['#1 · ATAS KIRI', '#2 · ATAS KANAN', '#3 ★ HERO PUSAT', '#4 · BAWAH KANAN'];
+            deskLabel = isFocal ? `🌸 SLOT ${posLabels[index]}` : `SLOT ${posLabels[index]}`;
+          }
+          ctx.fillText(deskLabel, 32, 40);
 
           ctx.fillStyle = isFocal ? '#9BE3DE' : (isDark ? '#1e293b' : '#f1f5f9');
           ctx.beginPath();
@@ -1847,9 +1871,6 @@
       }
     }
 
-    /**
-     * 2. ENGINE PROYEKSI BIDANG ISOMETRIK MOBILE (2 - 3 - 2 + 3D SMARTPHONE CHASSIS)
-     */
     class IsometricMobileRenderer {
       constructor(canvas) {
         this.canvas = canvas;
