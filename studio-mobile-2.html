@@ -707,6 +707,178 @@
       color: #475569;
       letter-spacing: -0.01em;
     }
+  
+    /* ============================================================
+       ANCHORED DOWNLOAD DROPDOWN (Zero Screen-Blur, Mobile Ready)
+       ============================================================ */
+    .topbar-right {
+      position: relative !important;
+      display: flex !important;
+      align-items: center !important;
+    }
+
+    .export-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 326px;
+      background: #ffffff;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      border-radius: 14px;
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.16), 0 3px 10px rgba(15, 23, 42, 0.06);
+      padding: 14px;
+      z-index: 1000;
+      box-sizing: border-box;
+      flex-direction: column;
+      gap: 10px;
+      transform-origin: top right;
+      animation: dropdownPop 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .export-dropdown.open {
+      display: flex !important;
+    }
+
+    @keyframes dropdownPop {
+      from {
+        opacity: 0;
+        transform: translateY(-6px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .export-dropdown-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 2px;
+    }
+
+    .export-dropdown-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .dropdown-close-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 18px;
+      line-height: 1;
+      padding: 2px 6px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .dropdown-close-btn:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    .export-dropdown-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .btn-dropdown-download {
+      flex: 1;
+      justify-content: center;
+      padding: 9px 12px;
+      font-size: 12.5px;
+      font-weight: 700;
+      border-radius: 9px;
+    }
+
+    .btn-dropdown-copy {
+      padding: 9px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 9px;
+    }
+
+    /* Single Clean Sidebar Close Button & Collapsible Tab */
+    .sidebar-close-btn {
+      width: 32px !important;
+      height: 32px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: #f1f5f9 !important;
+      color: #475569 !important;
+      border: 1px solid #cbd5e1 !important;
+      padding: 0 !important;
+      border-radius: 8px !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      flex-shrink: 0 !important;
+    }
+    .sidebar-close-btn:hover {
+      background: #e2e8f0 !important;
+      color: #0f172a !important;
+    }
+
+    .sidebar-toggle-btn {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      color: var(--text-muted);
+      display: none; /* Hidden by default when sidebar is open */
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 45;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+      transition: all 0.2s ease;
+    }
+    .sidebar-toggle-btn:hover {
+      background: #f8fafc;
+      color: var(--accent-primary);
+    }
+
+    @media (max-width: 900px) {
+      .sidebar-toggle-btn {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .export-dropdown {
+        position: fixed !important;
+        top: 58px !important;
+        right: 12px !important;
+        left: 12px !important;
+        width: auto !important;
+        max-width: none !important;
+        border-radius: 14px !important;
+        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.22) !important;
+      }
+      .export-res-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 6px !important;
+      }
+      .res-card {
+        padding: 8px 8px !important;
+      }
+      .res-title {
+        font-size: 11.5px !important;
+      }
+      .res-sub {
+        font-size: 10px !important;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -745,6 +917,44 @@
         </svg>
         <span>Download</span>
       </button>
+      <!-- Dropdown Popup Download (Anchored directly under Download button) -->
+      <div id="export-modal" class="export-dropdown">
+        <div class="export-dropdown-header">
+          <div class="export-dropdown-title">Pilih Resolusi Download</div>
+          <button id="btn-close-modal" class="dropdown-close-btn" title="Tutup">&times;</button>
+        </div>
+        <div class="export-res-grid">
+          <div class="res-card active" data-res="2752x1536">
+          <div class="res-title">Resolusi Studio ★</div>
+          <div class="res-sub">2752 × 1536 • High Detail</div>
+        </div>
+        <div class="res-card" data-res="3840x2160">
+          <div class="res-title">4K Ultra HD</div>
+          <div class="res-sub">3840 × 2160 • Ekstra Tajam</div>
+        </div>
+        <div class="res-card" data-res="1920x1080">
+          <div class="res-title">1080p Full HD</div>
+          <div class="res-sub">1920 × 1080 • Standar Web</div>
+        </div>
+        <div class="res-card" data-res="1600x1200">
+          <div class="res-title">Dribbble Shot</div>
+          <div class="res-sub">1600 × 1200 (4:3)</div>
+        </div>
+        </div>
+        <div class="export-dropdown-actions">
+          <button id="btn-export-download" class="btn-primary btn-dropdown-download">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Download PNG</span>
+          </button>
+          <button id="btn-copy-clipboard" class="btn-pill btn-dropdown-copy" title="Salin gambar ke clipboard">
+            <span>📋 Copy</span>
+          </button>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -787,7 +997,12 @@
           <div style="font-size: 14px; font-weight: 700;">Dual Phone Mockup</div>
           <span class="hud-badge">2 Perangkat</span>
         </div>
-        <button id="sidebar-close-mobile" class="modal-close" title="Tutup">&times;</button>
+        <button id="sidebar-close-mobile" class="sidebar-close-btn" title="Tutup Panel" aria-label="Tutup Panel">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
       </div>
 
       <div class="tab-content">
@@ -911,42 +1126,6 @@
             <div style="font-weight: 700;">Kembalikan ke Poster Referensi</div>
             <div style="font-size: 11px; color: var(--text-dim);">Reset layar HP ini ke poster bawaan</div>
           </div>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Export Modal -->
-  <div id="export-modal" class="modal-overlay">
-    <div class="modal-card">
-      <div class="modal-header">
-        <div class="modal-title">Export 3D Dual Phone PNG</div>
-        <button id="btn-close-modal" class="modal-close">&times;</button>
-      </div>
-      <div class="export-res-grid">
-        <div class="res-card active" data-res="2752x1536">
-          <div class="res-title">Resolusi Studio ★</div>
-          <div class="res-sub">2752 × 1536 • High Detail</div>
-        </div>
-        <div class="res-card" data-res="3840x2160">
-          <div class="res-title">4K Ultra HD</div>
-          <div class="res-sub">3840 × 2160 • Ekstra Tajam</div>
-        </div>
-        <div class="res-card" data-res="1920x1080">
-          <div class="res-title">1080p Full HD</div>
-          <div class="res-sub">1920 × 1080 • Standar Web</div>
-        </div>
-        <div class="res-card" data-res="1600x1200">
-          <div class="res-title">Dribbble Shot</div>
-          <div class="res-sub">1600 × 1200 (4:3)</div>
-        </div>
-      </div>
-      <div style="display: flex; gap: 10px;">
-        <button id="btn-export-download" class="btn-primary" style="flex: 1; justify-content: center; padding: 12px 20px;">
-          <span>⬇ Download High-Res PNG</span>
-        </button>
-        <button id="btn-copy-clipboard" class="btn-pill" style="padding: 12px 18px;">
-          <span>📋 Copy</span>
         </button>
       </div>
     </div>
@@ -1826,25 +2005,70 @@
         showToast('Semua pengaturan direset ke default');
       });
 
-      // Sidebar & Mobile Drawer
+      // Unified Sidebar & Mobile Drawer Logic (Zero collisions)
       const sidebar = document.getElementById('sidebar-panel');
       const backdrop = document.getElementById('mobile-backdrop');
-      document.getElementById('sidebar-toggle').addEventListener('click', () => sidebar.classList.toggle('collapsed'));
-      document.getElementById('mobile-fab').addEventListener('click', () => {
-        sidebar.classList.add('open');
-        backdrop.classList.add('open');
-      });
-      const closeDrawer = () => {
-        sidebar.classList.remove('open');
-        backdrop.classList.remove('open');
-      };
-      document.getElementById('sidebar-close-mobile').addEventListener('click', closeDrawer);
-      backdrop.addEventListener('click', closeDrawer);
+      const sidebarToggle = document.getElementById('sidebar-toggle');
+      const sidebarCloseMobile = document.getElementById('sidebar-close-mobile');
+      const mobileFab = document.getElementById('mobile-fab');
 
-      // Export PNG
+      function openSidebar() {
+        if (window.innerWidth <= 900) {
+          sidebar.classList.add('open');
+          backdrop.classList.add('open');
+        } else {
+          sidebar.classList.remove('collapsed');
+          if (sidebarToggle) sidebarToggle.style.display = 'none';
+        }
+      }
+
+      function closeSidebar() {
+        if (window.innerWidth <= 900) {
+          sidebar.classList.remove('open');
+          backdrop.classList.remove('open');
+        } else {
+          sidebar.classList.add('collapsed');
+          if (sidebarToggle) sidebarToggle.style.display = 'flex';
+        }
+      }
+
+      if (sidebarToggle) sidebarToggle.addEventListener('click', openSidebar);
+      if (sidebarCloseMobile) sidebarCloseMobile.addEventListener('click', closeSidebar);
+      if (mobileFab) mobileFab.addEventListener('click', openSidebar);
+      if (backdrop) backdrop.addEventListener('click', closeSidebar);
+
+      // Export PNG Dropdown Popup (Anchored directly under Download button)
       const exportModal = document.getElementById('export-modal');
-      document.getElementById('btn-open-export').addEventListener('click', () => exportModal.classList.add('open'));
-      document.getElementById('btn-close-modal').addEventListener('click', () => exportModal.classList.remove('open'));
+      const btnOpenExport = document.getElementById('btn-open-export');
+      const btnCloseModal = document.getElementById('btn-close-modal');
+
+      if (btnOpenExport && exportModal) {
+        btnOpenExport.addEventListener('click', (e) => {
+          e.stopPropagation();
+          exportModal.classList.toggle('open');
+        });
+      }
+
+      if (btnCloseModal && exportModal) {
+        btnCloseModal.addEventListener('click', (e) => {
+          e.stopPropagation();
+          exportModal.classList.remove('open');
+        });
+      }
+
+      if (exportModal) {
+        exportModal.addEventListener('click', (e) => {
+          e.stopPropagation();
+        });
+      }
+
+      document.addEventListener('click', (e) => {
+        if (exportModal && exportModal.classList.contains('open')) {
+          if (!exportModal.contains(e.target) && !btnOpenExport.contains(e.target)) {
+            exportModal.classList.remove('open');
+          }
+        }
+      });
 
       document.querySelectorAll('.res-card').forEach((card) => {
         card.addEventListener('click', () => {
