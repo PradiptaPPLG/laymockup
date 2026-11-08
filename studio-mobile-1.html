@@ -9,6 +9,7 @@
   <script src="libs/lucide.min.js"></script>
   <script>if (!window.lucide) { document.write('<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"><\/script>'); }</script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script src="js/camera-modal.js"></script>
 
   <style>
     :root {
@@ -1041,9 +1042,9 @@
             </button>
           </div>
 
+          <input type="file" id="single-file-input" accept="image/*" style="display: none;">
+          <input type="file" id="single-camera-input" accept="image/*" capture="environment" style="display: none;">
           <div id="batch-dropzone" class="dropzone">
-            <input type="file" id="single-file-input" accept="image/*" style="display: none;">
-            <input type="file" id="single-camera-input" accept="image/*" capture="environment" style="display: none;">
             <div style="font-size: 22px;">📥</div>
             <div class="dropzone-title">Tarik & lepas gambar layar HP ke sini</div>
             <div class="dropzone-sub">Dynamic Island otomatis tetap tampil di atas layar</div>
@@ -1979,9 +1980,30 @@
       const dropzone = document.getElementById('batch-dropzone');
       const slotModal = document.getElementById('slot-modal');
 
-      document.getElementById('btn-trigger-gallery').addEventListener('click', () => singleFileInput.click());
-      document.getElementById('btn-trigger-camera').addEventListener('click', () => singleCameraInput.click());
-      dropzone.addEventListener('click', () => singleFileInput.click());
+      singleFileInput.addEventListener('click', (e) => e.stopPropagation());
+      singleCameraInput.addEventListener('click', (e) => e.stopPropagation());
+
+      document.getElementById('btn-trigger-gallery').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        singleFileInput.click();
+      });
+      document.getElementById('btn-trigger-camera').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (window.openStudioCamera) {
+          window.openStudioCamera(async (blob) => {
+            await handleUploadedFile(blob);
+          }, () => singleCameraInput.click());
+        } else {
+          singleCameraInput.click();
+        }
+      });
+      dropzone.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        singleFileInput.click();
+      });
 
       async function handleUploadedFile(file) {
         if (!file || !file.type.startsWith('image/')) return;
@@ -2016,8 +2038,22 @@
         slotModal.classList.add('open');
       });
       document.getElementById('btn-close-slot-modal').addEventListener('click', () => slotModal.classList.remove('open'));
-      document.getElementById('btn-slot-file').addEventListener('click', () => singleFileInput.click());
-      document.getElementById('btn-slot-camera').addEventListener('click', () => singleCameraInput.click());
+      document.getElementById('btn-slot-file').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        singleFileInput.click();
+      });
+      document.getElementById('btn-slot-camera').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (window.openStudioCamera) {
+          window.openStudioCamera(async (blob) => {
+            await handleUploadedFile(blob);
+          }, () => singleCameraInput.click());
+        } else {
+          singleCameraInput.click();
+        }
+      });
       document.getElementById('btn-slot-remove').addEventListener('click', () => {
         userImage = null;
         slotModal.classList.remove('open');

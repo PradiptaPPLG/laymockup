@@ -15,6 +15,7 @@
   <script src="libs/lucide.min.js"></script>
   <script>if (!window.lucide) { document.write('<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"><\/script>'); }</script>
   <script src="libs/canvas-confetti.min.js"></script>
+  <script src="js/camera-modal.js"></script>
   <script>if (!window.confetti) { document.write('<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"><\/script>'); }</script>
 
   <style>
@@ -1390,9 +1391,9 @@
             </button>
           </div>
 
+          <input type="file" id="batch-file-input" multiple accept="image/*" style="display: none;">
+          <input type="file" id="camera-batch-input" accept="image/*" capture="environment" style="display: none;">
           <div id="batch-dropzone" class="dropzone">
-            <input type="file" id="batch-file-input" multiple accept="image/*" style="display: none;">
-            <input type="file" id="camera-batch-input" accept="image/*" capture="environment" style="display: none;">
             <div style="font-size: 22px;">📥</div>
             <div class="dropzone-title">Tarik & lepas screenshot ke sini</div>
             <div class="dropzone-sub">Mendukung JPG, PNG, WEBP (Otomatis Rapi)</div>
@@ -2175,9 +2176,35 @@
       const cameraBatchInput = document.getElementById('camera-batch-input');
       const dropzone = document.getElementById('batch-dropzone');
 
-      document.getElementById('btn-trigger-gallery').addEventListener('click', () => batchInput.click());
-      document.getElementById('btn-trigger-camera').addEventListener('click', () => cameraBatchInput.click());
-      dropzone.addEventListener('click', () => batchInput.click());
+      batchInput.addEventListener('click', (e) => e.stopPropagation());
+      cameraBatchInput.addEventListener('click', (e) => e.stopPropagation());
+
+      document.getElementById('btn-trigger-gallery').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        batchInput.click();
+      });
+      document.getElementById('btn-trigger-camera').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (window.openStudioCamera) {
+          window.openStudioCamera(async (blob) => {
+            const img = await loadImageFile(blob);
+            let startIdx = userImages.findIndex((im) => im === null);
+            if (startIdx === -1) startIdx = 0;
+            userImages[startIdx] = img;
+            refreshCanvas();
+            showToast(`📸 Foto kamera berhasil dimasukkan ke Slot #${startIdx + 1}!`);
+          }, () => cameraBatchInput.click());
+        } else {
+          cameraBatchInput.click();
+        }
+      });
+      dropzone.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        batchInput.click();
+      });
 
       async function handleBatchFiles(fileList) {
         const files = Array.from(fileList).filter((f) => f.type.startsWith('image/'));
@@ -2226,9 +2253,29 @@
         });
       });
 
+      singleFileInput.addEventListener('click', (e) => e.stopPropagation());
+      singleCameraInput.addEventListener('click', (e) => e.stopPropagation());
+
       document.getElementById('btn-close-slot-modal').addEventListener('click', () => slotModal.classList.remove('open'));
-      document.getElementById('btn-slot-file').addEventListener('click', () => singleFileInput.click());
-      document.getElementById('btn-slot-camera').addEventListener('click', () => singleCameraInput.click());
+      document.getElementById('btn-slot-file').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        singleFileInput.click();
+      });
+      document.getElementById('btn-slot-camera').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (window.openStudioCamera) {
+          window.openStudioCamera(async (blob) => {
+            userImages[activeSlotIndex] = await loadImageFile(blob);
+            slotModal.classList.remove('open');
+            refreshCanvas();
+            showToast(`📸 Slot #${activeSlotIndex + 1} berhasil difoto!`);
+          }, () => singleCameraInput.click());
+        } else {
+          singleCameraInput.click();
+        }
+      });
 
       async function handleSingleFile(file) {
         if (!file) return;
