@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>3D Mobile App Screen Mockup Studio - 2-3-2 Showcase</title>
+  <title>2-3-2 Mobile Smartphone 3D - LayMockup × PixelCam</title>
 
   <!-- CDN Icons & Confetti -->
   <script src="libs/lucide.min.js"></script>
@@ -1030,6 +1030,40 @@
       }
     }
   
+  
+    /* Clean Theme Toggle Button (Image 3 Style) */
+    .btn-theme-toggle {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #ffffff;
+      border: 1.5px solid rgba(15, 23, 42, 0.12);
+      color: #334155;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-theme-toggle:hover {
+      background: #f8fafc;
+      border-color: rgba(15, 23, 42, 0.25);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    }
+    .btn-theme-toggle.dark-mode {
+      background: #0f172a;
+      border-color: #334155;
+      color: #fbbf24;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    .change-color-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #475569;
+      letter-spacing: -0.01em;
+    }
   </style>
 </head>
 <body>
@@ -1042,27 +1076,31 @@
         <span>←</span> Beranda
       </a>
       <div class="brand-icon">📱</div>
-      <div class="brand-title">3D Mobile Mockup Studio</div>
+      <div class="brand-title">2-3-2 Mobile Smartphone 3D</div>
       <span id="theme-badge" class="brand-badge">2-3-2 Mobile App</span>
     </div>
 
     <!-- Center Theme Toggles -->
-    <div class="topbar-center">
-      <button id="btn-theme-light" class="btn-pill active" title="Tema Light Mode (Wireframe Bersih)">
-        <span>🌸 Pastel Light</span>
-      </button>
-      <button id="btn-theme-dark" class="btn-pill" title="Tema Dark Mode (Wireframe Sinematik)">
-        <span>🌙 Wireframe Dark</span>
-      </button>
-      <button id="btn-theme-indigo" class="btn-pill" title="Tema Referensi Indigo Mobile">
-        <span>📱 Studio Slate</span>
+        <!-- Center Theme Toggle -->
+    <div class="topbar-center" style="display:flex; align-items:center; justify-content:center; gap:9px;">
+      <span class="change-color-label">Change color</span>
+      <button id="btn-theme-toggle" class="btn-theme-toggle" title="Toggle Light / Dark Mode" aria-label="Toggle Light / Dark Mode">
+        <svg id="theme-toggle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
       </button>
     </div>
 
     <!-- Right Action Buttons -->
+        <!-- Right Action Buttons -->
     <div class="topbar-right">
-      <button id="btn-open-export" class="btn-primary">
-        <span>⬇ Export PNG</span>
+      <button id="btn-open-export" class="btn-primary" title="Download Mockup PNG">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        <span>Download</span>
       </button>
     </div>
   </header>
@@ -2009,34 +2047,38 @@
       }
 
       // Tema Switching
-      const btnIndigo = document.getElementById('btn-theme-indigo');
-      const btnLight = document.getElementById('btn-theme-light');
-      const btnDark = document.getElementById('btn-theme-dark');
+      // Theme Toggle Controller
+      const btnToggle = document.getElementById('btn-theme-toggle');
+      const toggleIcon = document.getElementById('theme-toggle-icon');
+      const themeBadge = document.getElementById('theme-badge');
+
+      const moonIconSvg = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+      const sunIconSvg = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
 
       function setTheme(theme) {
         renderer.theme = theme;
-        demoCanvases = DemoGenerator.generateSet(theme, true);
-        btnIndigo.classList.toggle('active', theme === 'indigo');
-        btnLight.classList.toggle('active', theme === 'light');
-        btnDark.classList.toggle('active', theme === 'dark');
-
-        const bgMap = { indigo: '#cfd2d6', light: '#d7eae6', dark: '#070a0f' };
-        document.documentElement.style.setProperty('--bg-canvas', bgMap[theme]);
+        const isDark = (theme === 'dark');
+        if (btnToggle) {
+          btnToggle.classList.toggle('dark-mode', isDark);
+          btnToggle.setAttribute('title', isDark ? 'Beralih ke Light Mode' : 'Beralih ke Dark Mode');
+        }
+        if (toggleIcon) {
+          toggleIcon.innerHTML = isDark ? sunIconSvg : moonIconSvg;
+        }
+        if (themeBadge) {
+          themeBadge.textContent = isDark ? 'Dark Mode' : 'Light Mode';
+        }
+        document.documentElement.style.setProperty('--bg-canvas', isDark ? '#070a0f' : '#dbe2ec');
         refreshCanvas();
       }
 
-      btnIndigo.addEventListener('click', () => {
-        setTheme('indigo');
-        showToast('Tema Reference Indigo Mobile aktif');
-      });
-      btnLight.addEventListener('click', () => {
-        setTheme('light');
-        showToast('Tema Light Mode aktif (Wireframe Bersih)');
-      });
-      btnDark.addEventListener('click', () => {
-        setTheme('dark');
-        showToast('Tema Dark Mode aktif (Wireframe Sinematik)');
-      });
+      if (btnToggle) {
+        btnToggle.addEventListener('click', () => {
+          const next = (renderer.theme === 'dark') ? 'light' : 'dark';
+          setTheme(next);
+          showToast(`Mode ${next === 'dark' ? 'Dark' : 'Light'} aktif`);
+        });
+      }
 
       // Kontrol HUD Bawah (Zoom, Bodi HP 3D, Mode Fit)
       const btnZoom = document.getElementById('btn-toggle-zoom');
