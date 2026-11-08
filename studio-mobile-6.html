@@ -675,19 +675,32 @@
         display: none;
       }
       .sidebar {
-        position: fixed;
-        right: 0;
-        top: 0;
-        height: 100%;
-        margin: 0;
-        width: 340px;
-        max-width: 88vw;
-        border-radius: 16px 0 0 16px;
-        z-index: 45;
-        transform: translateX(100%);
+        position: fixed !important;
+        top: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        left: auto !important;
+        height: 100% !important;
+        height: 100dvh !important;
+        margin: 0 !important;
+        width: 380px !important;
+        max-width: 88vw !important;
+        border-radius: 18px 0 0 18px !important;
+        border: none !important;
+        border-left: 1px solid var(--border-glass) !important;
+        background: #ffffff !important;
+        z-index: 1000 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        transform: translateX(100%) !important;
+        transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        box-shadow: -8px 0 32px rgba(0, 0, 0, 0.22) !important;
       }
       .sidebar.open {
-        transform: translateX(0);
+        transform: translateX(0) !important;
+      }
+      .mobile-backdrop {
+        z-index: 999 !important;
       }
       .mobile-fab {
         display: flex;
