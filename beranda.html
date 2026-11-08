@@ -14,11 +14,17 @@
         if (sessionStorage.getItem('laymockup_intro_seen') === '1') {
           document.documentElement.classList.add('skip-intro');
         }
+        if (sessionStorage.getItem('laymockup_ribbon_dismissed') === '1') {
+          document.documentElement.classList.add('hide-ribbon');
+        }
       } catch (e) {}
     })();
   </script>
   <style>
     html.skip-intro #intro-overlay {
+      display: none !important;
+    }
+    html.hide-ribbon #top-collab-ribbon {
       display: none !important;
     }
   </style>
@@ -167,12 +173,13 @@
       border: none;
       color: #64748b;
       cursor: pointer;
-      padding: 4px;
+      padding: 6px;
       border-radius: 6px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       transition: all 0.2s ease;
+      z-index: 20;
     }
 
     .ribbon-close-btn:hover {
@@ -185,14 +192,26 @@
     }
 
     .top-ribbon .badge-sparkle {
-      background: #9BE3DE;
-      color: #044343;
-      border: 1px solid #7cd1cb;
-      padding: 3px 9px;
-      border-radius: 999px;
+      background: transparent !important;
+      color: #0f766e !important;
+      border: none !important;
+      padding: 0 !important;
       font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      flex-shrink: 0;
+      box-shadow: none !important;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .ribbon-dot {
+      color: #94a3b8;
       font-weight: 700;
-      letter-spacing: 0.03em;
+      margin: 0 2px;
+      user-select: none;
     }
 
     /* Header & Navbar */
@@ -2204,6 +2223,306 @@
         color: #777777;
         letter-spacing: 0.06em;
       }
+
+    /* ============================================================
+       MOBILE PERFECTION ENGINE (Clean, Proportional, No Bloat)
+       ============================================================ */
+    .hero-actions-sub {
+      display: contents;
+    }
+
+    @media (max-width: 768px) {
+      /* 1. Top Ribbon Fix */
+      .top-ribbon {
+        font-size: 10.5px !important;
+        padding: 5px 34px 5px 10px !important;
+        gap: 5px !important;
+      }
+      .top-ribbon .badge-sparkle {
+        font-size: 9px !important;
+        padding: 2px 7px !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+      }
+      .top-ribbon-content {
+        gap: 5px !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+      }
+
+      /* 2. Compact Hero Section (No more oversized container) */
+      .hero-section {
+        padding: 18px 0 22px 0 !important;
+      }
+      .hero-pill {
+        font-size: 9.5px !important;
+        padding: 4px 10px !important;
+        margin: 0 auto 10px auto !important;
+        line-height: 1.3 !important;
+      }
+      .hero-title {
+        font-size: clamp(20px, 5.8vw, 25px) !important;
+        line-height: 1.2 !important;
+        margin-bottom: 8px !important;
+      }
+      .hero-desc {
+        font-size: 12px !important;
+        line-height: 1.45 !important;
+        margin-bottom: 10px !important;
+        max-width: 95% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+      .hero-chips {
+        gap: 5px !important;
+        margin: 6px 0 14px 0 !important;
+      }
+      .hero-chip {
+        font-size: 10px !important;
+        padding: 3px 8px !important;
+        gap: 3px !important;
+      }
+
+      /* Hero Actions: Main button on top, 2 sub-buttons side-by-side */
+      .hero-actions {
+        width: 100% !important;
+        max-width: 360px !important;
+        margin: 0 auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 7px !important;
+      }
+      .hero-main-btn {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 9px 12px !important;
+        font-size: 12px !important;
+        border-radius: 9px !important;
+      }
+      .hero-actions-sub {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 7px !important;
+        width: 100% !important;
+      }
+      .hero-sub-btn {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 8px 6px !important;
+        font-size: 10.5px !important;
+        justify-content: center !important;
+        border-radius: 8px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+
+      /* 3. Section Headers (Compact & proportional) */
+      .section-header {
+        margin-bottom: 14px !important;
+      }
+      .section-overline {
+        font-size: 9px !important;
+        letter-spacing: 0.05em !important;
+      }
+      .section-title {
+        font-size: clamp(17px, 4.8vw, 21px) !important;
+      }
+      .section-desc {
+        font-size: 11.5px !important;
+        line-height: 1.4 !important;
+        max-width: 95% !important;
+      }
+
+      /* 4. Compact Etalase Cards */
+      .etalase-section {
+        padding: 22px 0 !important;
+      }
+      .etalase-grid {
+        gap: 7px !important;
+      }
+      .etalase-card {
+        border-radius: 11px !important;
+      }
+      .etalase-content {
+        padding: 7px 6px !important;
+      }
+      .etalase-meta .tag-recommended {
+        display: none !important; /* Hide duplicate tag so TEMPLATE 0X doesn't get cut off */
+      }
+      .etalase-tag {
+        font-size: 7.5px !important;
+        letter-spacing: 0.02em !important;
+      }
+      .etalase-title {
+        font-size: 11px !important;
+        min-height: 26px !important;
+        line-height: 1.2 !important;
+        margin-bottom: 3px !important;
+      }
+
+      /* Hide 3rd & 4th specs on mobile (Jarak Celah & Karakter) as requested */
+      .specs-grid .spec-item:nth-child(n+3) {
+        display: none !important;
+      }
+      .specs-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 2px 4px !important;
+        padding: 4px 5px !important;
+        margin-bottom: 5px !important;
+        border-radius: 6px !important;
+      }
+      .spec-key {
+        font-size: 6.8px !important;
+      }
+      .spec-val {
+        font-size: 8px !important;
+      }
+      .etalase-btn-wrap .btn {
+        padding: 6px 4px !important;
+        font-size: 10px !important;
+        border-radius: 6px !important;
+      }
+
+      /* 5. Tutorial Section */
+      .tutorial-section {
+        padding: 22px 0 !important;
+      }
+      .tutorial-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 7px !important;
+      }
+      .tutorial-card {
+        padding: 9px 8px !important;
+        border-radius: 11px !important;
+        gap: 5px !important;
+      }
+      .tutorial-step-badge {
+        font-size: 8.5px !important;
+        padding: 2px 4px !important;
+      }
+      .tutorial-icon-box {
+        width: 26px !important;
+        height: 26px !important;
+      }
+      .tutorial-icon-box svg {
+        width: 13px !important;
+        height: 13px !important;
+      }
+      .tutorial-title {
+        font-size: 11px !important;
+        margin-bottom: 2px !important;
+        line-height: 1.25 !important;
+      }
+      .tutorial-desc {
+        font-size: 9.5px !important;
+        line-height: 1.35 !important;
+      }
+      .tutorial-pill-tag {
+        font-size: 8.5px !important;
+        padding: 2px 4px !important;
+      }
+
+      /* 6. Features & Compare & CTA */
+      .features-section,
+      .compare-section,
+      .cta-section {
+        padding: 22px 0 !important;
+      }
+      .features-grid {
+        gap: 8px !important;
+      }
+      .feature-card {
+        padding: 12px 10px !important;
+        border-radius: 11px !important;
+        gap: 6px !important;
+      }
+      .feature-card h3 {
+        font-size: 12.5px !important;
+      }
+      .feature-card p {
+        font-size: 10.5px !important;
+        line-height: 1.35 !important;
+      }
+      .compare-table th,
+      .compare-table td {
+        padding: 7px 8px !important;
+        font-size: 11px !important;
+      }
+      .cta-card {
+        padding: 18px 12px !important;
+        border-radius: 12px !important;
+      }
+      .cta-title {
+        font-size: 17px !important;
+      }
+      .cta-desc {
+        font-size: 11.5px !important;
+      }
+
+      /* 7. CLEAN, COMPACT 2-COLUMN FOOTER (No more endless bloated list) */
+      .footer {
+        padding: 24px 0 16px 0 !important;
+      }
+      .footer-container {
+        gap: 16px !important;
+      }
+      .footer-top {
+        gap: 14px !important;
+      }
+      .footer-tagline {
+        font-size: 11px !important;
+        line-height: 1.4 !important;
+        margin-bottom: 8px !important;
+        max-width: 100% !important;
+      }
+      .footer-creator-pill {
+        padding: 3px 8px !important;
+        font-size: 10.5px !important;
+      }
+      .footer-nav-grid {
+        display: grid !important;
+        grid-template-columns: 1.15fr 0.85fr !important;
+        gap: 10px !important;
+        width: 100% !important;
+      }
+      .footer-col-title {
+        font-size: 10px !important;
+        letter-spacing: 0.05em !important;
+        margin-bottom: 5px !important;
+        color: #0f172a !important;
+      }
+      .footer-menu {
+        gap: 2.5px !important;
+      }
+      .footer-menu a {
+        font-size: 10px !important;
+        padding: 1.5px 0 !important;
+        line-height: 1.3 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        display: block !important;
+      }
+      .footer-bottom {
+        padding-top: 12px !important;
+        gap: 6px !important;
+      }
+      .footer-copyright {
+        font-size: 10px !important;
+      }
+      .footer-badge-status {
+        font-size: 9.5px !important;
+        padding: 2px 6px !important;
+      }
+    }
+
+    @media (max-width: 440px) {
+      .tutorial-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -2255,7 +2574,7 @@
   <aside class="top-ribbon" id="top-collab-ribbon">
     <div class="top-ribbon-content">
       <span class="badge-sparkle">✦ COLLABORATION</span>
-      <span><strong>LayMockup × PixelCam</strong> — Precision 3D Isometric Mockup Engine.</span>
+      <span><strong>LayMockup × PixelCam</strong> - Precision 3D Isometric Mockup Engine.</span>
     </div>
     <button id="btn-close-ribbon" class="ribbon-close-btn" aria-label="Tutup Banner Kolaborasi" title="Sembunyikan Pengumuman">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -2384,42 +2703,44 @@
         </p>
 
         <!-- Cute Pastel Chips -->
-        <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin: 20px 0 28px 0;">
-          <span style="display:inline-flex; align-items:center; gap:6px; background:#FFE3ED; border:1.5px solid #FFB8D2; color:#9d174d; font-weight:700; font-size:12px; padding:6px 14px; border-radius:999px; box-shadow:0 2px 8px rgba(255,184,210,0.35);">
+        <div class="hero-chips" style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin: 16px 0 22px 0;">
+          <span class="hero-chip" style="display:inline-flex; align-items:center; gap:6px; background:#FFE3ED; border:1.5px solid #FFB8D2; color:#9d174d; font-weight:700; font-size:12px; padding:6px 14px; border-radius:999px; box-shadow:0 2px 8px rgba(255,184,210,0.35);">
             9 Template Isometrik
           </span>
-          <span style="display:inline-flex; align-items:center; gap:6px; background:#eafaf8; border:1.5px solid #9BE3DE; color:#044343; font-weight:700; font-size:12px; padding:6px 14px; border-radius:999px; box-shadow:0 2px 8px rgba(155,227,222,0.3);">
+          <span class="hero-chip" style="display:inline-flex; align-items:center; gap:6px; background:#eafaf8; border:1.5px solid #9BE3DE; color:#044343; font-weight:700; font-size:12px; padding:6px 14px; border-radius:999px; box-shadow:0 2px 8px rgba(155,227,222,0.3);">
             100% Client-Side Private
           </span>
-          <span style="display:inline-flex; align-items:center; gap:6px; background:#edf9f8; border:1.5px solid #BEEBE9; color:#0f3b42; font-weight:700; font-size:12px; padding:6px 14px; border-radius:999px; box-shadow:0 2px 8px rgba(190,235,233,0.3);">
+          <span class="hero-chip" style="display:inline-flex; align-items:center; gap:6px; background:#edf9f8; border:1.5px solid #BEEBE9; color:#0f3b42; font-weight:700; font-size:12px; padding:6px 14px; border-radius:999px; box-shadow:0 2px 8px rgba(190,235,233,0.3);">
             4K PNG Resolusi Asli
           </span>
         </div>
 
         <div class="hero-actions" style="justify-content: center; gap: 14px;">
-          <a href="#etalase" class="btn btn-primary btn-lg" style="background:#9BE3DE; color:#044343; font-weight:700; border:1.5px solid #7ed5cf; box-shadow:0 6px 20px rgba(155,227,222,0.5);">
+          <a href="#etalase" class="btn btn-primary btn-lg hero-main-btn" style="background:#9BE3DE; color:#044343; font-weight:700; border:1.5px solid #7ed5cf; box-shadow:0 6px 20px rgba(155,227,222,0.5);">
             Jelajahi 9 Template
             <svg width="15" height="15" viewBox="0 0 14 14" fill="none">
               <path d="M7 2v10M2 7l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
                 stroke-linejoin="round" />
             </svg>
           </a>
-          <a href="https://nector-ui.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn btn-lg" style="background:#FFE3ED; color:#9d174d; font-weight:700; border:1.5px solid #FFB8D2; box-shadow:0 6px 20px rgba(255,184,210,0.45);" title="Buka Photobooth Studio (Nector UI)">
-            Buka Photobooth
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-              <polyline points="15 3 21 3 21 9"></polyline>
-              <line x1="10" y1="14" x2="21" y2="3"></line>
-            </svg>
-          </a>
-          <a href="https://pixelcam-flame.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn btn-lg" style="background:#edf9f8; color:#0f3b42; font-weight:700; border:1.5px solid #BEEBE9; box-shadow:0 6px 20px rgba(190,235,233,0.35);" title="Jelajahi Template Website PixelCam">
-            Jelajahi Template Website
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-              <polyline points="15 3 21 3 21 9"></polyline>
-              <line x1="10" y1="14" x2="21" y2="3"></line>
-            </svg>
-          </a>
+          <div class="hero-actions-sub">
+            <a href="https://nector-ui.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn btn-lg hero-sub-btn" style="background:#FFE3ED; color:#9d174d; font-weight:700; border:1.5px solid #FFB8D2; box-shadow:0 6px 20px rgba(255,184,210,0.45);" title="Buka Photobooth Studio (Nector UI)">
+              Buka Photobooth
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
+            <a href="https://pixelcam-flame.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn btn-lg hero-sub-btn" style="background:#edf9f8; color:#0f3b42; font-weight:700; border:1.5px solid #BEEBE9; box-shadow:0 6px 20px rgba(190,235,233,0.35);" title="Jelajahi Template Website PixelCam">
+              Jelajahi Template Website
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -3206,6 +3527,20 @@
 
   <!-- Mini Isometric Preview Renderer & Mobile Drawer Script -->
   <script>
+    // 0. Top Collaboration Ribbon Dismissal (with session storage)
+    const topRibbon = document.getElementById('top-collab-ribbon');
+    const btnCloseRibbon = document.getElementById('btn-close-ribbon');
+    if (btnCloseRibbon && topRibbon) {
+      btnCloseRibbon.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        topRibbon.style.display = 'none';
+        try {
+          sessionStorage.setItem('laymockup_ribbon_dismissed', '1');
+        } catch (err) {}
+      });
+    }
+
     // 1. Mobile Menu Drawer Controller
     const menuBtn = document.getElementById('mobile-menu-btn');
     const mobileNav = document.getElementById('mobile-nav');
