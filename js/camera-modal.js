@@ -345,5 +345,15 @@
       }
     }
   };
+
+  // Auto-load AI Retouch Studio Suite
+  (function loadAIRetouchModule() {
+    if (typeof window !== 'undefined' && !window.openAIRetouchModal) {
+      const s = document.createElement('script');
+      s.src = 'js/ai-retouch-modal.js';
+      s.async = true;
+      document.head.appendChild(s);
+    }
+  })();
 })();
 
