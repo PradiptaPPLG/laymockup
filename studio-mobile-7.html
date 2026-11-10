@@ -1638,8 +1638,8 @@
       static createPlaceholderCard(index, theme = 'light', count = null, isMobile = false) {
         if (count === null || count === undefined) count = typeof TOTAL_SLOTS !== 'undefined' ? TOTAL_SLOTS : 12;
         const c = document.createElement('canvas');
-        const w = isMobile ? 540 : 920;
-        const h = isMobile ? (count === 1 || count === 2 ? 1140 : 1100) : 580;
+        const w = isMobile ? 540 : 960;
+        const h = isMobile ? (count === 1 || count === 2 ? 1140 : 1100) : 540;
         c.width = w;
         c.height = h;
         const ctx = c.getContext('2d');
@@ -1785,7 +1785,7 @@
 
         } else {
           // ==========================================
-          // LANDSCAPE WIREFRAME CARD (920 x 580)
+          // LANDSCAPE WIREFRAME CARD (960 x 540 - 16:9 Landscape)
           // ==========================================
           const headerH = 64;
           ctx.fillStyle = isFocal ? '#FFE3ED' : (isDark ? '#161f30' : (index % 3 === 0 ? '#FFE3ED' : (index % 3 === 1 ? '#9BE3DE' : '#BEEBE9')));
