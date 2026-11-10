@@ -1621,8 +1621,8 @@
 
       static createPlaceholderCard(index, theme = 'light', count = 12, isMobile = false) {
         const c = document.createElement('canvas');
-        const w = isMobile ? 540 : 920;
-        const h = isMobile ? 1100 : 580;
+        const w = isMobile ? 540 : 960;
+        const h = isMobile ? 1100 : 540;
         c.width = w;
         c.height = h;
         const ctx = c.getContext('2d');
@@ -1840,7 +1840,7 @@
 
           ctx.fillStyle = isFocal ? '#83264e' : (isDark ? '#38bdf8' : '#0f766e');
           ctx.font = 'bold 12.5px ui-monospace, monospace';
-          ctx.fillText('PRESET WIREFRAME BERSIH • KOTAK PUTIH ABU • 1:1 RESOLUSI ASLI', w / 2, boxY + 182);
+          ctx.fillText('PRESET WIREFRAME BERSIH • KOTAK PUTIH ABU • 16:9 RESOLUSI ASLI', w / 2, boxY + 182);
           ctx.textAlign = 'left';
 
           // Bottom Skeleton Rows
@@ -1894,7 +1894,7 @@
 
         // Rasio Kartu Landscape PC (16:10 -> 960 x 600) + Celah Studio Lega (68px)
         this.cardW = 960;
-        this.cardH = 600;
+        this.cardH = 540;
         this.cardRadius = 26;
         this.gapX = 68;
         this.gapY = 68;
@@ -2093,17 +2093,17 @@
           const imgRatio = imgW / imgH;
 
           let drawW = w, drawH = h, drawX = x, drawY = y;
-          // Jika gambar hampir 16:10 / 16:9, penuh; jika jauh berbeda, sesuaikan proporsional
-          if (Math.abs(imgRatio - cardRatio) > 0.22) {
-            if (imgRatio > cardRatio) {
-              drawW = w;
-              drawH = w / imgRatio;
-              drawY = y + (h - drawH) / 2;
-            } else {
-              drawH = h;
-              drawW = h * imgRatio;
-              drawX = x + (w - drawW) / 2;
-            }
+          // Mode True 16:9 Landscape Desktop (Cover): Selalu mengisi seluruh kartu tanpa rongga putih
+          if (imgRatio > cardRatio) {
+            drawH = h;
+            drawW = h * imgRatio;
+            drawX = x + (w - drawW) / 2;
+            drawY = y;
+          } else {
+            drawW = w;
+            drawH = w / imgRatio;
+            drawX = x;
+            drawY = y + (h - drawH) / 2;
           }
           ctx.imageSmoothingEnabled = true;
           ctx.imageSmoothingQuality = 'high';

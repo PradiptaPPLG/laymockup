@@ -1430,7 +1430,7 @@
         <div class="section">
           <div class="section-title">
             <span>Upload Foto (File / Kamera)</span>
-            <span class="hud-badge">0% Crop</span>
+            <span class="hud-badge">16:9 Desktop (Full)</span>
           </div>
 
           <div class="upload-actions-grid">
@@ -1635,8 +1635,8 @@
 
       static createPlaceholderCard(index, theme = 'light', count = 12, isMobile = false) {
         const c = document.createElement('canvas');
-        const w = isMobile ? 540 : 920;
-        const h = isMobile ? 1100 : 580;
+        const w = isMobile ? 540 : 960;
+        const h = isMobile ? 1100 : 540;
         c.width = w;
         c.height = h;
         const ctx = c.getContext('2d');
@@ -1854,7 +1854,7 @@
 
           ctx.fillStyle = isFocal ? '#83264e' : (isDark ? '#38bdf8' : '#0f766e');
           ctx.font = 'bold 12.5px ui-monospace, monospace';
-          ctx.fillText('PRESET WIREFRAME BERSIH • KOTAK PUTIH ABU • 1:1 RESOLUSI ASLI', w / 2, boxY + 182);
+          ctx.fillText('PRESET WIREFRAME BERSIH • KOTAK PUTIH ABU • 16:9 RESOLUSI ASLI', w / 2, boxY + 182);
           ctx.textAlign = 'left';
 
           // Bottom Skeleton Rows
@@ -1899,8 +1899,8 @@
         this.zoomFactor = 1.32;
 
         // Dimensi kartu & celah lorong (konsisten, 0% overlap)
-        this.cardW = 920;
-        this.cardH = 580;
+        this.cardW = 960;
+        this.cardH = 540;
         this.cardRadius = 22;
         this.gapX = 36;
         this.gapY = 36;
@@ -2048,7 +2048,7 @@
           ctx.fill();
         }
 
-        // 3. Permukaan Kartu & Gambar (0% Crop)
+        // 3. Permukaan Kartu & Gambar (True 16:9 Landscape - Cover)
         ctx.save();
         ctx.beginPath();
         ctx.roundRect(x, y, w, h, r);
@@ -2063,16 +2063,17 @@
           const imgRatio = imgW / imgH;
 
           let drawW = w, drawH = h, drawX = x, drawY = y;
-          if (Math.abs(imgRatio - cardRatio) > 0.18) {
-            if (imgRatio > cardRatio) {
-              drawW = w;
-              drawH = w / imgRatio;
-              drawY = y + (h - drawH) / 2;
-            } else {
-              drawH = h;
-              drawW = h * imgRatio;
-              drawX = x + (w - drawW) / 2;
-            }
+          // Mode True 16:9 Landscape Desktop (Cover): Selalu mengisi seluruh kartu tanpa rongga putih
+          if (imgRatio > cardRatio) {
+            drawH = h;
+            drawW = h * imgRatio;
+            drawX = x + (w - drawW) / 2;
+            drawY = y;
+          } else {
+            drawW = w;
+            drawH = w / imgRatio;
+            drawX = x;
+            drawY = y + (h - drawH) / 2;
           }
           ctx.imageSmoothingEnabled = true;
           ctx.imageSmoothingQuality = 'high';
