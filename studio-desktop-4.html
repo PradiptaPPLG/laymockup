@@ -1110,6 +1110,12 @@
       transform: translateY(-1px);
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     }
+    .btn-theme-toggle.auto-mode {
+      background: #ffffff;
+      border-color: #0f766e;
+      color: #0f766e;
+      box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.15), 0 2px 6px rgba(0, 0, 0, 0.06);
+    }
     .btn-theme-toggle.dark-mode {
       background: #0f172a;
       border-color: #334155;
@@ -1318,9 +1324,9 @@
     <!-- Center Theme Toggle -->
     <div class="topbar-center" style="display:flex; align-items:center; justify-content:center; gap:9px;">
       <span class="change-color-label">Change color</span>
-      <button id="btn-theme-toggle" class="btn-theme-toggle" title="Toggle Light / Dark Mode" aria-label="Toggle Light / Dark Mode">
+      <button id="btn-theme-toggle" class="btn-theme-toggle auto-mode" title="Tema: Sesuaikan Gambar (Auto)" aria-label="Toggle Theme Mode">
         <svg id="theme-toggle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle>
         </svg>
       </button>
     </div>
@@ -1871,7 +1877,7 @@
         this.canvas.width = this.baseWidth;
         this.canvas.height = this.baseHeight;
 
-        this.theme = 'light';
+        this.theme = 'auto';
 
         // Default Zoom 0.95 agar ke-4 kartu tampil besar & utuh di tengah kanvas
         this.zoomFactor = 0.95;
@@ -1926,7 +1932,7 @@
         ctx.save();
 
         // 1. Gambar Background Studio
-        this.drawBackground(ctx, width, height);
+        this.drawBackground(ctx, width, height, typeof slotsData !== 'undefined' ? slotsData : (typeof source !== 'undefined' ? source : null));
 
         // 2. Matriks Proyeksi Isometrik Terpusat (Dead-Center Alignment)
         const rad = (this.rotationDeg * Math.PI) / 180;
@@ -1979,9 +1985,18 @@
         ctx.restore();
       }
 
-      drawBackground(ctx, width, height) {
+      drawBackground(ctx, width, height, slotsData = null) {
         ctx.setTransform(1, 0, 0, 1, 0, 0);
-        if (this.theme === 'light') {
+        if (this.theme === 'auto' || this.bgTheme === 'auto') {
+          const pal = (window.AdaptiveThemeExtractor && window.AdaptiveThemeExtractor.extractFromSources)
+            ? window.AdaptiveThemeExtractor.extractFromSources(Array.isArray(slotsData) ? slotsData : [slotsData], typeof userImages !== 'undefined' ? userImages : null)
+            : null;
+          if (pal && window.AdaptiveThemeExtractor) {
+            window.AdaptiveThemeExtractor.drawAdaptiveBackground(ctx, width, height, pal);
+            return;
+          }
+        }
+        if (this.theme === 'light' || this.bgTheme === 'light') {
           const grad = ctx.createLinearGradient(0, 0, width, height);
           grad.addColorStop(0, '#f4f6fa');
           grad.addColorStop(0.5, '#eaeff6');
@@ -2086,6 +2101,17 @@
       }
 
       function refreshCanvas() {
+        if (renderer.theme === 'auto' || renderer.bgTheme === 'auto') {
+          const pal = (window.AdaptiveThemeExtractor && window.AdaptiveThemeExtractor.extractFromSources)
+            ? window.AdaptiveThemeExtractor.extractFromSources(getActiveSlots(), typeof userImages !== 'undefined' ? userImages : null)
+            : null;
+          if (pal) {
+            document.documentElement.style.setProperty('--bg-canvas', pal.bgCanvasCss);
+            if (btnToggle && pal.hasColor) btnToggle.style.borderColor = pal.accentColor;
+          }
+        } else if (btnToggle) {
+          btnToggle.style.borderColor = '';
+        }
         renderer.render(getActiveSlots());
         updateNavigatorUI();
       }
@@ -2138,32 +2164,69 @@
       const toggleIcon = document.getElementById('theme-toggle-icon');
       const themeBadge = document.getElementById('theme-badge');
 
+      const gearIconSvg = '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle>';
       const moonIconSvg = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
       const sunIconSvg = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
 
       function setTheme(theme) {
         renderer.theme = theme;
-        demoCanvases = DemoGenerator.generateSet(theme, false, TOTAL_SLOTS);
+        demoCanvases = DemoGenerator.generateSet(theme === 'dark' ? 'dark' : 'light', false, TOTAL_SLOTS);
+        const isAuto = (theme === 'auto');
         const isDark = (theme === 'dark');
         if (btnToggle) {
+          btnToggle.classList.toggle('auto-mode', isAuto);
           btnToggle.classList.toggle('dark-mode', isDark);
-          btnToggle.setAttribute('title', isDark ? 'Beralih ke Light Mode' : 'Beralih ke Dark Mode');
+          if (isAuto) {
+            btnToggle.setAttribute('title', 'Tema: Sesuaikan Gambar (Auto)');
+          } else if (isDark) {
+            btnToggle.setAttribute('title', 'Tema: Dark Mode');
+          } else {
+            btnToggle.setAttribute('title', 'Tema: Light Mode');
+          }
         }
         if (toggleIcon) {
-          toggleIcon.innerHTML = isDark ? sunIconSvg : moonIconSvg;
+          if (isAuto) toggleIcon.innerHTML = gearIconSvg;
+          else if (isDark) toggleIcon.innerHTML = moonIconSvg;
+          else toggleIcon.innerHTML = sunIconSvg;
         }
         if (themeBadge) {
-          themeBadge.textContent = isDark ? 'Dark Mode' : '4 Desktop PC (2×2)';
+          if (isAuto) themeBadge.textContent = 'Auto Sesuaikan Gambar';
+          else if (isDark) themeBadge.textContent = 'Dark Mode';
+          else themeBadge.textContent = 'Light Mode';
         }
-        document.documentElement.style.setProperty('--bg-canvas', isDark ? '#070a0f' : '#dbe2ec');
+        if (isAuto) {
+          const pal = (window.AdaptiveThemeExtractor && window.AdaptiveThemeExtractor.extractFromSources)
+            ? window.AdaptiveThemeExtractor.extractFromSources(getActiveSlots(), typeof userImages !== 'undefined' ? userImages : null)
+            : null;
+          if (pal) {
+            document.documentElement.style.setProperty('--bg-canvas', pal.bgCanvasCss);
+            if (btnToggle && pal.hasColor) btnToggle.style.borderColor = pal.accentColor;
+          }
+        } else if (isDark) {
+          document.documentElement.style.setProperty('--bg-canvas', '#070a0f');
+          if (btnToggle) btnToggle.style.borderColor = '';
+        } else {
+          document.documentElement.style.setProperty('--bg-canvas', '#dbe2ec');
+          if (btnToggle) btnToggle.style.borderColor = '';
+        }
         refreshCanvas();
       }
 
       if (btnToggle) {
         btnToggle.addEventListener('click', () => {
-          const next = (renderer.theme === 'dark') ? 'light' : 'dark';
+          let next = 'light';
+          if (renderer.theme === 'auto') next = 'light';
+          else if (renderer.theme === 'light') next = 'dark';
+          else next = 'auto';
+
           setTheme(next);
-          showToast(`Mode ${next === 'dark' ? 'Dark' : 'Light'} aktif`);
+          if (next === 'auto') {
+            showToast('⚙️ Mode Sesuaikan Tema (Otomatis Gambar) aktif');
+          } else if (next === 'light') {
+            showToast('☀️ Mode Terang (Light Mode) aktif');
+          } else {
+            showToast('🌙 Mode Gelap (Dark Mode) aktif');
+          }
         });
       }
 
@@ -2488,6 +2551,10 @@
         });
       });
 
+      // Inisialisasi tema default (Auto - Sesuaikan Gambar)
+      if (typeof setTheme === 'function') setTheme('auto');
+      else if (typeof setStudioBg === 'function') setStudioBg('auto');
+
       // Render pertama kali
       refreshCanvas();
       window._refreshStudio = refreshCanvas;
@@ -2504,5 +2571,6 @@
       }
     });
   </script>
+  <script src="js/adaptive-theme.js"></script>
 </body>
 </html>
