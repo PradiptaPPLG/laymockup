@@ -1,0 +1,2512 @@
+<!DOCTYPE html>
+<html lang="id" prefix="og: https://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>6 Layar Grid 3-3 Desktop 3D - LayMockup × PixelCam</title>
+
+  <!-- Primary SEO Meta Tags -->
+  <meta name="title" content="6 Layar Grid 3-3 Desktop 3D - LayMockup × PixelCam">
+  <meta name="description" content="Studio Editor Mockup Isometrik 3D Interaktif 6 Layar Grid 3-3 Desktop 3D - LayMockup × PixelCam. Render presentasi matriks 6 layar 4K langsung di browser.">
+  <meta name="theme-color" content="#9BE3DE">
+
+  <!-- Open Graph / WhatsApp / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://laymockup.vercel.app/studio-desktop-6.html">
+  <meta property="og:site_name" content="LayMockup">
+  <meta property="og:title" content="6 Layar Grid 3-3 Desktop 3D - LayMockup × PixelCam">
+  <meta property="og:description" content="Studio Editor Mockup Isometrik 3D Interaktif. Render presentasi produk berkualitas tinggi langsung di browser.">
+  <meta property="og:image" content="https://laymockup.vercel.app/og-image.jpg">
+  <meta property="og:image:url" content="https://laymockup.vercel.app/og-image.jpg">
+  <meta property="og:image:secure_url" content="https://laymockup.vercel.app/og-image.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="6 Layar Grid 3-3 Desktop 3D - LayMockup × PixelCam">
+  <link rel="image_src" href="https://laymockup.vercel.app/og-image.jpg">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://laymockup.vercel.app/studio-desktop-6.html">
+  <meta name="twitter:title" content="6 Layar Grid 3-3 Desktop 3D - LayMockup × PixelCam">
+  <meta name="twitter:description" content="Studio Editor Mockup Isometrik 3D Interaktif. Render presentasi produk berkualitas tinggi langsung di browser.">
+  <meta name="twitter:image" content="https://laymockup.vercel.app/og-image.jpg">
+
+
+  <!-- CDN Icons & Confetti -->
+  <script src="libs/lucide.min.js"></script>
+  <script>if (!window.lucide) { document.write('<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"><\/script>'); }</script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script src="js/camera-modal.js"></script>
+
+  <style>
+:root {
+      --bg-primary: #FFFDF9;
+      --bg-secondary: #ffffff;
+      --bg-canvas: #d7eae6;
+      --bg-glass: rgba(255, 253, 249, 0.94);
+      --border-glass: #e2edea;
+      --accent-primary: #9BE3DE;
+      --accent-hover: #7fd6d0;
+      --accent-dark: #0f766e;
+      --accent-mint: #9BE3DE;
+      --accent-pink: #FFE3ED;
+      --accent-ice: #BEEBE9;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #94a3b8;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --shadow-panel: 0 10px 35px -10px rgba(155, 227, 222, 0.25), 0 0 1px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Topbar */
+    .topbar {
+      height: 60px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-glass);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: #111111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text-main);
+    }
+
+    .brand-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: rgba(37, 99, 235, 0.08);
+      color: var(--accent-primary);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+    }
+
+    .topbar-center {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      background: #ffffff;
+      color: var(--text-muted);
+      border: 1px solid var(--border-glass);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-pill:hover {
+      background: #f8fafc;
+      color: var(--text-main);
+      border-color: #cbd5e1;
+    }
+
+    .btn-pill.active {
+      background: #FFE3ED;
+      color: #9d174d;
+      border: 1.5px solid #FFB8D2;
+      font-weight: 700;
+      box-shadow: 0 2px 10px rgba(255, 184, 210, 0.4);
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 18px;
+      border-radius: 9px;
+      background: #9BE3DE;
+      color: #0f766e;
+      font-size: 13px;
+      font-weight: 700;
+      border: 1.5px solid #7fd6d0;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(155, 227, 222, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: #7fd6d0;
+      transform: translateY(-1px);
+      box-shadow: 0 5px 16px rgba(155, 227, 222, 0.5);
+    }
+
+    /* Main Workspace */
+    .main-content {
+      flex: 1;
+      position: relative;
+      display: flex;
+      overflow: hidden;
+      background: var(--bg-canvas);
+      transition: background 0.25s ease;
+    }
+
+    .canvas-viewport {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    #mockup-canvas {
+      max-width: 96%;
+      max-height: 92%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 14px;
+      box-shadow: 0 25px 65px rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(15, 23, 42, 0.08);
+      display: block;
+    }
+
+    /* Bottom Floating HUD */
+    .hud-status {
+      position: absolute;
+      bottom: 22px;
+      left: 22px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      padding: 6px 12px;
+      border-radius: 30px;
+      border: 1px solid var(--border-glass);
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      z-index: 20;
+      flex-wrap: nowrap;
+    }
+
+    .hud-badge {
+      background: rgba(37, 99, 235, 0.08);
+      color: var(--accent-primary);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .hud-btn {
+      background: #f8fafc;
+      color: var(--text-main);
+      border: 1px solid #cbd5e1;
+      padding: 4px 10px;
+      border-radius: 14px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .hud-btn:hover {
+      background: #eff6ff;
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+    }
+
+    /* Sidebar Toggle */
+    .sidebar-toggle-btn {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 45;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 400px;
+      height: calc(100% - 24px);
+      margin: 12px 16px 12px 0;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-panel);
+      z-index: 40;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), margin 0.3s ease;
+    }
+
+    .sidebar.collapsed {
+      transform: translateX(calc(100% + 24px));
+      margin-right: -400px;
+    }
+
+    .sidebar-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border-glass);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tab-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px;
+    }
+
+    .tab-content::-webkit-scrollbar {
+      width: 5px;
+    }
+    .tab-content::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    .section {
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .upload-actions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .btn-upload-choice {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 13px 10px;
+      background: #f8fafc;
+      border: 1.5px dashed rgba(37, 99, 235, 0.32);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-upload-choice:hover {
+      background: rgba(37, 99, 235, 0.05);
+      border-color: var(--accent-primary);
+      transform: translateY(-1px);
+    }
+
+    .upload-icon {
+      font-size: 21px;
+    }
+
+    .upload-choice-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .upload-choice-sub {
+      font-size: 10px;
+      color: var(--text-dim);
+    }
+
+    .dropzone {
+      border: 1.5px dashed rgba(37, 99, 235, 0.32);
+      background: #f8fafc;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .dropzone:hover, .dropzone.dragover {
+      border-color: var(--accent-primary);
+      background: rgba(37, 99, 235, 0.05);
+    }
+
+    .dropzone-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 4px;
+    }
+
+    .dropzone-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* 2-3-2 Visual Navigator */
+    .slot-navigator {
+      background: #f8fafc;
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-md);
+      padding: 14px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      align-items: center;
+    }
+
+    .slot-row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .slot-card {
+      flex: 1;
+      max-width: 98px;
+      height: 54px;
+      background: #ffffff;
+      border: 1.5px solid var(--border-glass);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .slot-card:hover {
+      border-color: var(--accent-primary);
+      background: rgba(37, 99, 235, 0.06);
+      transform: translateY(-2px);
+    }
+
+    .slot-card.center-focus {
+      border-color: var(--accent-primary);
+      background: #eff6ff;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+    }
+
+    .slot-card.has-image {
+      border-color: var(--accent-emerald);
+    }
+
+    .slot-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0.85;
+      display: none;
+      pointer-events: none;
+    }
+
+    .slot-card.has-image .slot-thumb {
+      display: block;
+    }
+
+    .slot-number {
+      font-size: 11px;
+      font-weight: 700;
+      color: #0f172a;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 1px 6px;
+      border-radius: 4px;
+      pointer-events: none;
+    }
+
+    .slot-tag {
+      font-size: 9px;
+      color: var(--text-muted);
+      z-index: 2;
+      margin-top: 2px;
+      pointer-events: none;
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .btn-preset {
+      padding: 9px 11px;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s;
+    }
+
+    .btn-preset:hover {
+      background: #f8fafc;
+      color: var(--text-main);
+      border-color: #cbd5e1;
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 450px;
+      max-width: 92%;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: 0 25px 60px rgba(15, 23, 42, 0.2);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .modal-title {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .export-res-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .res-card {
+      border: 1.5px solid var(--border-glass);
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 12px;
+      cursor: pointer;
+    }
+
+    .res-card.active {
+      border-color: var(--accent-primary);
+      background: rgba(37, 99, 235, 0.06);
+    }
+
+    .res-title {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .res-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #ffffff;
+      border: 1px solid #93c5fd;
+      padding: 12px 18px;
+      border-radius: 10px;
+      color: var(--text-main);
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 200;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .mobile-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.35);
+      z-index: 38;
+    }
+
+    .mobile-backdrop.open {
+      display: block;
+    }
+
+    .mobile-fab {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      border-radius: 30px;
+      background: var(--accent-primary);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      z-index: 39;
+    }
+
+    /* ============================================================
+       RESPONSIVE MOBILE ENGINE (Unified & Flawless UX)
+       Zero collision, native sheet experience, sleek header
+       ============================================================ */
+    .sidebar-close-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .sidebar-close-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    @media (max-width: 900px) {
+      .brand-title,
+      .brand-badge,
+      .sidebar-toggle-btn {
+        display: none !important;
+      }
+      .sidebar {
+        position: fixed !important;
+        right: 0 !important;
+        top: 0 !important;
+        height: 100% !important;
+        margin: 0 !important;
+        width: 380px !important;
+        max-width: 88vw !important;
+        border-radius: 16px 0 0 16px !important;
+        z-index: 1000 !important;
+        transform: translateX(100%) !important;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      }
+      .sidebar.open {
+        transform: translateX(0) !important;
+      }
+      .mobile-backdrop {
+        z-index: 999 !important;
+      }
+      .mobile-fab {
+        display: flex !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      /* 1. Topbar Responsive Header */
+      .topbar {
+        padding: 0 12px !important;
+        height: 54px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 6px !important;
+        z-index: 50 !important;
+      }
+      .brand {
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        flex-shrink: 0 !important;
+      }
+      .brand-title,
+      .brand-badge {
+        display: none !important;
+      }
+      .nav-back-btn {
+        padding: 5px 9px !important;
+        font-size: 11.5px !important;
+        font-weight: 600 !important;
+        margin-right: 2px !important;
+        border-radius: 8px !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+      }
+      .brand-icon {
+        width: 28px !important;
+        height: 28px !important;
+        font-size: 11px !important;
+        border-radius: 7px !important;
+        flex-shrink: 0 !important;
+      }
+      .brand-icon svg {
+        width: 15px !important;
+        height: 15px !important;
+      }
+
+      /* Segmented Theme Switch */
+      .topbar-center {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 2px !important;
+        background: rgba(226, 232, 240, 0.8) !important;
+        padding: 3px !important;
+        border-radius: 999px !important;
+        flex-shrink: 0 !important;
+      }
+      .topbar-center .btn-pill {
+        padding: 4px 8px !important;
+        font-size: 13px !important;
+        border-radius: 999px !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        color: #475569 !important;
+        line-height: 1 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+      }
+      .topbar-center .btn-pill.active {
+        background: #ffffff !important;
+        color: #0f172a !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+      }
+      .topbar-center .btn-pill span {
+        display: none !important;
+      }
+
+      /* Topbar Right Export */
+      .topbar-right {
+        flex-shrink: 0 !important;
+      }
+      .topbar-right .btn-primary {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        border-radius: 9px !important;
+        white-space: nowrap !important;
+      }
+
+            /* 2. Non-Colliding Floating Controls (Standardized Bottom Zoom Bar) */
+      .hud-status {
+        position: fixed !important;
+        bottom: 74px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        background: rgba(255, 255, 255, 0.94) !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+        padding: 5px 8px !important;
+        border-radius: 12px !important;
+        border: 1px solid rgba(226, 232, 240, 0.9) !important;
+        box-shadow: 0 4px 18px rgba(15, 23, 42, 0.1) !important;
+        white-space: nowrap !important;
+        max-width: calc(100% - 24px) !important;
+        box-sizing: border-box !important;
+        overflow-x: auto !important;
+        scrollbar-width: none !important;
+        -webkit-overflow-scrolling: touch !important;
+        z-index: 30 !important;
+        right: auto !important;
+        flex-wrap: nowrap !important;
+      }
+      .hud-status::-webkit-scrollbar {
+        display: none !important;
+      }
+      .hud-status .hud-badge {
+        display: none !important;
+      }
+      .hud-btn {
+        height: 32px !important;
+        padding: 0 10px !important;
+        border-radius: 8px !important;
+        font-size: 11.5px !important;
+        font-weight: 600 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+        border: 1px solid rgba(203, 213, 225, 0.8) !important;
+        background: #f8fafc !important;
+        color: #1e293b !important;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+      }
+      .hud-btn:hover,
+      .hud-btn:active {
+        background: #e2e8f0 !important;
+        border-color: #94a3b8 !important;
+      }
+      #btn-zoom-out,
+      #btn-zoom-in {
+        width: 32px !important;
+        min-width: 32px !important;
+        padding: 0 !important;
+        font-size: 12px !important;
+      }
+
+      /* Primary Action Button: Full-width Bottom Dock */
+      .mobile-fab {
+        position: fixed !important;
+        bottom: 14px !important;
+        left: 14px !important;
+        right: 14px !important;
+        height: 48px !important;
+        width: auto !important;
+        padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        border-radius: 14px !important;
+        background: var(--accent-primary) !important;
+        color: #ffffff !important;
+        font-size: 13.5px !important;
+        font-weight: 700 !important;
+        border: none !important;
+        box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35) !important;
+        cursor: pointer !important;
+        z-index: 35 !important;
+      }
+
+      /* 3. Photo Management Drawer (Right-to-Left Slide-in Sidebar) */
+      .sidebar {
+        position: fixed !important;
+        top: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        left: auto !important;
+        width: 380px !important;
+        max-width: 88vw !important;
+        height: 100% !important;
+        height: 100dvh !important;
+        margin: 0 !important;
+        border-radius: 18px 0 0 18px !important;
+        border: none !important;
+        border-left: 1px solid var(--border-glass) !important;
+        background: #ffffff !important;
+        z-index: 1000 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        transform: translateX(100%) !important;
+        transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        box-shadow: -8px 0 32px rgba(0, 0, 0, 0.22) !important;
+      }
+      .sidebar.open {
+        transform: translateX(0) !important;
+      }
+      .sidebar-header {
+        padding: 12px 16px !important;
+        height: 56px !important;
+        border-bottom: 1px solid var(--border-glass) !important;
+        background: #ffffff !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        flex-shrink: 0 !important;
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 10 !important;
+      }
+      .sidebar-close-btn,
+      .sidebar-header .modal-close {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+        background: #f1f5f9 !important;
+        color: #1e293b !important;
+        border: 1px solid #cbd5e1 !important;
+        padding: 6px 14px !important;
+        border-radius: 8px !important;
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
+      }
+      .tab-content {
+        flex: 1 !important;
+        overflow-y: auto !important;
+        padding: 14px 14px 44px 14px !important;
+        -webkit-overflow-scrolling: touch !important;
+        box-sizing: border-box !important;
+      }
+
+      /* Clean Upload Grid */
+      .upload-actions-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+        margin-bottom: 6px !important;
+      }
+      .btn-upload-choice {
+        padding: 10px 6px !important;
+        border-radius: 10px !important;
+        gap: 3px !important;
+      }
+      .upload-icon {
+        font-size: 20px !important;
+      }
+      .upload-choice-title {
+        font-size: 11.5px !important;
+      }
+      .upload-choice-sub {
+        font-size: 9px !important;
+      }
+      .dropzone {
+        padding: 12px 10px !important;
+        border-radius: 10px !important;
+      }
+      .dropzone-title {
+        font-size: 11.5px !important;
+      }
+      .dropzone-sub {
+        font-size: 9.5px !important;
+      }
+
+      /* Clean Slot Navigator */
+      .slot-navigator {
+        gap: 6px !important;
+        width: 100% !important;
+      }
+      .slot-row {
+        gap: 5px !important;
+        width: 100% !important;
+        justify-content: center !important;
+      }
+      .slot-card {
+        flex: 1 !important;
+        max-width: 68px !important;
+        min-height: 46px !important;
+        border-radius: 9px !important;
+        padding: 4px !important;
+      }
+      .slot-row:first-child .slot-card,
+      .slot-row:last-child .slot-card {
+        max-width: 90px !important;
+      }
+      .slot-number {
+        font-size: 9.5px !important;
+      }
+      .slot-tag {
+        font-size: 7.5px !important;
+      }
+
+      /* Clean Preset Buttons (2x2 Grid) */
+      .preset-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+      }
+      .btn-preset {
+        padding: 9px 6px !important;
+        font-size: 11.5px !important;
+        font-weight: 600 !important;
+        border-radius: 9px !important;
+        white-space: nowrap !important;
+        justify-content: center !important;
+      }
+      .btn-preset span {
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+
+      /* Modals (Export & Slot Modals) */
+      .modal-overlay {
+        z-index: 2000 !important;
+      }
+      .modal-card {
+        width: calc(100% - 24px) !important;
+        max-width: 400px !important;
+        padding: 18px 14px !important;
+        border-radius: 16px !important;
+        box-sizing: border-box !important;
+      }
+      .export-res-grid {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+      }
+      .res-card {
+        padding: 10px 12px !important;
+      }
+      .res-title {
+        font-size: 13px !important;
+      }
+      .res-sub {
+        font-size: 10.5px !important;
+      }
+      .toast {
+        bottom: 84px !important;
+        right: 14px !important;
+        left: 14px !important;
+        font-size: 12px !important;
+        padding: 10px 14px !important;
+        justify-content: center !important;
+        z-index: 2500 !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topbar {
+        padding: 0 8px !important;
+      }
+      .nav-back-btn {
+        padding: 4px 7px !important;
+        font-size: 11px !important;
+      }
+      .topbar-right .btn-primary {
+        padding: 5px 9px !important;
+        font-size: 11px !important;
+      }
+      .hud-badge {
+        display: none !important;
+      }
+    }
+  
+  
+    /* Clean Theme Toggle Button (Image 3 Style) */
+    .btn-theme-toggle {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #ffffff;
+      border: 1.5px solid rgba(15, 23, 42, 0.12);
+      color: #334155;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-theme-toggle:hover {
+      background: #f8fafc;
+      border-color: rgba(15, 23, 42, 0.25);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    }
+    .btn-theme-toggle.dark-mode {
+      background: #0f172a;
+      border-color: #334155;
+      color: #fbbf24;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    .change-color-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #475569;
+      letter-spacing: -0.01em;
+    }
+  
+    /* ============================================================
+       ANCHORED DOWNLOAD DROPDOWN (Zero Screen-Blur, Mobile Ready)
+       ============================================================ */
+    .topbar-right {
+      position: relative !important;
+      display: flex !important;
+      align-items: center !important;
+    }
+
+    .export-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 326px;
+      background: #ffffff;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      border-radius: 14px;
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.16), 0 3px 10px rgba(15, 23, 42, 0.06);
+      padding: 14px;
+      z-index: 1000;
+      box-sizing: border-box;
+      flex-direction: column;
+      gap: 10px;
+      transform-origin: top right;
+      animation: dropdownPop 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .export-dropdown.open {
+      display: flex !important;
+    }
+
+    @keyframes dropdownPop {
+      from {
+        opacity: 0;
+        transform: translateY(-6px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .export-dropdown-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 2px;
+    }
+
+    .export-dropdown-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .dropdown-close-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 18px;
+      line-height: 1;
+      padding: 2px 6px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .dropdown-close-btn:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    .export-dropdown-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .btn-dropdown-download {
+      flex: 1;
+      justify-content: center;
+      padding: 9px 12px;
+      font-size: 12.5px;
+      font-weight: 700;
+      border-radius: 9px;
+    }
+
+    .btn-dropdown-copy {
+      padding: 9px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 9px;
+    }
+
+    /* Single Clean Sidebar Close Button & Collapsible Tab */
+    .sidebar-close-btn {
+      width: 32px !important;
+      height: 32px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: #f1f5f9 !important;
+      color: #475569 !important;
+      border: 1px solid #cbd5e1 !important;
+      padding: 0 !important;
+      border-radius: 8px !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      flex-shrink: 0 !important;
+    }
+    .sidebar-close-btn:hover {
+      background: #e2e8f0 !important;
+      color: #0f172a !important;
+    }
+
+    .sidebar-toggle-btn {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      background: #ffffff;
+      border: 1px solid var(--border-glass);
+      color: var(--text-muted);
+      display: none; /* Hidden by default when sidebar is open */
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 45;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+      transition: all 0.2s ease;
+    }
+    .sidebar-toggle-btn:hover {
+      background: #f8fafc;
+      color: var(--accent-primary);
+    }
+
+    @media (max-width: 900px) {
+      .sidebar-toggle-btn {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .export-dropdown {
+        position: fixed !important;
+        top: 58px !important;
+        right: 12px !important;
+        left: 12px !important;
+        width: auto !important;
+        max-width: none !important;
+        border-radius: 14px !important;
+        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.22) !important;
+      }
+      .export-res-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 6px !important;
+      }
+      .res-card {
+        padding: 8px 8px !important;
+      }
+      .res-title {
+        font-size: 11.5px !important;
+      }
+      .res-sub {
+        font-size: 10px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="brand">
+      <a href="index.html" class="nav-back-btn" title="Kembali ke Beranda"
+        style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; color:#475569; font-size:12px; font-weight:600; padding:5px 11px; background:#f1f5f9; border-radius:8px; border:1px solid #cbd5e1; margin-right:8px; transition:all 0.2s;">
+        <span>←</span> Beranda
+      </a>
+      <div class="brand-icon" title="LayMockup 3D Engine">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+          <line x1="12" y1="22.08" x2="12" y2="12"></line>
+        </svg>
+      </div>
+      <div class="brand-title">4 Layar Grid 2x2 Desktop 3D</div>
+      <span id="theme-badge" class="brand-badge">4 Desktop PC (2×2)</span>
+    </div>
+
+    <!-- Center Theme Toggle -->
+    <div class="topbar-center" style="display:flex; align-items:center; justify-content:center; gap:9px;">
+      <span class="change-color-label">Change color</span>
+      <button id="btn-theme-toggle" class="btn-theme-toggle" title="Toggle Light / Dark Mode" aria-label="Toggle Light / Dark Mode">
+        <svg id="theme-toggle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Right Action Buttons -->
+    <div class="topbar-right">
+      <button id="btn-open-export" class="btn-primary" title="Download Mockup PNG">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        <span>Download</span>
+      </button>
+
+      <!-- Dropdown Popup Download (Anchored directly under Download button) -->
+      <div id="export-modal" class="export-dropdown">
+        <div class="export-dropdown-header">
+          <div class="export-dropdown-title">Pilih Resolusi Download</div>
+          <button id="btn-close-modal" class="dropdown-close-btn" title="Tutup">&times;</button>
+        </div>
+        <div class="export-res-grid">
+          <div class="res-card active" data-res="2752x1536">
+            <div class="res-title">Resolusi Studio ★</div>
+            <div class="res-sub">2752 × 1536 • Widescreen</div>
+          </div>
+          <div class="res-card" data-res="3840x2160">
+            <div class="res-title">4K Ultra HD</div>
+            <div class="res-sub">3840 × 2160 • Ekstra Tajam</div>
+          </div>
+          <div class="res-card" data-res="1920x1080">
+            <div class="res-title">1080p Full HD</div>
+            <div class="res-sub">1920 × 1080 • Standar PC</div>
+          </div>
+          <div class="res-card" data-res="1600x1200">
+            <div class="res-title">Dribbble Shot</div>
+            <div class="res-sub">1600 × 1200 (4:3)</div>
+          </div>
+        </div>
+        <div class="export-dropdown-actions">
+          <button id="btn-export-download" class="btn-primary btn-dropdown-download">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Download PNG</span>
+          </button>
+          <button id="btn-copy-clipboard" class="btn-pill btn-dropdown-copy" title="Salin gambar ke clipboard">
+            <span>📋 Copy</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <main class="main-content">
+    <div id="viewport-container" class="canvas-viewport">
+      <canvas id="mockup-canvas"></canvas>
+
+      <!-- Bottom Quick Controls (HUD) -->
+      <div class="hud-status">
+        <span class="hud-badge">4 Layar Desktop (2-2 Grid)</span>
+        <button id="btn-zoom-out" class="hud-btn" title="Perkecil">➖</button>
+        <button id="btn-toggle-zoom" class="hud-btn" title="Ganti Preset Zoom">🔍 Zoom: 95%</button>
+        <button id="btn-zoom-in" class="hud-btn" title="Perbesar">➕</button>
+        <button id="btn-toggle-pattern" class="hud-btn" title="Ganti Pola 2-2">📐 Pola: Grid 2x2</button>
+      </div>
+    </div>
+
+    <button id="sidebar-toggle" class="sidebar-toggle-btn" title="Buka/Tutup Panel">
+      ⇄
+    </button>
+
+    <div id="mobile-backdrop" class="mobile-backdrop"></div>
+
+    <button id="mobile-fab" class="mobile-fab">
+      <span>🖼️ Kelola 4 Layar Desktop</span>
+    </button>
+
+    <!-- Sidebar Panel -->
+    <aside id="sidebar-panel" class="sidebar">
+      <div class="sidebar-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="font-size: 14px; font-weight: 700;">2x2 Desktop Management</div>
+          <span class="hud-badge">4 Layar PC</span>
+        </div>
+        <button id="sidebar-close-mobile" class="sidebar-close-btn" title="Tutup Panel" aria-label="Tutup Panel">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="tab-content">
+        <!-- Upload Section -->
+        <div class="section">
+          <div class="section-title">
+            <span>Upload Screenshot Desktop</span>
+            <span class="hud-badge">16:10 / 16:9</span>
+          </div>
+
+          <div class="upload-actions-grid">
+            <button id="btn-trigger-gallery" class="btn-upload-choice">
+              <span class="upload-icon">📁</span>
+              <span class="upload-choice-title">Pilih File / Galeri</span>
+              <span class="upload-choice-sub">Batch hingga 6 foto</span>
+            </button>
+
+            <button id="btn-trigger-camera" class="btn-upload-choice">
+              <span class="upload-icon">📷</span>
+              <span class="upload-choice-title">Buka Kamera HP</span>
+              <span class="upload-choice-sub">Ambil foto langsung</span>
+            </button>
+          </div>
+
+          <div id="batch-dropzone" class="dropzone">
+            <input type="file" id="batch-file-input" accept="image/*" multiple style="display: none;">
+            <input type="file" id="camera-batch-input" accept="image/*" capture="environment" style="display: none;">
+            <div style="font-size: 22px;">📥</div>
+            <div class="dropzone-title">Tarik & lepas screenshot ke sini</div>
+            <div class="dropzone-sub">Mendukung JPG, PNG, WEBP (Otomatis 0% Crop)</div>
+          </div>
+        </div>
+
+        <!-- Slot Navigator Section -->
+        <div class="section">
+          <div class="section-title">
+            <span>Tata Letak Layar Desktop</span>
+            <span id="slot-count-badge" class="hud-badge">Demo Aktif</span>
+          </div>
+
+          <div class="slot-navigator" style="padding: 14px 10px; gap: 8px;">
+            <!-- Baris 1 (3 Kartu Atas) -->
+            <div class="slot-row" style="justify-content: center; gap: 8px;">
+              <div class="slot-card" data-slot="0" title="Klik untuk slot #1 Atas Kiri" style="max-width: 98px; height: 64px;">
+                <img id="thumb-0" class="slot-thumb" alt="">
+                <span class="slot-number">#1 Atas Kiri</span>
+                <span class="slot-tag">Baris 1</span>
+              </div>
+              <div class="slot-card" data-slot="1" title="Klik untuk slot #2 Atas Tengah" style="max-width: 98px; height: 64px;">
+                <img id="thumb-1" class="slot-thumb" alt="">
+                <span class="slot-number">#2 Atas Tengah</span>
+                <span class="slot-tag">Baris 1</span>
+              </div>
+              <div class="slot-card" data-slot="2" title="Klik untuk slot #3 Atas Kanan" style="max-width: 98px; height: 64px;">
+                <img id="thumb-2" class="slot-thumb" alt="">
+                <span class="slot-number">#3 Atas Kanan</span>
+                <span class="slot-tag">Baris 1</span>
+              </div>
+            </div>
+            <!-- Baris 2 (3 Kartu Bawah) -->
+            <div class="slot-row" style="justify-content: center; gap: 8px;">
+              <div class="slot-card" data-slot="3" title="Klik untuk slot #4 Bawah Kiri" style="max-width: 98px; height: 64px;">
+                <img id="thumb-3" class="slot-thumb" alt="">
+                <span class="slot-number">#4 Bawah Kiri</span>
+                <span class="slot-tag">Baris 2</span>
+              </div>
+              <div class="slot-card center-focus" data-slot="4" title="Klik untuk slot #5 Bawah Tengah ★" style="max-width: 98px; height: 64px;">
+                <img id="thumb-4" class="slot-thumb" alt="">
+                <span class="slot-number">🌸 #5 Hero ★</span>
+                <span class="slot-tag">Pusat</span>
+              </div>
+              <div class="slot-card" data-slot="5" title="Klik untuk slot #6 Bawah Kanan" style="max-width: 98px; height: 64px;">
+                <img id="thumb-5" class="slot-thumb" alt="">
+                <span class="slot-number">#6 Bawah Kanan</span>
+                <span class="slot-tag">Baris 2</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="font-size: 11px; color: var(--text-dim); text-align: center; margin-top: 8px;">
+            Klik kartu di atas untuk mengganti foto slot satu per satu.
+          </div>
+        </div>
+
+        <!-- Presets Section -->
+        <div class="section">
+          <div class="section-title">Aksi Cepat & Tema</div>
+          <div class="preset-grid">
+            <button id="btn-load-light-demo" class="btn-preset">
+              <span>🌸 Wireframe Light</span>
+            </button>
+            <button id="btn-load-dark-demo" class="btn-preset">
+              <span>🌙 Wireframe Dark</span>
+            </button>
+            <button id="btn-duplicate-remaining" class="btn-preset">
+              <span>📋 Isi Slot Kosong</span>
+            </button>
+            <button id="btn-clear-all" class="btn-preset" style="color: #ef4444;">
+              <span>🗑️ Reset ke Demo</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Slot Modal -->
+  <div id="slot-modal" class="modal-overlay">
+    <div class="modal-card" style="width: 370px;">
+      <div class="modal-header">
+        <div id="slot-modal-title" class="modal-title">Atur Layar Desktop</div>
+        <button id="btn-close-slot-modal" class="modal-close">&times;</button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button id="btn-slot-file" class="btn-pill" style="padding: 12px 16px; justify-content: flex-start; gap: 12px;">
+          <span style="font-size: 20px;">📁</span>
+          <div style="text-align: left;">
+            <div style="font-weight: 700; color: var(--text-main);">Pilih dari Galeri / File</div>
+            <div style="font-size: 11px; color: var(--text-dim);">Upload screenshot untuk slot ini</div>
+          </div>
+        </button>
+        <button id="btn-slot-camera" class="btn-pill" style="padding: 12px 16px; justify-content: flex-start; gap: 12px;">
+          <span style="font-size: 20px;">📷</span>
+          <div style="text-align: left;">
+            <div style="font-weight: 700; color: var(--text-main);">Ambil Foto via Kamera</div>
+            <div style="font-size: 11px; color: var(--text-dim);">Gunakan kamera langsung</div>
+          </div>
+        </button>
+        <button id="btn-slot-remove" class="btn-pill" style="padding: 12px 16px; justify-content: flex-start; gap: 12px; color: #ef4444;">
+          <span style="font-size: 20px;">🗑️</span>
+          <div style="text-align: left;">
+            <div style="font-weight: 700;">Kembalikan ke Demo</div>
+            <div style="font-size: 11px; color: var(--text-dim);">Reset slot ini ke kartu demo</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <input type="file" id="single-file-input" accept="image/*" style="display: none;">
+  <input type="file" id="single-camera-input" accept="image/*" capture="environment" style="display: none;">
+
+  <div id="toast" class="toast">
+    <span>✅</span>
+    <span id="toast-msg">Siap digunakan</span>
+  </div>
+
+  <!-- ========================================================
+       JAVASCRIPT ENGINE
+       ======================================================== -->
+  <script>
+    const TOTAL_SLOTS = 6;
+
+    if (!CanvasRenderingContext2D.prototype.roundRect) {
+      CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+        const radius = Math.min(r, w / 2, h / 2);
+        this.moveTo(x + radius, y);
+        this.lineTo(x + w - radius, y);
+        this.quadraticCurveTo(x + w, y, x + w, y + radius);
+        this.lineTo(x + w, y + h - radius);
+        this.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
+        this.lineTo(x + radius, y + h);
+        this.quadraticCurveTo(x, y + h, x, y + h - radius);
+        this.lineTo(x, y + radius);
+        this.quadraticCurveTo(x, y, x + radius, y);
+        this.closePath();
+      };
+    }
+
+    /**
+     * GENERATOR KARTU PLACEHOLDER WIREFRAME BERSIH (Estetik Pastel)
+     * Persis standar produksi LayMockup x PixelCam (Sesuai Referensi Visual)
+     */
+    class DemoGenerator {
+      static generateSet(theme = 'light', isMobile = false, count = null) {
+        if (count === null || count === undefined) {
+          count = typeof TOTAL_SLOTS !== 'undefined' ? TOTAL_SLOTS : 12;
+        }
+        const cards = [];
+        for (let i = 0; i < count; i++) {
+          cards.push(this.createPlaceholderCard(i, theme, count, isMobile));
+        }
+        return cards;
+      }
+
+      static createLightCard(index, count = null, isMobile = false) {
+        if (count === null || count === undefined) count = typeof TOTAL_SLOTS !== 'undefined' ? TOTAL_SLOTS : 12;
+        return this.createPlaceholderCard(index, 'light', count, isMobile);
+      }
+
+      static createDarkCard(index, count = null, isMobile = false) {
+        if (count === null || count === undefined) count = typeof TOTAL_SLOTS !== 'undefined' ? TOTAL_SLOTS : 12;
+        return this.createPlaceholderCard(index, 'dark', count, isMobile);
+      }
+
+      static createPlaceholderCard(index, theme = 'light', count = null, isMobile = false) {
+        if (count === null || count === undefined) count = typeof TOTAL_SLOTS !== 'undefined' ? TOTAL_SLOTS : 12;
+        const c = document.createElement('canvas');
+        const w = isMobile ? 540 : 960;
+        const h = isMobile ? (count === 1 || count === 2 ? 1140 : 1100) : 540;
+        c.width = w;
+        c.height = h;
+        const ctx = c.getContext('2d');
+
+        const isDark = theme === 'dark' || theme === 'ecovision';
+        const isFocal = (count === 1) ||
+                        (count === 2 && index === 1) ||
+                        (count === 4 && index === 2) ||
+                        (count === 6 && index === 3) ||
+                        (count === 7 && index === 3) ||
+                        (count === 9 && index === 4) ||
+                        (count === 12 && (index === 5 || index === 6));
+
+        // 1. Surface Background (Kotak Putih Abu Bersih)
+        ctx.fillStyle = isDark ? '#0b0f17' : '#f8fafc';
+        ctx.fillRect(0, 0, w, h);
+
+        // 2. Subtle Checkerboard / Grid Tile Pattern
+        ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.02)' : 'rgba(15, 23, 42, 0.025)';
+        const tileSize = isMobile ? 24 : 32;
+        for (let y = 0; y < h; y += tileSize) {
+          for (let x = 0; x < w; x += tileSize) {
+            if (((x / tileSize) + (y / tileSize)) % 2 === 0) {
+              ctx.fillRect(x, y, tileSize, tileSize);
+            }
+          }
+        }
+
+        // Outer Card Border
+        ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(1, 1, w - 2, h - 2);
+
+        if (isMobile) {
+          // ==========================================
+          // SMARTPHONE PORTRAIT WIREFRAME (540 x 1100 / 1140)
+          // ==========================================
+          // Dynamic Island Notch
+          ctx.fillStyle = isDark ? '#1e293b' : '#e2e8f0';
+          ctx.beginPath();
+          ctx.roundRect((w - 120) / 2, 16, 120, 24, 12);
+          ctx.fill();
+
+          // Status Bar
+          ctx.fillStyle = isDark ? '#475569' : '#94a3b8';
+          ctx.font = 'bold 14px ui-monospace, monospace';
+          ctx.fillText('9:41', 28, 34);
+          ctx.beginPath();
+          ctx.roundRect(w - 60, 20, 32, 14, 4);
+          ctx.fill();
+
+          // App Topbar
+          const topBarY = 56;
+          ctx.fillStyle = isFocal ? '#FFE3ED' : (isDark ? '#1e293b' : (index % 3 === 0 ? '#FFE3ED' : (index % 3 === 1 ? '#9BE3DE' : '#BEEBE9')));
+          ctx.beginPath();
+          ctx.roundRect(20, topBarY, w - 40, 58, 14);
+          ctx.fill();
+          ctx.strokeStyle = isFocal ? '#FFB8D2' : (isDark ? '#334155' : '#e2e8f0');
+          ctx.lineWidth = isFocal ? 2 : 1;
+          ctx.stroke();
+
+          ctx.fillStyle = isFocal ? '#0f172a' : (isDark ? '#f8fafc' : '#0f172a');
+          ctx.font = 'bold 18px sans-serif';
+          let mobileLabel = isFocal ? `🌸 SLOT #${index + 1} (FOKUS UTAMA)` : `SLOT #${index + 1}`;
+          if (count === 1) mobileLabel = '🌸 SLOT #1 · SOLO FLAGSHIP';
+          if (count === 2) mobileLabel = index === 0 ? '📱 SLOT #1 · HP KIRI' : '🌸 SLOT #2 · HP KANAN';
+          if (count === 6 && isFocal) mobileLabel = '🌸 SLOT #4 ★ HERO UTAMA (TENGAH)';
+          ctx.fillText(mobileLabel, 38, topBarY + 36);
+
+          // Hero Area Skeleton
+          const heroY = topBarY + 74;
+          ctx.fillStyle = isDark ? '#161f30' : '#ffffff';
+          ctx.beginPath();
+          ctx.roundRect(20, heroY, w - 40, 220, 18);
+          ctx.fill();
+          ctx.strokeStyle = isDark ? '#334155' : '#e2e8f0';
+          ctx.stroke();
+
+          ctx.fillStyle = isFocal ? 'rgba(16, 185, 129, 0.25)' : (isDark ? '#334155' : '#e2e8f0');
+          ctx.beginPath();
+          ctx.roundRect(38, heroY + 24, w - 76, 28, 8);
+          ctx.fill();
+          ctx.fillStyle = isDark ? '#243247' : '#f1f5f9';
+          ctx.beginPath();
+          ctx.roundRect(38, heroY + 68, (w - 76) * 0.7, 18, 6);
+          ctx.roundRect(38, heroY + 98, (w - 76) * 0.85, 18, 6);
+          ctx.fill();
+
+          // Center Call-To-Action Dropzone
+          const dropY = heroY + 240;
+          ctx.fillStyle = isFocal ? 'rgba(255, 227, 237, 0.55)' : (isDark ? '#0d131f' : '#ffffff');
+          ctx.strokeStyle = isFocal ? '#FF8EB2' : (isDark ? '#334155' : '#cbd5e1');
+          ctx.lineWidth = 2;
+          ctx.setLineDash([8, 6]);
+          ctx.beginPath();
+          ctx.roundRect(20, dropY, w - 40, 280, 20);
+          ctx.fill();
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          ctx.textAlign = 'center';
+          ctx.fillStyle = isFocal ? '#0f766e' : (isDark ? '#64748b' : '#94a3b8');
+          ctx.font = '42px sans-serif';
+          ctx.fillText(isFocal ? '🌸' : '📱', w / 2, dropY + 85);
+
+          ctx.fillStyle = isDark ? '#f8fafc' : '#0f172a';
+          ctx.font = 'bold 20px sans-serif';
+          ctx.fillText(`Slot #${index + 1}: Siap Diisi Foto HP`, w / 2, dropY + 130);
+
+          ctx.fillStyle = isDark ? '#94a3b8' : '#64748b';
+          ctx.font = '14px sans-serif';
+          ctx.fillText('Ketuk atau tarik screenshot 9:16 ke sini', w / 2, dropY + 165);
+
+          ctx.fillStyle = isFocal ? '#83264e' : (isDark ? '#38bdf8' : '#0f766e');
+          ctx.font = 'bold 12.5px ui-monospace, monospace';
+          ctx.fillText('PRESET WIREFRAME BERSIH • KOTAK PUTIH ABU • 9:16 RESOLUSI ASLI', w / 2, dropY + 205);
+          ctx.textAlign = 'left';
+
+          // Bottom List Skeletons
+          const listY = dropY + 300;
+          for (let i = 0; i < 3; i++) {
+            const itemY = listY + i * 62;
+            if (itemY + 50 > h - 40) break;
+            ctx.fillStyle = isDark ? '#161f30' : '#ffffff';
+            ctx.beginPath();
+            ctx.roundRect(20, itemY, w - 40, 52, 12);
+            ctx.fill();
+            ctx.strokeStyle = isDark ? '#1e293b' : '#f1f5f9';
+            ctx.stroke();
+
+            ctx.fillStyle = isDark ? '#334155' : '#e2e8f0';
+            ctx.beginPath();
+            ctx.roundRect(36, itemY + 14, 24, 24, 6);
+            ctx.roundRect(72, itemY + 18, 180, 16, 5);
+            ctx.fill();
+          }
+
+          // Bottom Nav Bar
+          ctx.fillStyle = isDark ? '#1e293b' : '#cbd5e1';
+          ctx.beginPath();
+          ctx.roundRect((w - 140) / 2, h - 18, 140, 5, 3);
+          ctx.fill();
+
+        } else {
+          // ==========================================
+          // LANDSCAPE WIREFRAME CARD (960 x 540 - 16:9 Landscape)
+          // ==========================================
+          const headerH = 64;
+          ctx.fillStyle = isFocal ? '#FFE3ED' : (isDark ? '#161f30' : (index % 3 === 0 ? '#FFE3ED' : (index % 3 === 1 ? '#9BE3DE' : '#BEEBE9')));
+          ctx.fillRect(0, 0, w, headerH);
+
+          ctx.strokeStyle = isFocal ? '#FFB8D2' : (isDark ? '#1e293b' : '#e2e8f0');
+          ctx.lineWidth = isFocal ? 2.5 : 1;
+          ctx.beginPath();
+          ctx.moveTo(0, headerH);
+          ctx.lineTo(w, headerH);
+          ctx.stroke();
+
+          ctx.fillStyle = isFocal ? '#0f172a' : (isDark ? '#f8fafc' : '#0f172a');
+          ctx.font = 'bold 20px sans-serif';
+          let deskLabel = isFocal ? `🌸 SLOT #${index + 1} (FOKUS UTAMA)` : `SLOT #${index + 1}`;
+          if (count === 1) deskLabel = '🌸 SLOT #1 · SOLO DESKTOP (FOKUS UTAMA)';
+          if (count === 2) deskLabel = index === 0 ? 'SLOT #1 · LAYAR KIRI' : '🌸 SLOT #2 ★ LAYAR KANAN (FOKUS UTAMA)';
+          if (count === 6) {
+            const posLabels = ['#1 · ATAS KIRI', '#2 · ATAS TENGAH', '#3 · ATAS KANAN', '#4 · BAWAH KIRI', '#5 ★ HERO PUSAT', '#6 · BAWAH KANAN'];
+            deskLabel = isFocal ? `🌸 SLOT ${posLabels[index]}` : `SLOT ${posLabels[index]}`;
+          } else if (count === 4) {
+            const posLabels = ['#1 · ATAS KIRI', '#2 · ATAS KANAN', '#3 ★ HERO PUSAT', '#4 · BAWAH KANAN'];
+            deskLabel = isFocal ? `🌸 SLOT ${posLabels[index]}` : `SLOT ${posLabels[index]}`;
+          }
+          ctx.fillText(deskLabel, 32, 40);
+
+          ctx.fillStyle = isFocal ? '#9BE3DE' : (isDark ? '#1e293b' : '#f1f5f9');
+          ctx.beginPath();
+          ctx.roundRect(w - 190, 16, 158, 32, 8);
+          ctx.fill();
+          ctx.fillStyle = isFocal ? '#044343' : (isDark ? '#94a3b8' : '#64748b');
+          ctx.font = 'bold 12px ui-monospace, monospace';
+          ctx.fillText(isFocal ? '🌸 FOKUS HERO' : 'SIAP UNGGAH', w - 170, 37);
+
+          // 3 Metric Skeleton Cards
+          const metricY = 88;
+          const metricW = 268;
+          const metricH = 92;
+          const metricGap = 20;
+          for (let i = 0; i < 3; i++) {
+            const mx = 32 + i * (metricW + metricGap);
+            ctx.fillStyle = isDark ? '#131b2a' : '#ffffff';
+            ctx.beginPath();
+            ctx.roundRect(mx, metricY, metricW, metricH, 12);
+            ctx.fill();
+            ctx.strokeStyle = isDark ? '#1e293b' : '#e2e8f0';
+            ctx.stroke();
+
+            ctx.fillStyle = isFocal && i === 0 ? 'rgba(155, 227, 222, 0.5)' : (isDark ? '#334155' : '#e2e8f0');
+            ctx.beginPath();
+            ctx.roundRect(mx + 16, metricY + 16, 32, 32, 8);
+            ctx.fill();
+
+            ctx.fillStyle = isDark ? '#243247' : '#f1f5f9';
+            ctx.beginPath();
+            ctx.roundRect(mx + 60, metricY + 20, 110, 14, 4);
+            ctx.roundRect(mx + 60, metricY + 44, 70, 18, 5);
+            ctx.fill();
+          }
+
+          // Center Dropzone Invitation Box
+          const boxY = 202;
+          const boxW = w - 64;
+          const boxH = 220;
+          ctx.fillStyle = isFocal ? 'rgba(255, 227, 237, 0.55)' : (isDark ? '#0d131f' : '#ffffff');
+          ctx.strokeStyle = isFocal ? '#FF8EB2' : (isDark ? '#334155' : '#cbd5e1');
+          ctx.lineWidth = 2;
+          ctx.setLineDash([8, 6]);
+          ctx.beginPath();
+          ctx.roundRect(32, boxY, boxW, boxH, 16);
+          ctx.fill();
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          ctx.textAlign = 'center';
+          ctx.fillStyle = isFocal ? '#0f766e' : (isDark ? '#64748b' : '#94a3b8');
+          ctx.font = '40px sans-serif';
+          ctx.fillText(isFocal ? '🌸' : '📷', w / 2, boxY + 70);
+
+          ctx.fillStyle = isDark ? '#f8fafc' : '#0f172a';
+          ctx.font = 'bold 22px sans-serif';
+          ctx.fillText(`Slot #${index + 1}: Siap Diisi Screenshot Anda`, w / 2, boxY + 115);
+
+          ctx.fillStyle = isDark ? '#94a3b8' : '#64748b';
+          ctx.font = '15px sans-serif';
+          ctx.fillText('Tarik gambar ke layar atau klik slot ini untuk mengganti foto', w / 2, boxY + 148);
+
+          ctx.fillStyle = isFocal ? '#83264e' : (isDark ? '#38bdf8' : '#0f766e');
+          ctx.font = 'bold 12.5px ui-monospace, monospace';
+          ctx.fillText('PRESET WIREFRAME BERSIH • KOTAK PUTIH ABU • 16:9 RESOLUSI ASLI', w / 2, boxY + 182);
+          ctx.textAlign = 'left';
+
+          // Bottom Skeleton Rows
+          const tableY = boxY + boxH + 20;
+          ctx.fillStyle = isDark ? '#161f30' : '#ffffff';
+          ctx.beginPath();
+          ctx.roundRect(32, tableY, boxW, 110, 12);
+          ctx.fill();
+          ctx.strokeStyle = isDark ? '#1e293b' : '#e2e8f0';
+          ctx.stroke();
+
+          for (let r = 0; r < 2; r++) {
+            const ry = tableY + 20 + r * 42;
+            ctx.fillStyle = isDark ? '#243247' : '#f1f5f9';
+            ctx.beginPath();
+            ctx.roundRect(50, ry, 160, 14, 4);
+            ctx.roundRect(240, ry, 280, 14, 4);
+            ctx.roundRect(560, ry, 140, 14, 4);
+            ctx.roundRect(740, ry, 110, 14, 4);
+            ctx.fill();
+          }
+        }
+
+        return c;
+      }
+    }
+
+    class Isometric6Renderer {
+      constructor(canvas) {
+        this.canvas = canvas;
+        this.baseWidth = 2752;
+        this.baseHeight = 1536;
+        this.canvas.width = this.baseWidth;
+        this.canvas.height = this.baseHeight;
+
+        this.theme = 'light';
+
+        // Default Zoom 0.82 agar 6 kartu formasi matriks 3-3 tampil proporsional tanpa terpotong
+        this.zoomFactor = 0.82;
+
+        // Dimensi kartu 16:9 & celah lorong (konsisten, 0% overlap)
+        this.cardW = 960;
+        this.cardH = 540;
+        this.cardRadius = 22;
+        this.gapX = 44;
+        this.gapY = 44;
+
+        // Sudut miring bidang isometrik
+        this.rotationDeg = -32.0;
+        this.foreshortenY = 0.86;
+      }
+
+      /**
+       * 6 KARTU FORMASI 3 - 3 (MATRIKS 3 KOLOM x 2 BARIS)
+       */
+      getSlots() {
+        return [
+          // Baris 1: 3 Kartu Atas
+          { slot: 0, col: -1.0, row: -0.55 },
+          { slot: 1, col:  0.0, row: -0.55 },
+          { slot: 2, col:  1.0, row: -0.55 },
+
+          // Baris 2: 3 Kartu Bawah
+          { slot: 3, col: -1.0, row:  0.55 },
+          { slot: 4, col:  0.0, row:  0.55, focal: true },
+          { slot: 5, col:  1.0, row:  0.55 }
+        ];
+      }
+
+      render(slotsData, targetCanvas = this.canvas, customW = null, customH = null) {
+        const width = customW || targetCanvas.width;
+        const height = customH || targetCanvas.height;
+        if (targetCanvas.width !== width) targetCanvas.width = width;
+        if (targetCanvas.height !== height) targetCanvas.height = height;
+
+        const ctx = targetCanvas.getContext('2d');
+        ctx.save();
+
+        // 1. Gambar Background Studio
+        this.drawBackground(ctx, width, height);
+
+        // 2. Matriks Proyeksi Isometrik Terpusat (Dead-Center Alignment)
+        const rad = (this.rotationDeg * Math.PI) / 180;
+        const cos = Math.cos(rad);
+        const sin = Math.sin(rad);
+        const sy = this.foreshortenY;
+
+        const resScale = Math.min(width / this.baseWidth, height / this.baseHeight);
+        const S = resScale * this.zoomFactor;
+
+        const ux = cos * S;
+        const uy = sin * sy * S;
+        const vx = -sin * S;
+        const vy = cos * sy * S;
+
+        // Titik pusat 100% di tengah kanvas (50% X, 50% Y)
+        const originX = width * 0.5;
+        const originY = height * 0.5;
+
+        const stepX = this.cardW + this.gapX;
+        const stepY = this.cardH + this.gapY;
+
+        // Formasi 6 kartu 3-3
+        const layout = this.getSlots().map((item) => {
+          const planeX = item.col * stepX;
+          const planeY = item.row * stepY;
+          const screenX = originX + planeX * ux + planeY * vx;
+          const screenY = originY + planeX * uy + planeY * vy;
+          return { ...item, planeX, planeY, screenX, screenY };
+        });
+
+        // Urutkan dari belakang ke depan (berdasarkan screenY) agar bayangan 3D akurat
+        layout.sort((a, b) => a.screenY - b.screenY);
+
+        const det = ux * vy - uy * vx;
+        const screenDownToPlane = (dyScreen) => ({
+          dx: (-vx * dyScreen) / det,
+          dy: (ux * dyScreen) / det
+        });
+
+        ctx.setTransform(ux, uy, vx, vy, originX, originY);
+
+        for (const card of layout) {
+          const x = card.planeX - this.cardW / 2;
+          const y = card.planeY - this.cardH / 2;
+          const source = slotsData[card.slot];
+          this.drawCard(ctx, x, y, this.cardW, this.cardH, source, screenDownToPlane, S);
+        }
+
+        ctx.restore();
+      }
+
+      drawBackground(ctx, width, height) {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        if (this.theme === 'light') {
+          const grad = ctx.createLinearGradient(0, 0, width, height);
+          grad.addColorStop(0, '#f4f6fa');
+          grad.addColorStop(0.5, '#eaeff6');
+          grad.addColorStop(1, '#dde5f0');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, width, height);
+        } else {
+          const grad = ctx.createRadialGradient(
+            width * 0.5, height * 0.45, width * 0.05,
+            width * 0.5, height * 0.5, width * 0.75
+          );
+          grad.addColorStop(0, '#0d151c');
+          grad.addColorStop(1, '#05080b');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, width, height);
+        }
+      }
+
+      drawCard(ctx, x, y, w, h, source, screenDownToPlane, scale) {
+        const r = this.cardRadius;
+        const isLight = this.theme === 'light';
+
+        // 1. Soft Drop Shadow
+        const shadowOffset = screenDownToPlane(18 * scale);
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(x + shadowOffset.dx, y + shadowOffset.dy, w, h, r);
+        ctx.fillStyle = isLight ? 'rgba(15, 23, 42, 0.13)' : 'rgba(0, 0, 0, 0.74)';
+        ctx.shadowColor = isLight ? 'rgba(15, 23, 42, 0.18)' : 'rgba(0, 0, 0, 0.9)';
+        ctx.shadowBlur = 34 * scale;
+        ctx.shadowOffsetY = 10 * scale;
+        ctx.fill();
+        ctx.restore();
+
+        // 2. 3D Slab Thickness (Ketebalan kartu 3D)
+        for (let i = 4; i >= 1; i--) {
+          const tOff = screenDownToPlane((i / 4) * 7 * scale);
+          ctx.beginPath();
+          ctx.roundRect(x + tOff.dx, y + tOff.dy, w, h, r);
+          ctx.fillStyle = isLight
+            ? (i === 4 ? '#b8c4d4' : '#d8e1ed')
+            : (i === 4 ? '#091016' : '#16202a');
+          ctx.fill();
+        }
+
+        // 3. Permukaan Kartu & Gambar (True 16:9 Landscape - Cover)
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, r);
+        ctx.fillStyle = isLight ? '#ffffff' : '#0b0f14';
+        ctx.fill();
+        ctx.clip();
+
+        if (source) {
+          const imgW = source.width || w;
+          const imgH = source.height || h;
+          const cardRatio = w / h;
+          const imgRatio = imgW / imgH;
+
+          let drawW = w, drawH = h, drawX = x, drawY = y;
+          // Mode True 16:9 Landscape Desktop (Cover): Selalu mengisi seluruh kartu tanpa rongga putih
+          if (imgRatio > cardRatio) {
+            drawH = h;
+            drawW = h * imgRatio;
+            drawX = x + (w - drawW) / 2;
+            drawY = y;
+          } else {
+            drawW = w;
+            drawH = w / imgRatio;
+            drawX = x;
+            drawY = y + (h - drawH) / 2;
+          }
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          ctx.drawImage(source, drawX, drawY, drawW, drawH);
+        }
+        ctx.restore();
+
+        // 4. Garis Tepi Halus (Crisp Border)
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, r);
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = isLight ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.12)';
+        ctx.stroke();
+      }
+    }
+
+    /**
+     * KONTROLER APLIKASI UTAMA
+     */
+    function initStudio() {
+      const canvas = document.getElementById('mockup-canvas');
+      const renderer = new Isometric6Renderer(canvas);
+
+      let userImages = new Array(TOTAL_SLOTS).fill(null);
+      let demoCanvases = DemoGenerator.generateSet('light', false, TOTAL_SLOTS);
+      let activeSlotIndex = 0;
+      let selectedExportRes = '2752x1536';
+
+      function getActiveSlots() {
+        return userImages.map((img, i) => img || demoCanvases[i]);
+      }
+
+      function refreshCanvas() {
+        renderer.render(getActiveSlots());
+        updateNavigatorUI();
+      }
+
+      function updateNavigatorUI() {
+        let count = 0;
+        for (let i = 0; i < TOTAL_SLOTS; i++) {
+          const cardEl = document.querySelector(`.slot-card[data-slot="${i}"]`);
+          const thumbEl = document.getElementById(`thumb-${i}`);
+          if (!cardEl || !thumbEl) continue;
+
+          if (userImages[i]) {
+            count++;
+            cardEl.classList.add('has-image');
+            thumbEl.src = userImages[i].src;
+          } else {
+            cardEl.classList.remove('has-image');
+            thumbEl.removeAttribute('src');
+          }
+        }
+        const badge = document.getElementById('slot-count-badge');
+        if (badge) {
+          badge.textContent = count > 0 ? `${count}/${TOTAL_SLOTS} Foto Custom` : `${TOTAL_SLOTS} Slot Demo`;
+        }
+      }
+
+      function showToast(msg) {
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toast-msg');
+        toastMsg.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(window._toastTimer);
+        window._toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
+      }
+
+      function loadImageFile(file) {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      // Theme Toggle Controller
+      const btnToggle = document.getElementById('btn-theme-toggle');
+      const toggleIcon = document.getElementById('theme-toggle-icon');
+      const themeBadge = document.getElementById('theme-badge');
+
+      const moonIconSvg = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+      const sunIconSvg = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+
+      function setTheme(theme) {
+        renderer.theme = theme;
+        demoCanvases = DemoGenerator.generateSet(theme, false, TOTAL_SLOTS);
+        const isDark = (theme === 'dark');
+        if (btnToggle) {
+          btnToggle.classList.toggle('dark-mode', isDark);
+          btnToggle.setAttribute('title', isDark ? 'Beralih ke Light Mode' : 'Beralih ke Dark Mode');
+        }
+        if (toggleIcon) {
+          toggleIcon.innerHTML = isDark ? sunIconSvg : moonIconSvg;
+        }
+        if (themeBadge) {
+          themeBadge.textContent = isDark ? 'Dark Mode' : '4 Desktop PC (2×2)';
+        }
+        document.documentElement.style.setProperty('--bg-canvas', isDark ? '#070a0f' : '#dbe2ec');
+        refreshCanvas();
+      }
+
+      if (btnToggle) {
+        btnToggle.addEventListener('click', () => {
+          const next = (renderer.theme === 'dark') ? 'light' : 'dark';
+          setTheme(next);
+          showToast(`Mode ${next === 'dark' ? 'Dark' : 'Light'} aktif`);
+        });
+      }
+
+      // Zoom Controls
+      const btnZoom = document.getElementById('btn-toggle-zoom');
+      const btnZoomIn = document.getElementById('btn-zoom-in');
+      const btnZoomOut = document.getElementById('btn-zoom-out');
+
+      function updateZoomLabel() {
+        const pct = Math.round(renderer.zoomFactor * 100);
+        btnZoom.textContent = `🔍 Zoom: ${pct}%`;
+      }
+
+      btnZoom.addEventListener('click', () => {
+        renderer.zoomFactor = Math.abs(renderer.zoomFactor - 0.95) < 0.04 ? 0.75 : 0.95;
+        updateZoomLabel();
+        refreshCanvas();
+      });
+
+      btnZoomIn.addEventListener('click', () => {
+        renderer.zoomFactor = Math.min(1.60, +(renderer.zoomFactor + 0.05).toFixed(2));
+        updateZoomLabel();
+        refreshCanvas();
+      });
+
+      btnZoomOut.addEventListener('click', () => {
+        renderer.zoomFactor = Math.max(0.50, +(renderer.zoomFactor - 0.05).toFixed(2));
+        updateZoomLabel();
+        refreshCanvas();
+      });
+
+      
+      // Pattern Toggle (Orthogonal 2x2 vs Staggered 2-2)
+      const btnPattern = document.getElementById('btn-toggle-pattern');
+      if (btnPattern) {
+        btnPattern.addEventListener('click', () => {
+          renderer.patternMode = renderer.patternMode === 'orthogonal' ? 'staggered' : 'orthogonal';
+          btnPattern.textContent = renderer.patternMode === 'orthogonal'
+            ? '📐 Pola: Grid 2x2'
+            : '📐 Pola: Staggered 2-2';
+          refreshCanvas();
+          showToast(`Pola diubah ke: ${renderer.patternMode === 'orthogonal' ? 'Grid 2x2 Lurus' : 'Staggered 2-2'}`);
+        });
+      }
+      
+
+      // Batch Upload & Live Camera
+      const batchInput = document.getElementById('batch-file-input');
+      const cameraBatchInput = document.getElementById('camera-batch-input');
+      const dropzone = document.getElementById('batch-dropzone');
+
+      batchInput.addEventListener('click', (e) => e.stopPropagation());
+      cameraBatchInput.addEventListener('click', (e) => e.stopPropagation());
+
+      document.getElementById('btn-trigger-gallery').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        batchInput.click();
+      });
+
+      document.getElementById('btn-trigger-camera').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (window.openStudioCamera) {
+          window.openStudioCamera(async (blob) => {
+            const img = await loadImageFile(blob);
+            let startIdx = userImages.findIndex((im) => im === null);
+            if (startIdx === -1) startIdx = 0;
+            userImages[startIdx] = img;
+            refreshCanvas();
+            showToast(`📸 Foto kamera berhasil dimasukkan ke Slot #${startIdx + 1}!`);
+          }, () => cameraBatchInput.click());
+        } else {
+          cameraBatchInput.click();
+        }
+      });
+
+      dropzone.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        batchInput.click();
+      });
+
+      async function handleBatchFiles(fileList) {
+        const files = Array.from(fileList).filter((f) => f.type.startsWith('image/'));
+        if (!files.length) return;
+        let startIdx = userImages.findIndex((img) => img === null);
+        if (startIdx === -1) startIdx = 0;
+
+        for (let i = 0; i < files.length && i < TOTAL_SLOTS; i++) {
+          userImages[(startIdx + i) % TOTAL_SLOTS] = await loadImageFile(files[i]);
+        }
+        refreshCanvas();
+        showToast(`${Math.min(files.length, TOTAL_SLOTS)} screenshot berhasil dimasukkan!`);
+      }
+
+      batchInput.addEventListener('change', (e) => {
+        handleBatchFiles(e.target.files);
+        e.target.value = '';
+      });
+      cameraBatchInput.addEventListener('change', (e) => {
+        handleBatchFiles(e.target.files);
+        e.target.value = '';
+      });
+
+      dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      });
+      dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+        if (e.dataTransfer.files?.length) handleBatchFiles(e.dataTransfer.files);
+      });
+
+      // Modal Per Slot
+      const slotModal = document.getElementById('slot-modal');
+      const slotModalTitle = document.getElementById('slot-modal-title');
+      const singleFileInput = document.getElementById('single-file-input');
+      const singleCameraInput = document.getElementById('single-camera-input');
+
+      document.querySelectorAll('.slot-card').forEach((card) => {
+        card.addEventListener('click', () => {
+          activeSlotIndex = parseInt(card.dataset.slot, 10);
+          slotModalTitle.textContent = `Atur Layar Slot #${activeSlotIndex + 1}`;
+          slotModal.classList.add('open');
+        });
+      });
+
+      singleFileInput.addEventListener('click', (e) => e.stopPropagation());
+      singleCameraInput.addEventListener('click', (e) => e.stopPropagation());
+
+      document.getElementById('btn-close-slot-modal').addEventListener('click', () => slotModal.classList.remove('open'));
+      document.getElementById('btn-slot-file').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        singleFileInput.click();
+      });
+
+      document.getElementById('btn-slot-camera').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (window.openStudioCamera) {
+          window.openStudioCamera(async (blob) => {
+            userImages[activeSlotIndex] = await loadImageFile(blob);
+            slotModal.classList.remove('open');
+            refreshCanvas();
+            showToast(`📸 Slot #${activeSlotIndex + 1} berhasil difoto!`);
+          }, () => singleCameraInput.click());
+        } else {
+          singleCameraInput.click();
+        }
+      });
+
+      async function handleSingleFile(file) {
+        if (!file) return;
+        userImages[activeSlotIndex] = await loadImageFile(file);
+        slotModal.classList.remove('open');
+        refreshCanvas();
+        showToast(`Slot #${activeSlotIndex + 1} berhasil diperbarui!`);
+      }
+
+      singleFileInput.addEventListener('change', (e) => {
+        handleSingleFile(e.target.files[0]);
+        e.target.value = '';
+      });
+      singleCameraInput.addEventListener('change', (e) => {
+        handleSingleFile(e.target.files[0]);
+        e.target.value = '';
+      });
+
+      document.getElementById('btn-slot-remove').addEventListener('click', () => {
+        userImages[activeSlotIndex] = null;
+        slotModal.classList.remove('open');
+        refreshCanvas();
+        showToast(`Slot #${activeSlotIndex + 1} direset ke demo`);
+      });
+
+      // Preset Buttons
+      const btnLightDemo = document.getElementById('btn-load-light-demo');
+      if (btnLightDemo) {
+        btnLightDemo.addEventListener('click', () => {
+          userImages.fill(null);
+          setTheme('light');
+          showToast('Preset Wireframe Light dimuat');
+        });
+      }
+
+      const btnDarkDemo = document.getElementById('btn-load-dark-demo');
+      if (btnDarkDemo) {
+        btnDarkDemo.addEventListener('click', () => {
+          userImages.fill(null);
+          setTheme('dark');
+          showToast('Preset Wireframe Dark dimuat');
+        });
+      }
+
+      
+      const btnDuplicate = document.getElementById('btn-duplicate-remaining');
+      if (btnDuplicate) {
+        btnDuplicate.addEventListener('click', () => {
+          const uploaded = userImages.filter(Boolean);
+          if (!uploaded.length) return showToast('Upload minimal 1 foto dulu!');
+          userImages = userImages.map((img, i) => img || uploaded[i % uploaded.length]);
+          refreshCanvas();
+          showToast('Slot kosong berhasil diisi otomatis!');
+        });
+      }
+      
+
+      const btnClearAll = document.getElementById('btn-clear-all');
+      if (btnClearAll) {
+        btnClearAll.addEventListener('click', () => {
+          userImages.fill(null);
+          refreshCanvas();
+          showToast('Semua slot direset ke tampilan demo');
+        });
+      }
+
+      // Sidebar Mobile Drawer Controls
+      const sidebar = document.getElementById('sidebar-panel');
+      const backdrop = document.getElementById('mobile-backdrop');
+      const sidebarToggle = document.getElementById('sidebar-toggle');
+      const sidebarCloseMobile = document.getElementById('sidebar-close-mobile');
+      const mobileFab = document.getElementById('mobile-fab');
+
+      function openSidebar() {
+        if (window.innerWidth <= 900) {
+          sidebar.classList.add('open');
+          backdrop.classList.add('open');
+        } else {
+          sidebar.classList.remove('collapsed');
+          if (sidebarToggle) sidebarToggle.style.display = 'none';
+        }
+      }
+
+      function closeSidebar() {
+        if (window.innerWidth <= 900) {
+          sidebar.classList.remove('open');
+          backdrop.classList.remove('open');
+        } else {
+          sidebar.classList.add('collapsed');
+          if (sidebarToggle) sidebarToggle.style.display = 'flex';
+        }
+      }
+
+      if (sidebarToggle) sidebarToggle.addEventListener('click', openSidebar);
+      if (sidebarCloseMobile) sidebarCloseMobile.addEventListener('click', closeSidebar);
+      if (mobileFab) mobileFab.addEventListener('click', openSidebar);
+      if (backdrop) backdrop.addEventListener('click', closeSidebar);
+
+      // Export Dropdown Controls
+      const exportModal = document.getElementById('export-modal');
+      const btnOpenExport = document.getElementById('btn-open-export');
+      const btnCloseModal = document.getElementById('btn-close-modal');
+
+      if (btnOpenExport && exportModal) {
+        btnOpenExport.addEventListener('click', (e) => {
+          e.stopPropagation();
+          exportModal.classList.toggle('open');
+        });
+      }
+
+      if (btnCloseModal && exportModal) {
+        btnCloseModal.addEventListener('click', (e) => {
+          e.stopPropagation();
+          exportModal.classList.remove('open');
+        });
+      }
+
+      if (exportModal) {
+        exportModal.addEventListener('click', (e) => {
+          e.stopPropagation();
+        });
+      }
+
+      document.addEventListener('click', (e) => {
+        if (exportModal && exportModal.classList.contains('open')) {
+          if (!exportModal.contains(e.target) && !btnOpenExport.contains(e.target)) {
+            exportModal.classList.remove('open');
+          }
+        }
+      });
+
+      document.querySelectorAll('.res-card').forEach((card) => {
+        card.addEventListener('click', () => {
+          document.querySelectorAll('.res-card').forEach((c) => c.classList.remove('active'));
+          card.classList.add('active');
+          selectedExportRes = card.dataset.res;
+        });
+      });
+
+      function createExportCanvas() {
+        const [w, h] = selectedExportRes.split('x').map(Number);
+        const off = document.createElement('canvas');
+        renderer.render(getActiveSlots(), off, w, h);
+        return off;
+      }
+
+      document.getElementById('btn-export-download').addEventListener('click', () => {
+        const off = createExportCanvas();
+        const a = document.createElement('a');
+        a.download = `mockup-3d-6-grid-3x3-desktop-${renderer.theme}-${selectedExportRes}.png`;
+        a.href = off.toDataURL('image/png', 1.0);
+        a.click();
+        exportModal.classList.remove('open');
+        if (window.confetti) window.confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+        showToast(`PNG (${selectedExportRes}) berhasil didownload!`);
+      });
+
+      document.getElementById('btn-copy-clipboard').addEventListener('click', () => {
+        const off = createExportCanvas();
+        off.toBlob(async (blob) => {
+          try {
+            await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+            exportModal.classList.remove('open');
+            showToast('Gambar berhasil disalin ke Clipboard!');
+          } catch {
+            showToast('Browser tidak mengizinkan copy otomatis');
+          }
+        });
+      });
+
+      // Render pertama kali
+      refreshCanvas();
+      window._refreshStudio = refreshCanvas;
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initStudio);
+    } else {
+      initStudio();
+    }
+    window.addEventListener('load', () => {
+      if (typeof window._refreshStudio === 'function') {
+        window._refreshStudio();
+      }
+    });
+  </script>
+</body>
+</html>

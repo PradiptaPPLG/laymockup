@@ -678,16 +678,47 @@
   }
 
   // Generate a realistic, stuttering progress timeline (ChatGPT DALL-E style)
-  // Features: Genuine STUCK pauses (completely frozen on exact percentage) + crawling deceleration (melambat)
+  // Features: Fully randomized stuck positions across the spectrum (tidak monoton di situ-situ aja)
+  // + genuine frozen hold durations + organic deceleration (melambat) and acceleration
   function createStutteringTimeline() {
-    const stall1 = Math.floor(Math.random() * 4) + 22; // 22% - 25% (e.g. 24%)
-    const stall2 = Math.floor(Math.random() * 4) + 51; // 51% - 54% (e.g. 52%)
-    const stall3 = Math.floor(Math.random() * 4) + 82; // 82% - 85% (e.g. 84%)
+    // 1. Randomly decide whether to have 2, 3, or 4 stall checkpoints
+    const roll = Math.random();
+    const numStalls = roll < 0.25 ? 2 : (roll < 0.8 ? 3 : 4);
 
-    // Distinct, authentic stuck pauses (seconds frozen completely)
-    const pause1 = (2.0 + Math.random() * 0.8) * 1000; // 2.0s - 2.8s stuck
-    const pause2 = (2.8 + Math.random() * 1.0) * 1000; // 2.8s - 3.8s stuck (deep neural computation at 52%)
-    const pause3 = (1.8 + Math.random() * 0.8) * 1000; // 1.8s - 2.6s stuck
+    let stallPoints = [];
+    if (numStalls === 2) {
+      stallPoints.push(Math.floor(Math.random() * 26) + 18); // 18% - 43%
+      stallPoints.push(Math.floor(Math.random() * 28) + 58); // 58% - 85%
+    } else if (numStalls === 3) {
+      stallPoints.push(Math.floor(Math.random() * 18) + 14); // 14% - 31%
+      stallPoints.push(Math.floor(Math.random() * 23) + 42); // 42% - 64%
+      stallPoints.push(Math.floor(Math.random() * 18) + 72); // 72% - 89%
+    } else {
+      stallPoints.push(Math.floor(Math.random() * 14) + 12); // 12% - 25%
+      stallPoints.push(Math.floor(Math.random() * 15) + 33); // 33% - 47%
+      stallPoints.push(Math.floor(Math.random() * 15) + 56); // 56% - 70%
+      stallPoints.push(Math.floor(Math.random() * 14) + 78); // 78% - 91%
+    }
+
+    // Pick one stall at random to be the "Heavy Thinking" freeze (2.8s - 3.8s)
+    const deepIndex = Math.floor(Math.random() * stallPoints.length);
+    const pauses = stallPoints.map((_, idx) => {
+      if (idx === deepIndex) {
+        return (2.8 + Math.random() * 1.0) * 1000; // 2.8s - 3.8s deep stuck
+      } else {
+        return (1.6 + Math.random() * 0.9) * 1000; // 1.6s - 2.5s medium stuck
+      }
+    });
+
+    const THOUGHTS = [
+      'Menganalisis geometri 3D...',
+      'Sampling 3D voxels...',
+      'Neural synthesis step...',
+      'Upscaling isometric grid...',
+      'Menerapkan 4K neural texture upscaler...',
+      'Balancing lighting & shadows...',
+      'Finalizing neural denoising...'
+    ];
 
     const schedule = [];
     let t = 0;
@@ -696,72 +727,45 @@
       t += durationMs;
     }
 
-    // 1. Initial quick sprint (0% -> stall1 - 4)
-    for (let p = 0; p <= stall1 - 4; p++) {
-      addStep(p, 35 + Math.random() * 25, 'Setting the scene...');
+    let currentP = 0;
+
+    for (let sIdx = 0; sIdx < stallPoints.length; sIdx++) {
+      const targetStall = stallPoints[sIdx];
+      const pauseDuration = pauses[sIdx];
+      const thought = THOUGHTS[sIdx % THOUGHTS.length];
+
+      // 1. Sprint towards (targetStall - 3)
+      const sprintEnd = Math.max(currentP, targetStall - 3);
+      for (let p = currentP; p <= sprintEnd; p++) {
+        addStep(p, 30 + Math.random() * 25, 'Memproses render 4K...');
+      }
+
+      // 2. Decelerate into stall (MELAMBAT)
+      for (let p = sprintEnd + 1; p <= targetStall; p++) {
+        const stepIdx = (p - sprintEnd);
+        addStep(p, 140 + stepIdx * 110, thought);
+      }
+
+      // 3. BENER-BENER STUCK AT THIS RANDOM POINT!
+      addStep(targetStall, pauseDuration, thought);
+
+      // 4. Creep out of stall (MELAMBAT)
+      const maxNext = sIdx === stallPoints.length - 1 ? 96 : stallPoints[sIdx + 1] - 4;
+      const creepEnd = Math.min(maxNext, targetStall + 3);
+      for (let p = targetStall + 1; p <= creepEnd; p++) {
+        const stepIdx = (creepEnd + 1 - p);
+        addStep(p, 140 + stepIdx * 80, thought);
+      }
+
+      currentP = creepEnd + 1;
     }
 
-    // 2. Slow down approaching stall1 (MELAMBAT)
-    for (let p = stall1 - 3; p <= stall1; p++) {
-      const factor = (p - (stall1 - 4));
-      addStep(p, 140 + factor * 110, 'Menganalisis geometri 3D...');
-    }
-
-    // 3. BENER-BENER STUCK at stall1! (frozen dead still on the exact percentage)
-    addStep(stall1, pause1, 'Menganalisis geometri 3D...');
-
-    // 4. Wake up & creep out (MELAMBAT)
-    for (let p = stall1 + 1; p <= stall1 + 3; p++) {
-      const factor = (stall1 + 4 - p);
-      addStep(p, 150 + factor * 90, 'Sampling 3D voxels...');
-    }
-
-    // 5. Accelerate towards stall2 - 4
-    for (let p = stall1 + 4; p <= stall2 - 4; p++) {
-      addStep(p, 30 + Math.random() * 25, 'Sampling 3D voxels...');
-    }
-
-    // 6. Slow down approaching stall2 (MELAMBAT)
-    for (let p = stall2 - 3; p <= stall2; p++) {
-      const factor = (p - (stall2 - 4));
-      addStep(p, 160 + factor * 130, 'Neural synthesis step 18/30...');
-    }
-
-    // 7. BENER-BENER STUCK at stall2! (e.g. 52% stuck for 3+ seconds)
-    addStep(stall2, pause2, 'Neural synthesis step 18/30...');
-
-    // 8. Wake up & creep out (MELAMBAT)
-    for (let p = stall2 + 1; p <= stall2 + 3; p++) {
-      const factor = (stall2 + 4 - p);
-      addStep(p, 170 + factor * 100, 'Upscaling isometric grid...');
-    }
-
-    // 9. Accelerate towards stall3 - 4
-    for (let p = stall2 + 4; p <= stall3 - 4; p++) {
-      addStep(p, 30 + Math.random() * 25, 'Upscaling isometric grid...');
-    }
-
-    // 10. Slow down approaching stall3 (MELAMBAT)
-    for (let p = stall3 - 3; p <= stall3; p++) {
-      const factor = (p - (stall3 - 4));
-      addStep(p, 150 + factor * 120, 'Menerapkan 4K neural upscaler...');
-    }
-
-    // 11. BENER-BENER STUCK at stall3!
-    addStep(stall3, pause3, 'Menerapkan 4K neural upscaler...');
-
-    // 12. Creep out of stall3 (MELAMBAT)
-    for (let p = stall3 + 1; p <= stall3 + 3; p++) {
-      const factor = (stall3 + 4 - p);
-      addStep(p, 150 + factor * 80, 'Balancing lighting & shadows...');
-    }
-
-    // 13. Final sprint to 99%
-    for (let p = stall3 + 4; p <= 99; p++) {
+    // Final sprint from currentP to 99%
+    for (let p = currentP; p <= 99; p++) {
       addStep(p, 25 + Math.random() * 20, 'Menyiapkan file download 4K...');
     }
 
-    // 14. 100%
+    // 100%
     addStep(100, 450, 'Selesai ✓ (100%)');
 
     return {
