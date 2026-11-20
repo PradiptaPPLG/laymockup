@@ -440,63 +440,345 @@
       pointer-events: none;
     }
 
-    /* Loading Overlay */
-    .loading-overlay {
-      position: absolute;
+    /* ===== SIMPLE WHITE PRELOADER ===== */
+    .ai-white-preloader {
+      position: fixed;
       inset: 0;
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(8px);
-      display: flex;
-      flex-direction: column;
+      z-index: 10002;
+      display: none;
       align-items: center;
       justify-content: center;
-      padding: 24px;
-      z-index: 30;
-      text-align: center;
+      background: rgba(15, 23, 42, 0.32);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      opacity: 0;
+      transition: opacity 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: auto;
+    }
+    .ai-white-preloader.active {
+      display: flex;
+      opacity: 1;
+    }
+    .ai-white-preloader.closing {
+      opacity: 0;
+    }
+    .ai-preloader-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #FFFFFF;
+      border: 2px solid var(--border-dark);
+      padding: 13px 26px;
+      border-radius: 999px;
+      box-shadow: 4px 4px 0 var(--border-dark);
+      animation: preloaderBounceIn 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes preloaderBounceIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(12px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+    .ai-preloader-spinner {
+      width: 18px;
+      height: 18px;
+      border: 2.5px solid #e2edea;
+      border-top-color: #0d9488;
+      border-radius: 50%;
+      animation: preloaderSpin 0.75s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes preloaderSpin {
+      to { transform: rotate(360deg); }
+    }
+    .ai-preloader-text {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
     }
 
-    .loading-card {
-      background: #ffffff;
-      border: 2.5px solid var(--border-dark);
-      box-shadow: 5px 5px 0 var(--border-dark);
-      border-radius: 20px;
-      padding: 28px 32px;
-      max-width: 420px;
+    /* ===== AI CUTOUT MODAL OVERLAY ===== */
+    .ai-retouch-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10001;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding: 16px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .ai-retouch-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+    .ai-retouch-overlay.closing {
+      opacity: 0;
+    }
+
+    /* Modal Card — Clean Crisp White Neo-Tactile */
+    .ai-retouch-card {
       width: 100%;
+      max-width: 440px;
+      background: #FFFFFF;
+      border: 2px solid var(--border-dark);
+      border-radius: 24px;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
+      box-shadow: 6px 6px 0 var(--border-dark);
+      transform: scale(0.94) translateY(18px);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .ai-retouch-overlay.active .ai-retouch-card {
+      transform: scale(1) translateY(0);
+    }
+    .ai-retouch-overlay.closing .ai-retouch-card {
+      transform: scale(0.94) translateY(12px);
+    }
+
+    /* Header */
+    .ai-retouch-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: #FFFFFF;
+      border-bottom: 2px solid var(--border-dark);
+    }
+    .ai-retouch-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .ai-retouch-sparkle {
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, #eafaf8 0%, #FFE3ED 100%);
+      border: 1.5px solid var(--border-dark);
+      box-shadow: 2px 2px 0 var(--border-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #044343;
+      flex-shrink: 0;
+    }
+    .ai-retouch-title {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.015em;
+      line-height: 1.25;
+    }
+    .ai-retouch-sub {
+      font-size: 11px;
+      color: #64748b;
+      font-family: ui-monospace, 'JetBrains Mono', monospace;
+      margin-top: 2px;
+    }
+    .ai-retouch-close-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: #f8fafc;
+      border: 1.5px solid var(--border-dark);
+      box-shadow: 1.5px 1.5px 0 var(--border-dark);
+      color: #64748b;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+      transition: all 0.15s;
+    }
+    .ai-retouch-close-btn:hover {
+      background: #fee2e2;
+      color: #b91c1c;
+      transform: translate(-1px, -1px);
+      box-shadow: 2.5px 2.5px 0 var(--border-dark);
+    }
+
+    /* Dot Matrix Viewport */
+    .ai-dot-viewport {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      background: #f8fafc;
+      border-bottom: 2px solid var(--border-dark);
+      overflow: hidden;
+    }
+    .ai-dot-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .ai-dot-gradient-veil {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg,
+        rgba(155, 227, 222, 0.16) 0%,
+        rgba(255, 184, 210, 0.14) 100%);
+      pointer-events: none;
+    }
+    .ai-dot-scanline {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 48px;
+      background: linear-gradient(to bottom,
+        transparent 0%,
+        rgba(155, 227, 222, 0.32) 50%,
+        transparent 100%);
+      animation: aiScanlineSweep 2.6s linear infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+    @keyframes aiScanlineSweep {
+      0%   { transform: translateY(-100%); opacity: 0.1; }
+      50%  { opacity: 0.4; }
+      100% { transform: translateY(230px); opacity: 0.1; }
+    }
+
+    /* Top-Left Scene Label */
+    .ai-dot-label {
+      position: absolute;
+      top: 14px;
+      left: 16px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #0f172a;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1.5px solid var(--border-dark);
+      box-shadow: 2px 2px 0 var(--border-dark);
+      pointer-events: none;
+      z-index: 2;
+      transition: opacity 0.25s, transform 0.25s;
+    }
+
+    /* Bottom-Right Percentage Badge */
+    .ai-dot-badge {
+      position: absolute;
+      bottom: 12px;
+      right: 14px;
+      background: #FFFFFF;
+      border: 2px solid var(--border-dark);
+      border-radius: 999px;
+      padding: 4px 13px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #0d9488;
+      font-family: ui-monospace, 'JetBrains Mono', monospace;
+      pointer-events: none;
+      z-index: 2;
+      box-shadow: 2.5px 2.5px 0 var(--border-dark);
+      transition: color 0.3s, border-color 0.3s, background 0.3s;
+    }
+    .ai-dot-badge.done {
+      color: #059669;
+      border-color: #059669;
+      background: #ecfdf5;
+    }
+
+    /* Bottom Info & Lattice Loader */
+    .ai-retouch-bottom {
+      padding: 16px 20px 20px;
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .ai-res-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .ai-pill {
+      font-size: 10.5px;
+      font-family: ui-monospace, 'JetBrains Mono', monospace;
+      padding: 3.5px 10px;
+      border-radius: 999px;
+      background: #f8fafc;
+      border: 1.5px solid var(--border-dark);
+      color: #64748b;
+      font-weight: 700;
+    }
+    .ai-pill.active {
+      background: var(--accent-mint);
+      border-color: var(--border-dark);
+      color: #0f172a;
+      font-weight: 800;
+      box-shadow: 1.5px 1.5px 0 var(--border-dark);
+    }
+
+    .ai-status-row {
+      display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .loading-spinner {
-      width: 44px;
-      height: 44px;
-      border: 4px solid #e2e8f0;
-      border-top-color: #0f766e;
+    .lattice-loader {
+      display: grid;
+      grid-template-columns: repeat(3, 4.5px);
+      grid-template-rows: repeat(3, 4.5px);
+      gap: 3px;
+      flex-shrink: 0;
+    }
+    .lattice-loader span {
+      width: 4.5px;
+      height: 4.5px;
       border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      background: #0d9488;
+      opacity: 0.25;
+      animation: latticePulse 1.2s ease-in-out infinite alternate;
+    }
+    .lattice-loader span:nth-child(1) { animation-delay: 0.0s; background: #0d9488; }
+    .lattice-loader span:nth-child(2) { animation-delay: 0.15s; background: #14b8a6; }
+    .lattice-loader span:nth-child(3) { animation-delay: 0.3s; background: #a855f7; }
+    .lattice-loader span:nth-child(4) { animation-delay: 0.15s; background: #0d9488; }
+    .lattice-loader span:nth-child(5) { animation-delay: 0.3s; background: #db2777; }
+    .lattice-loader span:nth-child(6) { animation-delay: 0.45s; background: #e11d48; }
+    .lattice-loader span:nth-child(7) { animation-delay: 0.3s; background: #0d9488; }
+    .lattice-loader span:nth-child(8) { animation-delay: 0.45s; background: #db2777; }
+    .lattice-loader span:nth-child(9) { animation-delay: 0.6s; background: #e11d48; }
+
+    @keyframes latticePulse {
+      0%   { opacity: 0.25; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.25); }
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .loading-progress-track {
-      width: 100%;
-      height: 10px;
-      background: #f1f5f9;
-      border: 1.5px solid var(--border-dark);
-      border-radius: 9999px;
+    .ai-status-text {
+      font-size: 12px;
+      color: #475569;
+      font-weight: 600;
+      flex: 1;
+      white-space: nowrap;
       overflow: hidden;
-      margin-top: 4px;
+      text-overflow: ellipsis;
     }
-
-    .loading-progress-bar {
-      height: 100%;
-      background: var(--accent-mint);
-      width: 10%;
-      transition: width 0.2s ease;
+    .ai-status-text.done {
+      color: #059669;
+      font-weight: 800;
     }
 
     /* Sidebar Panel */
@@ -1051,23 +1333,6 @@
             <span class="split-label-orig">Asli</span>
             <span class="split-label-res">Hasil</span>
           </div>
-
-          <!-- Loading Progress Overlay -->
-          <div id="loadingOverlay" class="loading-overlay hidden">
-            <div class="loading-card">
-              <div class="loading-spinner"></div>
-              <div id="loadingStageText" style="font-size:14px; font-weight:800; color:var(--text-main);">
-                Menyiapkan mesin segmentasi...
-              </div>
-              <div id="loadingSubText" style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">
-                Unduhan pertama kali tersimpan di cache IndexedDB browser Anda.
-              </div>
-              <div class="loading-progress-track">
-                <div id="loadingProgressBar" class="loading-progress-bar"></div>
-              </div>
-              <span id="loadingPercentText" style="font-size:12px; font-weight:800; font-family:monospace; color:#0f766e;">15%</span>
-            </div>
-          </div>
         </div>
 
       </div>
@@ -1231,6 +1496,59 @@
     <span id="toastMsg">Notifikasi</span>
   </div>
 
+  <!-- Simple White Preloader -->
+  <div id="aiPreloader" class="ai-white-preloader">
+    <div class="ai-preloader-card">
+      <div class="ai-preloader-spinner"></div>
+      <span class="ai-preloader-text">Menyiapkan AI Neural Cutout...</span>
+    </div>
+  </div>
+
+  <!-- 4K AI Cutout Simulation Modal -->
+  <div id="aiCutoutOverlay" class="ai-retouch-overlay" aria-modal="true" role="dialog">
+    <div class="ai-retouch-card">
+      <!-- Header -->
+      <div class="ai-retouch-header">
+        <div class="ai-retouch-header-left">
+          <div class="ai-retouch-sparkle">✦</div>
+          <div>
+            <div class="ai-retouch-title">AI Neural Cutout Engine</div>
+            <div class="ai-retouch-sub">4K UHD • Deep Matting & Alpha Edge Refinement</div>
+          </div>
+        </div>
+        <button class="ai-retouch-close-btn" id="btnCloseAICutout" title="Tutup">&times;</button>
+      </div>
+
+      <!-- Dot Matrix Canvas Viewport -->
+      <div class="ai-dot-viewport">
+        <canvas id="aiCutoutCanvas" class="ai-dot-canvas" aria-hidden="true"></canvas>
+        <div class="ai-dot-gradient-veil"></div>
+        <div class="ai-dot-scanline"></div>
+        <div class="ai-dot-label" id="aiCutoutLabel">Menyiapkan neural segmentasi...</div>
+        <div class="ai-dot-badge" id="aiCutoutBadge">0%</div>
+      </div>
+
+      <!-- Bottom Info & Lattice Loader -->
+      <div class="ai-retouch-bottom">
+        <div class="ai-res-pills">
+          <div class="ai-pill">Lossless PNG</div>
+          <div class="ai-pill">Trimap Matting</div>
+          <div class="ai-pill active">4K UHD ★</div>
+          <div class="ai-pill">Client WASM</div>
+        </div>
+
+        <div class="ai-status-row">
+          <div class="lattice-loader" id="aiCutoutLattice">
+            <span></span><span></span><span></span>
+            <span></span><span></span><span></span>
+            <span></span><span></span><span></span>
+          </div>
+          <div class="ai-status-text" id="aiCutoutStatusText">AI sedang memindai siluet objek...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Remove BG Logic Script -->
   <script type="module">
     // State Aplikasi Non-Destruktif
@@ -1286,11 +1604,6 @@
       mainCanvas: document.getElementById('mainCanvas'),
       overlayCanvas: document.getElementById('overlayCanvas'),
       splitHandle: document.getElementById('splitHandle'),
-      loadingOverlay: document.getElementById('loadingOverlay'),
-      loadingStageText: document.getElementById('loadingStageText'),
-      loadingSubText: document.getElementById('loadingSubText'),
-      loadingProgressBar: document.getElementById('loadingProgressBar'),
-      loadingPercentText: document.getElementById('loadingPercentText'),
       engineActiveLabel: document.getElementById('engineActiveLabel'),
       imgDimensions: document.getElementById('imgDimensions'),
       statusBadge: document.getElementById('statusBadge'),
@@ -1323,15 +1636,8 @@
     function setLoading(active, stageText = '', percent = 0, subText = '') {
       state.isProcessing = active;
       dom.btnAutoRemoveBG.disabled = active || !state.hasImage;
-      if (active) {
-        dom.loadingOverlay.classList.remove('hidden');
-        if (stageText) dom.loadingStageText.textContent = stageText;
-        if (subText) dom.loadingSubText.textContent = subText;
-        const clamped = Math.max(2, Math.min(100, Math.round(percent)));
-        dom.loadingProgressBar.style.width = `${clamped}%`;
-        dom.loadingPercentText.textContent = `${clamped}%`;
-      } else {
-        dom.loadingOverlay.classList.add('hidden');
+      if (currentAIExperience) {
+        if (stageText) currentAIExperience.updateThought(stageText);
       }
     }
 
@@ -1391,6 +1697,265 @@
       showToast('Gambar dikembalikan ke kondisi asli');
     }
 
+    // ===== SIMULATED 4K AI CUTOUT MODAL ENGINE =====
+    const aiPreloaderEl = document.getElementById('aiPreloader');
+    const aiCutoutOverlay = document.getElementById('aiCutoutOverlay');
+    const aiDotCanvas = document.getElementById('aiCutoutCanvas');
+    const aiDotLabel = document.getElementById('aiCutoutLabel');
+    const aiDotBadge = document.getElementById('aiCutoutBadge');
+    const aiCutoutStatusText = document.getElementById('aiCutoutStatusText');
+    const btnCloseAICutout = document.getElementById('btnCloseAICutout');
+
+    let dotCtx = null;
+    let dotRafId = null;
+    let dotIsRunning = false;
+    let dots = [];
+    let dotCols = 0;
+    let dotRows = 0;
+    let dotIntroStart = null;
+    const DOT_SPACING = 17;
+    const DOT_RADIUS_MAX = 3.3;
+    const INTRO_DURATION = 1600;
+
+    function calcDotColor(c, r, totalC, totalR, opacity) {
+      const t = (c / Math.max(1, totalC - 1) * 0.5) + (r / Math.max(1, totalR - 1) * 0.5);
+      const red = Math.round(13 + (225 - 13) * t);
+      const green = Math.round(148 + (29 - 148) * t);
+      const blue = Math.round(136 + (72 - 136) * t);
+      return `rgba(${red},${green},${blue},${opacity})`;
+    }
+
+    function buildGrid(width, height) {
+      dotCols = Math.ceil(width / DOT_SPACING) + 1;
+      dotRows = Math.ceil(height / DOT_SPACING) + 1;
+      dots = [];
+      for (let r = 0; r < dotRows; r++) {
+        for (let c = 0; c < dotCols; c++) {
+          dots.push({
+            c, r,
+            x: c * DOT_SPACING + (DOT_SPACING / 2),
+            y: r * DOT_SPACING + (DOT_SPACING / 2),
+            phase: Math.random() * Math.PI * 2,
+            speed: 0.6 + Math.random() * 0.8,
+            introDelay: (c / dotCols) * 0.55 + (r / dotRows) * 0.45
+          });
+        }
+      }
+    }
+
+    function resizeDotCanvas() {
+      if (!aiDotCanvas) return;
+      const wrap = aiDotCanvas.parentElement;
+      const w = wrap.clientWidth || 440;
+      const h = wrap.clientHeight || 220;
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      aiDotCanvas.width = w * dpr;
+      aiDotCanvas.height = h * dpr;
+      aiDotCanvas.style.width = w + 'px';
+      aiDotCanvas.style.height = h + 'px';
+      dotCtx = aiDotCanvas.getContext('2d');
+      dotCtx.scale(dpr, dpr);
+      buildGrid(w, h);
+    }
+
+    function renderMatrixFrame(ts) {
+      if (!dotIsRunning || !dotCtx) return;
+      dotRafId = requestAnimationFrame(renderMatrixFrame);
+
+      if (dotIntroStart === null) dotIntroStart = ts;
+      const introElapsed = ts - dotIntroStart;
+      const introFraction = Math.min(1, introElapsed / INTRO_DURATION);
+
+      const w = aiDotCanvas.clientWidth;
+      const h = aiDotCanvas.clientHeight;
+      const time = ts * 0.001;
+
+      dotCtx.clearRect(0, 0, w, h);
+
+      for (let i = 0; i < dots.length; i++) {
+        const d = dots[i];
+        const introReveal = Math.min(1, Math.max(0, (introFraction - d.introDelay * 0.85) / 0.18));
+        const pulse = 0.38 + 0.38 * Math.sin(time * d.speed + d.phase);
+        const wave = 0.18 * Math.sin(time * 0.7 - (d.c + d.r) * 0.22);
+        const opacity = Math.min(0.92, (pulse * 0.6 + wave + 0.25) * introReveal);
+        const radius = DOT_RADIUS_MAX * (0.6 + 0.4 * introReveal) * (0.8 + 0.2 * pulse);
+
+        dotCtx.beginPath();
+        dotCtx.arc(d.x, d.y, Math.max(0.1, radius), 0, Math.PI * 2);
+        dotCtx.fillStyle = calcDotColor(d.c, d.r, dotCols, dotRows, Math.max(0, opacity));
+        dotCtx.fill();
+      }
+    }
+
+    function startDotMatrix() {
+      if (!aiDotCanvas) return;
+      dotIsRunning = true;
+      dotIntroStart = null;
+      resizeDotCanvas();
+      dotRafId = requestAnimationFrame(renderMatrixFrame);
+    }
+
+    function stopDotMatrix() {
+      dotIsRunning = false;
+      if (dotRafId) {
+        cancelAnimationFrame(dotRafId);
+        dotRafId = null;
+      }
+      if (dotCtx && aiDotCanvas) {
+        dotCtx.clearRect(0, 0, aiDotCanvas.width, aiDotCanvas.height);
+      }
+    }
+
+    const AI_PHASES = [
+      'Menyiapkan neural segmentasi...',
+      'Mendeteksi kontur subjek...',
+      'Sampling neural voxels & trimap...',
+      'Menghitung alpha matte presisi tinggi...',
+      'Menghaluskan edge & kikir halo...',
+      'Menyusun hasil transparan 4K...',
+      'Selesai ✓ (100%)'
+    ];
+
+    const AI_THOUGHTS = [
+      'Mendeteksi siluet objek utama...',
+      'Memindai batas kontur rambut & pakaian...',
+      'Menghilangkan latar belakang...',
+      'Mengurangi artefak & color spill...',
+      'Menyusun layer transparan 4K...'
+    ];
+
+    let currentAIExperience = null;
+
+    function startAICutoutExperience() {
+      return new Promise((resolve) => {
+        // 1. Show preloader first (420ms)
+        aiPreloaderEl.classList.remove('closing');
+        aiPreloaderEl.classList.add('active');
+
+        setTimeout(() => {
+          aiPreloaderEl.classList.add('closing');
+          setTimeout(() => {
+            aiPreloaderEl.classList.remove('active', 'closing');
+
+            // 2. Open simulated 4K AI modal
+            aiCutoutOverlay.classList.remove('closing');
+            aiCutoutOverlay.classList.add('active');
+            aiDotBadge.textContent = '0%';
+            aiDotBadge.classList.remove('done');
+            aiDotLabel.textContent = AI_PHASES[0];
+            aiCutoutStatusText.textContent = AI_THOUGHTS[0];
+            aiCutoutStatusText.classList.remove('done');
+
+            startDotMatrix();
+
+            let targetPct = 0;
+            let currentPct = 0;
+            let isFinished = false;
+            const startTime = performance.now();
+
+            // Progress ticker
+            const progressInterval = setInterval(() => {
+              if (isFinished) return;
+
+              const elapsed = performance.now() - startTime;
+              // Organic curve climbing up to ~92%
+              if (elapsed < 600) {
+                targetPct = Math.min(28, Math.floor(elapsed / 22));
+              } else if (elapsed < 1400) {
+                targetPct = Math.min(65, 28 + Math.floor((elapsed - 600) / 22));
+              } else if (elapsed < 2400) {
+                targetPct = Math.min(88, 65 + Math.floor((elapsed - 1400) / 42));
+              } else {
+                targetPct = Math.min(94, 88 + Math.floor((elapsed - 2400) / 100));
+              }
+
+              if (currentPct < targetPct) {
+                currentPct += 1;
+                aiDotBadge.textContent = `${currentPct}%`;
+
+                // Update phase label
+                const phaseIdx = Math.min(
+                  AI_PHASES.length - 2,
+                  Math.floor((currentPct / 100) * (AI_PHASES.length - 1))
+                );
+                aiDotLabel.textContent = AI_PHASES[phaseIdx];
+
+                // Update thought text
+                const thoughtIdx = Math.min(
+                  AI_THOUGHTS.length - 1,
+                  Math.floor((currentPct / 100) * AI_THOUGHTS.length)
+                );
+                aiCutoutStatusText.textContent = AI_THOUGHTS[thoughtIdx];
+              }
+            }, 35);
+
+            const exp = {
+              updateThought(text) {
+                if (!isFinished && text) aiCutoutStatusText.textContent = text;
+              },
+              updateWasmProgress(pct, status) {
+                if (!isFinished && status) aiCutoutStatusText.textContent = status;
+              },
+              finish() {
+                return new Promise((resFinish) => {
+                  isFinished = true;
+                  clearInterval(progressInterval);
+
+                  // Ensure minimum duration (2.2s) so user appreciates the animation
+                  const elapsed = performance.now() - startTime;
+                  const remain = Math.max(0, 2200 - elapsed);
+
+                  setTimeout(() => {
+                    // Glide to 100%
+                    aiDotBadge.textContent = '100%';
+                    aiDotBadge.classList.add('done');
+                    aiDotLabel.textContent = 'Selesai ✓ (100%)';
+                    aiCutoutStatusText.textContent = '✨ Latar belakang berhasil dihapus! (4K UHD)';
+                    aiCutoutStatusText.classList.add('done');
+
+                    if (window.confetti) {
+                      window.confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
+                    }
+
+                    setTimeout(() => {
+                      exp.close();
+                      resFinish();
+                    }, 650);
+                  }, remain);
+                });
+              },
+              close() {
+                isFinished = true;
+                clearInterval(progressInterval);
+                aiPreloaderEl.classList.remove('active', 'closing');
+                aiCutoutOverlay.classList.add('closing');
+                setTimeout(() => {
+                  aiCutoutOverlay.classList.remove('active', 'closing');
+                  stopDotMatrix();
+                  currentAIExperience = null;
+                }, 300);
+              }
+            };
+
+            currentAIExperience = exp;
+            resolve(exp);
+          }, 180);
+        }, 420);
+      });
+    }
+
+    if (btnCloseAICutout) {
+      btnCloseAICutout.addEventListener('click', () => {
+        if (currentAIExperience) currentAIExperience.close();
+      });
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && currentAIExperience) {
+        currentAIExperience.close();
+      }
+    });
+
     // WASM Engine Loader (@imgly with fallback)
     async function loadImglyEngine() {
       if (state.imglyRemoveBgFn) return state.imglyRemoveBgFn;
@@ -1402,7 +1967,7 @@
       return state.imglyRemoveBgFn;
     }
 
-    async function runImglySegmentation(imageBlob) {
+    async function runImglySegmentation(imageBlob, onProgress) {
       const removeBackground = await loadImglyEngine();
       const modelName = state.selectedModel;
       dom.engineActiveLabel.textContent = `@imgly/${modelName}`;
@@ -1415,22 +1980,12 @@
           type: 'foreground'
         },
         progress: (key, current, total) => {
-          if (total > 0) {
+          if (total > 0 && typeof onProgress === 'function') {
             const pct = Math.round((current / total) * 100);
             if (key.includes('fetch')) {
-              setLoading(
-                true,
-                `Mengunduh model WASM (${modelName})...`,
-                pct * 0.75,
-                'Unduhan pertama tersimpan di IndexedDB browser Anda.'
-              );
+              onProgress(pct * 0.75, `Mengunduh model neural (${modelName})...`);
             } else if (key.includes('compute')) {
-              setLoading(
-                true,
-                'Memproses segmentasi objek di browser...',
-                75 + pct * 0.25,
-                'Menghitung alpha matte presisi tinggi...'
-              );
+              onProgress(75 + pct * 0.25, 'Memproses segmentasi AI di browser...');
             }
           }
         }
@@ -1440,9 +1995,9 @@
       return await blobToAlphaArray(resultBlob, state.width, state.height);
     }
 
-    async function runTransformersFallback(imageBlob) {
+    async function runTransformersFallback(imageBlob, onProgress) {
       dom.engineActiveLabel.textContent = 'Transformers.js (RMBG-1.4)';
-      setLoading(true, 'Memuat fallback engine RMBG-1.4...', 15, 'Menginisialisasi Transformers.js WebAssembly...');
+      if (typeof onProgress === 'function') onProgress(15, 'Memuat fallback engine RMBG-1.4...');
 
       const { AutoModel, AutoProcessor, env, RawImage } = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2');
       env.allowLocalModels = false;
@@ -1452,8 +2007,8 @@
         const model = await AutoModel.from_pretrained('briaai/RMBG-1.4', {
           config: { model_type: 'custom' },
           progress_callback: (info) => {
-            if (info && typeof info.progress === 'number') {
-              setLoading(true, 'Mengunduh model fallback RMBG-1.4...', info.progress * 0.75);
+            if (info && typeof info.progress === 'number' && typeof onProgress === 'function') {
+              onProgress(info.progress * 0.75, 'Mengunduh model fallback RMBG-1.4...');
             }
           }
         });
@@ -1474,7 +2029,7 @@
         state.transformersPipeline = { model, processor, RawImage };
       }
 
-      setLoading(true, 'Menjalankan inferensi RMBG-1.4...', 82, 'Memisahkan subjek dari latar belakang...');
+      if (typeof onProgress === 'function') onProgress(85, 'Inferensi RMBG-1.4 neural cutout...');
       const { model, processor, RawImage: RawImageClass } = state.transformersPipeline;
       const url = URL.createObjectURL(imageBlob);
       try {
@@ -1547,34 +2102,45 @@
       }
 
       if (recordUndo) pushHistory();
-      setLoading(true, 'Menyiapkan gambar...', 5, 'Memuat engine segmentasi client-side...');
-      setStatus('Memproses...');
+      state.isProcessing = true;
+      dom.btnAutoRemoveBG.disabled = true;
+      setStatus('Memproses AI...');
+
+      // Start the simulated 4K AI Cutout Experience!
+      const aiExp = await startAICutoutExperience();
 
       try {
         const inputBlob = await getOriginalImageBlob();
         let extractedAlpha = null;
 
         try {
-          extractedAlpha = await runImglySegmentation(inputBlob);
+          extractedAlpha = await runImglySegmentation(inputBlob, (pct, status) => {
+            aiExp.updateWasmProgress(pct, status);
+          });
         } catch (primaryErr) {
           console.warn('Engine @imgly beralih ke fallback Transformers.js:', primaryErr);
-          extractedAlpha = await runTransformersFallback(inputBlob);
+          aiExp.updateThought('Mengaktifkan fallback model RMBG-1.4...');
+          extractedAlpha = await runTransformersFallback(inputBlob, (pct, status) => {
+            aiExp.updateWasmProgress(pct, status);
+          });
         }
 
-        setLoading(true, 'Menghaluskan tepi alpha...', 96, 'Menyusun hasil akhir...');
+        aiExp.updateThought('Menyusun alpha matte 4K...');
         state.baseAlpha = extractedAlpha;
         state.manualDelta.fill(0);
-
         recomputeAndRender();
+
+        await aiExp.finish();
         setStatus('Selesai');
-        if (window.confetti) window.confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
         showToast('Background berhasil dihapus dengan mulus!');
       } catch (err) {
         console.error('Gagal memproses segmentasi:', err);
+        if (aiExp) aiExp.close();
         setStatus('Gagal memproses');
         showToast('Gagal memproses. Pastikan gambar valid lalu coba lagi.');
       } finally {
-        setLoading(false);
+        state.isProcessing = false;
+        dom.btnAutoRemoveBG.disabled = !state.hasImage;
       }
     }
 
