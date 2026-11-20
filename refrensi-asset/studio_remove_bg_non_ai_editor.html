@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Remove BG — Client-Side WASM Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        studio: {
+                            950: '#09090b',
+                            900: '#121215',
+                            850: '#18181c',
+                            800: '#222228',
+                            700: '#2e2e36',
+                            accent: '#6366f1',
+                            accentHover: '#4f46e5'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #09090b;
+            color: #f4f4f5;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        /* Pola papan catur transparan klasik */
+        .checkerboard {
+            background-color: #18181b;
+            background-image: 
+                linear-gradient(45deg, #27272a 25%, transparent 25%), 
+                linear-gradient(-45deg, #27272a 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #27272a 75%), 
+                linear-gradient(-45deg, transparent 75%, #27272a 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+        /* Custom Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #6366f1;
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 0 0 2px #121215, 0 2px 6px rgba(0,0,0,0.5);
+            transition: transform 0.1s;
+        }
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            background: #818cf8;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #2e2e36;
+            border-radius: 999px;
+        }
+        /* Scrollbar halus */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #121215; }
+        ::-webkit-scrollbar-thumb { background: #2e2e36; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+    </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden">
+
+    <!-- Top Navbar -->
+    <header class="h-14 bg-studio-900 border-b border-studio-800 px-4 flex items-center justify-between shrink-0 z-20">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243zm0-5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z"/>
+                </svg>
+            </div>
+            <div>
+                <h1 class="font-bold text-sm sm:text-base tracking-tight flex items-center gap-2">
+                    Studio Remove BG
+                    <span class="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">CLIENT-SIDE WASM ENGINE</span>
+                </h1>
+            </div>
+        </div>
+
+        <!-- Toolbar Tengah: Undo / Reset / Upload Baru -->
+        <div class="flex items-center gap-1.5 sm:gap-2">
+            <button id="btnUploadNew" class="hidden px-3 py-1.5 rounded-lg bg-studio-800 hover:bg-studio-700 text-xs font-medium text-zinc-200 border border-studio-700 transition flex items-center gap-1.5" title="Ganti Gambar">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                <span class="hidden md:inline">Gambar Baru</span>
+            </button>
+            <div class="h-5 w-[1px] bg-studio-800 mx-1 hidden sm:block"></div>
+            <button id="btnUndo" disabled class="p-2 rounded-lg bg-studio-800 hover:bg-studio-700 disabled:opacity-40 disabled:pointer-events-none text-zinc-200 border border-studio-700 transition" title="Urungkan (Undo)">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/></svg>
+            </button>
+            <button id="btnReset" disabled class="px-2.5 py-1.5 rounded-lg bg-studio-800 hover:bg-studio-700 disabled:opacity-40 disabled:pointer-events-none text-xs font-medium text-zinc-300 border border-studio-700 transition" title="Reset ke Gambar Asli">
+                Reset
+            </button>
+        </div>
+
+        <!-- Export Button -->
+        <div class="flex items-center gap-2">
+            <button id="btnDownload" disabled class="px-3.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:pointer-events-none text-xs sm:text-sm font-semibold text-white shadow-lg shadow-indigo-600/25 transition flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                <span>Unduh PNG</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+        
+        <!-- Area Kanvas Utama -->
+        <main class="flex-1 relative bg-studio-950 flex flex-col overflow-hidden">
+            
+            <!-- Sub-Toolbar Preview (Split / Toggle / Zoom Info) -->
+            <div id="previewBar" class="hidden h-11 bg-studio-900/80 backdrop-blur border-b border-studio-800 px-4 flex items-center justify-between text-xs z-10">
+                <div class="flex items-center gap-2">
+                    <span class="text-zinc-400 hidden sm:inline">Mode Pratinjau:</span>
+                    <div class="inline-flex rounded-lg bg-studio-850 p-0.5 border border-studio-700">
+                        <button id="viewResult" class="px-2.5 py-1 rounded-md bg-indigo-600 text-white font-medium transition">Hasil</button>
+                        <button id="viewSplit" class="px-2.5 py-1 rounded-md text-zinc-400 hover:text-white font-medium transition">Split Before/After</button>
+                        <button id="viewOriginal" class="px-2.5 py-1 rounded-md text-zinc-400 hover:text-white font-medium transition">Asli (Hold)</button>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 text-zinc-400">
+                    <span id="imgDimensions" class="font-mono text-[11px]">0 × 0 px</span>
+                    <span id="statusBadge" class="px-2 py-0.5 rounded bg-studio-800 text-zinc-300 text-[11px]">Siap</span>
+                </div>
+            </div>
+
+            <!-- Container Dropzone & Canvas -->
+            <div id="workspaceContainer" class="flex-1 relative flex items-center justify-center p-4 sm:p-8 overflow-hidden">
+                
+                <!-- Dropzone Upload Awal -->
+                <div id="dropZone" class="w-full max-w-xl border-2 border-dashed border-studio-700 hover:border-indigo-500 bg-studio-900/60 hover:bg-studio-900 rounded-2xl p-8 sm:p-12 text-center transition-all cursor-pointer group">
+                    <input type="file" id="fileInput" accept="image/png, image/jpeg, image/webp" class="hidden">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-studio-800 group-hover:bg-indigo-500/20 text-indigo-400 flex items-center justify-center transition">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h2 class="text-lg sm:text-xl font-bold text-white mb-2">Hapus Background Otomatis & Halus di Browser</h2>
+                    <p class="text-xs sm:text-sm text-zinc-400 mb-6 max-w-md mx-auto">
+                        Tarik & lepas foto ke sini, atau klik untuk memilih file (<span class="text-zinc-200 font-medium">PNG, JPG, WEBP</span>). Diproses 100% secara lokal via WebAssembly tanpa server & tanpa API key.
+                    </p>
+                    <div class="flex flex-wrap items-center justify-center gap-3">
+                        <span class="px-5 py-2.5 rounded-xl bg-indigo-600 group-hover:bg-indigo-500 text-white text-sm font-semibold shadow-lg shadow-indigo-600/20 transition">
+                            Pilih Gambar dari Perangkat
+                        </span>
+                        <button type="button" id="btnLoadSample" class="px-4 py-2.5 rounded-xl bg-studio-800 hover:bg-studio-700 text-zinc-300 text-sm font-medium border border-studio-700 transition">
+                            Coba Gambar Contoh
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Wrapper Kanvas Interaktif -->
+                <div id="canvasWrapper" class="hidden relative shadow-2xl rounded-lg overflow-hidden checkerboard border border-studio-700 flex items-center justify-center">
+                    <!-- Kanvas Utama (Output Transparan / Preview BG) -->
+                    <canvas id="mainCanvas" class="block max-w-full max-h-full"></canvas>
+                    
+                    <!-- Kanvas Overlay untuk Brush & Kursor -->
+                    <canvas id="overlayCanvas" class="absolute inset-0 w-full h-full pointer-events-none"></canvas>
+
+                    <!-- Overlay Loading & Progres Unduhan Model WASM -->
+                    <div id="loadingOverlay" class="hidden absolute inset-0 bg-studio-950/85 backdrop-blur-md flex flex-col items-center justify-center p-6 z-30 text-center">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-indigo-400 animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                            </svg>
+                        </div>
+                        <p id="loadingStageText" class="text-sm font-semibold text-white mb-1">Menyiapkan mesin segmentasi...</p>
+                        <p id="loadingSubText" class="text-xs text-zinc-400 mb-4 max-w-xs">Pengunduhan pertama kali akan disimpan di cache browser (IndexedDB) agar berikutnya instan.</p>
+                        <div class="w-64 max-w-full bg-studio-800 rounded-full h-2 overflow-hidden border border-studio-700">
+                            <div id="loadingProgressBar" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full transition-all duration-200" style="width: 15%;"></div>
+                        </div>
+                        <span id="loadingPercentText" class="text-[11px] font-mono text-indigo-300 mt-2">15%</span>
+                    </div>
+
+                    <!-- Garis Split Interactive Before/After -->
+                    <div id="splitHandle" class="hidden absolute top-0 bottom-0 w-0.5 bg-indigo-500 shadow-[0_0_10px_rgba(0,0,0,0.8)] cursor-ew-resize z-20" style="left: 50%;">
+                        <div class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-indigo-600 border-2 border-white shadow-lg flex items-center justify-center text-white">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"/></svg>
+                        </div>
+                        <span class="absolute top-3 right-3 px-2 py-0.5 rounded bg-black/70 text-[10px] font-bold uppercase tracking-wider text-white whitespace-nowrap">Asli</span>
+                        <span class="absolute top-3 left-3 px-2 py-0.5 rounded bg-indigo-600/90 text-[10px] font-bold uppercase tracking-wider text-white whitespace-nowrap">Hasil</span>
+                    </div>
+                </div>
+
+                <!-- Toast Notifikasi -->
+                <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 px-4 py-2.5 rounded-xl bg-studio-800 border border-studio-700 text-xs sm:text-sm text-white shadow-2xl opacity-0 pointer-events-none transition-opacity duration-200 z-50 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+                    <span id="toastMsg">Pesan notifikasi</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- Panel Kontrol Samping -->
+        <aside class="w-full lg:w-88 xl:w-96 bg-studio-900 border-t lg:border-t-0 lg:border-l border-studio-800 flex flex-col max-h-[48vh] lg:max-h-full overflow-y-auto shrink-0 z-10">
+            
+            <!-- Bagian 1: 1-Klik Auto Remove BG (Engine Utama) -->
+            <div class="p-4 border-b border-studio-800 bg-gradient-to-b from-indigo-950/35 to-transparent space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-semibold uppercase tracking-wider text-indigo-300 flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                        1-Klik Auto Remove BG
+                    </span>
+                    <label class="flex items-center gap-1.5 text-[11px] text-zinc-300 cursor-pointer" title="Otomatis potong background saat gambar baru diunggah">
+                        <input type="checkbox" id="autoRunOnUpload" checked class="w-3.5 h-3.5 rounded bg-studio-800 border-studio-700 text-indigo-600 focus:ring-0">
+                        <span>Auto saat upload</span>
+                    </label>
+                </div>
+
+                <!-- Pilihan Kualitas Model WASM -->
+                <div>
+                    <label class="block text-[11px] text-zinc-400 mb-1.5">Profil Mesin Segmentasi:</label>
+                    <div class="grid grid-cols-2 gap-1.5 bg-studio-950 p-1 rounded-xl border border-studio-800">
+                        <button type="button" data-model="isnet_fp16" class="model-btn py-1.5 px-2 rounded-lg text-[11px] font-semibold bg-indigo-600 text-white shadow transition">
+                            Standar / Cepat
+                        </button>
+                        <button type="button" data-model="isnet" class="model-btn py-1.5 px-2 rounded-lg text-[11px] font-semibold text-zinc-400 hover:text-white transition">
+                            Presisi Tinggi
+                        </button>
+                    </div>
+                </div>
+
+                <button id="btnAutoRemoveBG" disabled class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-500 hover:to-purple-500 disabled:opacity-40 disabled:pointer-events-none text-xs sm:text-sm font-bold text-white shadow-lg shadow-indigo-600/30 transition-all transform active:scale-[0.99] flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span>Auto Remove BG Sekarang</span>
+                </button>
+
+                <div class="flex items-center justify-between text-[10px] text-zinc-500 pt-0.5">
+                    <span>Engine: <strong id="engineActiveLabel" class="text-zinc-300">@imgly/isnet_fp16</strong></span>
+                    <span class="text-emerald-400/90">Offline Cache Ready</span>
+                </div>
+            </div>
+
+            <!-- Bagian 2: Tab Refinement & Touch-Up -->
+            <div class="p-4 border-b border-studio-800">
+                <label class="block text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-2.5">Penyempurnaan & Pratinjau</label>
+                <div class="grid grid-cols-2 gap-1.5 bg-studio-950 p-1 rounded-xl border border-studio-800">
+                    <button data-tab="polish" class="refine-tab py-2 px-2 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 transition bg-indigo-600 text-white shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+                        <span>Edge & Alpha Polish</span>
+                    </button>
+                    <button data-tab="brush" class="refine-tab py-2 px-2 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 transition text-zinc-400 hover:text-white">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                        <span>Kuas Manual</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Panel Tab 1: Edge & Alpha Polish + Background Color Swatches -->
+            <div id="panel-polish" class="p-4 space-y-5">
+                
+                <!-- Pilihan Latar Pratinjau (Hanya untuk inspeksi visual, ekspor PNG tetap transparan) -->
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-medium text-zinc-300">Latar Pratinjau (Inspeksi Tepi)</span>
+                        <span id="bgPreviewName" class="text-[11px] text-indigo-400 font-medium">Transparan</span>
+                    </div>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <button type="button" data-bg="transparent" data-label="Transparan" class="bg-swatch w-8 h-8 rounded-lg checkerboard border-2 border-indigo-500 shadow transition transform hover:scale-105" title="Transparan (Checkerboard)"></button>
+                        <button type="button" data-bg="#ffffff" data-label="Putih" class="bg-swatch w-8 h-8 rounded-lg bg-white border border-studio-700 shadow transition transform hover:scale-105" title="Putih Bersih"></button>
+                        <button type="button" data-bg="#09090b" data-label="Hitam" class="bg-swatch w-8 h-8 rounded-lg bg-zinc-950 border border-studio-700 shadow transition transform hover:scale-105" title="Hitam Pekat"></button>
+                        <button type="button" data-bg="#2563eb" data-label="Biru Studio" class="bg-swatch w-8 h-8 rounded-lg bg-blue-600 border border-studio-700 shadow transition transform hover:scale-105" title="Biru Studio"></button>
+                        <button type="button" data-bg="#16a34a" data-label="Hijau Chroma" class="bg-swatch w-8 h-8 rounded-lg bg-green-600 border border-studio-700 shadow transition transform hover:scale-105" title="Hijau Chroma"></button>
+                        <button type="button" data-bg="#dc2626" data-label="Merah" class="bg-swatch w-8 h-8 rounded-lg bg-red-600 border border-studio-700 shadow transition transform hover:scale-105" title="Merah"></button>
+                        <label class="w-8 h-8 rounded-lg bg-gradient-to-tr from-pink-500 via-amber-400 to-cyan-400 border border-studio-700 shadow cursor-pointer flex items-center justify-center overflow-hidden relative" title="Pilih Warna Kustom">
+                            <input type="color" id="customBgColor" value="#6366f1" class="opacity-0 absolute inset-0 w-full h-full cursor-pointer">
+                            <span class="text-[11px] font-bold text-black/80 pointer-events-none">+</span>
+                        </label>
+                    </div>
+                    <p class="text-[10px] text-zinc-500 mt-1.5">Catatan: File <strong>Unduh PNG</strong> tetap diekspor dengan latar belakang transparan.</p>
+                </div>
+
+                <!-- Slider Shrink / Expand Alpha (Hapus Halo Putih/Gelap) -->
+                <div class="pt-3 border-t border-studio-800">
+                    <div class="flex justify-between text-xs mb-1.5">
+                        <span class="text-zinc-300 font-medium">Koreksi Batas Tepi (Shrink / Expand)</span>
+                        <span id="valEdgeShift" class="font-mono text-indigo-400 font-semibold">0 px</span>
+                    </div>
+                    <input type="range" id="edgeShiftSlider" min="-6" max="6" step="1" value="0" class="w-full">
+                    <div class="flex justify-between text-[10px] text-zinc-500 mt-1">
+                        <span>← Kikir Halo (-6px)</span>
+                        <span>Perluas (+6px) →</span>
+                    </div>
+                </div>
+
+                <!-- Slider Feather / Kehalusan Tepi -->
+                <div class="pt-3 border-t border-studio-800">
+                    <div class="flex justify-between text-xs mb-1.5">
+                        <span class="text-zinc-300 font-medium">Kehalusan Tepi (Feather Blur)</span>
+                        <span id="valEdgeFeather" class="font-mono text-indigo-400 font-semibold">0 px</span>
+                    </div>
+                    <input type="range" id="edgeFeatherSlider" min="0" max="8" step="1" value="0" class="w-full">
+                    <p class="text-[10px] text-zinc-500 mt-1">Melembutkan transisi tepi bulu, rambut, dan tepi objek secara real-time.</p>
+                </div>
+            </div>
+
+            <!-- Panel Tab 2: Kuas Manual (Restore / Erase) -->
+            <div id="panel-brush" class="hidden p-4 space-y-4">
+                <div class="p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-xs text-indigo-200 leading-relaxed">
+                    Sapukan kuas langsung di atas gambar untuk <strong>memulihkan</strong> detail halus (seperti kumis kucing/rambut) atau <strong>menghapus</strong> sisa noda yang tertinggal.
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <button id="toolRestore" class="brush-mode-btn py-2.5 px-3 rounded-xl border-2 border-emerald-500 bg-emerald-500/15 text-emerald-300 text-xs font-semibold flex items-center justify-center gap-2 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                        <span>Restore (Pulihkan)</span>
+                    </button>
+                    <button id="toolEraser" class="brush-mode-btn py-2.5 px-3 rounded-xl border border-studio-700 bg-studio-850 text-zinc-400 hover:text-zinc-200 text-xs font-semibold flex items-center justify-center gap-2 transition">
+                        <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                        <span>Eraser (Hapus)</span>
+                    </button>
+                </div>
+
+                <div>
+                    <div class="flex justify-between text-xs mb-1.5">
+                        <span class="text-zinc-300 font-medium">Ukuran Kuas</span>
+                        <span id="valBrushSize" class="font-mono text-indigo-400 font-semibold">28 px</span>
+                    </div>
+                    <input type="range" id="brushSizeSlider" min="4" max="120" value="28" class="w-full">
+                </div>
+
+                <div>
+                    <div class="flex justify-between text-xs mb-1.5">
+                        <span class="text-zinc-300 font-medium">Kelembutan Kuas (Hardness)</span>
+                        <span id="valBrushSoftness" class="font-mono text-indigo-400 font-semibold">60%</span>
+                    </div>
+                    <input type="range" id="brushSoftnessSlider" min="0" max="100" value="60" class="w-full">
+                </div>
+            </div>
+
+        </aside>
+    </div>
+
+    <script type="module">
+        /**
+         * ============================================================================
+         * STUDIO REMOVE BG — 100% CLIENT-SIDE WASM NEURAL SEGMENTATION STUDIO
+         * Menggunakan @imgly/background-removal (IS-Net) sebagai mesin utama
+         * dengan fallback otomatis ke Transformers.js (briaai/RMBG-1.4) di browser.
+         * ============================================================================
+         */
+
+        // State Aplikasi Non-Destruktif
+        const state = {
+            hasImage: false,
+            width: 0,
+            height: 0,
+            originalData: null,     // Uint8ClampedArray piksel asli (RGBA)
+            baseAlpha: null,        // Uint8Array alpha hasil segmentasi WASM murni
+            manualDelta: null,      // Int16Array penyesuaian manual kuas (-255..+255)
+            finalAlpha: null,       // Uint8Array alpha gabungan siap render/ekspor
+            history: [],            // Stack Undo menyimpan snapshot { baseAlpha, manualDelta, edgeShift, edgeFeather }
+
+            // Konfigurasi Engine WASM
+            selectedModel: 'isnet_fp16', // 'isnet_fp16' | 'isnet'
+            autoRunOnUpload: true,
+            isProcessing: false,
+            imglyRemoveBgFn: null,
+            transformersPipeline: null,
+
+            // Parameter Edge & Alpha Polish (Real-time 60fps)
+            edgeShift: 0,           // -6 .. +6 px (Erode / Dilate alpha)
+            edgeFeather: 0,         // 0 .. 8 px (Separable box/gaussian blur alpha)
+            previewBg: 'transparent',
+
+            // Mode Interaksi Kanvas: 'none' | 'restore' | 'eraser'
+            activeTab: 'polish',
+            brushType: 'restore',
+            brushSize: 28,
+            brushSoftness: 0.60,
+            isDrawing: false,
+            lastPoint: null,
+
+            // View Mode: 'result' | 'split' | 'original'
+            viewMode: 'result',
+            splitRatio: 0.5,
+            isDraggingSplit: false
+        };
+
+        // Referensi Elemen DOM
+        const dom = {
+            dropZone: document.getElementById('dropZone'),
+            fileInput: document.getElementById('fileInput'),
+            btnLoadSample: document.getElementById('btnLoadSample'),
+            btnAutoRemoveBG: document.getElementById('btnAutoRemoveBG'),
+            btnUploadNew: document.getElementById('btnUploadNew'),
+            btnUndo: document.getElementById('btnUndo'),
+            btnReset: document.getElementById('btnReset'),
+            btnDownload: document.getElementById('btnDownload'),
+            previewBar: document.getElementById('previewBar'),
+            canvasWrapper: document.getElementById('canvasWrapper'),
+            mainCanvas: document.getElementById('mainCanvas'),
+            overlayCanvas: document.getElementById('overlayCanvas'),
+            splitHandle: document.getElementById('splitHandle'),
+            loadingOverlay: document.getElementById('loadingOverlay'),
+            loadingStageText: document.getElementById('loadingStageText'),
+            loadingSubText: document.getElementById('loadingSubText'),
+            loadingProgressBar: document.getElementById('loadingProgressBar'),
+            loadingPercentText: document.getElementById('loadingPercentText'),
+            engineActiveLabel: document.getElementById('engineActiveLabel'),
+            imgDimensions: document.getElementById('imgDimensions'),
+            statusBadge: document.getElementById('statusBadge'),
+            toast: document.getElementById('toast'),
+            toastMsg: document.getElementById('toastMsg')
+        };
+
+        const mainCtx = dom.mainCanvas.getContext('2d', { willReadFrequently: true });
+        const overlayCtx = dom.overlayCanvas.getContext('2d');
+
+        // ============================================================================
+        // 1. UTILITAS UI, NOTIFIKASI, LOADING PROGRESS, & UNDO/RESET
+        // ============================================================================
+
+        let toastTimer = null;
+        function showToast(msg) {
+            dom.toastMsg.textContent = msg;
+            dom.toast.classList.remove('opacity-0');
+            dom.toast.classList.add('opacity-100');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                dom.toast.classList.remove('opacity-100');
+                dom.toast.classList.add('opacity-0');
+            }, 3200);
+        }
+
+        function setStatus(text) {
+            dom.statusBadge.textContent = text;
+        }
+
+        function setLoading(active, stageText = '', percent = 0, subText = '') {
+            state.isProcessing = active;
+            dom.btnAutoRemoveBG.disabled = active || !state.hasImage;
+            if (active) {
+                dom.loadingOverlay.classList.remove('hidden');
+                if (stageText) dom.loadingStageText.textContent = stageText;
+                if (subText) dom.loadingSubText.textContent = subText;
+                const clamped = Math.max(2, Math.min(100, Math.round(percent)));
+                dom.loadingProgressBar.style.width = `${clamped}%`;
+                dom.loadingPercentText.textContent = `${clamped}%`;
+            } else {
+                dom.loadingOverlay.classList.add('hidden');
+            }
+        }
+
+        function updateHistoryButtons() {
+            dom.btnUndo.disabled = state.history.length === 0;
+            dom.btnReset.disabled = !state.hasImage;
+        }
+
+        function pushHistory() {
+            if (!state.baseAlpha) return;
+            if (state.history.length >= 15) state.history.shift();
+            state.history.push({
+                baseAlpha: new Uint8Array(state.baseAlpha),
+                manualDelta: new Int16Array(state.manualDelta),
+                edgeShift: state.edgeShift,
+                edgeFeather: state.edgeFeather
+            });
+            updateHistoryButtons();
+        }
+
+        function undo() {
+            if (state.history.length === 0) return;
+            const snap = state.history.pop();
+            state.baseAlpha = snap.baseAlpha;
+            state.manualDelta = snap.manualDelta;
+            state.edgeShift = snap.edgeShift;
+            state.edgeFeather = snap.edgeFeather;
+
+            document.getElementById('edgeShiftSlider').value = state.edgeShift;
+            document.getElementById('valEdgeShift').textContent = `${state.edgeShift} px`;
+            document.getElementById('edgeFeatherSlider').value = state.edgeFeather;
+            document.getElementById('valEdgeFeather').textContent = `${state.edgeFeather} px`;
+
+            updateHistoryButtons();
+            recomputeAndRender();
+            setStatus('Undo');
+            showToast('Perubahan terakhir dibatalkan');
+        }
+
+        function resetImage() {
+            if (!state.hasImage) return;
+            pushHistory();
+            const numPixels = state.width * state.height;
+            for (let i = 0; i < numPixels; i++) {
+                state.baseAlpha[i] = state.originalData[i * 4 + 3];
+                state.manualDelta[i] = 0;
+            }
+            state.edgeShift = 0;
+            state.edgeFeather = 0;
+            document.getElementById('edgeShiftSlider').value = 0;
+            document.getElementById('valEdgeShift').textContent = '0 px';
+            document.getElementById('edgeFeatherSlider').value = 0;
+            document.getElementById('valEdgeFeather').textContent = '0 px';
+
+            recomputeAndRender();
+            setStatus('Reset');
+            showToast('Gambar dikembalikan ke kondisi asli');
+        }
+
+        // ============================================================================
+        // 2. MESIN SEGMENTASI CLIENT-SIDE WASM (@imgly + Fallback Transformers.js)
+        // ============================================================================
+
+        async function loadImglyEngine() {
+            if (state.imglyRemoveBgFn) return state.imglyRemoveBgFn;
+            const mod = await import('https://esm.sh/@imgly/background-removal@1.5.5');
+            state.imglyRemoveBgFn = mod.removeBackground || mod.default;
+            if (typeof state.imglyRemoveBgFn !== 'function') {
+                throw new Error('Fungsi removeBackground tidak ditemukan pada modul @imgly');
+            }
+            return state.imglyRemoveBgFn;
+        }
+
+        async function runImglySegmentation(imageBlob) {
+            const removeBackground = await loadImglyEngine();
+            const modelName = state.selectedModel; // 'isnet_fp16' atau 'isnet'
+            dom.engineActiveLabel.textContent = `@imgly/${modelName}`;
+
+            const config = {
+                model: modelName,
+                output: {
+                    format: 'image/png',
+                    quality: 1.0,
+                    type: 'foreground'
+                },
+                progress: (key, current, total) => {
+                    if (total > 0) {
+                        const pct = Math.round((current / total) * 100);
+                        if (key.includes('fetch')) {
+                            setLoading(
+                                true,
+                                `Mengunduh model WASM (${modelName})...`,
+                                pct * 0.75,
+                                'Unduhan pertama kali akan tersimpan otomatis di cache browser Anda.'
+                            );
+                        } else if (key.includes('compute')) {
+                            setLoading(
+                                true,
+                                'Memproses segmentasi objek di browser...',
+                                75 + pct * 0.25,
+                                'Menghitung alpha matte beresolusi tinggi...'
+                            );
+                        }
+                    }
+                }
+            };
+
+            const resultBlob = await removeBackground(imageBlob, config);
+            return await blobToAlphaArray(resultBlob, state.width, state.height);
+        }
+
+        async function runTransformersFallback(imageBlob) {
+            dom.engineActiveLabel.textContent = 'Transformers.js (RMBG-1.4)';
+            setLoading(true, 'Memuat fallback engine RMBG-1.4...', 15, 'Menginisialisasi Transformers.js WebAssembly...');
+
+            const { AutoModel, AutoProcessor, env, RawImage } = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2');
+            env.allowLocalModels = false;
+            env.useBrowserCache = true;
+
+            if (!state.transformersPipeline) {
+                const model = await AutoModel.from_pretrained('briaai/RMBG-1.4', {
+                    config: { model_type: 'custom' },
+                    progress_callback: (info) => {
+                        if (info && typeof info.progress === 'number') {
+                            setLoading(true, 'Mengunduh model fallback RMBG-1.4...', info.progress * 0.75);
+                        }
+                    }
+                });
+                const processor = await AutoProcessor.from_pretrained('briaai/RMBG-1.4', {
+                    config: {
+                        do_normalize: true,
+                        do_pad: false,
+                        do_rescale: true,
+                        do_resize: true,
+                        image_mean: [0.5, 0.5, 0.5],
+                        feature_extractor_type: 'ImageFeatureExtractor',
+                        image_std: [1, 1, 1],
+                        resample: 2,
+                        rescale_factor: 0.00392156862745098,
+                        size: { width: 1024, height: 1024 }
+                    }
+                });
+                state.transformersPipeline = { model, processor, RawImage };
+            }
+
+            setLoading(true, 'Menjalankan inferensi RMBG-1.4...', 82, 'Memisahkan subjek dari latar belakang kompleks...');
+            const { model, processor, RawImage: RawImageClass } = state.transformersPipeline;
+            const url = URL.createObjectURL(imageBlob);
+            try {
+                const image = await RawImageClass.fromURL(url);
+                const { pixel_values } = await processor(image);
+                const { output } = await model({ input: pixel_values });
+                const maskData = await RawImageClass.fromTensor(output[0].mul(255).to('uint8')).resize(state.width, state.height);
+
+                const numPixels = state.width * state.height;
+                const alphaOut = new Uint8Array(numPixels);
+                for (let i = 0; i < numPixels; i++) {
+                    const origA = state.originalData[i * 4 + 3];
+                    alphaOut[i] = Math.min(origA, maskData.data[i]);
+                }
+                return alphaOut;
+            } finally {
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        function blobToAlphaArray(blob, targetW, targetH) {
+            return new Promise((resolve, reject) => {
+                const url = URL.createObjectURL(blob);
+                const img = new Image();
+                img.onload = () => {
+                    try {
+                        const tmp = document.createElement('canvas');
+                        tmp.width = targetW;
+                        tmp.height = targetH;
+                        const tCtx = tmp.getContext('2d');
+                        tCtx.drawImage(img, 0, 0, targetW, targetH);
+                        const data = tCtx.getImageData(0, 0, targetW, targetH).data;
+                        const numPixels = targetW * targetH;
+                        const alpha = new Uint8Array(numPixels);
+                        for (let i = 0; i < numPixels; i++) {
+                            alpha[i] = data[i * 4 + 3];
+                        }
+                        resolve(alpha);
+                    } catch (err) {
+                        reject(err);
+                    } finally {
+                        URL.revokeObjectURL(url);
+                    }
+                };
+                img.onerror = (e) => {
+                    URL.revokeObjectURL(url);
+                    reject(e);
+                };
+                img.src = url;
+            });
+        }
+
+        function getOriginalImageBlob() {
+            return new Promise((resolve) => {
+                const tmp = document.createElement('canvas');
+                tmp.width = state.width;
+                tmp.height = state.height;
+                const tCtx = tmp.getContext('2d');
+                const imgData = new ImageData(new Uint8ClampedArray(state.originalData), state.width, state.height);
+                tCtx.putImageData(imgData, 0, 0);
+                tmp.toBlob((blob) => resolve(blob), 'image/png');
+            });
+        }
+
+        async function runNeuralRemoveBG(recordUndo = true) {
+            if (!state.hasImage || state.isProcessing) return;
+
+            if (state.viewMode === 'original') {
+                setViewMode('result');
+            }
+
+            if (recordUndo) pushHistory();
+            setLoading(true, 'Menyiapkan gambar...', 5, 'Memuat engine segmentasi client-side...');
+            setStatus('Memproses...');
+
+            try {
+                const inputBlob = await getOriginalImageBlob();
+                let extractedAlpha = null;
+
+                try {
+                    extractedAlpha = await runImglySegmentation(inputBlob);
+                } catch (primaryErr) {
+                    console.warn('Engine @imgly gagal, beralih ke fallback Transformers.js:', primaryErr);
+                    extractedAlpha = await runTransformersFallback(inputBlob);
+                }
+
+                setLoading(true, 'Menghaluskan tepi alpha...', 96, 'Menyusun hasil akhir...');
+                state.baseAlpha = extractedAlpha;
+                state.manualDelta.fill(0);
+
+                recomputeAndRender();
+                setStatus('Selesai');
+                showToast('Background berhasil dihapus dengan mulus!');
+            } catch (err) {
+                console.error('Gagal memproses segmentasi:', err);
+                setStatus('Gagal memproses');
+                showToast('Gagal mengunduh model WASM. Periksa koneksi internet Anda lalu coba lagi.');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        // ============================================================================
+        // 3. NON-DESTRUCTIVE ALPHA PIPELINE (SHRINK/EXPAND + FEATHER + MANUAL DELTA)
+        // ============================================================================
+
+        function applyMorphologyAlpha(alphaArr, w, h, shift) {
+            if (shift === 0) return alphaArr;
+            const radius = Math.abs(shift);
+            const isErode = shift < 0;
+            let current = new Uint8Array(alphaArr);
+
+            for (let step = 0; step < radius; step++) {
+                const next = new Uint8Array(current);
+                for (let y = 1; y < h - 1; y++) {
+                    const row = y * w;
+                    for (let x = 1; x < w - 1; x++) {
+                        const idx = row + x;
+                        const c = current[idx];
+                        const n1 = current[idx - 1];
+                        const n2 = current[idx + 1];
+                        const n3 = current[idx - w];
+                        const n4 = current[idx + w];
+
+                        if (isErode) {
+                            next[idx] = Math.min(c, n1, n2, n3, n4);
+                        } else {
+                            next[idx] = Math.max(c, n1, n2, n3, n4);
+                        }
+                    }
+                }
+                current = next;
+            }
+            return current;
+        }
+
+        function applySeparableBoxBlur(alphaArr, w, h, radius) {
+            if (radius <= 0) return alphaArr;
+            const numPixels = w * h;
+            const temp = new Float32Array(numPixels);
+            const out = new Uint8Array(numPixels);
+            const winSize = radius * 2 + 1;
+
+            // Pass Horizontal
+            for (let y = 0; y < h; y++) {
+                const row = y * w;
+                let sum = 0;
+                for (let k = -radius; k <= radius; k++) {
+                    const cx = Math.min(w - 1, Math.max(0, k));
+                    sum += alphaArr[row + cx];
+                }
+                for (let x = 0; x < w; x++) {
+                    temp[row + x] = sum / winSize;
+                    const leftIdx = Math.max(0, x - radius);
+                    const rightIdx = Math.min(w - 1, x + radius + 1);
+                    sum += alphaArr[row + rightIdx] - alphaArr[row + leftIdx];
+                }
+            }
+
+            // Pass Vertikal
+            for (let x = 0; x < w; x++) {
+                let sum = 0;
+                for (let k = -radius; k <= radius; k++) {
+                    const cy = Math.min(h - 1, Math.max(0, k));
+                    sum += temp[cy * w + x];
+                }
+                for (let y = 0; y < h; y++) {
+                    out[y * w + x] = Math.round(sum / winSize);
+                    const topIdx = Math.max(0, y - radius);
+                    const botIdx = Math.min(h - 1, y + radius + 1);
+                    sum += temp[botIdx * w + x] - temp[topIdx * w + x];
+                }
+            }
+            return out;
+        }
+
+        function recomputeAndRender() {
+            if (!state.hasImage) return;
+            const w = state.width;
+            const h = state.height;
+            const numPixels = w * h;
+
+            // 1. Terapkan Shrink/Expand (Erode/Dilate) pada baseAlpha
+            let processed = applyMorphologyAlpha(state.baseAlpha, w, h, state.edgeShift);
+
+            // 2. Terapkan Feather Blur jika > 0
+            if (state.edgeFeather > 0) {
+                processed = applySeparableBoxBlur(processed, w, h, state.edgeFeather);
+            }
+
+            // 3. Gabungkan dengan coretan koreksi manual (Restore / Erase)
+            for (let i = 0; i < numPixels; i++) {
+                const combined = processed[i] + state.manualDelta[i];
+                state.finalAlpha[i] = combined < 0 ? 0 : (combined > 255 ? 255 : combined);
+            }
+
+            renderCanvas();
+        }
+
+        function hexToRgb(hex) {
+            const clean = hex.replace('#', '');
+            return [
+                parseInt(clean.substring(0, 2), 16),
+                parseInt(clean.substring(2, 4), 16),
+                parseInt(clean.substring(4, 6), 16)
+            ];
+        }
+
+        function renderCanvas() {
+            if (!state.hasImage) return;
+            const w = state.width;
+            const h = state.height;
+            const outImg = mainCtx.createImageData(w, h);
+            const dst = outImg.data;
+            const orig = state.originalData;
+            const alpha = state.finalAlpha;
+            const splitX = Math.floor(w * state.splitRatio);
+
+            const hasSolidBg = state.previewBg !== 'transparent';
+            const [bgR, bgG, bgB] = hasSolidBg ? hexToRgb(state.previewBg) : [0, 0, 0];
+
+            for (let y = 0; y < h; y++) {
+                const rowOffset = y * w;
+                for (let x = 0; x < w; x++) {
+                    const idx = rowOffset + x;
+                    const p = idx * 4;
+
+                    const isOriginalSide = (state.viewMode === 'original') ||
+                                           (state.viewMode === 'split' && x < splitX);
+
+                    if (isOriginalSide) {
+                        dst[p] = orig[p];
+                        dst[p + 1] = orig[p + 1];
+                        dst[p + 2] = orig[p + 2];
+                        dst[p + 3] = orig[p + 3];
+                    } else {
+                        const a = alpha[idx];
+                        if (hasSolidBg) {
+                            const normA = a / 255;
+                            const invA = 1 - normA;
+                            dst[p] = Math.round(orig[p] * normA + bgR * invA);
+                            dst[p + 1] = Math.round(orig[p + 1] * normA + bgG * invA);
+                            dst[p + 2] = Math.round(orig[p + 2] * normA + bgB * invA);
+                            dst[p + 3] = 255;
+                        } else {
+                            dst[p] = orig[p];
+                            dst[p + 1] = orig[p + 1];
+                            dst[p + 2] = orig[p + 2];
+                            dst[p + 3] = a;
+                        }
+                    }
+                }
+            }
+            mainCtx.putImageData(outImg, 0, 0);
+        }
+
+        // ============================================================================
+        // 4. MUAT GAMBAR KE WORKSPACE
+        // ============================================================================
+
+        function loadImageToWorkspace(img) {
+            const maxDim = 1600;
+            let w = img.naturalWidth || img.width;
+            let h = img.naturalHeight || img.height;
+
+            if (w > maxDim || h > maxDim) {
+                const ratio = Math.min(maxDim / w, maxDim / h);
+                w = Math.round(w * ratio);
+                h = Math.round(h * ratio);
+            }
+
+            state.width = w;
+            state.height = h;
+            dom.mainCanvas.width = w;
+            dom.mainCanvas.height = h;
+            dom.overlayCanvas.width = w;
+            dom.overlayCanvas.height = h;
+
+            mainCtx.clearRect(0, 0, w, h);
+            mainCtx.drawImage(img, 0, 0, w, h);
+
+            const imgData = mainCtx.getImageData(0, 0, w, h);
+            const numPixels = w * h;
+
+            state.originalData = new Uint8ClampedArray(imgData.data);
+            state.baseAlpha = new Uint8Array(numPixels);
+            state.manualDelta = new Int16Array(numPixels);
+            state.finalAlpha = new Uint8Array(numPixels);
+            state.history = [];
+            state.edgeShift = 0;
+            state.edgeFeather = 0;
+
+            document.getElementById('edgeShiftSlider').value = 0;
+            document.getElementById('valEdgeShift').textContent = '0 px';
+            document.getElementById('edgeFeatherSlider').value = 0;
+            document.getElementById('valEdgeFeather').textContent = '0 px';
+
+            for (let i = 0; i < numPixels; i++) {
+                const a = state.originalData[i * 4 + 3];
+                state.baseAlpha[i] = a;
+                state.finalAlpha[i] = a;
+            }
+
+            state.hasImage = true;
+
+            dom.dropZone.classList.add('hidden');
+            dom.canvasWrapper.classList.remove('hidden');
+            dom.previewBar.classList.remove('hidden');
+            dom.btnUploadNew.classList.remove('hidden');
+            dom.btnDownload.disabled = false;
+            dom.btnAutoRemoveBG.disabled = false;
+
+            dom.imgDimensions.textContent = `${w} × ${h} px`;
+            updateHistoryButtons();
+            clearOverlay();
+            setViewMode('result');
+            setStatus('Gambar siap');
+
+            if (state.autoRunOnUpload) {
+                runNeuralRemoveBG(false);
+            }
+        }
+
+        // ============================================================================
+        // 5. KUAS KOREKSI MANUAL (RESTORE / ERASE) & PREVIEW KURSOR
+        // ============================================================================
+
+        function clearOverlay() {
+            overlayCtx.clearRect(0, 0, state.width, state.height);
+        }
+
+        function drawCursorPreview(x, y) {
+            clearOverlay();
+            if (state.activeTab !== 'brush' || !state.hasImage) return;
+            const radius = state.brushSize / 2;
+            overlayCtx.save();
+            overlayCtx.beginPath();
+            overlayCtx.arc(x, y, radius, 0, Math.PI * 2);
+            overlayCtx.strokeStyle = state.brushType === 'restore' ? '#10b981' : '#f43f5e';
+            overlayCtx.lineWidth = Math.max(1.5, state.width / 500);
+            overlayCtx.setLineDash([4, 3]);
+            overlayCtx.stroke();
+            overlayCtx.restore();
+        }
+
+        function applyManualBrush(cx, cy) {
+            const w = state.width;
+            const h = state.height;
+            const radius = Math.max(1, state.brushSize / 2);
+            const rSq = radius * radius;
+            const minX = Math.max(0, Math.floor(cx - radius));
+            const maxX = Math.min(w - 1, Math.ceil(cx + radius));
+            const minY = Math.max(0, Math.floor(cy - radius));
+            const maxY = Math.min(h - 1, Math.ceil(cy + radius));
+
+            const isRestore = state.brushType === 'restore';
+            const softness = state.brushSoftness;
+
+            for (let y = minY; y <= maxY; y++) {
+                const dy = y - cy;
+                const row = y * w;
+                for (let x = minX; x <= maxX; x++) {
+                    const dx = x - cx;
+                    const distSq = dx * dx + dy * dy;
+                    if (distSq > rSq) continue;
+
+                    const normDist = Math.sqrt(distSq) / radius;
+                    let falloff = 1.0;
+                    if (softness > 0 && normDist > (1 - softness)) {
+                        falloff = Math.max(0, (1 - normDist) / softness);
+                    }
+
+                    const idx = row + x;
+                    const strength = Math.round(90 * falloff);
+                    if (isRestore) {
+                        state.manualDelta[idx] = Math.min(255, state.manualDelta[idx] + strength);
+                    } else {
+                        state.manualDelta[idx] = Math.max(-255, state.manualDelta[idx] - strength);
+                    }
+                }
+            }
+            recomputeAndRender();
+        }
+
+        // ============================================================================
+        // 6. EVENT LISTENERS KANVAS, UPLOAD, & KONTROL PANEL
+        // ============================================================================
+
+        function getCanvasCoords(e) {
+            const rect = dom.mainCanvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            const scaleX = state.width / rect.width;
+            const scaleY = state.height / rect.height;
+            return {
+                x: Math.min(state.width - 1, Math.max(0, Math.floor((clientX - rect.left) * scaleX))),
+                y: Math.min(state.height - 1, Math.max(0, Math.floor((clientY - rect.top) * scaleY)))
+            };
+        }
+
+        function handlePointerDown(e) {
+            if (!state.hasImage || state.isDraggingSplit || state.isProcessing) return;
+            if (state.viewMode === 'original') return;
+
+            if (state.activeTab === 'brush') {
+                const { x, y } = getCanvasCoords(e);
+                pushHistory();
+                state.isDrawing = true;
+                state.lastPoint = { x, y };
+                applyManualBrush(x, y);
+                drawCursorPreview(x, y);
+            }
+        }
+
+        function handlePointerMove(e) {
+            if (!state.hasImage) return;
+
+            if (state.isDraggingSplit) {
+                const rect = dom.canvasWrapper.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                let ratio = (clientX - rect.left) / rect.width;
+                state.splitRatio = Math.min(0.98, Math.max(0.02, ratio));
+                dom.splitHandle.style.left = `${state.splitRatio * 100}%`;
+                renderCanvas();
+                return;
+            }
+
+            if (state.activeTab === 'brush' && e.target === dom.mainCanvas) {
+                const { x, y } = getCanvasCoords(e);
+                drawCursorPreview(x, y);
+            }
+
+            if (!state.isDrawing) return;
+            e.preventDefault();
+            const { x, y } = getCanvasCoords(e);
+
+            const dx = x - state.lastPoint.x;
+            const dy = y - state.lastPoint.y;
+            const steps = Math.max(1, Math.max(Math.abs(dx), Math.abs(dy)));
+
+            for (let i = 1; i <= steps; i++) {
+                const ix = Math.round(state.lastPoint.x + (dx * i) / steps);
+                const iy = Math.round(state.lastPoint.y + (dy * i) / steps);
+                applyManualBrush(ix, iy);
+            }
+
+            state.lastPoint = { x, y };
+            drawCursorPreview(x, y);
+        }
+
+        function handlePointerUp() {
+            state.isDrawing = false;
+            state.isDraggingSplit = false;
+        }
+
+        dom.mainCanvas.addEventListener('mousedown', handlePointerDown);
+        dom.mainCanvas.addEventListener('touchstart', handlePointerDown, { passive: false });
+        dom.mainCanvas.addEventListener('mouseleave', clearOverlay);
+        window.addEventListener('mousemove', handlePointerMove);
+        window.addEventListener('touchmove', handlePointerMove, { passive: false });
+        window.addEventListener('mouseup', handlePointerUp);
+        window.addEventListener('touchend', handlePointerUp);
+
+        dom.splitHandle.addEventListener('mousedown', (e) => {
+            e.stopPropagation();
+            state.isDraggingSplit = true;
+        });
+        dom.splitHandle.addEventListener('touchstart', (e) => {
+            e.stopPropagation();
+            state.isDraggingSplit = true;
+        }, { passive: true });
+
+        // Upload & Drag-and-Drop
+        dom.dropZone.addEventListener('click', (e) => {
+            if (e.target.id === 'btnLoadSample') return;
+            dom.fileInput.click();
+        });
+        dom.btnUploadNew.addEventListener('click', () => dom.fileInput.click());
+
+        dom.fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) processFile(file);
+            e.target.value = '';
+        });
+
+        dom.dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dom.dropZone.classList.add('border-indigo-500', 'bg-studio-900');
+        });
+        dom.dropZone.addEventListener('dragleave', () => {
+            dom.dropZone.classList.remove('border-indigo-500', 'bg-studio-900');
+        });
+        dom.dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dom.dropZone.classList.remove('border-indigo-500', 'bg-studio-900');
+            const file = e.dataTransfer.files[0];
+            if (file) processFile(file);
+        });
+
+        function processFile(file) {
+            if (!file.type.match('image.*')) {
+                showToast('Harap pilih file gambar (PNG, JPG, WEBP).');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const img = new Image();
+                img.onload = () => loadImageToWorkspace(img);
+                img.src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Generator Gambar Contoh dengan Latar Kompleks
+        dom.btnLoadSample.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = 720;
+            tempCanvas.height = 540;
+            const ctx = tempCanvas.getContext('2d');
+
+            // Background ruangan/neon kompleks
+            const bgGrad = ctx.createLinearGradient(0, 0, 720, 540);
+            bgGrad.addColorStop(0, '#311042');
+            bgGrad.addColorStop(0.5, '#7f1d1d');
+            bgGrad.addColorStop(1, '#0f172a');
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, 720, 540);
+
+            // Lampu neon & objek latar
+            ctx.fillStyle = 'rgba(244, 63, 94, 0.35)';
+            ctx.beginPath();
+            ctx.arc(140, 160, 110, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.25)';
+            ctx.fillRect(510, 90, 160, 220);
+
+            // Subjek Utama di Tengah (Kucing / Karakter dengan Hoodie Merah sewarna latar!)
+            ctx.save();
+            // Badan Hoodie Merah
+            ctx.fillStyle = '#b91c1c';
+            ctx.beginPath();
+            ctx.roundRect(225, 290, 270, 250, [90, 90, 0, 0]);
+            ctx.fill();
+
+            // Tali Hoodie Putih
+            ctx.strokeStyle = '#f8fafc';
+            ctx.lineWidth = 10;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(325, 330);
+            ctx.lineTo(320, 445);
+            ctx.moveTo(395, 330);
+            ctx.lineTo(400, 445);
+            ctx.stroke();
+
+            // Kepala Kucing Oranye
+            ctx.fillStyle = '#f59e0b';
+            ctx.beginPath();
+            ctx.ellipse(360, 215, 95, 82, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Telinga
+            ctx.beginPath();
+            ctx.moveTo(275, 165); ctx.lineTo(285, 95); ctx.lineTo(335, 145);
+            ctx.moveTo(445, 165); ctx.lineTo(435, 95); ctx.lineTo(385, 145);
+            ctx.fill();
+
+            // Headphone Gaming Putih
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 18;
+            ctx.beginPath();
+            ctx.arc(360, 205, 108, Math.PI, 0);
+            ctx.stroke();
+
+            ctx.fillStyle = '#f8fafc';
+            ctx.beginPath();
+            ctx.roundRect(240, 175, 34, 85, 16);
+            ctx.roundRect(446, 175, 34, 85, 16);
+            ctx.fill();
+
+            // Mata & Hidung
+            ctx.fillStyle = '#18181b';
+            ctx.beginPath();
+            ctx.arc(325, 210, 12, 0, Math.PI * 2);
+            ctx.arc(395, 210, 12, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = '#fda4af';
+            ctx.beginPath();
+            ctx.arc(360, 232, 9, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+
+            const img = new Image();
+            img.onload = () => loadImageToWorkspace(img);
+            img.src = tempCanvas.toDataURL('image/png');
+        });
+
+        // Tombol Auto Remove BG & Model Selector
+        dom.btnAutoRemoveBG.addEventListener('click', () => runNeuralRemoveBG(true));
+
+        document.getElementById('autoRunOnUpload').addEventListener('change', (e) => {
+            state.autoRunOnUpload = e.target.checked;
+        });
+
+        document.querySelectorAll('.model-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                state.selectedModel = btn.dataset.model;
+                dom.engineActiveLabel.textContent = `@imgly/${state.selectedModel}`;
+                document.querySelectorAll('.model-btn').forEach(b => {
+                    b.classList.remove('bg-indigo-600', 'text-white', 'shadow');
+                    b.classList.add('text-zinc-400');
+                });
+                btn.classList.add('bg-indigo-600', 'text-white', 'shadow');
+                btn.classList.remove('text-zinc-400');
+            });
+        });
+
+        // Navigasi Tab Refinement (Edge & Alpha Polish vs Kuas Manual)
+        document.querySelectorAll('.refine-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.dataset.tab;
+                state.activeTab = target;
+
+                document.querySelectorAll('.refine-tab').forEach(t => {
+                    t.classList.remove('bg-indigo-600', 'text-white', 'shadow');
+                    t.classList.add('text-zinc-400');
+                });
+                tab.classList.add('bg-indigo-600', 'text-white', 'shadow');
+                tab.classList.remove('text-zinc-400');
+
+                document.getElementById('panel-polish').classList.toggle('hidden', target !== 'polish');
+                document.getElementById('panel-brush').classList.toggle('hidden', target !== 'brush');
+
+                clearOverlay();
+                dom.mainCanvas.style.cursor = target === 'brush' ? 'crosshair' : 'default';
+            });
+        });
+
+        // Background Preview Color Swatches
+        document.querySelectorAll('.bg-swatch').forEach(btn => {
+            btn.addEventListener('click', () => {
+                state.previewBg = btn.dataset.bg;
+                document.getElementById('bgPreviewName').textContent = btn.dataset.label;
+                document.querySelectorAll('.bg-swatch').forEach(b => {
+                    b.classList.remove('border-2', 'border-indigo-500');
+                    b.classList.add('border', 'border-studio-700');
+                });
+                btn.classList.remove('border', 'border-studio-700');
+                btn.classList.add('border-2', 'border-indigo-500');
+                renderCanvas();
+            });
+        });
+
+        document.getElementById('customBgColor').addEventListener('input', (e) => {
+            state.previewBg = e.target.value;
+            document.getElementById('bgPreviewName').textContent = e.target.value.toUpperCase();
+            document.querySelectorAll('.bg-swatch').forEach(b => {
+                b.classList.remove('border-2', 'border-indigo-500');
+                b.classList.add('border', 'border-studio-700');
+            });
+            renderCanvas();
+        });
+
+        // Slider Shrink/Expand & Feather Real-Time
+        document.getElementById('edgeShiftSlider').addEventListener('input', (e) => {
+            state.edgeShift = parseInt(e.target.value, 10);
+            document.getElementById('valEdgeShift').textContent = `${state.edgeShift} px`;
+            recomputeAndRender();
+        });
+
+        document.getElementById('edgeFeatherSlider').addEventListener('input', (e) => {
+            state.edgeFeather = parseInt(e.target.value, 10);
+            document.getElementById('valEdgeFeather').textContent = `${state.edgeFeather} px`;
+            recomputeAndRender();
+        });
+
+        // Kuas Manual Controls
+        const btnRestore = document.getElementById('toolRestore');
+        const btnEraser = document.getElementById('toolEraser');
+
+        btnRestore.addEventListener('click', () => {
+            state.brushType = 'restore';
+            btnRestore.className = 'brush-mode-btn py-2.5 px-3 rounded-xl border-2 border-emerald-500 bg-emerald-500/15 text-emerald-300 text-xs font-semibold flex items-center justify-center gap-2 transition';
+            btnEraser.className = 'brush-mode-btn py-2.5 px-3 rounded-xl border border-studio-700 bg-studio-850 text-zinc-400 hover:text-zinc-200 text-xs font-semibold flex items-center justify-center gap-2 transition';
+        });
+
+        btnEraser.addEventListener('click', () => {
+            state.brushType = 'eraser';
+            btnEraser.className = 'brush-mode-btn py-2.5 px-3 rounded-xl border-2 border-rose-500 bg-rose-500/15 text-rose-300 text-xs font-semibold flex items-center justify-center gap-2 transition';
+            btnRestore.className = 'brush-mode-btn py-2.5 px-3 rounded-xl border border-studio-700 bg-studio-850 text-zinc-400 hover:text-zinc-200 text-xs font-semibold flex items-center justify-center gap-2 transition';
+        });
+
+        document.getElementById('brushSizeSlider').addEventListener('input', (e) => {
+            state.brushSize = parseInt(e.target.value, 10);
+            document.getElementById('valBrushSize').textContent = `${state.brushSize} px`;
+        });
+
+        document.getElementById('brushSoftnessSlider').addEventListener('input', (e) => {
+            const val = parseInt(e.target.value, 10);
+            state.brushSoftness = val / 100;
+            document.getElementById('valBrushSoftness').textContent = `${val}%`;
+        });
+
+        // View Mode Switcher (Hasil / Split / Asli)
+        const viewBtns = {
+            result: document.getElementById('viewResult'),
+            split: document.getElementById('viewSplit'),
+            original: document.getElementById('viewOriginal')
+        };
+
+        function setViewMode(mode) {
+            state.viewMode = mode;
+            Object.entries(viewBtns).forEach(([k, btn]) => {
+                if (k === mode) {
+                    btn.classList.add('bg-indigo-600', 'text-white');
+                    btn.classList.remove('text-zinc-400');
+                } else {
+                    btn.classList.remove('bg-indigo-600', 'text-white');
+                    btn.classList.add('text-zinc-400');
+                }
+            });
+
+            if (mode === 'split') {
+                dom.splitHandle.classList.remove('hidden');
+            } else {
+                dom.splitHandle.classList.add('hidden');
+            }
+            renderCanvas();
+        }
+
+        viewBtns.result.addEventListener('click', () => setViewMode('result'));
+        viewBtns.split.addEventListener('click', () => setViewMode('split'));
+        viewBtns.original.addEventListener('mousedown', () => setViewMode('original'));
+        viewBtns.original.addEventListener('mouseup', () => setViewMode('result'));
+        viewBtns.original.addEventListener('mouseleave', () => {
+            if (state.viewMode === 'original') setViewMode('result');
+        });
+
+        // Undo & Reset
+        dom.btnUndo.addEventListener('click', undo);
+        dom.btnReset.addEventListener('click', resetImage);
+
+        // Export PNG Transparan Berkualitas Penuh (Selalu mengekspor alpha transparan asli)
+        dom.btnDownload.addEventListener('click', () => {
+            if (!state.hasImage) return;
+            const exportCanvas = document.createElement('canvas');
+            exportCanvas.width = state.width;
+            exportCanvas.height = state.height;
+            const eCtx = exportCanvas.getContext('2d');
+
+            const outImg = eCtx.createImageData(state.width, state.height);
+            const dst = outImg.data;
+            const orig = state.originalData;
+            const alpha = state.finalAlpha;
+            const numPixels = state.width * state.height;
+
+            for (let i = 0; i < numPixels; i++) {
+                const p = i * 4;
+                dst[p] = orig[p];
+                dst[p + 1] = orig[p + 1];
+                dst[p + 2] = orig[p + 2];
+                dst[p + 3] = alpha[i];
+            }
+            eCtx.putImageData(outImg, 0, 0);
+
+            exportCanvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `removed-bg-${Date.now()}.png`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast('File PNG transparan berhasil diunduh!');
+            }, 'image/png');
+        });
+    </script>
+</body>
+</html>
