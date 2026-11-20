@@ -1729,7 +1729,7 @@
               </div>
 
               <div class="hero-showcase-preview" onclick="window.location.href='studio-centered.html'" style="cursor:pointer;" title="Klik untuk membuka Studio Centered Diamond">
-                <canvas id="canvas-centered-preview" width="560" height="315"></canvas>
+                <canvas id="canvas-hero-preview" width="560" height="315"></canvas>
               </div>
 
               <div class="hero-showcase-footer">
@@ -2588,6 +2588,26 @@
       link.addEventListener('click', () => toggleMobileMenu(false));
     });
 
+    // Polyfill roundRect for broader browser compatibility
+    if (!CanvasRenderingContext2D.prototype.roundRect) {
+      CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, radii) {
+        if (typeof radii === 'number') radii = [radii];
+        const r = (radii && radii[0]) || 0;
+        this.beginPath();
+        this.moveTo(x + r, y);
+        this.lineTo(x + w - r, y);
+        this.quadraticCurveTo(x + w, y, x + w, y + r);
+        this.lineTo(x + w, y + h - r);
+        this.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        this.lineTo(x + r, y + h);
+        this.quadraticCurveTo(x, y + h, x, y + h - r);
+        this.lineTo(x, y + r);
+        this.quadraticCurveTo(x, y, x + r, y);
+        this.closePath();
+        return this;
+      };
+    }
+
     // 2. Generator mini render untuk preview kanvas etalase
     function drawMiniIsometricPreview(canvasId, type) {
       const canvas = document.getElementById(canvasId);
@@ -2925,6 +2945,7 @@
     }
 
     function initAllMiniPreviews() {
+      drawMiniIsometricPreview('canvas-hero-preview', 'centered');
       drawMiniIsometricPreview('canvas-centered-preview', 'centered');
       drawMiniIsometricPreview('canvas-stretch-preview', 'stretch');
       drawMiniIsometricPreview('canvas-9-zoomout-preview', '9-zoomout');
@@ -2948,6 +2969,8 @@
       initAllMiniPreviews();
     }
     window.addEventListener('load', initAllMiniPreviews);
+    setTimeout(initAllMiniPreviews, 100);
+    setTimeout(initAllMiniPreviews, 500);
 
     // 3. Etalase Category Filter Controller (Jepreto-style Tab Pill Filter)
     const filterPills = document.querySelectorAll('.etalase-filter-pill');
@@ -2971,6 +2994,8 @@
               card.style.display = 'none';
             }
           });
+          // Render ulang preview saat filter berubah untuk memastikan kanvas tetap ter-render
+          initAllMiniPreviews();
         });
       });
     }
