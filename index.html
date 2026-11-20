@@ -722,24 +722,70 @@
       gap: 10px;
     }
 
-    .hero-showcase-preview {
+    .hero-mascot-wrap {
       width: 100%;
-      aspect-ratio: 16 / 9.5;
-      background: #f8fafc;
-      border: 2px solid var(--border-dark);
-      border-radius: 18px;
+      background: linear-gradient(135deg, #FFFDF9 0%, #FFF0F5 50%, #EBF9F8 100%);
+      border: 2.5px solid var(--border-dark);
+      border-radius: 20px;
       overflow: hidden;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 12px 14px;
+      box-shadow: inset 0 2px 6px rgba(15, 23, 42, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .hero-showcase-preview canvas {
+    .hero-mascot-wrap:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero-mascot-img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      max-height: 330px;
+      height: auto;
+      object-fit: contain;
       display: block;
+      filter: drop-shadow(0 8px 16px rgba(15, 23, 42, 0.1));
+      transition: transform 0.25s ease;
+    }
+
+    .hero-mascot-wrap:hover .hero-mascot-img {
+      transform: scale(1.02);
+    }
+
+    .hero-mascot-floating-tag {
+      position: absolute;
+      bottom: 12px;
+      left: 14px;
+      z-index: 2;
+    }
+
+    .hero-sparkle-decor {
+      position: absolute;
+      font-size: 22px;
+      pointer-events: none;
+      z-index: 3;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
+      animation: floatSparkle 3s ease-in-out infinite alternate;
+    }
+
+    .hero-sparkle-decor.top-left {
+      top: -12px;
+      left: -12px;
+      animation-delay: 0s;
+    }
+
+    .hero-sparkle-decor.bottom-right {
+      bottom: -12px;
+      right: -12px;
+      animation-delay: 1.5s;
+    }
+
+    @keyframes floatSparkle {
+      from { transform: translateY(0) rotate(0deg); }
+      to { transform: translateY(-4px) rotate(8deg); }
     }
 
     .hero-showcase-footer {
@@ -1720,22 +1766,32 @@
             </div>
           </div>
 
-          <!-- Right Column (Showcase Tactile Card) -->
+          <!-- Right Column (Showcase Tactile Mascot Card) -->
           <div class="hero-right">
             <div class="hero-showcase-card">
+              <!-- Decorative Floating Sparkles on edge -->
+              <div class="hero-sparkle-decor top-left">✨</div>
+              <div class="hero-sparkle-decor bottom-right">⭐</div>
+
               <div class="hero-showcase-header">
                 <span class="sticker-badge yellow">✨ Studio Mockup Interaktif</span>
                 <span class="sticker-badge mint">100% FREE</span>
               </div>
 
-              <div class="hero-showcase-preview" onclick="window.location.href='studio-centered.html'" style="cursor:pointer;" title="Klik untuk membuka Studio Centered Diamond">
-                <canvas id="canvas-hero-preview" width="560" height="315"></canvas>
+              <div class="hero-mascot-wrap" onclick="document.getElementById('etalase').scrollIntoView({behavior:'smooth'});" style="cursor:pointer;" title="Klik untuk menjelajahi 15 Template Studio">
+                <img src="hero-mascot.webp" alt="LayMockup × PixelCam Studio Mascot" class="hero-mascot-img" />
+                <div class="hero-mascot-floating-tag">
+                  <span class="sticker-badge pink" style="box-shadow: 2px 2px 0 var(--border-dark);">🚀 15 Template 3D</span>
+                </div>
               </div>
 
               <div class="hero-showcase-footer">
-                <span style="font-weight:800; font-size:14px; color:var(--fg);">1-3-4-3-1 Centered Diamond</span>
-                <a href="studio-centered.html" class="btn-pill btn-pill-primary" style="padding:6px 16px; font-size:13px;">
-                  Buka Studio &rarr;
+                <div style="display:flex; flex-direction:column; gap:2px;">
+                  <span style="font-weight:800; font-size:14px; color:var(--fg);">Studio Mockup 3D</span>
+                  <span style="font-size:12px; color:var(--fg-muted); font-weight:600;">Pilih template & langsung render</span>
+                </div>
+                <a href="#etalase" class="btn-pill btn-pill-primary" style="padding:7px 16px; font-size:13px;">
+                  Pilih Template &darr;
                 </a>
               </div>
             </div>
@@ -2249,13 +2305,13 @@
                 <div class="testimoni-avatar mint">R</div>
                 <div>
                   <div class="testimoni-name">Raka Pratama</div>
-                  <div class="testimoni-handle">@raka.ui · UI/UX Designer</div>
+                  <div class="testimoni-handle">@pratitarajaiblis · UI/UX Designer</div>
                 </div>
               </div>
               <div class="testimoni-quote-mark">”</div>
             </div>
             <p class="testimoni-text">
-              Pas kemarin pake LayMockup buat event showcase kampus & Dribbble, gila sih hasilnya rapi bener dan sat-set banget prosesnya. Klien langsung approve mockup tanpa minta revisi lagi!
+              Keren begeteeee pokoknya, daripada pake ai yang halu + token generate image yang kikir, ini web ngebantu banget jujur, gw pake ini langsung sigma jir, kece pokoknya!
             </p>
             <div class="testimoni-stars">★★★★★</div>
           </div>
@@ -2945,7 +3001,6 @@
     }
 
     function initAllMiniPreviews() {
-      drawMiniIsometricPreview('canvas-hero-preview', 'centered');
       drawMiniIsometricPreview('canvas-centered-preview', 'centered');
       drawMiniIsometricPreview('canvas-stretch-preview', 'stretch');
       drawMiniIsometricPreview('canvas-9-zoomout-preview', '9-zoomout');
