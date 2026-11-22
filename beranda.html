@@ -1142,11 +1142,32 @@
        KATA PENGGUNA SECTION (Matching Jepreto Image 4)
        ============================================================ */
     .testimoni-section {
-      padding: 50px 0 70px 0;
-      background: linear-gradient(180deg, rgba(255, 227, 237, 0.35) 0%, rgba(155, 227, 222, 0.25) 100%);
+      padding: 60px 0 75px 0;
+      background-color: #017466;
+      background-image: url('asset/images/bg-testi.png');
+      background-image: url('asset/images/bg-testi.webp');
+      background-size: 100% 100%;
+      background-position: center center;
+      background-repeat: no-repeat;
       border-top: 2.5px solid var(--border-dark);
       border-bottom: 2.5px solid var(--border-dark);
       position: relative;
+    }
+
+    .testimoni-section .section-title-cute {
+      color: #ffffff;
+      text-shadow: 2.5px 2.5px 0 var(--border-dark);
+    }
+
+    .testimoni-section .section-desc-cute {
+      color: rgba(255, 255, 255, 0.92);
+      text-shadow: 1px 1px 0 rgba(15, 23, 42, 0.35);
+    }
+
+    @media (max-width: 900px) {
+      .testimoni-section {
+        background-size: cover;
+      }
     }
 
     .testimoni-grid {
