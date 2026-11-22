@@ -1144,14 +1144,29 @@
     .testimoni-section {
       padding: 60px 0 75px 0;
       background-color: #017466;
+      border-top: 2.5px solid var(--border-dark);
+      border-bottom: 2.5px solid var(--border-dark);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .testimoni-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
       background-image: url('asset/images/bg-testi.png');
       background-image: url('asset/images/bg-testi.webp');
       background-size: 100% 100%;
       background-position: center center;
       background-repeat: no-repeat;
-      border-top: 2.5px solid var(--border-dark);
-      border-bottom: 2.5px solid var(--border-dark);
+      opacity: 0.85;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .testimoni-section > .container {
       position: relative;
+      z-index: 1;
     }
 
     .testimoni-section .section-title-cute {
@@ -1165,7 +1180,7 @@
     }
 
     @media (max-width: 900px) {
-      .testimoni-section {
+      .testimoni-section::before {
         background-size: cover;
       }
     }
