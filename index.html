@@ -1604,156 +1604,6 @@
         padding: 40px 20px;
       }
     }
-
-    /* Tools Lainnya Modal */
-    .tools-modal-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: rgba(15, 23, 42, 0.55);
-      backdrop-filter: blur(4px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .tools-modal-backdrop.open {
-      display: flex;
-    }
-
-    .tools-modal-card {
-      width: 100%;
-      max-width: 600px;
-      background: #ffffff;
-      border: 2.5px solid var(--border-dark);
-      border-radius: 22px;
-      box-shadow: 6px 6px 0 var(--border-dark);
-      padding: 26px;
-      position: relative;
-      animation: toolsModalPop 0.18s ease-out;
-    }
-
-    @keyframes toolsModalPop {
-      from {
-        opacity: 0;
-        transform: translateY(10px) scale(0.97);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    .tools-modal-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-
-    .tools-modal-title {
-      font-size: 20px;
-      font-weight: 800;
-      color: var(--fg);
-      margin: 0 0 4px 0;
-    }
-
-    .tools-modal-subtitle {
-      font-size: 13.5px;
-      color: #64748b;
-      margin: 0;
-      line-height: 1.5;
-    }
-
-    .tools-modal-close {
-      width: 36px;
-      height: 36px;
-      flex-shrink: 0;
-      border-radius: 10px;
-      border: 2px solid var(--border-dark);
-      box-shadow: 2px 2px 0 var(--border-dark);
-      background: #ffffff;
-      color: var(--fg);
-      font-size: 16px;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.15s ease;
-    }
-
-    .tools-modal-close:hover {
-      background: var(--pink);
-      transform: translate(-1px, -1px);
-      box-shadow: 3px 3px 0 var(--border-dark);
-    }
-
-    .tools-modal-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .tools-modal-item {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      padding: 15px;
-      border-radius: 14px;
-      border: 2px solid var(--border-dark);
-      box-shadow: 3px 3px 0 var(--border-dark);
-      background: #f8fafc;
-      text-decoration: none;
-      color: var(--fg);
-      transition: all 0.15s ease;
-    }
-
-    .tools-modal-item:hover {
-      transform: translate(-2px, -2px);
-      box-shadow: 5px 5px 0 var(--border-dark);
-      background: var(--yellow);
-    }
-
-    .tools-modal-item.coming-soon {
-      background: #f1f5f9;
-      border-style: dashed;
-      box-shadow: none;
-      cursor: default;
-      opacity: 0.85;
-    }
-
-    .tools-modal-item.coming-soon:hover {
-      transform: none;
-      box-shadow: none;
-      background: #f1f5f9;
-    }
-
-    .tools-modal-item-title {
-      font-size: 14.5px;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .tools-modal-item-desc {
-      font-size: 12.5px;
-      color: #475569;
-      line-height: 1.45;
-    }
-
-    @media (max-width: 560px) {
-      .tools-modal-grid {
-        grid-template-columns: 1fr;
-      }
-      .tools-modal-card {
-        padding: 20px;
-      }
-    }
   </style>
 </head>
 
@@ -1960,9 +1810,9 @@
                 <span>💼 My Portofolio</span>
               </a>
 
-              <button type="button" id="btn-tools-lainnya" class="btn-pill btn-pill-black" title="Jelajahi Tools Lainnya">
+              <a href="https://swiftdocs-ten.vercel.app" target="_blank" rel="noopener noreferrer" class="btn-pill btn-pill-black" title="Jelajahi Tools Lainnya (SwiftDocs)">
                 <span>🛠️ Tools Lainnya</span>
-              </button>
+              </a>
             </div>
 
             <!-- Stats Row Matching Jepreto (200K 100k++ 5★) -->
@@ -2776,6 +2626,7 @@
             <li><a href="#features">Fitur Unggulan</a></li>
             <li><a href="https://pixelcam-flame.vercel.app/" target="_blank" rel="noopener noreferrer">PixelCam Photobooth ↗</a></li>
             <li><a href="https://nector-ui.vercel.app/" target="_blank" rel="noopener noreferrer">Template Web (Nector UI) ↗</a></li>
+            <li><a href="https://swiftdocs-ten.vercel.app" target="_blank" rel="noopener noreferrer">Tools Lainnya (SwiftDocs) ↗</a></li>
             <li><a href="https://pradipta-endra-maulana.vercel.app/" target="_blank" rel="noopener noreferrer">Portofolio (Pradipta) ↗</a></li>
             <li><a href="https://github.com/PradiptaPPLG" target="_blank" rel="noopener noreferrer">GitHub (@PradiptaPPLG) ↗</a></li>
             <li><a href="https://www.linkedin.com/in/pradipta-endra-maulana-819525350/" target="_blank" rel="noopener noreferrer">LinkedIn (Pradipta Endra) ↗</a></li>
@@ -3290,68 +3141,6 @@
       });
     }
 
-  </script>
-  <!-- Modal Tools Lainnya -->
-  <div id="tools-modal" class="tools-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="tools-modal-title">
-    <div class="tools-modal-card">
-      <div class="tools-modal-header">
-        <div>
-          <h3 id="tools-modal-title" class="tools-modal-title">🛠️ Tools Lainnya</h3>
-          <p class="tools-modal-subtitle">Kumpulan tools kreatif &amp; utilitas gratis dari ekosistem kami.</p>
-        </div>
-        <button type="button" id="btn-close-tools-modal" class="tools-modal-close" aria-label="Tutup">✕</button>
-      </div>
-      <div class="tools-modal-grid">
-        <a href="https://pixelcam-flame.vercel.app/" target="_blank" rel="noopener noreferrer" class="tools-modal-item">
-          <div class="tools-modal-item-title">
-            <span>📸 PixelCam Photobooth</span>
-            <span>↗</span>
-          </div>
-          <div class="tools-modal-item-desc">Studio photobooth online dengan filter &amp; frame strip estetik langsung dari browser.</div>
-        </a>
-        <a href="studio-remove-bg.html" class="tools-modal-item">
-          <div class="tools-modal-item-title">
-            <span>✂️ Studio Remove BG</span>
-            <span>→</span>
-          </div>
-          <div class="tools-modal-item-desc">Hapus background foto otomatis langsung di browser (100% client-side &amp; gratis).</div>
-        </a>
-        <a href="https://nector-ui.vercel.app/" target="_blank" rel="noopener noreferrer" class="tools-modal-item">
-          <div class="tools-modal-item-title">
-            <span>🌐 Nector UI Template</span>
-            <span>↗</span>
-          </div>
-          <div class="tools-modal-item-desc">Koleksi template website &amp; komponen UI modern siap pakai untuk proyek Anda.</div>
-        </a>
-        <div class="tools-modal-item coming-soon">
-          <div class="tools-modal-item-title">
-            <span>✨ Segera Hadir</span>
-          </div>
-          <div class="tools-modal-item-desc">Tools kreatif baru lainnya akan ditambahkan di sini. Pantau terus!</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    (function() {
-      const btnTools = document.getElementById('btn-tools-lainnya');
-      const toolsModal = document.getElementById('tools-modal');
-      const btnCloseTools = document.getElementById('btn-close-tools-modal');
-      if (!btnTools || !toolsModal) return;
-
-      const openToolsModal = () => toolsModal.classList.add('open');
-      const closeToolsModal = () => toolsModal.classList.remove('open');
-
-      btnTools.addEventListener('click', openToolsModal);
-      if (btnCloseTools) btnCloseTools.addEventListener('click', closeToolsModal);
-      toolsModal.addEventListener('click', (e) => {
-        if (e.target === toolsModal) closeToolsModal();
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && toolsModal.classList.contains('open')) closeToolsModal();
-      });
-    })();
   </script>
   <script src="js/animated-content.js"></script>
 </body>
