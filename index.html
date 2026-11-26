@@ -18,7 +18,8 @@
   <meta property="og:url" content="https://laymockup.vercel.app/">
   <meta property="og:site_name" content="LayMockup">
   <meta property="og:title" content="LayMockup × PixelCam - 3D Isometric Mockup Studio">
-  <meta property="og:description" content="Studio 3D Isometric Mockup interaktif. Ubah screenshot produk menjadi mockup isometrik kelas dunia tanpa Figma atau Blender. 15 template eksklusif.">
+  <meta property="og:description"
+    content="Studio 3D Isometric Mockup interaktif. Ubah screenshot produk menjadi mockup isometrik kelas dunia tanpa Figma atau Blender. 15 template eksklusif.">
   <meta property="og:image" content="https://laymockup.vercel.app/og-image.jpg">
   <meta property="og:image:url" content="https://laymockup.vercel.app/og-image.jpg">
   <meta property="og:image:secure_url" content="https://laymockup.vercel.app/og-image.jpg">
@@ -32,7 +33,8 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://laymockup.vercel.app/">
   <meta name="twitter:title" content="LayMockup × PixelCam - 3D Isometric Mockup Studio">
-  <meta name="twitter:description" content="Studio 3D Isometric Mockup interaktif. Ubah screenshot produk menjadi mockup isometrik kelas dunia tanpa Figma atau Blender.">
+  <meta name="twitter:description"
+    content="Studio 3D Isometric Mockup interaktif. Ubah screenshot produk menjadi mockup isometrik kelas dunia tanpa Figma atau Blender.">
   <meta name="twitter:image" content="https://laymockup.vercel.app/og-image.jpg">
 
   <link rel="icon"
@@ -41,7 +43,9 @@
   <!-- Preconnect Google Fonts: Plus Jakarta Sans for cute retro-modern typography, Caveat for handwriting -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Caveat:wght@700&display=swap"
+    rel="stylesheet">
 
   <!-- LayMockup Ribbon Dismiss Guard -->
   <script>
@@ -50,7 +54,7 @@
         if (sessionStorage.getItem('laymockup_ribbon_dismissed') === '1') {
           document.documentElement.classList.add('hide-ribbon');
         }
-      } catch (e) {}
+      } catch (e) { }
     })();
   </script>
   <style>
@@ -71,12 +75,12 @@
       --fg: #0f172a;
       --fg-muted: #475569;
       --fg-subtle: #94a3b8;
-      
+
       /* Crisp outline & tactile shadows */
       --border-dark: #0f172a;
       --border-light: rgba(15, 23, 42, 0.12);
       --card-bg: #ffffff;
-      
+
       /* Signature LayMockup Palette */
       --accent: #9BE3DE;
       --accent-hover: #7fd6d0;
@@ -85,13 +89,13 @@
       --pink: #FFE3ED;
       --pink-hover: #ffd1e3;
       --pink-dark: #83264e;
-      
+
       /* Playful Jepreto-Style Accent Colors */
       --yellow: #fef08a;
       --yellow-hover: #fde047;
       --yellow-dark: #854d0e;
       --sky: #bae6fd;
-      
+
       /* Blueprint Grid Paper Pattern */
       --grid-color: rgba(15, 23, 42, 0.05);
 
@@ -482,7 +486,8 @@
       display: flex;
       flex-direction: column;
       gap: 14px;
-    }}
+    }
+    }
 
     .mobile-nav-drawer.open {
       transform: translateY(0);
@@ -610,8 +615,15 @@
     }
 
     @keyframes sparkleSpin {
-      0%, 100% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(15deg) scale(1.15); }
+
+      0%,
+      100% {
+        transform: rotate(0deg) scale(1);
+      }
+
+      50% {
+        transform: rotate(15deg) scale(1.15);
+      }
     }
 
     /* ============================================================
@@ -785,7 +797,7 @@
       font-size: 22px;
       pointer-events: none;
       z-index: 3;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12));
       animation: floatSparkle 3s ease-in-out infinite alternate;
     }
 
@@ -802,8 +814,13 @@
     }
 
     @keyframes floatSparkle {
-      from { transform: translateY(0) rotate(0deg); }
-      to { transform: translateY(-4px) rotate(8deg); }
+      from {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      to {
+        transform: translateY(-4px) rotate(8deg);
+      }
     }
 
     .hero-showcase-footer {
@@ -899,10 +916,25 @@
       justify-content: center;
     }
 
-    .step-badge-num.mint { background: var(--accent); color: #0f172a; }
-    .step-badge-num.yellow { background: var(--yellow); color: #0f172a; }
-    .step-badge-num.pink { background: var(--pink); color: #9d174d; }
-    .step-badge-num.sky { background: var(--sky); color: #0f172a; }
+    .step-badge-num.mint {
+      background: var(--accent);
+      color: #0f172a;
+    }
+
+    .step-badge-num.yellow {
+      background: var(--yellow);
+      color: #0f172a;
+    }
+
+    .step-badge-num.pink {
+      background: var(--pink);
+      color: #9d174d;
+    }
+
+    .step-badge-num.sky {
+      background: var(--sky);
+      color: #0f172a;
+    }
 
     .step-icon-circle {
       width: 54px;
@@ -1163,7 +1195,7 @@
       z-index: 0;
     }
 
-    .testimoni-section > .container {
+    .testimoni-section>.container {
       position: relative;
       z-index: 1;
     }
@@ -1234,9 +1266,17 @@
       font-size: 16px;
     }
 
-    .testimoni-avatar.mint { background: var(--accent); }
-    .testimoni-avatar.yellow { background: var(--yellow); }
-    .testimoni-avatar.pink { background: var(--pink); }
+    .testimoni-avatar.mint {
+      background: var(--accent);
+    }
+
+    .testimoni-avatar.yellow {
+      background: var(--yellow);
+    }
+
+    .testimoni-avatar.pink {
+      background: var(--pink);
+    }
 
     .testimoni-name {
       font-size: 15px;
@@ -1314,10 +1354,21 @@
       color: var(--fg);
     }
 
-    .feature-icon-box.mint { background: var(--accent); }
-    .feature-icon-box.yellow { background: var(--yellow); }
-    .feature-icon-box.pink { background: var(--pink); }
-    .feature-icon-box.sky { background: var(--sky); }
+    .feature-icon-box.mint {
+      background: var(--accent);
+    }
+
+    .feature-icon-box.yellow {
+      background: var(--yellow);
+    }
+
+    .feature-icon-box.pink {
+      background: var(--pink);
+    }
+
+    .feature-icon-box.sky {
+      background: var(--sky);
+    }
 
     .feature-title {
       font-size: 17px;
@@ -1534,16 +1585,20 @@
       .etalase-grid {
         grid-template-columns: repeat(2, 1fr);
       }
+
       .cara-kerja-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 24px 20px;
       }
+
       .testimoni-grid {
         grid-template-columns: repeat(2, 1fr);
       }
+
       .features-grid {
         grid-template-columns: repeat(2, 1fr);
       }
+
       .footer-grid {
         grid-template-columns: 1fr 1fr;
       }
@@ -1553,31 +1608,39 @@
       .nav-links {
         display: none !important;
       }
+
       .nav-actions {
         display: none !important;
       }
+
       .mobile-controls {
         display: flex !important;
       }
+
       .hero-grid-2col {
         grid-template-columns: 1fr;
         gap: 36px;
       }
+
       .hero-left {
         text-align: center;
         align-items: center;
       }
+
       .hero-actions-wrap {
         justify-content: center;
       }
+
       .hero-stats-row {
         justify-content: center;
       }
+
       .callout-banner-box {
         flex-direction: column;
         text-align: center;
         align-items: center;
       }
+
       .callout-banner-left {
         align-items: center;
       }
@@ -1587,22 +1650,61 @@
       .etalase-grid {
         grid-template-columns: 1fr;
       }
+
       .cara-kerja-grid {
         grid-template-columns: 1fr;
       }
+
       .testimoni-grid {
         grid-template-columns: 1fr;
       }
+
       .features-grid {
         grid-template-columns: 1fr;
       }
+
       .footer-grid {
         grid-template-columns: 1fr;
         gap: 30px;
       }
+
       .cara-kerja-box {
         padding: 40px 20px;
       }
+    }
+
+    /* Bouncy Manga Card Entrance Animations */
+    @keyframes mangaCardIn {
+      0% {
+        opacity: 0;
+        transform: translateY(24px) scale(0.94);
+      }
+      65% {
+        opacity: 1;
+        transform: translateY(-4px) scale(1.015);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .reveal-card {
+      opacity: 0;
+    }
+
+    .reveal-card.is-visible {
+      animation: mangaCardIn 0.52s cubic-bezier(0.22, 1.25, 0.36, 1) forwards;
+      animation-delay: var(--reveal-delay, 0ms);
+    }
+
+    .hero-showcase-card {
+      animation: mangaCardIn 0.6s cubic-bezier(0.22, 1.25, 0.36, 1) both;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-card { opacity: 1 !important; }
+      .reveal-card.is-visible, .hero-showcase-card { animation: none !important; }
     }
   </style>
 </head>
@@ -1615,8 +1717,10 @@
       <span class="badge-sparkle">✦ COLLABORATION</span>
       <span><strong>LayMockup × PixelCam</strong> - Precision 3D Isometric Mockup Engine.</span>
     </div>
-    <button id="btn-close-ribbon" class="ribbon-close-btn" aria-label="Tutup Banner Kolaborasi" title="Sembunyikan Pengumuman">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <button id="btn-close-ribbon" class="ribbon-close-btn" aria-label="Tutup Banner Kolaborasi"
+      title="Sembunyikan Pengumuman">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+        stroke-linecap="round" stroke-linejoin="round">
         <line x1="18" y1="6" x2="6" y2="18"></line>
         <line x1="6" y1="6" x2="18" y2="18"></line>
       </svg>
@@ -1681,7 +1785,8 @@
       <!-- Desktop Right CTA -->
       <div class="nav-actions">
         <a href="#etalase" class="btn-pill btn-pill-primary" title="Mulai Buat Mockup 3D">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
             <line x1="12" y1="5" x2="12" y2="19"></line>
             <line x1="5" y1="12" x2="19" y2="12"></line>
           </svg>
@@ -1766,7 +1871,8 @@
         <div class="hero-top-pill-wrap">
           <div class="hero-top-pill">
             <svg class="sparkle-star" width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" fill="#fef08a" stroke="#0f172a" stroke-width="2"/>
+              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" fill="#fef08a"
+                stroke="#0f172a" stroke-width="2" />
             </svg>
             <span>LayMockup v2.5 Online • 15 Template 3D • 100% Gratis Tanpa Login</span>
           </div>
@@ -1777,40 +1883,49 @@
           <div class="hero-left">
             <h1 class="hero-title">
               Abadikan & Pamerkan UI Jadi <span class="sticker-highlight yellow">Mockup 3D Keren!</span>
-              <svg class="sparkle-star" width="28" height="28" viewBox="0 0 24 24" fill="none" style="vertical-align: middle;">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" fill="#9BE3DE" stroke="#0f172a" stroke-width="2"/>
+              <svg class="sparkle-star" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                style="vertical-align: middle;">
+                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" fill="#9BE3DE"
+                  stroke="#0f172a" stroke-width="2" />
               </svg>
             </h1>
 
             <p class="hero-desc">
-              Ubah tangkapan layar aplikasi, web, dan dashboard portofolio Anda menjadi presentasi isometrik 3D kelas dunia dalam hitungan detik. 100% langsung di browser tanpa Figma maupun Blender.
+              Ubah tangkapan layar aplikasi, web, dan dashboard portofolio Anda menjadi presentasi isometrik 3D kelas
+              dunia dalam hitungan detik. 100% langsung di browser tanpa Figma maupun Blender.
             </p>
 
             <div class="hero-actions-wrap">
               <a href="#etalase" class="btn-pill btn-pill-teal" title="Mulai Jelajahi 15 Template">
                 <span>🚀 Coba Sekarang</span>
                 <svg width="15" height="15" viewBox="0 0 14 14" fill="none">
-                  <path d="M7 2v10M2 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M7 2v10M2 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
                 </svg>
               </a>
 
-              <a href="https://pixelcam-flame.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-pill btn-pill-pink" title="Buka Photobooth Studio (PixelCam)">
+              <a href="https://pixelcam-flame.vercel.app/" target="_blank" rel="noopener noreferrer"
+                class="btn-pill btn-pill-pink" title="Buka Photobooth Studio (PixelCam)">
                 <span>📸 Buka Photobooth</span>
               </a>
 
-              <a href="studio-remove-bg.html" class="btn-pill btn-pill-yellow" title="Hapus Background Foto Otomatis (Non-AI / Client-Side WASM)">
+              <a href="studio-remove-bg.html" class="btn-pill btn-pill-yellow"
+                title="Hapus Background Foto Otomatis (Non-AI / Client-Side WASM)">
                 <span>✂️ Remove BG</span>
               </a>
 
-              <a href="https://nector-ui.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-pill btn-pill-white" title="Jelajahi Template Website (Nector UI)">
+              <a href="https://nector-ui.vercel.app/" target="_blank" rel="noopener noreferrer"
+                class="btn-pill btn-pill-white" title="Jelajahi Template Website (Nector UI)">
                 <span>🌐 Template Web</span>
               </a>
 
-              <a href="https://pradipta-endra-maulana.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-pill btn-pill-purple" title="Kunjungi Website Portofolio Pradipta Endra">
+              <a href="https://pradipta-endra-maulana.vercel.app/" target="_blank" rel="noopener noreferrer"
+                class="btn-pill btn-pill-purple" title="Kunjungi Website Portofolio Pradipta Endra">
                 <span>💼 My Portofolio</span>
               </a>
 
-              <a href="https://swiftdocs-ten.vercel.app" target="_blank" rel="noopener noreferrer" class="btn-pill btn-pill-black" title="Jelajahi Tools Lainnya (SwiftDocs)">
+              <a href="https://swiftdocs-ten.vercel.app" target="_blank" rel="noopener noreferrer"
+                class="btn-pill btn-pill-black" title="Jelajahi Tools Lainnya (SwiftDocs)">
                 <span>🛠️ Tools Lainnya</span>
               </a>
             </div>
@@ -1851,17 +1966,21 @@
                 <span class="sticker-badge mint">100% FREE</span>
               </div>
 
-              <div class="hero-mascot-wrap" onclick="document.getElementById('etalase').scrollIntoView({behavior:'smooth'});" style="cursor:pointer;" title="Klik untuk menjelajahi 15 Template Studio">
+              <div class="hero-mascot-wrap"
+                onclick="document.getElementById('etalase').scrollIntoView({behavior:'smooth'});"
+                style="cursor:pointer;" title="Klik untuk menjelajahi 15 Template Studio">
                 <img src="hero-mascot.webp" alt="LayMockup × PixelCam Studio Mascot" class="hero-mascot-img" />
                 <div class="hero-mascot-floating-tag">
-                  <span class="sticker-badge pink" style="box-shadow: 2px 2px 0 var(--border-dark);">🚀 15 Template 3D</span>
+                  <span class="sticker-badge pink" style="box-shadow: 2px 2px 0 var(--border-dark);">🚀 15 Template
+                    3D</span>
                 </div>
               </div>
 
               <div class="hero-showcase-footer">
                 <div style="display:flex; flex-direction:column; gap:2px;">
                   <span style="font-weight:800; font-size:14px; color:var(--fg);">Studio Mockup 3D</span>
-                  <span style="font-size:12px; color:var(--fg-muted); font-weight:600;">Pilih template & langsung render</span>
+                  <span style="font-size:12px; color:var(--fg-muted); font-weight:600;">Pilih template & langsung
+                    render</span>
                 </div>
                 <a href="#etalase" class="btn-pill btn-pill-primary" style="padding:7px 16px; font-size:13px;">
                   Pilih Template &darr;
@@ -1882,7 +2001,8 @@
               Cara <span class="sticker-highlight yellow">Kerjanya</span> ✨
             </h2>
             <p class="cara-kerja-desc">
-              Abadikan momen pamer karya UI/UX Anda dengan mockup 3D yang keren, praktis, dan modern tanpa setup yang rumit.
+              Abadikan momen pamer karya UI/UX Anda dengan mockup 3D yang keren, praktis, dan modern tanpa setup yang
+              rumit.
             </p>
           </div>
 
@@ -1891,7 +2011,8 @@
             <div class="step-card">
               <div class="step-badge-num mint">1</div>
               <div class="step-icon-circle" style="background:#eafaf8; color:#0f766e;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round">
                   <rect x="3" y="3" width="7" height="7"></rect>
                   <rect x="14" y="3" width="7" height="7"></rect>
                   <rect x="14" y="14" width="7" height="7"></rect>
@@ -1900,7 +2021,8 @@
               </div>
               <h3 class="step-title">Pilih template</h3>
               <p class="step-desc">
-                Pilih template favorit dari katalog 15 formasi 3D dan sesuaikan dengan tema screenshot acara atau portofolio Anda.
+                Pilih template favorit dari katalog 15 formasi 3D dan sesuaikan dengan tema screenshot acara atau
+                portofolio Anda.
               </p>
             </div>
 
@@ -1908,14 +2030,16 @@
             <div class="step-card">
               <div class="step-badge-num yellow">2</div>
               <div class="step-icon-circle" style="background:#fef9c3; color:#854d0e;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round">
                   <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
                   <circle cx="12" cy="13" r="4"></circle>
                 </svg>
               </div>
               <h3 class="step-title">Kamera atau unggah</h3>
               <p class="step-desc">
-                Ambil foto lewat kamera HP atau tarik & lepas (drag & drop) gambar. Antarmuka intuitif tanpa setup yang rumit.
+                Ambil foto lewat kamera HP atau tarik & lepas (drag & drop) gambar. Antarmuka intuitif tanpa setup yang
+                rumit.
               </p>
             </div>
 
@@ -1923,13 +2047,17 @@
             <div class="step-card">
               <div class="step-badge-num pink">3</div>
               <div class="step-icon-circle" style="background:#FFE3ED; color:#9d174d;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z">
+                  </path>
                 </svg>
               </div>
               <h3 class="step-title">Sesuaikan Tema</h3>
               <p class="step-desc">
-                Auto sesuaikan warna latar solid dengan screenshot Anda, atau pilih bebas dari 14 preset warna solid yang rapi.
+                Auto sesuaikan warna latar solid dengan screenshot Anda, atau pilih bebas dari 14 preset warna solid
+                yang rapi.
               </p>
             </div>
 
@@ -1937,7 +2065,8 @@
             <div class="step-card">
               <div class="step-badge-num sky">4</div>
               <div class="step-icon-circle" style="background:#e0f2fe; color:#0369a1;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                   <polyline points="7 10 12 15 17 10"></polyline>
                   <line x1="12" y1="15" x2="12" y2="3"></line>
@@ -1945,7 +2074,8 @@
               </div>
               <h3 class="step-title">Unduh 4K</h3>
               <p class="step-desc">
-                Unduh hasil render isometrik berkualitas tinggi hingga 4K tanpa watermark, siap dibagikan ke klien atau medsos.
+                Unduh hasil render isometrik berkualitas tinggi hingga 4K tanpa watermark, siap dibagikan ke klien atau
+                medsos.
               </p>
             </div>
           </div>
@@ -1960,7 +2090,8 @@
           <span class="sticker-badge mint">✨ 15 FORMASI ISOMETRIK EKSKLUSIF</span>
           <h2 class="section-title-cute">Pilih Template Studio Favorit Anda</h2>
           <p class="section-desc-cute">
-            Klik salah satu kartu template untuk langsung membuka studio interaktif di browser. Tanpa instalasi, tanpa login.
+            Klik salah satu kartu template untuk langsung membuka studio interaktif di browser. Tanpa instalasi, tanpa
+            login.
           </p>
         </div>
 
@@ -1974,7 +2105,8 @@
 
         <div class="etalase-grid">
           <!-- TEMPLATE 1: CENTERED DIAMOND -->
-          <article class="etalase-card" data-category="diamond" id="template-centered-card" onclick="window.location.href='studio-centered.html'">
+          <article class="etalase-card" data-category="diamond" id="template-centered-card"
+            onclick="window.location.href='studio-centered.html'">
             <div class="etalase-preview-box">
               <canvas id="canvas-centered-preview" width="560" height="315"></canvas>
               <div class="etalase-badge-top recommended">⭐ 1-3-4-3-1 DIAMOND</div>
@@ -1986,10 +2118,14 @@
               </div>
               <h3 class="etalase-title">1-3-4-3-1 Centered Diamond</h3>
               <div class="specs-grid">
-                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">1-3-4-3-1 Intan</span></div>
-                <div class="spec-item"><span class="spec-key">Default Zoom</span><span class="spec-val">0.88x (1:1 Standar)</span></div>
-                <div class="spec-item"><span class="spec-key">Celah</span><span class="spec-val">40px × 40px Rapi</span></div>
-                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Simetris & Fokus</span></div>
+                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">1-3-4-3-1
+                    Intan</span></div>
+                <div class="spec-item"><span class="spec-key">Default Zoom</span><span class="spec-val">0.88x (1:1
+                    Standar)</span></div>
+                <div class="spec-item"><span class="spec-key">Celah</span><span class="spec-val">40px × 40px Rapi</span>
+                </div>
+                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Simetris &
+                    Fokus</span></div>
               </div>
               <div class="etalase-btn-wrap">
                 <a href="studio-centered.html" class="btn-pill btn-pill-primary" title="Buka Template Centered Diamond">
@@ -2000,7 +2136,8 @@
           </article>
 
           <!-- TEMPLATE 2: FULL-BLEED STRETCH -->
-          <article class="etalase-card" data-category="diamond" id="template-stretch-card" onclick="window.location.href='studio-stretch.html'">
+          <article class="etalase-card" data-category="diamond" id="template-stretch-card"
+            onclick="window.location.href='studio-stretch.html'">
             <div class="etalase-preview-box">
               <canvas id="canvas-stretch-preview" width="560" height="315"></canvas>
               <div class="etalase-badge-top recommended">🔥 REKOMENDASI</div>
@@ -2012,10 +2149,14 @@
               </div>
               <h3 class="etalase-title">1-3-4-3-1 Full-Bleed Stretch</h3>
               <div class="specs-grid">
-                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">1-3-4-3-1 Stretch</span></div>
-                <div class="spec-item"><span class="spec-key">Default Zoom</span><span class="spec-val">1.18x (Edge Layar)</span></div>
-                <div class="spec-item"><span class="spec-key">Celah</span><span class="spec-val">36px × 36px Rapat</span></div>
-                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Tepi Penuh Layar</span></div>
+                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">1-3-4-3-1
+                    Stretch</span></div>
+                <div class="spec-item"><span class="spec-key">Default Zoom</span><span class="spec-val">1.18x (Edge
+                    Layar)</span></div>
+                <div class="spec-item"><span class="spec-key">Celah</span><span class="spec-val">36px × 36px
+                    Rapat</span></div>
+                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Tepi Penuh
+                    Layar</span></div>
               </div>
               <div class="etalase-btn-wrap">
                 <a href="studio-stretch.html" class="btn-pill btn-pill-yellow" title="Buka Template Full-Bleed Stretch">
@@ -2026,7 +2167,8 @@
           </article>
 
           <!-- TEMPLATE 3: 1-2-3-2-1 CENTERED ZOOM-OUT (9 KARTU) -->
-          <article class="etalase-card" data-category="diamond" id="template-9-zoomout-card" onclick="window.location.href='studio-9-zoomout.html'">
+          <article class="etalase-card" data-category="diamond" id="template-9-zoomout-card"
+            onclick="window.location.href='studio-9-zoomout.html'">
             <div class="etalase-preview-box">
               <canvas id="canvas-9-zoomout-preview" width="560" height="315"></canvas>
               <div class="etalase-badge-top">💎 9 KARTU INTAN</div>
@@ -2037,10 +2179,14 @@
               </div>
               <h3 class="etalase-title">1-2-3-2-1 Centered Zoom-Out</h3>
               <div class="specs-grid">
-                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">1-2-3-2-1 Zoom-Out</span></div>
-                <div class="spec-item"><span class="spec-key">Default Zoom</span><span class="spec-val">0.82x (Proporsional)</span></div>
-                <div class="spec-item"><span class="spec-key">Celah</span><span class="spec-val">40px × 40px Rapi</span></div>
-                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Ringkas & Elegan</span></div>
+                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">1-2-3-2-1
+                    Zoom-Out</span></div>
+                <div class="spec-item"><span class="spec-key">Default Zoom</span><span class="spec-val">0.82x
+                    (Proporsional)</span></div>
+                <div class="spec-item"><span class="spec-key">Celah</span><span class="spec-val">40px × 40px Rapi</span>
+                </div>
+                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Ringkas &
+                    Elegan</span></div>
               </div>
               <div class="etalase-btn-wrap">
                 <a href="studio-9-zoomout.html" class="btn-pill btn-pill-primary" title="Buka Template 9 Zoom-Out">
@@ -2051,7 +2197,8 @@
           </article>
 
           <!-- TEMPLATE 4: 1-2-3-2-1 FULL-BLEED STRETCH (9 KARTU) -->
-          <article class="etalase-card" data-category="diamond" id="template-9-stretch-card" onclick="window.location.href='studio-9-stretch.html'">
+          <article class="etalase-card" data-category="diamond" id="template-9-stretch-card"
+            onclick="window.location.href='studio-9-stretch.html'">
             <div class="etalase-preview-box">
               <canvas id="canvas-9-stretch-preview" width="560" height="315"></canvas>
               <div class="etalase-badge-top">⚡ 9 KARTU STRETCH</div>
@@ -2062,10 +2209,14 @@
               </div>
               <h3 class="etalase-title">1-2-3-2-1 Full-Bleed Stretch</h3>
               <div class="specs-grid">
-                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">1-2-3-2-1 Stretch</span></div>
-                <div class="spec-item"><span class="spec-key">Default Zoom</span><span class="spec-val">1.32x (Edge Full)</span></div>
-                <div class="spec-item"><span class="spec-key">Celah</span><span class="spec-val">36px × 36px Rapat</span></div>
-                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Berani & Penuh</span></div>
+                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">1-2-3-2-1
+                    Stretch</span></div>
+                <div class="spec-item"><span class="spec-key">Default Zoom</span><span class="spec-val">1.32x (Edge
+                    Full)</span></div>
+                <div class="spec-item"><span class="spec-key">Celah</span><span class="spec-val">36px × 36px
+                    Rapat</span></div>
+                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Berani &
+                    Penuh</span></div>
               </div>
               <div class="etalase-btn-wrap">
                 <a href="studio-9-stretch.html" class="btn-pill btn-pill-primary" title="Buka Template 9 Stretch">
@@ -2076,7 +2227,8 @@
           </article>
 
           <!-- TEMPLATE 5: 2-3-2 LANDSCAPE STAGGERED (7 KARTU) -->
-          <article class="etalase-card" data-category="diamond" id="template-7-landscape-card" onclick="window.location.href='studio-7-landscape.html'">
+          <article class="etalase-card" data-category="diamond" id="template-7-landscape-card"
+            onclick="window.location.href='studio-7-landscape.html'">
             <div class="etalase-preview-box">
               <canvas id="canvas-7-landscape-preview" width="560" height="315"></canvas>
               <div class="etalase-badge-top">🌄 7 LANDSCAPE</div>
@@ -2087,10 +2239,14 @@
               </div>
               <h3 class="etalase-title">2-3-2 Landscape Staggered</h3>
               <div class="specs-grid">
-                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">2-3-2 Selang-Seling</span></div>
-                <div class="spec-item"><span class="spec-key">Default Zoom</span><span class="spec-val">1.08x (Panorama)</span></div>
-                <div class="spec-item"><span class="spec-key">Celah</span><span class="spec-val">38px × 38px Lebar</span></div>
-                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Sinematik 16:9</span></div>
+                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">2-3-2
+                    Selang-Seling</span></div>
+                <div class="spec-item"><span class="spec-key">Default Zoom</span><span class="spec-val">1.08x
+                    (Panorama)</span></div>
+                <div class="spec-item"><span class="spec-key">Celah</span><span class="spec-val">38px × 38px
+                    Lebar</span></div>
+                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Sinematik
+                    16:9</span></div>
               </div>
               <div class="etalase-btn-wrap">
                 <a href="studio-7-landscape.html" class="btn-pill btn-pill-primary" title="Buka Template 7 Landscape">
@@ -2101,7 +2257,8 @@
           </article>
 
           <!-- TEMPLATE 6: 2-3-2 MOBILE SMARTPHONE 3D (7 HP) -->
-          <article class="etalase-card" data-category="mobile" id="template-mobile-7-card" onclick="window.location.href='studio-mobile-7.html'">
+          <article class="etalase-card" data-category="mobile" id="template-mobile-7-card"
+            onclick="window.location.href='studio-mobile-7.html'">
             <div class="etalase-preview-box">
               <canvas id="canvas-mobile-7-preview" width="560" height="315"></canvas>
               <div class="etalase-badge-top phone">📱 7 HP HERO 3D</div>
@@ -2113,10 +2270,14 @@
               </div>
               <h3 class="etalase-title">2-3-2 Mobile Smartphone 3D</h3>
               <div class="specs-grid">
-                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">2-3-2 Bodi HP 3D</span></div>
-                <div class="spec-item"><span class="spec-key">Aspek Rasio</span><span class="spec-val">9:19.5 Bezel Halus</span></div>
-                <div class="spec-item"><span class="spec-key">Fitur</span><span class="spec-val">Dynamic Island</span></div>
-                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Pameran App Mobile</span></div>
+                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">2-3-2 Bodi HP
+                    3D</span></div>
+                <div class="spec-item"><span class="spec-key">Aspek Rasio</span><span class="spec-val">9:19.5 Bezel
+                    Halus</span></div>
+                <div class="spec-item"><span class="spec-key">Fitur</span><span class="spec-val">Dynamic Island</span>
+                </div>
+                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Pameran App
+                    Mobile</span></div>
               </div>
               <div class="etalase-btn-wrap">
                 <a href="studio-mobile-7.html" class="btn-pill btn-pill-primary" title="Buka Template Mobile 7 HP 3D">
@@ -2127,7 +2288,8 @@
           </article>
 
           <!-- TEMPLATE 7: 1 LAYAR SINGLE PHONE 3D -->
-          <article class="etalase-card" data-category="mobile" id="template-mobile-1-card" onclick="window.location.href='studio-mobile-1.html'">
+          <article class="etalase-card" data-category="mobile" id="template-mobile-1-card"
+            onclick="window.location.href='studio-mobile-1.html'">
             <div class="etalase-preview-box">
               <canvas id="canvas-mobile-1-preview" width="560" height="315"></canvas>
               <div class="etalase-badge-top new">✨ 1 PHONE HERO</div>
@@ -2139,10 +2301,14 @@
               </div>
               <h3 class="etalase-title">1 Layar Single Phone 3D</h3>
               <div class="specs-grid">
-                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">1 HP Solo Terpusat</span></div>
-                <div class="spec-item"><span class="spec-key">Zoom</span><span class="spec-val">1.35x Fokus Utama</span></div>
-                <div class="spec-item"><span class="spec-key">Bodi HP</span><span class="spec-val">3D Glass & Shadow</span></div>
-                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Showcase Satuan</span></div>
+                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">1 HP Solo
+                    Terpusat</span></div>
+                <div class="spec-item"><span class="spec-key">Zoom</span><span class="spec-val">1.35x Fokus Utama</span>
+                </div>
+                <div class="spec-item"><span class="spec-key">Bodi HP</span><span class="spec-val">3D Glass &
+                    Shadow</span></div>
+                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Showcase
+                    Satuan</span></div>
               </div>
               <div class="etalase-btn-wrap">
                 <a href="studio-mobile-1.html" class="btn-pill btn-pill-primary" title="Buka Studio 1 Single Phone">
@@ -2153,7 +2319,8 @@
           </article>
 
           <!-- TEMPLATE 8: 2 LAYAR DUAL PHONE 3D -->
-          <article class="etalase-card" data-category="mobile" id="template-mobile-2-card" onclick="window.location.href='studio-mobile-2.html'">
+          <article class="etalase-card" data-category="mobile" id="template-mobile-2-card"
+            onclick="window.location.href='studio-mobile-2.html'">
             <div class="etalase-preview-box">
               <canvas id="canvas-mobile-2-preview" width="560" height="315"></canvas>
               <div class="etalase-badge-top phone">📱 2 HP DUAL</div>
@@ -2164,10 +2331,14 @@
               </div>
               <h3 class="etalase-title">2 Layar Dual Phone 3D</h3>
               <div class="specs-grid">
-                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">Dual Smartphone</span></div>
-                <div class="spec-item"><span class="spec-key">Zoom</span><span class="spec-val">1.05x Berdampingan</span></div>
-                <div class="spec-item"><span class="spec-key">Bodi HP</span><span class="spec-val">3D Notch & Glass</span></div>
-                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Before / After</span></div>
+                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">Dual
+                    Smartphone</span></div>
+                <div class="spec-item"><span class="spec-key">Zoom</span><span class="spec-val">1.05x
+                    Berdampingan</span></div>
+                <div class="spec-item"><span class="spec-key">Bodi HP</span><span class="spec-val">3D Notch &
+                    Glass</span></div>
+                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Before /
+                    After</span></div>
               </div>
               <div class="etalase-btn-wrap">
                 <a href="studio-mobile-2.html" class="btn-pill btn-pill-primary" title="Buka Studio 2 Dual Phone">
@@ -2178,7 +2349,8 @@
           </article>
 
           <!-- TEMPLATE 9: 6 LAYAR VERTICAL 3-KOLOM -->
-          <article class="etalase-card" data-category="mobile" id="template-mobile-6-card" onclick="window.location.href='studio-mobile-6.html'">
+          <article class="etalase-card" data-category="mobile" id="template-mobile-6-card"
+            onclick="window.location.href='studio-mobile-6.html'">
             <div class="etalase-preview-box">
               <canvas id="canvas-mobile-6-preview" width="560" height="315"></canvas>
               <div class="etalase-badge-top phone">📱 6 HP VERTICAL</div>
@@ -2189,10 +2361,14 @@
               </div>
               <h3 class="etalase-title">6 Layar Vertical 3-Kolom</h3>
               <div class="specs-grid">
-                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">2-2-2 Tiga Kolom</span></div>
-                <div class="spec-item"><span class="spec-key">Zoom</span><span class="spec-val">0.85x Kompak</span></div>
-                <div class="spec-item"><span class="spec-key">Bodi HP</span><span class="spec-val">6 Ponsel 3D</span></div>
-                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">App Flow & Story</span></div>
+                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">2-2-2 Tiga
+                    Kolom</span></div>
+                <div class="spec-item"><span class="spec-key">Zoom</span><span class="spec-val">0.85x Kompak</span>
+                </div>
+                <div class="spec-item"><span class="spec-key">Bodi HP</span><span class="spec-val">6 Ponsel 3D</span>
+                </div>
+                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">App Flow &
+                    Story</span></div>
               </div>
               <div class="etalase-btn-wrap">
                 <a href="studio-mobile-6.html" class="btn-pill btn-pill-primary" title="Buka Studio 6 Vertical Phone">
@@ -2203,7 +2379,8 @@
           </article>
 
           <!-- TEMPLATE 10: 1 LAYAR SINGLE DESKTOP 3D -->
-          <article class="etalase-card" data-category="desktop" id="template-desktop-1-card" onclick="window.location.href='studio-desktop-1.html'">
+          <article class="etalase-card" data-category="desktop" id="template-desktop-1-card"
+            onclick="window.location.href='studio-desktop-1.html'">
             <div class="etalase-preview-box">
               <canvas id="canvas-desktop-1-preview" width="560" height="315"></canvas>
               <div class="etalase-badge-top new">💻 1 DESKTOP SOLO</div>
@@ -2215,10 +2392,14 @@
               </div>
               <h3 class="etalase-title">1 Layar Single Desktop 3D</h3>
               <div class="specs-grid">
-                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">1 Monitor Solo</span></div>
-                <div class="spec-item"><span class="spec-key">Rasio</span><span class="spec-val">16:9 Tanpa Rongga</span></div>
-                <div class="spec-item"><span class="spec-key">Browser UI</span><span class="spec-val">Safari Window Topbar</span></div>
-                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Landing Page Solo</span></div>
+                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">1 Monitor Solo</span>
+                </div>
+                <div class="spec-item"><span class="spec-key">Rasio</span><span class="spec-val">16:9 Tanpa
+                    Rongga</span></div>
+                <div class="spec-item"><span class="spec-key">Browser UI</span><span class="spec-val">Safari Window
+                    Topbar</span></div>
+                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Landing Page
+                    Solo</span></div>
               </div>
               <div class="etalase-btn-wrap">
                 <a href="studio-desktop-1.html" class="btn-pill btn-pill-primary" title="Buka Studio 1 Desktop">
@@ -2229,7 +2410,8 @@
           </article>
 
           <!-- TEMPLATE 11: 2 LAYAR DUAL DESKTOP 3D -->
-          <article class="etalase-card" data-category="desktop" id="template-desktop-2-card" onclick="window.location.href='studio-desktop-2.html'">
+          <article class="etalase-card" data-category="desktop" id="template-desktop-2-card"
+            onclick="window.location.href='studio-desktop-2.html'">
             <div class="etalase-preview-box">
               <canvas id="canvas-desktop-2-preview" width="560" height="315"></canvas>
               <div class="etalase-badge-top">💻 2 DESKTOP DUAL</div>
@@ -2240,10 +2422,14 @@
               </div>
               <h3 class="etalase-title">2 Layar Dual Desktop 3D</h3>
               <div class="specs-grid">
-                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">Dual 16:9 Layar</span></div>
-                <div class="spec-item"><span class="spec-key">Rasio</span><span class="spec-val">16:9 Presisi Nol Crop</span></div>
-                <div class="spec-item"><span class="spec-key">Browser UI</span><span class="spec-val">2x Mac Window</span></div>
-                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Perbandingan Web</span></div>
+                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">Dual 16:9
+                    Layar</span></div>
+                <div class="spec-item"><span class="spec-key">Rasio</span><span class="spec-val">16:9 Presisi Nol
+                    Crop</span></div>
+                <div class="spec-item"><span class="spec-key">Browser UI</span><span class="spec-val">2x Mac
+                    Window</span></div>
+                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Perbandingan
+                    Web</span></div>
               </div>
               <div class="etalase-btn-wrap">
                 <a href="studio-desktop-2.html" class="btn-pill btn-pill-primary" title="Buka Studio 2 Desktop">
@@ -2254,7 +2440,8 @@
           </article>
 
           <!-- TEMPLATE 12: 4 LAYAR GRID 2X2 DESKTOP 3D -->
-          <article class="etalase-card" data-category="desktop" id="template-desktop-4-card" onclick="window.location.href='studio-desktop-4.html'">
+          <article class="etalase-card" data-category="desktop" id="template-desktop-4-card"
+            onclick="window.location.href='studio-desktop-4.html'">
             <div class="etalase-preview-box">
               <canvas id="canvas-desktop-4-preview" width="560" height="315"></canvas>
               <div class="etalase-badge-top">💻 4 DESKTOP GRID</div>
@@ -2265,10 +2452,14 @@
               </div>
               <h3 class="etalase-title">4 Layar Grid 2x2 Desktop 3D</h3>
               <div class="specs-grid">
-                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">Grid 2x2 Simetris</span></div>
-                <div class="spec-item"><span class="spec-key">Rasio</span><span class="spec-val">16:9 Layar Lebar</span></div>
-                <div class="spec-item"><span class="spec-key">Browser UI</span><span class="spec-val">4x Mac Window</span></div>
-                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Multi-Dashboard</span></div>
+                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">Grid 2x2
+                    Simetris</span></div>
+                <div class="spec-item"><span class="spec-key">Rasio</span><span class="spec-val">16:9 Layar Lebar</span>
+                </div>
+                <div class="spec-item"><span class="spec-key">Browser UI</span><span class="spec-val">4x Mac
+                    Window</span></div>
+                <div class="spec-item"><span class="spec-key">Karakter</span><span
+                    class="spec-val">Multi-Dashboard</span></div>
               </div>
               <div class="etalase-btn-wrap">
                 <a href="studio-desktop-4.html" class="btn-pill btn-pill-primary" title="Buka Studio 4 Desktop Grid">
@@ -2279,7 +2470,8 @@
           </article>
 
           <!-- TEMPLATE 13: 5 LAYAR LANDSCAPE (2-1-2) 3D -->
-          <article class="etalase-card" data-category="desktop" id="template-desktop-5-card" onclick="window.location.href='studio-desktop-5.html'">
+          <article class="etalase-card" data-category="desktop" id="template-desktop-5-card"
+            onclick="window.location.href='studio-desktop-5.html'">
             <div class="etalase-preview-box">
               <canvas id="canvas-desktop-5-preview" width="560" height="315"></canvas>
               <div class="etalase-badge-top new">✨ 5 LANDSCAPE (2-1-2)</div>
@@ -2291,10 +2483,14 @@
               </div>
               <h3 class="etalase-title">5 Layar Landscape (2-1-2) 3D</h3>
               <div class="specs-grid">
-                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">2 Atas, 1 Pusat, 2 Bawah</span></div>
-                <div class="spec-item"><span class="spec-key">Pusat</span><span class="spec-val">Fokus Hero Center</span></div>
-                <div class="spec-item"><span class="spec-key">Browser UI</span><span class="spec-val">5x Mac Window</span></div>
-                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Showcase Eksklusif</span></div>
+                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">2 Atas, 1 Pusat, 2
+                    Bawah</span></div>
+                <div class="spec-item"><span class="spec-key">Pusat</span><span class="spec-val">Fokus Hero
+                    Center</span></div>
+                <div class="spec-item"><span class="spec-key">Browser UI</span><span class="spec-val">5x Mac
+                    Window</span></div>
+                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Showcase
+                    Eksklusif</span></div>
               </div>
               <div class="etalase-btn-wrap">
                 <a href="studio-desktop-5.html" class="btn-pill btn-pill-primary" title="Buka Studio 5 Desktop">
@@ -2305,7 +2501,8 @@
           </article>
 
           <!-- TEMPLATE 14: 3 LAYAR TRIO DESKTOP (1-2) 3D -->
-          <article class="etalase-card" data-category="desktop" id="template-desktop-3-card" onclick="window.location.href='studio-desktop-3.html'">
+          <article class="etalase-card" data-category="desktop" id="template-desktop-3-card"
+            onclick="window.location.href='studio-desktop-3.html'">
             <div class="etalase-preview-box">
               <canvas id="canvas-desktop-3-preview" width="560" height="315"></canvas>
               <div class="etalase-badge-top new">✨ 3 DESKTOP (1-2)</div>
@@ -2317,10 +2514,14 @@
               </div>
               <h3 class="etalase-title">3 Layar Trio Desktop (1-2) 3D</h3>
               <div class="specs-grid">
-                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">1 Hero, 2 Pendukung</span></div>
-                <div class="spec-item"><span class="spec-key">Rasio</span><span class="spec-val">16:9 Layar Lebar</span></div>
-                <div class="spec-item"><span class="spec-key">Browser UI</span><span class="spec-val">3x Mac Window</span></div>
-                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Hierarki Fokus Kuat</span></div>
+                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">1 Hero, 2
+                    Pendukung</span></div>
+                <div class="spec-item"><span class="spec-key">Rasio</span><span class="spec-val">16:9 Layar Lebar</span>
+                </div>
+                <div class="spec-item"><span class="spec-key">Browser UI</span><span class="spec-val">3x Mac
+                    Window</span></div>
+                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Hierarki Fokus
+                    Kuat</span></div>
               </div>
               <div class="etalase-btn-wrap">
                 <a href="studio-desktop-3.html" class="btn-pill btn-pill-primary" title="Buka Studio 3 Desktop Trio">
@@ -2331,7 +2532,8 @@
           </article>
 
           <!-- TEMPLATE 15: 6 LAYAR GRID 3-3 DESKTOP 3D -->
-          <article class="etalase-card" data-category="desktop" id="template-desktop-6-card" onclick="window.location.href='studio-desktop-6.html'">
+          <article class="etalase-card" data-category="desktop" id="template-desktop-6-card"
+            onclick="window.location.href='studio-desktop-6.html'">
             <div class="etalase-preview-box">
               <canvas id="canvas-desktop-6-preview" width="560" height="315"></canvas>
               <div class="etalase-badge-top new">✨ 6 DESKTOP (3-3)</div>
@@ -2343,10 +2545,14 @@
               </div>
               <h3 class="etalase-title">6 Layar Grid 3-3 Desktop 3D</h3>
               <div class="specs-grid">
-                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">3 Kolom × 2 Baris</span></div>
-                <div class="spec-item"><span class="spec-key">Rasio</span><span class="spec-val">16:9 Tanpa Rongga</span></div>
-                <div class="spec-item"><span class="spec-key">Browser UI</span><span class="spec-val">6x Mac Window</span></div>
-                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Pameran Portofolio</span></div>
+                <div class="spec-item"><span class="spec-key">Formasi</span><span class="spec-val">3 Kolom × 2
+                    Baris</span></div>
+                <div class="spec-item"><span class="spec-key">Rasio</span><span class="spec-val">16:9 Tanpa
+                    Rongga</span></div>
+                <div class="spec-item"><span class="spec-key">Browser UI</span><span class="spec-val">6x Mac
+                    Window</span></div>
+                <div class="spec-item"><span class="spec-key">Karakter</span><span class="spec-val">Pameran
+                    Portofolio</span></div>
               </div>
               <div class="etalase-btn-wrap">
                 <a href="studio-desktop-6.html" class="btn-pill btn-pill-primary" title="Buka Studio 6 Desktop Grid">
@@ -2384,7 +2590,8 @@
               <div class="testimoni-quote-mark">”</div>
             </div>
             <p class="testimoni-text">
-              Keren begeteeee pokoknya, daripada pake ai yang halu + token generate image yang kikir, ini web ngebantu banget jujur, gw pake ini langsung sigma jir, kece pokoknya!
+              Keren begeteeee pokoknya, daripada pake ai yang halu + token generate image yang kikir, ini web ngebantu
+              banget jujur, gw pake ini langsung sigma jir, kece pokoknya!
             </p>
             <div class="testimoni-stars">★★★★★</div>
           </div>
@@ -2402,7 +2609,8 @@
               <div class="testimoni-quote-mark">”</div>
             </div>
             <p class="testimoni-text">
-              Berguna banget untuk showcase di portofolio, kalo kalo pakai canva buat edit itu susah, cuma bisa kolase aja gitu ngga 3d viewing seperti ini, keren sih!
+              Berguna banget untuk showcase di portofolio, kalo kalo pakai canva buat edit itu susah, cuma bisa kolase
+              aja gitu ngga 3d viewing seperti ini, keren sih!
             </p>
             <div class="testimoni-stars">★★★★★</div>
           </div>
@@ -2420,7 +2628,8 @@
               <div class="testimoni-quote-mark">”</div>
             </div>
             <p class="testimoni-text">
-              Pitch deck presentasi kemarin dapet banyak pujian gara-gara mockup 3D-nya tajem dan estetik. Gak perlu install Blender atau bayar tools langganan jutaan rupiah. Recommended banget!
+              Pitch deck presentasi kemarin dapet banyak pujian gara-gara mockup 3D-nya tajem dan estetik. Gak perlu
+              install Blender atau bayar tools langganan jutaan rupiah. Recommended banget!
             </p>
             <div class="testimoni-stars">★★★★★</div>
           </div>
@@ -2443,35 +2652,43 @@
           <!-- Feature 1 -->
           <div class="feature-card">
             <div class="feature-icon-box mint">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z">
+                </path>
                 <circle cx="12" cy="13" r="3"></circle>
               </svg>
             </div>
             <h3 class="feature-title">Real-Time 3D Engine</h3>
             <p class="feature-desc">
-              Mesin render isometrik instan tanpa software tambahan. Putar sudut, sesuaikan zoom, dan lihat perubahannya live 60 FPS.
+              Mesin render isometrik instan tanpa software tambahan. Putar sudut, sesuaikan zoom, dan lihat perubahannya
+              live 60 FPS.
             </p>
           </div>
 
           <!-- Feature 2 -->
           <div class="feature-card">
             <div class="feature-icon-box yellow">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="3"></circle>
-                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path>
+                <path
+                  d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z">
+                </path>
               </svg>
             </div>
             <h3 class="feature-title">Solid Adaptive Colors</h3>
             <p class="feature-desc">
-              Pilihan warna solid murni tanpa gradasi bertabrakan. Mode Auto otomatis mengekstrak rona harmonis dari screenshot UI Anda.
+              Pilihan warna solid murni tanpa gradasi bertabrakan. Mode Auto otomatis mengekstrak rona harmonis dari
+              screenshot UI Anda.
             </p>
           </div>
 
           <!-- Feature 3 -->
           <div class="feature-card">
             <div class="feature-icon-box pink">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                 <line x1="3" y1="9" x2="21" y2="9"></line>
                 <line x1="9" y1="21" x2="9" y2="9"></line>
@@ -2479,14 +2696,16 @@
             </div>
             <h3 class="feature-title">Zero Distortion Slots</h3>
             <p class="feature-desc">
-              Formasi presisi tinggi dengan slot cerdas. Mendukung batch drag-and-drop hingga 12 foto sekaligus tanpa distorsi aspek rasio.
+              Formasi presisi tinggi dengan slot cerdas. Mendukung batch drag-and-drop hingga 12 foto sekaligus tanpa
+              distorsi aspek rasio.
             </p>
           </div>
 
           <!-- Feature 4 -->
           <div class="feature-card">
             <div class="feature-icon-box sky">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                 <polyline points="7 10 12 15 17 10"></polyline>
                 <line x1="12" y1="15" x2="12" y2="3"></line>
@@ -2494,7 +2713,8 @@
             </div>
             <h3 class="feature-title">4K Studio Export</h3>
             <p class="feature-desc">
-              Unduh hasil render beresolusi super tajam (2752×1536 hingga 4K PNG). Bersih, tanpa watermark, dan 100% diproses di browser Anda.
+              Unduh hasil render beresolusi super tajam (2752×1536 hingga 4K PNG). Bersih, tanpa watermark, dan 100%
+              diproses di browser Anda.
             </p>
           </div>
         </div>
@@ -2509,7 +2729,8 @@
             <span class="sticker-badge yellow" style="width:fit-content;">✨ 100% GRATIS TANPA LOGIN</span>
             <h2 class="callout-banner-title">Punya Project UI atau Screenshot Aplikasi?</h2>
             <p class="callout-banner-desc">
-              Ubah sekarang jadi mockup 3D isometrik kelas dunia dalam hitungan detik. Cukup drag & drop screenshot Anda dan nikmati hasil render tajam 4K.
+              Ubah sekarang jadi mockup 3D isometrik kelas dunia dalam hitungan detik. Cukup drag & drop screenshot Anda
+              dan nikmati hasil render tajam 4K.
             </p>
           </div>
           <div class="callout-banner-actions">
@@ -2562,7 +2783,8 @@
           </div>
 
           <p class="footer-tagline">
-            Studio mockup isometrik 3D presisi tinggi berbasis browser. Ubah tangkapan layar aplikasi dan presentasi dashboard Anda secara instan tanpa Figma maupun Blender.
+            Studio mockup isometrik 3D presisi tinggi berbasis browser. Ubah tangkapan layar aplikasi dan presentasi
+            dashboard Anda secara instan tanpa Figma maupun Blender.
           </p>
 
           <div class="footer-badges-row">
@@ -2571,8 +2793,10 @@
             <span class="sticker-badge pink">100% Client-Side</span>
           </div>
 
-          <div style="display:inline-flex; align-items:center; gap:8px; font-size:12.5px; font-weight:700; color:#0f172a;">
-            <img src="voxel%20studios.png" alt="Voxel Studios Logo" style="width:20px; height:20px; border-radius:50%; border:1.5px solid #0f172a;" />
+          <div
+            style="display:inline-flex; align-items:center; gap:8px; font-size:12.5px; font-weight:700; color:#0f172a;">
+            <img src="voxel%20studios.png" alt="Voxel Studios Logo"
+              style="width:20px; height:20px; border-radius:50%; border:1.5px solid #0f172a;" />
             <span>Crafted by <strong>Voxel Studios</strong> · By Pradipta</span>
           </div>
 
@@ -2582,8 +2806,10 @@
               <span class="footer-feedback-dot"></span>
               <span>Menemukan bug atau punya saran?</span>
             </div>
-            <a href="mailto:pradipta02032009@gmail.com?subject=Saran%20%2F%20Bug%20Report%20LayMockup" class="footer-feedback-link" title="Kirim email saran atau laporan bug ke Pradipta">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <a href="mailto:pradipta02032009@gmail.com?subject=Saran%20%2F%20Bug%20Report%20LayMockup"
+              class="footer-feedback-link" title="Kirim email saran atau laporan bug ke Pradipta">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round">
                 <rect x="2" y="4" width="20" height="16" rx="2"></rect>
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
               </svg>
@@ -2611,7 +2837,8 @@
             <li><a href="studio-desktop-5.html">5 Layar Landscape 2-1-2</a></li>
             <li><a href="studio-desktop-3.html">3 Layar Trio Desktop 1-2</a></li>
             <li><a href="studio-desktop-6.html">6 Layar Grid 3-3 Desktop</a></li>
-            <li><a href="studio-remove-bg.html" style="color:#0f766e; font-weight:700;">✂️ Studio Remove BG (WASM)</a></li>
+            <li><a href="studio-remove-bg.html" style="color:#0f766e; font-weight:700;">✂️ Studio Remove BG (WASM)</a>
+            </li>
           </ul>
         </div>
 
@@ -2624,37 +2851,55 @@
             <li><a href="#cara-kerja">Cara Kerjanya</a></li>
             <li><a href="#testimoni">Kata Pengguna</a></li>
             <li><a href="#features">Fitur Unggulan</a></li>
-            <li><a href="https://pixelcam-flame.vercel.app/" target="_blank" rel="noopener noreferrer">PixelCam Photobooth ↗</a></li>
-            <li><a href="https://nector-ui.vercel.app/" target="_blank" rel="noopener noreferrer">Template Web (Nector UI) ↗</a></li>
-            <li><a href="https://swiftdocs-ten.vercel.app" target="_blank" rel="noopener noreferrer">Tools Lainnya (SwiftDocs) ↗</a></li>
-            <li><a href="https://pradipta-endra-maulana.vercel.app/" target="_blank" rel="noopener noreferrer">Portofolio (Pradipta) ↗</a></li>
-            <li><a href="https://github.com/PradiptaPPLG" target="_blank" rel="noopener noreferrer">GitHub (@PradiptaPPLG) ↗</a></li>
-            <li><a href="https://www.linkedin.com/in/pradipta-endra-maulana-819525350/" target="_blank" rel="noopener noreferrer">LinkedIn (Pradipta Endra) ↗</a></li>
-            <li><a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">Kembali ke Atas ↑</a></li>
+            <li><a href="https://pixelcam-flame.vercel.app/" target="_blank" rel="noopener noreferrer">PixelCam
+                Photobooth ↗</a></li>
+            <li><a href="https://nector-ui.vercel.app/" target="_blank" rel="noopener noreferrer">Template Web (Nector
+                UI) ↗</a></li>
+            <li><a href="https://swiftdocs-ten.vercel.app" target="_blank" rel="noopener noreferrer">Tools Lainnya
+                (SwiftDocs) ↗</a></li>
+            <li><a href="https://pradipta-endra-maulana.vercel.app/" target="_blank"
+                rel="noopener noreferrer">Portofolio (Pradipta) ↗</a></li>
+            <li><a href="https://github.com/PradiptaPPLG" target="_blank" rel="noopener noreferrer">GitHub
+                (@PradiptaPPLG) ↗</a></li>
+            <li><a href="https://www.linkedin.com/in/pradipta-endra-maulana-819525350/" target="_blank"
+                rel="noopener noreferrer">LinkedIn (Pradipta Endra) ↗</a></li>
+            <li><a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">Kembali ke Atas ↑</a>
+            </li>
           </ul>
 
           <div style="margin-top:20px;">
-            <div style="font-size:12px; font-weight:800; color:var(--fg); margin-bottom:8px;">Sosial Media & Kontak</div>
+            <div style="font-size:12px; font-weight:800; color:var(--fg); margin-bottom:8px;">Sosial Media & Kontak
+            </div>
             <div class="footer-social-row">
-              <a href="https://instagram.com/massdiipp" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Instagram @massdiipp">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <a href="https://instagram.com/massdiipp" target="_blank" rel="noopener noreferrer"
+                class="footer-social-btn" title="Instagram @massdiipp">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                 </svg>
               </a>
-              <a href="https://tiktok.com/@pradiptaendra" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="TikTok @pradiptaendra">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <a href="https://tiktok.com/@pradiptaendra" target="_blank" rel="noopener noreferrer"
+                class="footer-social-btn" title="TikTok @pradiptaendra">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round">
                   <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
                 </svg>
               </a>
-              <a href="https://github.com/PradiptaPPLG" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Profil GitHub PradiptaPPLG">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+              <a href="https://github.com/PradiptaPPLG" target="_blank" rel="noopener noreferrer"
+                class="footer-social-btn" title="Profil GitHub PradiptaPPLG">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                  </path>
                 </svg>
               </a>
-              <a href="https://www.linkedin.com/in/pradipta-endra-maulana-819525350/" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="LinkedIn Pradipta Endra Maulana">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <a href="https://www.linkedin.com/in/pradipta-endra-maulana-819525350/" target="_blank"
+                rel="noopener noreferrer" class="footer-social-btn" title="LinkedIn Pradipta Endra Maulana">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round">
                   <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
                   <rect x="2" y="9" width="4" height="12"></rect>
                   <circle cx="4" cy="4" r="2"></circle>
@@ -2689,7 +2934,7 @@
         topRibbon.style.display = 'none';
         try {
           sessionStorage.setItem('laymockup_ribbon_dismissed', '1');
-        } catch (err) {}
+        } catch (err) { }
       });
     }
 
@@ -2879,7 +3124,7 @@
           { col: 0, row: -0.85 }, { col: 0, row: 0.15, focal: true },
           { col: 1, row: -0.55 }, { col: 1, row: 0.65 }
         ];
-            } else if (type === 'desktop-1') {
+      } else if (type === 'desktop-1') {
         zoomFactor = 1.0;
         gapX = 0; gapY = 0;
         isPhone = false;
@@ -2918,10 +3163,10 @@
         cardH = 540;
         layout = [
           { col: -0.5, row: -1.0 },
-          { col:  0.5, row: -1.0 },
-          { col:  0.0, row:  0.0, focal: true },
-          { col: -0.5, row:  1.0 },
-          { col:  0.5, row:  1.0 }
+          { col: 0.5, row: -1.0 },
+          { col: 0.0, row: 0.0, focal: true },
+          { col: -0.5, row: 1.0 },
+          { col: 0.5, row: 1.0 }
         ];
       } else if (type === 'desktop-3') {
         zoomFactor = 0.98;
@@ -2930,9 +3175,9 @@
         cardW = 960;
         cardH = 540;
         layout = [
-          { col:  0.00, row: -0.55, focal: true },
-          { col: -0.55, row:  0.55 },
-          { col:  0.55, row:  0.55 }
+          { col: 0.00, row: -0.55, focal: true },
+          { col: -0.55, row: 0.55 },
+          { col: 0.55, row: 0.55 }
         ];
       } else if (type === 'desktop-6') {
         zoomFactor = 0.82;
@@ -2942,11 +3187,11 @@
         cardH = 540;
         layout = [
           { col: -1.0, row: -0.55 },
-          { col:  0.0, row: -0.55 },
-          { col:  1.0, row: -0.55 },
-          { col: -1.0, row:  0.55 },
-          { col:  0.0, row:  0.55, focal: true },
-          { col:  1.0, row:  0.55 }
+          { col: 0.0, row: -0.55 },
+          { col: 1.0, row: -0.55 },
+          { col: -1.0, row: 0.55 },
+          { col: 0.0, row: 0.55, focal: true },
+          { col: 1.0, row: 0.55 }
         ];
       }
 
@@ -3125,12 +3370,16 @@
 
           const category = pill.getAttribute('data-filter');
 
+          let visibleIdx = 0;
           etalaseCards.forEach(card => {
             const cardCat = card.getAttribute('data-category');
             if (category === 'all' || cardCat === category) {
               card.style.display = '';
-              card.style.opacity = '1';
-              card.style.transform = '';
+              card.classList.remove('is-visible');
+              card.style.setProperty('--reveal-delay', `${(visibleIdx % 3) * 55}ms`);
+              void card.offsetWidth;
+              card.classList.add('is-visible');
+              visibleIdx++;
             } else {
               card.style.display = 'none';
             }
@@ -3140,6 +3389,28 @@
         });
       });
     }
+
+    // 4. Bouncy Manga Card Entrance Observer
+    (function () {
+      var cards = document.querySelectorAll('.etalase-card, .step-card, .feature-card, .testimoni-card');
+      cards.forEach(function (card, idx) {
+        card.classList.add('reveal-card');
+        card.style.setProperty('--reveal-delay', ((idx % 3) * 70) + 'ms');
+      });
+      if (!('IntersectionObserver' in window)) {
+        cards.forEach(function (c) { c.classList.add('is-visible'); });
+        return;
+      }
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+      cards.forEach(function (c) { obs.observe(c); });
+    })();
 
   </script>
   <script src="js/animated-content.js"></script>
