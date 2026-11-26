@@ -3390,15 +3390,25 @@
       });
     }
 
-    // 4. Bouncy Manga Card Entrance Observer
+    // 4. Bouncy Manga Card Entrance Observer (Strict Left-to-Right Per Grid)
     (function () {
-      var cards = document.querySelectorAll('.etalase-card, .step-card, .feature-card, .testimoni-card');
-      cards.forEach(function (card, idx) {
-        card.classList.add('reveal-card');
-        card.style.setProperty('--reveal-delay', ((idx % 3) * 70) + 'ms');
+      var gridConfigs = [
+        { selector: '.cara-kerja-grid .step-card', cols: 4 },
+        { selector: '.etalase-grid .etalase-card', cols: 3 },
+        { selector: '.testimoni-grid .testimoni-card', cols: 3 },
+        { selector: '.features-grid .feature-card', cols: 4 }
+      ];
+      var allCards = [];
+      gridConfigs.forEach(function (cfg) {
+        var list = document.querySelectorAll(cfg.selector);
+        list.forEach(function (card, idx) {
+          card.classList.add('reveal-card');
+          card.style.setProperty('--reveal-delay', ((idx % cfg.cols) * 80) + 'ms');
+          allCards.push(card);
+        });
       });
       if (!('IntersectionObserver' in window)) {
-        cards.forEach(function (c) { c.classList.add('is-visible'); });
+        allCards.forEach(function (c) { c.classList.add('is-visible'); });
         return;
       }
       var obs = new IntersectionObserver(function (entries) {
@@ -3409,7 +3419,7 @@
           }
         });
       }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-      cards.forEach(function (c) { obs.observe(c); });
+      allCards.forEach(function (c) { obs.observe(c); });
     })();
 
   </script>
