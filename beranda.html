@@ -1489,6 +1489,7 @@
 
     .footer-social-row {
       display: flex;
+      flex-wrap: wrap;
       gap: 10px;
       margin-top: 10px;
     }
@@ -1601,6 +1602,156 @@
       }
       .cara-kerja-box {
         padding: 40px 20px;
+      }
+    }
+
+    /* Tools Lainnya Modal */
+    .tools-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .tools-modal-backdrop.open {
+      display: flex;
+    }
+
+    .tools-modal-card {
+      width: 100%;
+      max-width: 600px;
+      background: #ffffff;
+      border: 2.5px solid var(--border-dark);
+      border-radius: 22px;
+      box-shadow: 6px 6px 0 var(--border-dark);
+      padding: 26px;
+      position: relative;
+      animation: toolsModalPop 0.18s ease-out;
+    }
+
+    @keyframes toolsModalPop {
+      from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .tools-modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .tools-modal-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--fg);
+      margin: 0 0 4px 0;
+    }
+
+    .tools-modal-subtitle {
+      font-size: 13.5px;
+      color: #64748b;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .tools-modal-close {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      border: 2px solid var(--border-dark);
+      box-shadow: 2px 2px 0 var(--border-dark);
+      background: #ffffff;
+      color: var(--fg);
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+
+    .tools-modal-close:hover {
+      background: var(--pink);
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 var(--border-dark);
+    }
+
+    .tools-modal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .tools-modal-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 15px;
+      border-radius: 14px;
+      border: 2px solid var(--border-dark);
+      box-shadow: 3px 3px 0 var(--border-dark);
+      background: #f8fafc;
+      text-decoration: none;
+      color: var(--fg);
+      transition: all 0.15s ease;
+    }
+
+    .tools-modal-item:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 5px 5px 0 var(--border-dark);
+      background: var(--yellow);
+    }
+
+    .tools-modal-item.coming-soon {
+      background: #f1f5f9;
+      border-style: dashed;
+      box-shadow: none;
+      cursor: default;
+      opacity: 0.85;
+    }
+
+    .tools-modal-item.coming-soon:hover {
+      transform: none;
+      box-shadow: none;
+      background: #f1f5f9;
+    }
+
+    .tools-modal-item-title {
+      font-size: 14.5px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .tools-modal-item-desc {
+      font-size: 12.5px;
+      color: #475569;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 560px) {
+      .tools-modal-grid {
+        grid-template-columns: 1fr;
+      }
+      .tools-modal-card {
+        padding: 20px;
       }
     }
   </style>
@@ -1809,12 +1960,9 @@
                 <span>💼 My Portofolio</span>
               </a>
 
-              <a href="https://github.com/PradiptaPPLG" target="_blank" rel="noopener noreferrer" class="btn-pill btn-pill-black" title="Kunjungi Profil GitHub PradiptaPPLG">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-                </svg>
-                <span>My GitHub</span>
-              </a>
+              <button type="button" id="btn-tools-lainnya" class="btn-pill btn-pill-black" title="Jelajahi Tools Lainnya">
+                <span>🛠️ Tools Lainnya</span>
+              </button>
             </div>
 
             <!-- Stats Row Matching Jepreto (200K 100k++ 5★) -->
@@ -2630,11 +2778,12 @@
             <li><a href="https://nector-ui.vercel.app/" target="_blank" rel="noopener noreferrer">Template Web (Nector UI) ↗</a></li>
             <li><a href="https://pradipta-endra-maulana.vercel.app/" target="_blank" rel="noopener noreferrer">Portofolio (Pradipta) ↗</a></li>
             <li><a href="https://github.com/PradiptaPPLG" target="_blank" rel="noopener noreferrer">GitHub (@PradiptaPPLG) ↗</a></li>
+            <li><a href="https://www.linkedin.com/in/pradipta-endra-maulana-819525350/" target="_blank" rel="noopener noreferrer">LinkedIn (Pradipta Endra) ↗</a></li>
             <li><a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">Kembali ke Atas ↑</a></li>
           </ul>
 
           <div style="margin-top:20px;">
-            <div style="font-size:12px; font-weight:800; color:var(--fg); margin-bottom:8px;">Sosial Media</div>
+            <div style="font-size:12px; font-weight:800; color:var(--fg); margin-bottom:8px;">Sosial Media & Kontak</div>
             <div class="footer-social-row">
               <a href="https://instagram.com/massdiipp" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Instagram @massdiipp">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -2651,6 +2800,13 @@
               <a href="https://github.com/PradiptaPPLG" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Profil GitHub PradiptaPPLG">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+              </a>
+              <a href="https://www.linkedin.com/in/pradipta-endra-maulana-819525350/" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="LinkedIn Pradipta Endra Maulana">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                  <rect x="2" y="9" width="4" height="12"></rect>
+                  <circle cx="4" cy="4" r="2"></circle>
                 </svg>
               </a>
             </div>
@@ -3134,6 +3290,68 @@
       });
     }
 
+  </script>
+  <!-- Modal Tools Lainnya -->
+  <div id="tools-modal" class="tools-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="tools-modal-title">
+    <div class="tools-modal-card">
+      <div class="tools-modal-header">
+        <div>
+          <h3 id="tools-modal-title" class="tools-modal-title">🛠️ Tools Lainnya</h3>
+          <p class="tools-modal-subtitle">Kumpulan tools kreatif &amp; utilitas gratis dari ekosistem kami.</p>
+        </div>
+        <button type="button" id="btn-close-tools-modal" class="tools-modal-close" aria-label="Tutup">✕</button>
+      </div>
+      <div class="tools-modal-grid">
+        <a href="https://pixelcam-flame.vercel.app/" target="_blank" rel="noopener noreferrer" class="tools-modal-item">
+          <div class="tools-modal-item-title">
+            <span>📸 PixelCam Photobooth</span>
+            <span>↗</span>
+          </div>
+          <div class="tools-modal-item-desc">Studio photobooth online dengan filter &amp; frame strip estetik langsung dari browser.</div>
+        </a>
+        <a href="studio-remove-bg.html" class="tools-modal-item">
+          <div class="tools-modal-item-title">
+            <span>✂️ Studio Remove BG</span>
+            <span>→</span>
+          </div>
+          <div class="tools-modal-item-desc">Hapus background foto otomatis langsung di browser (100% client-side &amp; gratis).</div>
+        </a>
+        <a href="https://nector-ui.vercel.app/" target="_blank" rel="noopener noreferrer" class="tools-modal-item">
+          <div class="tools-modal-item-title">
+            <span>🌐 Nector UI Template</span>
+            <span>↗</span>
+          </div>
+          <div class="tools-modal-item-desc">Koleksi template website &amp; komponen UI modern siap pakai untuk proyek Anda.</div>
+        </a>
+        <div class="tools-modal-item coming-soon">
+          <div class="tools-modal-item-title">
+            <span>✨ Segera Hadir</span>
+          </div>
+          <div class="tools-modal-item-desc">Tools kreatif baru lainnya akan ditambahkan di sini. Pantau terus!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const btnTools = document.getElementById('btn-tools-lainnya');
+      const toolsModal = document.getElementById('tools-modal');
+      const btnCloseTools = document.getElementById('btn-close-tools-modal');
+      if (!btnTools || !toolsModal) return;
+
+      const openToolsModal = () => toolsModal.classList.add('open');
+      const closeToolsModal = () => toolsModal.classList.remove('open');
+
+      btnTools.addEventListener('click', openToolsModal);
+      if (btnCloseTools) btnCloseTools.addEventListener('click', closeToolsModal);
+      toolsModal.addEventListener('click', (e) => {
+        if (e.target === toolsModal) closeToolsModal();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && toolsModal.classList.contains('open')) closeToolsModal();
+      });
+    })();
   </script>
   <script src="js/animated-content.js"></script>
 </body>
